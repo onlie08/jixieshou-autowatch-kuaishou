@@ -40,6 +40,7 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Handler;
 
 import cn.leancloud.AVOSCloud;
 
@@ -162,6 +163,7 @@ public class MyApplication extends Application {
                 break;
             case task_finish:
                 Log.d(TAG, "当前任务完成");
+                Utils.sleep(3000);
                 AppInfo appInfo = (AppInfo) event.getData();
                 TaskInfo taskInfo1 = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
                 List<AppInfo> appInfos = taskInfo1.getAppInfos();
@@ -173,7 +175,7 @@ public class MyApplication extends Application {
                     }
                 }
                 taskInfo1.setAppInfos(appInfos);
-                SPService.put(SPService.SP_TASK_LIST, taskInfo1);
+//                SPService.put(SPService.SP_TASK_LIST, taskInfo1);
                 if (!appInfos.isEmpty()) {
                     startTask(appInfos);
                 } else {

@@ -41,7 +41,7 @@ public class TouTiaoFastScript extends BaseScript {
 
         if (goPersonPage()) return;
 
-        if (clickContent("新人金币礼包")) ;
+//        if (clickContent("新人金币礼包")) ;
 
         if (clickContent("不再提示")) return;
         if (clickContent("知道了")) return;

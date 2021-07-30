@@ -49,7 +49,7 @@ public class TouTiaoAdvertScript extends BaseScript {
 
         if (clickContent("立即预约")) return;
 
-        if (clickContent("新人金币礼包")) ;
+//        if (clickContent("新人金币礼包")) ;
 
         if (clickContent("领福利")) return;
         if (clickContent("开心收下")) return;
