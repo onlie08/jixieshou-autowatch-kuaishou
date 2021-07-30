@@ -1,17 +1,15 @@
 package com.cmlanche.scripts;
 
-import android.graphics.Point;
-
-import com.cmlanche.application.MyApplication;
-import com.cmlanche.core.executor.builder.SwipStepBuilder;
 import com.cmlanche.core.search.node.NodeInfo;
 import com.cmlanche.core.utils.ActionUtils;
 import com.cmlanche.model.AppInfo;
 
 public class TouTiaoFastScript extends BaseScript {
+    private String TAG = this.getClass().getSimpleName();
 
     // 是否有检查"我知道了"
     private boolean isCheckedWozhidaole;
+    private boolean isFasting = false;
 
     public TouTiaoFastScript(AppInfo appInfo) {
         super(appInfo);
@@ -19,54 +17,61 @@ public class TouTiaoFastScript extends BaseScript {
 
     @Override
     protected void executeScript() {
-        if(!isCheckedWozhidaole) {
+        if (!isCheckedWozhidaole) {
             // 检查是否有青少年模式
             NodeInfo nodeInfo = findByText("*为呵护未成年人健康*");
-            if(nodeInfo != null) {
+            if (nodeInfo != null) {
                 nodeInfo = findByText("我知道了");
-                if(nodeInfo != null) {
+                if (nodeInfo != null) {
                     isCheckedWozhidaole = true;
                     ActionUtils.click(nodeInfo);
                 }
             }
         }
 
-        int x = MyApplication.getAppInstance().getScreenWidth() / 2;
-        int margin = 100;
-        int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
-        int toY = margin;
-        new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
+        if (clickContent("万次播放")){
+            isFasting = true;
+            return;
+        }
+
+        if(isFasting){
+            scrollUp();
+            return;
+        }
+
+        if (goPersonPage()) return;
+
+        if (clickContent("新人金币礼包")) ;
+
+        if (clickContent("不再提示")) return;
+        if (clickContent("知道了")) return;
+
+        if (clickContent("看视频赚钱")) return;
+
+    }
+
+    //跳转个人中心
+    private boolean goPersonPage() {
+        if (clickId("acu")) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     protected int getMinSleepTime() {
-        return 10000;
+        return 4000;
     }
 
     @Override
     protected int getMaxSleepTime() {
-        return 20000;
+        return 6000;
     }
 
     @Override
     public boolean isDestinationPage() {
         // 检查当前包名是否有本年应用
-        if(!isTargetPkg()) {
-            return false;
-        }
-        // 检测评论列表是否打开
-        NodeInfo nodeInfo = findById("comment_header_count");
-        if (nodeInfo != null) {
-            return false;
-        }
-        // 检测是否在输入按钮上
-        nodeInfo = findById("at_button");
-        if (nodeInfo != null) {
-            return false;
-        }
-        // 检测是否有滑屏页面
-        nodeInfo = findById("slide_play_view_pager");
-        if (nodeInfo == null) {
+        if (!isTargetPkg()) {
             return false;
         }
         return true;

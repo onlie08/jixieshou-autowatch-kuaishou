@@ -1,6 +1,5 @@
 package com.cmlanche.activity;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -9,23 +8,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.blankj.utilcode.util.DeviceUtils;
+import com.blankj.utilcode.util.EncryptUtils;
 import com.cmlanche.adapter.TaskListAdapter;
 import com.cmlanche.application.MyApplication;
-import com.cmlanche.common.DeviceUtils;
 import com.cmlanche.common.SPService;
-import com.cmlanche.common.leancloud.CheckUpdateTask;
 import com.cmlanche.core.service.MyAccessbilityService;
 import com.cmlanche.core.utils.AccessibilityUtils;
 import com.cmlanche.core.utils.BaseUtil;
@@ -45,13 +44,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
 
-import static com.cmlanche.core.utils.Constant.PN_DOU_YIN;
-import static com.cmlanche.core.utils.Constant.PN_KUAI_SHOU;
-import static com.cmlanche.core.utils.Constant.PN_FENG_SHENG;
-import static com.cmlanche.core.utils.Constant.PN_TOU_TIAO;
 import static com.cmlanche.core.utils.Constant.PN_DIAN_TAO;
+import static com.cmlanche.core.utils.Constant.PN_DOU_YIN;
+import static com.cmlanche.core.utils.Constant.PN_FENG_SHENG;
+import static com.cmlanche.core.utils.Constant.PN_KUAI_SHOU;
+import static com.cmlanche.core.utils.Constant.PN_TOU_TIAO;
 import static com.cmlanche.core.utils.Constant.PN_YING_KE;
 
 public class MainActivity extends AppCompatActivity {
@@ -59,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private CardView cardView;
+    private EditText edit_baby;
     private ListView taskListView;
     private FloatingActionButton fab;
     private TaskListAdapter taskListAdapter;
@@ -82,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         SFUpdaterUtils.checkVersion(this);
 
+        edit_baby = findViewById(R.id.edit_baby);
         cardView = findViewById(R.id.newTaskCardView);
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,42 +123,42 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                for(AppInfo appInfo : appInfos){
-                    if(appInfo.getPkgName().equals(Constant.PN_KUAI_SHOU)){
-                        if(!isInstallKuaiShou){
-                            BaseUtil.showDownLoadDialog(PN_KUAI_SHOU,MainActivity.this);
+                for (AppInfo appInfo : appInfos) {
+                    if (appInfo.getPkgName().equals(Constant.PN_KUAI_SHOU)) {
+                        if (!isInstallKuaiShou) {
+                            BaseUtil.showDownLoadDialog(PN_KUAI_SHOU, MainActivity.this);
                             return;
                         }
 
                     }
-                    if(appInfo.getPkgName().equals(Constant.PN_YING_KE)){
-                        if(!isInstallYingKe){
-                            BaseUtil.showDownLoadDialog(PN_YING_KE,MainActivity.this);
+                    if (appInfo.getPkgName().equals(Constant.PN_YING_KE)) {
+                        if (!isInstallYingKe) {
+                            BaseUtil.showDownLoadDialog(PN_YING_KE, MainActivity.this);
                             return;
                         }
 
                     }
-                    if(appInfo.getPkgName().equals(Constant.PN_FENG_SHENG)){
-                        if(!isInstallFengSheng){
-                            BaseUtil.showDownLoadDialog(PN_FENG_SHENG,MainActivity.this);
+                    if (appInfo.getPkgName().equals(Constant.PN_FENG_SHENG)) {
+                        if (!isInstallFengSheng) {
+                            BaseUtil.showDownLoadDialog(PN_FENG_SHENG, MainActivity.this);
                             return;
                         }
 
-                    }else if(appInfo.getPkgName().equals(Constant.PN_DOU_YIN)){
-                        if(!isInstallDouyin){
-                            BaseUtil.showDownLoadDialog(PN_DOU_YIN,MainActivity.this);
+                    } else if (appInfo.getPkgName().equals(Constant.PN_DOU_YIN)) {
+                        if (!isInstallDouyin) {
+                            BaseUtil.showDownLoadDialog(PN_DOU_YIN, MainActivity.this);
                             return;
                         }
 
-                    }else if(appInfo.getPkgName().equals(Constant.PN_TOU_TIAO)){
-                        if(!isInstallTouTiao){
-                            BaseUtil.showDownLoadDialog(PN_TOU_TIAO,MainActivity.this);
+                    } else if (appInfo.getPkgName().equals(Constant.PN_TOU_TIAO)) {
+                        if (!isInstallTouTiao) {
+                            BaseUtil.showDownLoadDialog(PN_TOU_TIAO, MainActivity.this);
                             return;
                         }
 
-                    }else if(appInfo.getPkgName().equals(Constant.PN_DIAN_TAO)){
-                        if(!isInstallDianTao){
-                            BaseUtil.showDownLoadDialog(PN_DIAN_TAO,MainActivity.this);
+                    } else if (appInfo.getPkgName().equals(Constant.PN_DIAN_TAO)) {
+                        if (!isInstallDianTao) {
+                            BaseUtil.showDownLoadDialog(PN_DIAN_TAO, MainActivity.this);
                             return;
                         }
 
@@ -186,42 +186,34 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
+                MyApplication.getAppInstance().setBaby(edit_baby.getEditableText().toString());
                 startService(new Intent(getApplicationContext(), MyAccessbilityService.class));
                 MyApplication.getAppInstance().startTask(appInfos);
             }
         });
 
         TextView textView = findViewById(R.id.deviceNo);
-        textView.setText("设备号：" + DeviceUtils.getDeviceSN());
+        textView.setText("设备号：" + EncryptUtils.encryptMD5ToString(DeviceUtils.getMacAddress()));
 
         TaskInfo hisTaskInfo = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
         if (hisTaskInfo == null || hisTaskInfo.getAppInfos() == null || hisTaskInfo.getAppInfos().isEmpty()) {
             List<AppInfo> appInfos = new ArrayList<>();
 
-            AppInfo appInfo0 = new AppInfo();
-            appInfo0.setAppName("映客直播极速版");
-            appInfo0.setName("映客直播极速版");
-            appInfo0.setFree(true);
-            appInfo0.setPeriod(4l);
-            appInfo0.setPkgName(Constant.PN_YING_KE);
-            appInfos.add(appInfo0);
-
             AppInfo appInfo = new AppInfo();
-            appInfo.setAppName("快手极速版");
-            appInfo.setName("快手极速版");
+            appInfo.setAppName("抖音极速版");
+            appInfo.setName("抖音极速版-刷广告");
             appInfo.setFree(true);
             appInfo.setPeriod(4l);
-            appInfo.setPkgName(Constant.PN_KUAI_SHOU);
+            appInfo.setPkgName(Constant.PN_DOU_YIN);
             appInfos.add(appInfo);
 
-//            appInfo = new AppInfo();
-//            appInfo.setAppName("点淘(淘宝直播)");
-//            appInfo.setName("点淘(淘宝直播)");
-//            appInfo.setFree(true);
-//            appInfo.setPeriod(4l);
-//            appInfo.setPkgName(Constant.PN_DIAN_TAO);
-//            appInfos.add(appInfo);
-
+            appInfo = new AppInfo();
+            appInfo.setAppName("今日头条极速版");
+            appInfo.setName("今日头条极速版-刷广告");
+            appInfo.setFree(true);
+            appInfo.setPeriod(4l);
+            appInfo.setPkgName(Constant.PN_TOU_TIAO);
+            appInfos.add(appInfo);
 
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.setAppInfos(appInfos);
@@ -253,8 +245,6 @@ public class MainActivity extends AppCompatActivity {
             taskListAdapter.notifyDataSetChanged();
         }
 
-        // 检查更新
-        new CheckUpdateTask(this).execute();
     }
 
     @Override
@@ -320,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 删除某个任务
      *
-     * @param uuid 替换某任务
+     * @param uuid    替换某任务
      * @param appInfo
      */
     private void updateAppInfo(String uuid, AppInfo appInfo) {
@@ -356,15 +346,14 @@ public class MainActivity extends AppCompatActivity {
         ApplicationInfo info;
         try {
             info = getPackageManager().getApplicationInfo(pkgName, 0);
-        }
-        catch (PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             info = null;
         }
         return info != null;
     }
 
-    private void showExitDialog(){
+    private void showExitDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("注意");
         builder.setMessage("确定要退出捡豆任务吗？");

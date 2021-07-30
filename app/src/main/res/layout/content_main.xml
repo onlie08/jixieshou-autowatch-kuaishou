@@ -81,9 +81,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="sfsldjfl"
-            android:textSize="16sp"
-            android:visibility="gone" />
+            android:textSize="16sp" />
 
 
         <androidx.cardview.widget.CardView
@@ -156,6 +154,19 @@
                     android:layout_height="wrap_content" />
 
             </androidx.cardview.widget.CardView>
+
+            <EditText
+                android:id="@+id/edit_baby"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:background="@color/color_393939"
+                android:padding="10dp"
+                android:text="姗姗，鲫鱼竿"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:visibility="gone" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/startBtn"

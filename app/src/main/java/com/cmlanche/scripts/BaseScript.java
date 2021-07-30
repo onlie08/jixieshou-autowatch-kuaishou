@@ -1,10 +1,15 @@
 package com.cmlanche.scripts;
 
+import android.graphics.Point;
+
+import com.blankj.utilcode.util.LogUtils;
 import com.cmlanche.application.MyApplication;
 import com.cmlanche.common.PackageUtils;
+import com.cmlanche.core.executor.builder.SwipStepBuilder;
 import com.cmlanche.core.search.FindById;
 import com.cmlanche.core.search.FindByText;
 import com.cmlanche.core.search.node.NodeInfo;
+import com.cmlanche.core.utils.ActionUtils;
 import com.cmlanche.core.utils.Logger;
 import com.cmlanche.core.utils.Utils;
 import com.cmlanche.model.AppInfo;
@@ -12,6 +17,7 @@ import com.cmlanche.model.AppInfo;
 import java.util.Random;
 
 public abstract class BaseScript implements IScript {
+    private String TAG = this.getClass().getSimpleName();
 
     private AppInfo appInfo;
     private long startTime;
@@ -128,4 +134,67 @@ public abstract class BaseScript implements IScript {
      * 执行脚本
      */
     protected abstract void executeScript();
+
+    /**
+     * 点击 content
+     * @return
+     */
+    public boolean clickContent(String content) {
+        NodeInfo nodeInfo = findByText(content);
+        if (nodeInfo != null) {
+            LogUtils.dTag(TAG, "click: "+content);
+            ActionUtils.click(nodeInfo);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 点击 x,y
+     * @return
+     */
+    public boolean clickXY(int x, int y) {
+        ActionUtils.click(x, y);
+        return false;
+    }
+
+    /**
+     * findContent
+     * @return
+     */
+    public boolean findContent(String content) {
+        NodeInfo nodeInfo = findByText(content);
+        if (nodeInfo != null) {
+            LogUtils.dTag(TAG, "find: "+content);
+            return true;
+        }
+        return false;
+    }
+    /**
+     * 点击 content
+     * @return
+     */
+    public boolean clickId(String id) {
+        NodeInfo nodeInfo = findById(id);
+        if (nodeInfo != null) {
+            LogUtils.dTag(TAG, "click: "+id);
+            ActionUtils.click(nodeInfo);
+            return true;
+        }
+        return false;
+    }
+
+    //返回
+    public void clickBack() {
+        LogUtils.dTag(TAG, "clickBack");
+        ActionUtils.pressBack();
+    }
+
+    public void scrollUp(){
+        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int)(Math.random()*100);
+        int margin = 100+ (int)(Math.random()*100);
+        int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
+        int toY = margin;
+        new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
+    }
 }

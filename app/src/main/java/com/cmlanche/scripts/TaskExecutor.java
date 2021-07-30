@@ -16,9 +16,6 @@ import com.tencent.bugly.crashreport.CrashReport;
 import java.util.Calendar;
 import java.util.List;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import static com.cmlanche.core.bus.EventType.goto_target_app;
 import static com.cmlanche.core.bus.EventType.pause_becauseof_not_destination_page;
 
 /**
@@ -63,13 +60,25 @@ public class TaskExecutor {
                             IScript script = null;
                             switch (info.getPkgName()) {
                                 case Constant.PN_DOU_YIN:
-                                    script = new DouyinFastScript(info);
+                                    if(info.getName().equals("抖音极速版-秒杀")){
+                                        script = new DouyinFastShopingScript(info);
+                                    }else if(info.getName().equals("抖音极速版-刷广告")){
+                                        script = new DouyinFastAdvertScript(info);
+                                    }else if(info.getName().equals("抖音极速版-刷视频")){
+
+                                    }
                                     break;
                                 case Constant.PN_KUAI_SHOU:
                                     script = new KuaishouFastScript(info);
                                     break;
                                 case Constant.PN_TOU_TIAO:
-                                    script = new TouTiaoFastScript(info);
+                                    if(info.getName().equals("今日头条极速版-刷视频")){
+                                        script = new TouTiaoFastScript(info);
+                                    }else if(info.getName().equals("今日头条极速版-刷广告")){
+                                        script = new TouTiaoAdvertScript(info);
+                                    }else if(info.getName().equals("")){
+
+                                    }
                                     break;
                                 case Constant.PN_FENG_SHENG:
                                     script = new FengShengFastScript(info);
