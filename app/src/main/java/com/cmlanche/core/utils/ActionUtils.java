@@ -62,7 +62,7 @@ public class ActionUtils {
             path.moveTo(fromX, fromY);
             path.lineTo(toX, toY);
             GestureDescription gestureDescription = builder
-                    .addStroke(new GestureDescription.StrokeDescription(path, 100, 200))
+                    .addStroke(new GestureDescription.StrokeDescription(path, 100, 500))
                     .build();
             return MyApplication.getAppInstance().getAccessbilityService().dispatchGesture(gestureDescription,
                     new AccessibilityService.GestureResultCallback() {

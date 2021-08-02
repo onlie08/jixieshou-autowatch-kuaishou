@@ -1,13 +1,10 @@
 package com.cmlanche.scripts;
 
-import com.cmlanche.core.search.node.NodeInfo;
-import com.cmlanche.core.utils.ActionUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.cmlanche.model.AppInfo;
 
 public class TouTiaoAdvertScript extends BaseScript {
 
-    // 是否有检查"我知道了"
-    private boolean isCheckedWozhidaole;
     private String TAG = this.getClass().getSimpleName();
     private boolean adverting = false;
 
@@ -17,22 +14,22 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     @Override
     protected void executeScript() {
-        if(!isCheckedWozhidaole) {
-            // 检查是否有青少年模式
-            NodeInfo nodeInfo = findByText("*为呵护未成年人健康*");
-            if(nodeInfo != null) {
-                nodeInfo = findByText("我知道了");
-                if(nodeInfo != null) {
-                    isCheckedWozhidaole = true;
-                    ActionUtils.click(nodeInfo);
+        LogUtils.d(TAG,"count:"+count);
+
+        if(!findContent("金币")){
+            if (goPersonPage()){
+                return;
+            }else {
+                if(findContent("频道管理")){
+                    scrollUp();
+                    return;
                 }
             }
         }
 
-        if (goPersonPage()) ;
-
         boolean isAdvert = isAdverting();
         if (isAdvert) {
+            count = 0 ;
             closeAdvert3();
             adverting = isAdvert;
             return;
@@ -43,28 +40,50 @@ public class TouTiaoAdvertScript extends BaseScript {
             return;
         }
 
-        if (clickId("permission_allow_button")) return;
-
-        if (clickContent("仅使用期间允许")) return;
-
-        if (clickContent("立即预约")) return;
-
-//        if (clickContent("新人金币礼包")) ;
-
-        if (clickContent("领福利")) return;
-        if (clickContent("开心收下")) return;
-
-
-//        if (clickContent("打开签到提醒")) return;
+        if (clickContent("领福利"));
 
         if (clickContent("再看一个获得")) return;
 
         if (clickContent("视频再领")) return;
 
-        clickBack();
+        if (clickContent("看完视频再领")) return;
 
-        //[750,1890][1038,2181]
-        if (clickXY(850,2000)) return;
+
+        if(count>2){
+            if(dealNoResponse()) return;
+        }
+
+        if(count>5){
+            //[201,1395][879,1584]
+            count++;
+            clickXY(540,1500); return;
+        }
+
+        if(count>8){
+            if(clickId("k2")) return;
+        }
+
+        count++;
+
+        if(findContent("金币")){
+
+            if(!findContent("看广告赚金币")){
+                scrollUp();
+                return;
+            }
+
+            //[750,1890][1038,2181]
+            clickXY(850,2000);
+
+        }else {
+            if(findContent("频道管理")){
+                count = 0 ;
+                scrollUp();
+                return;
+            }
+        }
+
+
 
     }
 
@@ -83,7 +102,7 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     //跳转个人中心
     private boolean goPersonPage() {
-        if(clickId("as0")){
+        if(clickId("as_")){
             return true;
         }
         return false;
@@ -91,12 +110,12 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     @Override
     protected int getMinSleepTime() {
-        return 5000;
+        return 4000;
     }
 
     @Override
     protected int getMaxSleepTime() {
-        return 5000;
+        return 6000;
     }
 
     @Override
@@ -106,5 +125,24 @@ public class TouTiaoAdvertScript extends BaseScript {
             return false;
         }
         return true;
+    }
+
+    private boolean dealNoResponse(){
+//        if (clickContent("打开签到提醒")) return true;
+
+        if (clickContent("开心收下")) return true;
+
+        if (clickId("permission_allow_button")) return true;
+
+        if (clickContent("仅使用期间允许")) return true;
+
+        if (clickContent("立即预约")) return true;
+
+        if (clickContent("去拿奖励")) return true;
+
+//        if (clickContent("新人金币礼包")) ;
+
+        clickBack();
+        return false;
     }
 }

@@ -2,6 +2,7 @@ package com.cmlanche.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -40,7 +41,6 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Handler;
 
 import cn.leancloud.AVOSCloud;
 
@@ -163,23 +163,29 @@ public class MyApplication extends Application {
                 break;
             case task_finish:
                 Log.d(TAG, "当前任务完成");
-                Utils.sleep(3000);
-                AppInfo appInfo = (AppInfo) event.getData();
-                TaskInfo taskInfo1 = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
-                List<AppInfo> appInfos = taskInfo1.getAppInfos();
-                Iterator<AppInfo> iterator = appInfos.iterator();
-                while (iterator.hasNext()) {
-                    if (iterator.next().getPkgName().equals(appInfo.getPkgName())) {
-                        iterator.remove();
-                        Log.d(TAG, "移除当前任务");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        AppInfo appInfo = (AppInfo) event.getData();
+                        TaskInfo taskInfo1 = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
+                        List<AppInfo> appInfos = taskInfo1.getAppInfos();
+                        Iterator<AppInfo> iterator = appInfos.iterator();
+                        while (iterator.hasNext()) {
+                            if (iterator.next().getPkgName().equals(appInfo.getPkgName())) {
+                                iterator.remove();
+                                Log.d(TAG, "移除当前任务");
+                            }
+                        }
+                        taskInfo1.setAppInfos(appInfos);
+//                        SPService.put(SPService.SP_TASK_LIST, taskInfo1);
+                        if (!appInfos.isEmpty()) {
+                            startTask(appInfos);
+                        } else {
+                        }
                     }
-                }
-                taskInfo1.setAppInfos(appInfos);
-//                SPService.put(SPService.SP_TASK_LIST, taskInfo1);
-                if (!appInfos.isEmpty()) {
-                    startTask(appInfos);
-                } else {
-                }
+                },3000);
+//                Utils.sleep(3000);
+
                 break;
         }
     }

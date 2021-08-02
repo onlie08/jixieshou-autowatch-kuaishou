@@ -1,14 +1,10 @@
 package com.cmlanche.scripts;
 
-import com.cmlanche.core.search.node.NodeInfo;
-import com.cmlanche.core.utils.ActionUtils;
 import com.cmlanche.model.AppInfo;
 
 public class TouTiaoFastScript extends BaseScript {
     private String TAG = this.getClass().getSimpleName();
 
-    // 是否有检查"我知道了"
-    private boolean isCheckedWozhidaole;
     private boolean isFasting = false;
 
     public TouTiaoFastScript(AppInfo appInfo) {
@@ -17,17 +13,6 @@ public class TouTiaoFastScript extends BaseScript {
 
     @Override
     protected void executeScript() {
-        if (!isCheckedWozhidaole) {
-            // 检查是否有青少年模式
-            NodeInfo nodeInfo = findByText("*为呵护未成年人健康*");
-            if (nodeInfo != null) {
-                nodeInfo = findByText("我知道了");
-                if (nodeInfo != null) {
-                    isCheckedWozhidaole = true;
-                    ActionUtils.click(nodeInfo);
-                }
-            }
-        }
 
         if (clickContent("万次播放")){
             isFasting = true;
@@ -52,7 +37,7 @@ public class TouTiaoFastScript extends BaseScript {
 
     //跳转个人中心
     private boolean goPersonPage() {
-        if (clickId("acu")) {
+        if (clickId("ad5")) {
             return true;
         }
         return false;

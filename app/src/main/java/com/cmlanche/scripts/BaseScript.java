@@ -21,7 +21,7 @@ public abstract class BaseScript implements IScript {
 
     private AppInfo appInfo;
     private long startTime;
-
+    public int count = 0;
     public BaseScript(AppInfo appInfo) {
         this.appInfo = appInfo;
     }
@@ -144,6 +144,7 @@ public abstract class BaseScript implements IScript {
         if (nodeInfo != null) {
             LogUtils.dTag(TAG, "click: "+content);
             ActionUtils.click(nodeInfo);
+            count = 0;
             return true;
         }
         return false;
@@ -155,6 +156,7 @@ public abstract class BaseScript implements IScript {
      */
     public boolean clickXY(int x, int y) {
         ActionUtils.click(x, y);
+        LogUtils.dTag(TAG, "click x: "+x + " y:"  + y);
         return false;
     }
 
@@ -179,6 +181,7 @@ public abstract class BaseScript implements IScript {
         if (nodeInfo != null) {
             LogUtils.dTag(TAG, "click: "+id);
             ActionUtils.click(nodeInfo);
+            count = 0;
             return true;
         }
         return false;
@@ -191,8 +194,9 @@ public abstract class BaseScript implements IScript {
     }
 
     public void scrollUp(){
+        LogUtils.dTag(TAG, "scrollUp");
         int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int)(Math.random()*100);
-        int margin = 100+ (int)(Math.random()*100);
+        int margin = 300+ (int)(Math.random()*100);
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
         int toY = margin;
         new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
