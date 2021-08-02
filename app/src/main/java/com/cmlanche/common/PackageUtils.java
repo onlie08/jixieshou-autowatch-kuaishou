@@ -4,11 +4,11 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import com.cmlanche.application.MyApplication;
 
 public class PackageUtils {
-
     /**
      * 启动某应用
      *
@@ -77,6 +77,7 @@ public class PackageUtils {
     }
 
     public static void startSelf() {
+        Log.d("PackageUtils","startSelf()");
         startApp(MyApplication.getAppInstance().getPackageName());
     }
 }

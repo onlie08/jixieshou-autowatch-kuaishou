@@ -2,6 +2,7 @@ package com.cmlanche.scripts;
 
 import android.util.Log;
 
+import com.blankj.utilcode.util.ProcessUtils;
 import com.cmlanche.application.MyApplication;
 import com.cmlanche.core.utils.Constant;
 import com.cmlanche.common.PackageUtils;

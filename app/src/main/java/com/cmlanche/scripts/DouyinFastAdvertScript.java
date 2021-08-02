@@ -156,7 +156,7 @@ public class DouyinFastAdvertScript extends BaseScript {
 
         if(clickContent("再看一个获取")) return true;
 
-        ActionUtils.xiahua();
+//        ActionUtils.xiahua();
         return false;
     }
 

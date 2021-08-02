@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -234,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
+
         TaskInfo taskInfo = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
         if (taskInfo == null || taskInfo.getAppInfos() == null || taskInfo.getAppInfos().isEmpty()) {
             cardView.setVisibility(View.VISIBLE);
