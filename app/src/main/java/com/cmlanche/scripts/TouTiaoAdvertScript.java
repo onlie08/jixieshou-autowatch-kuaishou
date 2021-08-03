@@ -108,7 +108,7 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     //跳转个人中心
     private boolean goPersonPage() {
-        if(clickId("as_")){
+        if(clickId("at2")){
             return true;
         }
         return false;

@@ -41,7 +41,7 @@ public class TouTiaoFastScript extends BaseScript {
 
     //跳转个人中心
     private boolean goPersonPage() {
-        if (clickId("ad5")) {
+        if (clickId("at2")) {
             return true;
         }
         return false;
