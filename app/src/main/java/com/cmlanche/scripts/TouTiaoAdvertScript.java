@@ -21,6 +21,7 @@ public class TouTiaoAdvertScript extends BaseScript {
                 return;
             }else {
                 if(findContent("频道管理")){
+                    count = 0 ;
                     scrollUp();
                     return;
                 }
@@ -49,17 +50,19 @@ public class TouTiaoAdvertScript extends BaseScript {
         if (clickContent("看完视频再领")) return;
 
 
-        if(count>2){
+        if(count>1){
             if(dealNoResponse()) return;
         }
 
-        if(count>5){
+        if(count>3){
             //[201,1395][879,1584]
             count++;
-            clickXY(540,1500); return;
+            if(!findContent("看广告赚金币")){
+                clickXY(540,1500); return;
+            }
         }
 
-        if(count>8){
+        if(count>5){
             if(clickId("k2")) return;
         }
 
