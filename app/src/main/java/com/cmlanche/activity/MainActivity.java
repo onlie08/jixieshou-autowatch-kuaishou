@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,6 +27,8 @@ import com.blankj.utilcode.util.EncryptUtils;
 import com.cmlanche.adapter.TaskListAdapter;
 import com.cmlanche.application.MyApplication;
 import com.cmlanche.common.SPService;
+import com.cmlanche.core.bus.BusEvent;
+import com.cmlanche.core.bus.BusManager;
 import com.cmlanche.core.service.MyAccessbilityService;
 import com.cmlanche.core.utils.AccessibilityUtils;
 import com.cmlanche.core.utils.BaseUtil;
@@ -37,8 +40,10 @@ import com.cmlanche.model.AppInfo;
 import com.cmlanche.model.TaskInfo;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -46,6 +51,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import static com.cmlanche.core.bus.EventType.task_finish;
 import static com.cmlanche.core.utils.Constant.PN_DIAN_TAO;
 import static com.cmlanche.core.utils.Constant.PN_DOU_YIN;
 import static com.cmlanche.core.utils.Constant.PN_FENG_SHENG;
@@ -81,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         MyApplication.getAppInstance().setMainActivity(this);
 
         SFUpdaterUtils.checkVersion(this);
-
+        BusManager.getBus().register(this);
         edit_baby = findViewById(R.id.edit_baby);
         cardView = findViewById(R.id.newTaskCardView);
         cardView.setOnClickListener(new View.OnClickListener() {
@@ -119,77 +125,7 @@ public class MainActivity extends AppCompatActivity {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (appInfos.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "请选择一个任务", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                for (AppInfo appInfo : appInfos) {
-                    if (appInfo.getPkgName().equals(Constant.PN_KUAI_SHOU)) {
-                        if (!isInstallKuaiShou) {
-                            BaseUtil.showDownLoadDialog(PN_KUAI_SHOU, MainActivity.this);
-                            return;
-                        }
-
-                    }
-                    if (appInfo.getPkgName().equals(Constant.PN_YING_KE)) {
-                        if (!isInstallYingKe) {
-                            BaseUtil.showDownLoadDialog(PN_YING_KE, MainActivity.this);
-                            return;
-                        }
-
-                    }
-                    if (appInfo.getPkgName().equals(Constant.PN_FENG_SHENG)) {
-                        if (!isInstallFengSheng) {
-                            BaseUtil.showDownLoadDialog(PN_FENG_SHENG, MainActivity.this);
-                            return;
-                        }
-
-                    } else if (appInfo.getPkgName().equals(Constant.PN_DOU_YIN)) {
-                        if (!isInstallDouyin) {
-                            BaseUtil.showDownLoadDialog(PN_DOU_YIN, MainActivity.this);
-                            return;
-                        }
-
-                    } else if (appInfo.getPkgName().equals(Constant.PN_TOU_TIAO)) {
-                        if (!isInstallTouTiao) {
-                            BaseUtil.showDownLoadDialog(PN_TOU_TIAO, MainActivity.this);
-                            return;
-                        }
-
-                    } else if (appInfo.getPkgName().equals(Constant.PN_DIAN_TAO)) {
-                        if (!isInstallDianTao) {
-                            BaseUtil.showDownLoadDialog(PN_DIAN_TAO, MainActivity.this);
-                            return;
-                        }
-
-                    }
-                }
-
-
-                if (!PermissionUtil.checkFloatPermission(getApplicationContext())) {
-                    Toast.makeText(getApplicationContext(), "没有悬浮框权限，为了保证任务能够持续，请授权", Toast.LENGTH_LONG).show();
-                    try {
-                        PermissionUtil.requestOverlayPermission(MainActivity.this);
-                    } catch (NoSuchFieldException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                    return;
-                }
-
-                // 判断是否开启辅助服务
-                if (!AccessibilityUtils.isAccessibilitySettingsOn(getApplicationContext())) {
-                    Toast.makeText(getApplicationContext(), "请打开「捡豆子」的辅助服务", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                    startActivity(intent);
-                    return;
-                }
-
-                MyApplication.getAppInstance().setBaby(edit_baby.getEditableText().toString());
-                startService(new Intent(getApplicationContext(), MyAccessbilityService.class));
-                MyApplication.getAppInstance().startTask(appInfos);
+                startTask();
             }
         });
 
@@ -391,4 +327,116 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Subscribe
+    public void subscribeEvent(BusEvent event) {
+        switch (event.getType()) {
+            case task_finish:
+                Log.d(TAG, "当前任务完成");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        AppInfo appInfo = (AppInfo) event.getData();
+                        TaskInfo taskInfo1 = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
+                        List<AppInfo> appInfoList = taskInfo1.getAppInfos();
+                        Iterator<AppInfo> iterator = appInfoList.iterator();
+                        while (iterator.hasNext()) {
+                            if (iterator.next().getPkgName().equals(appInfo.getPkgName())) {
+                                iterator.remove();
+                                Log.d(TAG, "移除当前任务");
+                            }
+                        }
+                        SPService.put(SPService.SP_TASK_LIST, taskInfo1);
+
+                        if (taskInfo1 == null || taskInfo1.getAppInfos() == null || taskInfo1.getAppInfos().isEmpty()) {
+                            cardView.setVisibility(View.VISIBLE);
+                            fab.setVisibility(View.GONE);
+                            appInfos.clear();
+                            taskListAdapter.notifyDataSetChanged();
+                        } else {
+                            cardView.setVisibility(View.GONE);
+                            fab.setVisibility(View.VISIBLE);
+                            appInfos.clear();
+                            appInfos.addAll(taskInfo1.getAppInfos());
+                            taskListAdapter.notifyDataSetChanged();
+                        }
+                        startTask();
+                    }
+                },3000);
+                break;
+        }
+    }
+
+    private void startTask(){
+        if (appInfos.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "请选择一个任务", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        for (AppInfo appInfo : appInfos) {
+            if (appInfo.getPkgName().equals(Constant.PN_KUAI_SHOU)) {
+                if (!isInstallKuaiShou) {
+                    BaseUtil.showDownLoadDialog(PN_KUAI_SHOU, MainActivity.this);
+                    return;
+                }
+
+            }
+            if (appInfo.getPkgName().equals(Constant.PN_YING_KE)) {
+                if (!isInstallYingKe) {
+                    BaseUtil.showDownLoadDialog(PN_YING_KE, MainActivity.this);
+                    return;
+                }
+
+            }
+            if (appInfo.getPkgName().equals(Constant.PN_FENG_SHENG)) {
+                if (!isInstallFengSheng) {
+                    BaseUtil.showDownLoadDialog(PN_FENG_SHENG, MainActivity.this);
+                    return;
+                }
+
+            } else if (appInfo.getPkgName().equals(Constant.PN_DOU_YIN)) {
+                if (!isInstallDouyin) {
+                    BaseUtil.showDownLoadDialog(PN_DOU_YIN, MainActivity.this);
+                    return;
+                }
+
+            } else if (appInfo.getPkgName().equals(Constant.PN_TOU_TIAO)) {
+                if (!isInstallTouTiao) {
+                    BaseUtil.showDownLoadDialog(PN_TOU_TIAO, MainActivity.this);
+                    return;
+                }
+
+            } else if (appInfo.getPkgName().equals(Constant.PN_DIAN_TAO)) {
+                if (!isInstallDianTao) {
+                    BaseUtil.showDownLoadDialog(PN_DIAN_TAO, MainActivity.this);
+                    return;
+                }
+
+            }
+        }
+
+
+        if (!PermissionUtil.checkFloatPermission(getApplicationContext())) {
+            Toast.makeText(getApplicationContext(), "没有悬浮框权限，为了保证任务能够持续，请授权", Toast.LENGTH_LONG).show();
+            try {
+                PermissionUtil.requestOverlayPermission(MainActivity.this);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        // 判断是否开启辅助服务
+        if (!AccessibilityUtils.isAccessibilitySettingsOn(getApplicationContext())) {
+            Toast.makeText(getApplicationContext(), "请打开「捡豆子」的辅助服务", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+            startActivity(intent);
+            return;
+        }
+
+        MyApplication.getAppInstance().setBaby(edit_baby.getEditableText().toString());
+        startService(new Intent(getApplicationContext(), MyAccessbilityService.class));
+        MyApplication.getAppInstance().startTask(appInfos);
+    }
 }

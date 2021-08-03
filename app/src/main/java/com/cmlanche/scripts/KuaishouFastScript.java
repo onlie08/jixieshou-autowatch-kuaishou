@@ -3,6 +3,7 @@ package com.cmlanche.scripts;
 import android.graphics.Point;
 import android.util.Log;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.cmlanche.application.MyApplication;
 import com.cmlanche.core.executor.builder.SwipStepBuilder;
 import com.cmlanche.core.search.node.NodeInfo;
@@ -27,6 +28,11 @@ public class KuaishouFastScript extends BaseScript {
 
     @Override
     protected void executeScript() {
+        if (!isTargetPkg()) {
+            return;
+        }
+
+        LogUtils.d(TAG,"count:"+count);
         if(count > 20){
             fasting = false;
             count = 0;
@@ -71,6 +77,7 @@ public class KuaishouFastScript extends BaseScript {
             return;
         }
 
+        count++;
         if(count>5){
             clickBack();
         }
@@ -94,6 +101,11 @@ public class KuaishouFastScript extends BaseScript {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void destory() {
+
     }
 
     //广告页面弹出框关闭

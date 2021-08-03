@@ -32,4 +32,11 @@ public interface IScript {
      * @return
      */
     AppInfo getAppInfo();
+
+    /**
+     * 获取测试的应用信息
+     *
+     * @return
+     */
+    void destory();
 }

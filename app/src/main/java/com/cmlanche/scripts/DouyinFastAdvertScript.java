@@ -114,6 +114,11 @@ public class DouyinFastAdvertScript extends BaseScript {
         return true;
     }
 
+    @Override
+    public void destory() {
+
+    }
+
     //浏览短视频页面弹出框关闭
     private boolean closeAdvert() {
         LogUtils.dTag(TAG, "closeAdvert()");

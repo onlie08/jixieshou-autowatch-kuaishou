@@ -92,4 +92,9 @@ public class FengShengFastScript extends BaseScript {
 
         return true;
     }
+
+    @Override
+    public void destory() {
+
+    }
 }

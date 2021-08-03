@@ -14,6 +14,10 @@ public class TouTiaoFastScript extends BaseScript {
     @Override
     protected void executeScript() {
 
+        if (!isTargetPkg()) {
+            return;
+        }
+
         if (clickContent("万次播放")){
             isFasting = true;
             return;
@@ -60,5 +64,10 @@ public class TouTiaoFastScript extends BaseScript {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void destory() {
+        isFasting = false;
     }
 }

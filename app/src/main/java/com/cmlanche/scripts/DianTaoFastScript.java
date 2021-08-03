@@ -111,4 +111,9 @@ public class DianTaoFastScript extends BaseScript {
 //        }
         return true;
     }
+
+    @Override
+    public void destory() {
+
+    }
 }

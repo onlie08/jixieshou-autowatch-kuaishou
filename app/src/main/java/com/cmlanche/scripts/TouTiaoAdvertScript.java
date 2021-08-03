@@ -14,6 +14,9 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     @Override
     protected void executeScript() {
+        if (!isTargetPkg()) {
+            return;
+        }
         LogUtils.d(TAG,"count:"+count);
 
         if(!findContent("金币")){
@@ -128,6 +131,11 @@ public class TouTiaoAdvertScript extends BaseScript {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void destory() {
+
     }
 
     private boolean dealNoResponse(){
