@@ -44,7 +44,9 @@ public class TouTiaoAdvertScript extends BaseScript {
             return;
         }
 
-        if (clickContent("领福利"));
+        if(!findContent("已完成 10/10 次")){
+            if (clickContent("领福利")) return;
+        }
 
         if (clickContent("再看一个获得")) return;
 
@@ -116,12 +118,12 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     @Override
     protected int getMinSleepTime() {
-        return 4000;
+        return 3000;
     }
 
     @Override
     protected int getMaxSleepTime() {
-        return 6000;
+        return 4000;
     }
 
     @Override
