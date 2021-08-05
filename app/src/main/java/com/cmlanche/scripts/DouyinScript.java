@@ -70,6 +70,7 @@ public class DouyinScript extends BaseScript {
 
     @Override
     public void destory() {
-
+        clickBack();
+        clickBack();
     }
 }

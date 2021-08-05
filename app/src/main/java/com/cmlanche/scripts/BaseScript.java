@@ -136,27 +136,28 @@ public abstract class BaseScript implements IScript {
     protected abstract void executeScript();
 
     /**
-     * 点击 content
-     * @return
-     */
-    public boolean clickContent(String content) {
-        NodeInfo nodeInfo = findByText(content);
-        if (nodeInfo != null) {
-            LogUtils.dTag(TAG, "click: "+content);
-            ActionUtils.click(nodeInfo);
-            count = 0;
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * 点击 x,y
      * @return
      */
     public boolean clickXY(int x, int y) {
         ActionUtils.click(x, y);
         LogUtils.dTag(TAG, "click x: "+x + " y:"  + y);
+        return false;
+    }
+
+
+    /**
+     * 点击 content
+     * @return
+     */
+    public boolean clickContent(String content) {
+        NodeInfo nodeInfo = findByText(content);
+        if (nodeInfo != null) {
+            LogUtils.dTag(TAG, "clickContent: "+content);
+            ActionUtils.click(nodeInfo);
+            count = 0;
+            return true;
+        }
         return false;
     }
 
@@ -167,7 +168,7 @@ public abstract class BaseScript implements IScript {
     public boolean findContent(String content) {
         NodeInfo nodeInfo = findByText(content);
         if (nodeInfo != null) {
-            LogUtils.dTag(TAG, "find: "+content);
+            LogUtils.dTag(TAG, "findContent: "+content);
             return true;
         }
         return false;
@@ -179,9 +180,21 @@ public abstract class BaseScript implements IScript {
     public boolean clickId(String id) {
         NodeInfo nodeInfo = findById(id);
         if (nodeInfo != null) {
-            LogUtils.dTag(TAG, "click: "+id);
+            LogUtils.dTag(TAG, "clickId: "+id);
             ActionUtils.click(nodeInfo);
             count = 0;
+            return true;
+        }
+        return false;
+    }
+    /**
+     * 点击 content
+     * @return
+     */
+    public boolean findId(String id) {
+        NodeInfo nodeInfo = findById(id);
+        if (nodeInfo != null) {
+            LogUtils.dTag(TAG, "findId: "+id);
             return true;
         }
         return false;

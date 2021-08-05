@@ -33,6 +33,7 @@
         <activity
             android:name="com.cmlanche.activity.MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:launchMode="singleTask"
             android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

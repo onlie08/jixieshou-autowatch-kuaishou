@@ -1,22 +1,28 @@
 package com.cmlanche.scripts;
 
-import android.graphics.Point;
-import android.util.Log;
-
 import com.blankj.utilcode.util.LogUtils;
-import com.cmlanche.application.MyApplication;
-import com.cmlanche.core.executor.builder.SwipStepBuilder;
-import com.cmlanche.core.search.node.NodeInfo;
-import com.cmlanche.core.utils.ActionUtils;
 import com.cmlanche.model.AppInfo;
-
-import java.util.Random;
 
 /**
  * 快手急速版脚本
  */
 public class KuaishouFastScript extends BaseScript {
     private String TAG = this.getClass().getSimpleName();
+
+    private volatile static KuaishouFastScript instance; //声明成 volatile
+
+    public static KuaishouFastScript getSingleton(AppInfo appInfo) {
+        if (instance == null) {
+            synchronized (KuaishouFastScript.class) {
+                if (instance == null) {
+                    instance = new KuaishouFastScript(appInfo);
+                }
+            }
+        }
+        return instance;
+    }
+
+
     private boolean fasting = false;
     private boolean adverting = false;
 
@@ -32,13 +38,13 @@ public class KuaishouFastScript extends BaseScript {
             return;
         }
 
-        LogUtils.d(TAG,"count:"+count);
-        if(count > 20){
+        LogUtils.d(TAG, "count:" + count);
+        if (count > 20) {
             fasting = false;
             count = 0;
             return;
         }
-        if(fasting){
+        if (fasting) {
             count++;
             scrollUp();
             return;
@@ -46,7 +52,7 @@ public class KuaishouFastScript extends BaseScript {
 
         boolean isAdvert = isAdverting();
         if (isAdvert) {
-            count = 0 ;
+            count = 0;
             closeAdvert3();
             adverting = isAdvert;
             return;
@@ -57,7 +63,7 @@ public class KuaishouFastScript extends BaseScript {
             return;
         }
 
-        if(clickId("red_packet_anim")){
+        if (clickId("red_packet_anim")) {
             return;
         }
 
@@ -67,18 +73,18 @@ public class KuaishouFastScript extends BaseScript {
 
         if (clickContent("观看广告单日最高")) return;
 
-        if(findContent("明天再来")){
+        if (findContent("明天再来")) {
             clickBack();
             fasting = true;
         }
 
-        if(!findContent("看广告")){
+        if (!findContent("看广告")) {
             scrollUp();
             return;
         }
 
         count++;
-        if(count>5){
+        if (count > 5) {
             clickBack();
         }
 
@@ -97,7 +103,7 @@ public class KuaishouFastScript extends BaseScript {
     @Override
     public boolean isDestinationPage() {
         // 检查当前包名是否有本年应用
-        if(!isTargetPkg()) {
+        if (!isTargetPkg()) {
             return false;
         }
         return true;
@@ -105,18 +111,19 @@ public class KuaishouFastScript extends BaseScript {
 
     @Override
     public void destory() {
-
+        clickBack();
+        clickBack();
     }
 
     //广告页面弹出框关闭
     private void closeAdvert3() {
         //关闭该页面各种弹出框
-        if(clickContent("继续观看")) return ;
+        if (clickContent("继续观看")) return;
     }
 
 
     private boolean isAdverting() {
-        if(findContent("s后可领取奖励")){
+        if (findContent("s后可领取奖励")) {
             return true;
         }
         return false;

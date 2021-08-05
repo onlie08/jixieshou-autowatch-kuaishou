@@ -6,6 +6,20 @@ import com.cmlanche.model.AppInfo;
 public class TouTiaoAdvertScript extends BaseScript {
 
     private String TAG = this.getClass().getSimpleName();
+
+    private volatile static TouTiaoAdvertScript instance; //声明成 volatile
+
+    public static TouTiaoAdvertScript getSingleton(AppInfo appInfo) {
+        if (instance == null) {
+            synchronized (TouTiaoAdvertScript.class) {
+                if (instance == null) {
+                    instance = new TouTiaoAdvertScript(appInfo);
+                }
+            }
+        }
+        return instance;
+    }
+
     private boolean adverting = false;
 
     public TouTiaoAdvertScript(AppInfo appInfo) {
@@ -137,7 +151,8 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     @Override
     public void destory() {
-
+        clickBack();
+        clickBack();
     }
 
     private boolean dealNoResponse(){

@@ -111,7 +111,8 @@ public class DouyinFastShopingScript extends BaseScript {
 
     @Override
     public void destory() {
-
+        clickBack();
+        clickBack();
     }
 
     public Bitmap loadBitmapFromView() {

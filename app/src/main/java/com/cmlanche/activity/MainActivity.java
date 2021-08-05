@@ -134,29 +134,41 @@ public class MainActivity extends AppCompatActivity {
 
         TaskInfo hisTaskInfo = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
         if (hisTaskInfo == null || hisTaskInfo.getAppInfos() == null || hisTaskInfo.getAppInfos().isEmpty()) {
-            List<AppInfo> appInfos = new ArrayList<>();
-
-            AppInfo appInfo = new AppInfo();
-            appInfo.setAppName("抖音极速版");
-            appInfo.setName("抖音极速版-刷广告");
-            appInfo.setFree(true);
-            appInfo.setPeriod(4l);
-            appInfo.setPkgName(Constant.PN_DOU_YIN);
-            appInfos.add(appInfo);
-
-            appInfo = new AppInfo();
-            appInfo.setAppName("今日头条极速版");
-            appInfo.setName("今日头条极速版-刷广告");
-            appInfo.setFree(true);
-            appInfo.setPeriod(4l);
-            appInfo.setPkgName(Constant.PN_TOU_TIAO);
-            appInfos.add(appInfo);
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.setAppInfos(appInfos);
-            SPService.put(SPService.SP_TASK_LIST, taskInfo);
+            setData();
         }
         this.initData();
+    }
+
+    private void setData(){
+        List<AppInfo> appInfos = new ArrayList<>();
+
+        AppInfo appInfo = new AppInfo();
+        appInfo.setAppName("抖音极速版");
+        appInfo.setName("抖音极速版-刷广告");
+        appInfo.setFree(true);
+        appInfo.setPeriod(4l);
+        appInfo.setPkgName(Constant.PN_DOU_YIN);
+        appInfos.add(appInfo);
+
+        appInfo = new AppInfo();
+        appInfo.setAppName("今日头条极速版");
+        appInfo.setName("今日头条极速版-刷广告");
+        appInfo.setFree(true);
+        appInfo.setPeriod(4l);
+        appInfo.setPkgName(Constant.PN_TOU_TIAO);
+        appInfos.add(appInfo);
+
+        appInfo = new AppInfo();
+        appInfo.setAppName("快手极速版");
+        appInfo.setName("快手极速版-刷广告");
+        appInfo.setFree(true);
+        appInfo.setPeriod(4l);
+        appInfo.setPkgName(Constant.PN_KUAI_SHOU);
+        appInfos.add(appInfo);
+
+        TaskInfo taskInfo = new TaskInfo();
+        taskInfo.setAppInfos(appInfos);
+        SPService.put(SPService.SP_TASK_LIST, taskInfo);
     }
 
     @Override
@@ -348,9 +360,18 @@ public class MainActivity extends AppCompatActivity {
                         SPService.put(SPService.SP_TASK_LIST, taskInfo1);
 
                         if (taskInfo1 == null || taskInfo1.getAppInfos() == null || taskInfo1.getAppInfos().isEmpty()) {
-                            cardView.setVisibility(View.VISIBLE);
-                            fab.setVisibility(View.GONE);
+
+//                            cardView.setVisibility(View.VISIBLE);
+//                            fab.setVisibility(View.GONE);
+//                            appInfos.clear();
+//                            taskListAdapter.notifyDataSetChanged();
+
+                            cardView.setVisibility(View.GONE);
+                            fab.setVisibility(View.VISIBLE);
+                            setData();
+                            TaskInfo taskInfo = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
                             appInfos.clear();
+                            appInfos.addAll(taskInfo.getAppInfos());
                             taskListAdapter.notifyDataSetChanged();
                         } else {
                             cardView.setVisibility(View.GONE);
@@ -359,9 +380,14 @@ public class MainActivity extends AppCompatActivity {
                             appInfos.addAll(taskInfo1.getAppInfos());
                             taskListAdapter.notifyDataSetChanged();
                         }
-                        startTask();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                startTask();
+                            }
+                        },2000);
                     }
-                },3000);
+                },2000);
                 break;
         }
     }

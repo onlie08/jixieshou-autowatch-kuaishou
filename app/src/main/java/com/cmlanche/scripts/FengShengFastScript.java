@@ -95,6 +95,7 @@ public class FengShengFastScript extends BaseScript {
 
     @Override
     public void destory() {
-
+        clickBack();
+        clickBack();
     }
 }

@@ -18,12 +18,12 @@ public class TouTiaoFastScript extends BaseScript {
             return;
         }
 
-        if (clickContent("万次播放")){
+        if (clickContent("万次播放")) {
             isFasting = true;
             return;
         }
 
-        if(isFasting){
+        if (isFasting) {
             scrollUp();
             return;
         }
@@ -69,5 +69,7 @@ public class TouTiaoFastScript extends BaseScript {
     @Override
     public void destory() {
         isFasting = false;
+        clickBack();
+        clickBack();
     }
 }
