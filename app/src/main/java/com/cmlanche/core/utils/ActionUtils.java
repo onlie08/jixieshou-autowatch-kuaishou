@@ -24,6 +24,9 @@ public class ActionUtils {
             GestureDescription.Builder builder = new GestureDescription.Builder();
             Path path = new Path();
             path.moveTo(x, y);
+//            GestureDescription gestureDescription = builder
+//                    .addStroke(new GestureDescription.StrokeDescription(path, 20, 20))
+//                    .build();
             GestureDescription gestureDescription = builder
                     .addStroke(new GestureDescription.StrokeDescription(path, 100, 50))
                     .build();

@@ -61,25 +61,13 @@ public class TaskExecutor {
                             IScript script = null;
                             switch (info.getPkgName()) {
                                 case Constant.PN_DOU_YIN:
-                                    if(info.getName().equals("抖音极速版-秒杀")){
-                                        script = new DouyinFastShopingScript(info);
-                                    }else if(info.getName().equals("抖音极速版-刷广告")){
-                                        script =  DouyinFastAdvertScript.getSingleton(info);
-                                    }else if(info.getName().equals("抖音极速版-刷视频")){
-
-                                    }
+                                    script =  DouyinFastAdvertScript.getSingleton(info);
                                     break;
                                 case Constant.PN_KUAI_SHOU:
                                     script = KuaishouFastScript.getSingleton(info);
                                     break;
                                 case Constant.PN_TOU_TIAO:
-                                    if(info.getName().equals("今日头条极速版-刷视频")){
-                                        script = new TouTiaoFastScript(info);
-                                    }else if(info.getName().equals("今日头条极速版-刷广告")){
-                                        script = TouTiaoAdvertScript.getSingleton(info);
-                                    }else if(info.getName().equals("")){
-
-                                    }
+                                    script = TouTiaoAdvertScript.getSingleton(info);
                                     break;
                                 case Constant.PN_FENG_SHENG:
                                     script = new FengShengFastScript(info);

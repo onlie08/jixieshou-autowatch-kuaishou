@@ -139,12 +139,12 @@ public class MainActivity extends AppCompatActivity {
         this.initData();
     }
 
-    private void setData(){
+    private void setData() {
         List<AppInfo> appInfos = new ArrayList<>();
 
         AppInfo appInfo = new AppInfo();
         appInfo.setAppName("抖音极速版");
-        appInfo.setName("抖音极速版-刷广告");
+        appInfo.setName("抖音极速版");
         appInfo.setFree(true);
         appInfo.setPeriod(4l);
         appInfo.setPkgName(Constant.PN_DOU_YIN);
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
         appInfo = new AppInfo();
         appInfo.setAppName("今日头条极速版");
-        appInfo.setName("今日头条极速版-刷广告");
+        appInfo.setName("今日头条极速版");
         appInfo.setFree(true);
         appInfo.setPeriod(4l);
         appInfo.setPkgName(Constant.PN_TOU_TIAO);
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
         appInfo = new AppInfo();
         appInfo.setAppName("快手极速版");
-        appInfo.setName("快手极速版-刷广告");
+        appInfo.setName("快手极速版");
         appInfo.setFree(true);
         appInfo.setPeriod(4l);
         appInfo.setPkgName(Constant.PN_KUAI_SHOU);
@@ -385,14 +385,14 @@ public class MainActivity extends AppCompatActivity {
                             public void run() {
                                 startTask();
                             }
-                        },2000);
+                        }, 2000);
                     }
-                },2000);
+                }, 2000);
                 break;
         }
     }
 
-    private void startTask(){
+    private void startTask() {
         if (appInfos.isEmpty()) {
             Toast.makeText(getApplicationContext(), "请选择一个任务", Toast.LENGTH_LONG).show();
             return;

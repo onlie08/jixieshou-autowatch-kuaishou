@@ -7,8 +7,8 @@ android {
         applicationId "com.ch.jiandou"
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 7
-        versionName "1.7"
+        versionCode 8
+        versionName "1.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
