@@ -1,14 +1,8 @@
 package com.cmlanche.scripts;
 
-import android.graphics.Point;
-import android.util.Log;
-
-import com.cmlanche.application.MyApplication;
-import com.cmlanche.core.executor.builder.SFStepBuilder;
-import com.cmlanche.core.executor.builder.SwipStepBuilder;
+import com.blankj.utilcode.util.LogUtils;
 import com.cmlanche.core.search.node.NodeInfo;
-import com.cmlanche.core.utils.ActionUtils;
-import com.cmlanche.core.utils.Logger;
+import com.cmlanche.core.utils.Utils;
 import com.cmlanche.model.AppInfo;
 
 /**
@@ -17,8 +11,7 @@ import com.cmlanche.model.AppInfo;
 public class DianTaoFastScript extends BaseScript {
     private String TAG = this.getClass().getSimpleName();
 
-    // 是否有检查"我知道了"
-    private boolean isCheckedWozhidaole;
+    private int pageId = -1;//0:首页 1:个人中心  2:直播页
 
     public DianTaoFastScript(AppInfo appInfo) {
         super(appInfo);
@@ -26,89 +19,143 @@ public class DianTaoFastScript extends BaseScript {
 
     @Override
     protected void executeScript() {
-        if(!isTargetPkg()) {
+        if (!isTargetPkg()) {
             return;
         }
-        Log.d(TAG,"executeScript()");
-        NodeInfo info = findById("homepage_container");
-        if(null != info){
-            Log.d(TAG,"FIND homepage_container");
-            new SFStepBuilder().addStep(new Point(200,700)).get().execute();
-        }
 
-        NodeInfo info1 = findById("gold_countdown_layout");
-        if(null != info1){
-            Log.d(TAG,"FIND gold_countdown_layout");
-            NodeInfo info2 = findById("gold_turns_container");
-            if(null == info2){
-                Log.d(TAG,"点击金蛋");
-                new SFStepBuilder().addStep(info1).get().execute();
-            }else {
-                Log.d(TAG,"FIND gold_turns_container");
-            }
-        }
+        pageId = checkPageId();
+        LogUtils.d(TAG, "pageId:" + pageId);
 
-        NodeInfo info2 = findByText("开抢中");
-        if(null != info2){
-            Log.d(TAG,"FIND 开抢中");
-            new SFStepBuilder().addStep(new Point(1000,200)).get().execute();
-        }
-        NodeInfo info3 = findByText("设为最爱参与");
-        if(null != info3){
-            Log.d(TAG,"FIND 设为最爱参与");
-            new SFStepBuilder().addStep(new Point(1000,200)).get().execute();
-        }
+        if (pageId == 0) {
 
-//        if(!isCheckedWozhidaole) {
-//            // 检查是否有青少年模式
-//            NodeInfo nodeInfo = findByText("*为呵护未成年人健康*");
-//            if(nodeInfo != null) {
-//                nodeInfo = findByText("我知道了");
-//                if(nodeInfo != null) {
-//                    isCheckedWozhidaole = true;
-//                    ActionUtils.click(nodeInfo);
-//                }
-//            }
-//        }
-//
-        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int)(Math.random()*100);
-        int margin = 100+ (int)(Math.random()*100);
-        int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
-        int toY = margin;
-        new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
+            doPageId0Things();
+
+        } else if (pageId == 1) {
+
+            doPageId1Things();
+
+        } else if (pageId == 2) {
+
+            doPageId2Things();
+
+        } else {
+            dealNoResponse();
+        }
+        dealNoResponse();
     }
+
+
+    private void doPageId0Things() {
+        scrollUp();
+
+        Utils.sleep(1000);
+
+        if (clickId("gold_common_image")) return;
+
+        if (clickContent("观看")) return;
+
+
+    }
+
+    //[837,318][1080,465]
+    int x = 900;
+    int y = 320;
+    private void doPageId1Things() {
+        if(findContent("邀请好友 再赚")){
+            clickBack();
+        }
+
+        if(findContent("去看直播赚")){
+            clickBack();
+        }
+        if(findContent("走路赚元宝 每日")){
+            clickBack();
+        }
+
+        NodeInfo nodeInfo = findByText("领取");
+
+        if(nodeInfo != null){
+            x = nodeInfo.getRect().centerX();
+            y = nodeInfo.getRect().centerY();
+            if (clickContent("领取")) return;
+        }else {
+            if(x != 0 && y != 0){
+//                clickXY(x,y);
+//                Utils.sleep(10);
+//                clickXY(x,y);
+//                Utils.sleep(10);
+//                clickXY(x,y);
+            }
+
+        }
+
+
+
+
+
+    }
+
+    int timeCount = 0;
+    private void doPageId2Things() {
+        if (findContent("6/6")) {
+            timeCount++;
+            if (timeCount > 5) {
+                if (clickId("gold_turns_container")) return;
+            }
+        } else {
+            timeCount = 0;
+        }
+    }
+
+    private void dealNoResponse() {
+
+    }
+
+
+    /**
+     * 检查是在那个页面
+     *
+     * @return //0:首页 1:个人中心  2:直播
+     */
+    private int checkPageId() {
+        if (findId("homepage_container") && findId("gold_common_image")) {
+            return 0;
+        }
+
+        if (findContent("元宝中心") && findContent("规则")) {
+            return 1;
+        }
+
+        if (findId("taolive_room_watermark_text")) {
+            return 2;
+        }
+
+        return -1;
+    }
+
 
     @Override
     protected int getMinSleepTime() {
-        return 45000;
+        return 5000;
     }
 
     @Override
     protected int getMaxSleepTime() {
-        return 45000;
+        return 5000;
     }
 
     @Override
     public boolean isDestinationPage() {
         // 检查当前包名是否有本年应用
-        if(!isTargetPkg()) {
+        if (!isTargetPkg()) {
             return false;
         }
-//        // 检测评论列表是否打开
-//        NodeInfo nodeInfo = findById("comment_header_count");
-//        if (nodeInfo != null) {
-//            return false;
-//        }
-//        // 检测是否在输入按钮上
-//        nodeInfo = findById("at_button");
-//        if (nodeInfo != null) {
-//            return false;
-//        }
-//        // 检测是否有滑屏页面
-//        nodeInfo = findById("slide_play_view_pager");
-//        if (nodeInfo == null) {
-//            return false;
-//        }
         return true;
+    }
+
+    @Override
+    public void destory() {
+        clickBack();
+        clickBack();
     }
 }

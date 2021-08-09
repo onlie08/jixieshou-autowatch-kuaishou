@@ -61,25 +61,13 @@ public class TaskExecutor {
                             IScript script = null;
                             switch (info.getPkgName()) {
                                 case Constant.PN_DOU_YIN:
-                                    if(info.getName().equals("抖音极速版-秒杀")){
-                                        script = new DouyinFastShopingScript(info);
-                                    }else if(info.getName().equals("抖音极速版-刷广告")){
-                                        script = new DouyinFastAdvertScript(info);
-                                    }else if(info.getName().equals("抖音极速版-刷视频")){
-
-                                    }
+                                    script =  DouyinFastAdvertScript.getSingleton(info);
                                     break;
                                 case Constant.PN_KUAI_SHOU:
-                                    script = new KuaishouFastScript(info);
+                                    script = KuaishouFastScript.getSingleton(info);
                                     break;
                                 case Constant.PN_TOU_TIAO:
-                                    if(info.getName().equals("今日头条极速版-刷视频")){
-                                        script = new TouTiaoFastScript(info);
-                                    }else if(info.getName().equals("今日头条极速版-刷广告")){
-                                        script = new TouTiaoAdvertScript(info);
-                                    }else if(info.getName().equals("")){
-
-                                    }
+                                    script = TouTiaoAdvertScript.getSingleton(info);
                                     break;
                                 case Constant.PN_FENG_SHENG:
                                     script = new FengShengFastScript(info);
@@ -116,7 +104,7 @@ public class TaskExecutor {
                     final long st = System.currentTimeMillis();
                     Log.d(TAG,"st:"+st);
                     final long allTime = taskInfo.getHours() * 60 * 60 * 1000;
-//                    final long allTime = 1 * 60* 1000;
+//                    final long allTime = 1 * 30* 1000;
 
                     runOnUiThread(new Runnable() {
                         @Override
@@ -170,10 +158,15 @@ public class TaskExecutor {
                             Utils.sleep(1000);
                         }
                     }
+                    currentScript.destory();
+                    currentScript = null;
+                    Utils.sleep(1000);
+
                     resetFlags();
                     PackageUtils.startSelf();
                     scriptThread.interrupt();
                     scriptThread = null;
+
                     monitorThread.interrupt();
                     monitorThread = null;
                     runOnUiThread(new Runnable() {

@@ -109,6 +109,12 @@ public class DouyinFastShopingScript extends BaseScript {
         return true;
     }
 
+    @Override
+    public void destory() {
+        clickBack();
+        clickBack();
+    }
+
     public Bitmap loadBitmapFromView() {
         Bitmap screenshot;
         screenshot = Bitmap.createBitmap(MyApplication.getAppInstance().getScreenWidth(), MyApplication.getAppInstance().getScreenHeight(), Bitmap.Config.ARGB_4444);

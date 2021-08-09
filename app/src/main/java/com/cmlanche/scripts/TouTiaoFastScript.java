@@ -14,12 +14,16 @@ public class TouTiaoFastScript extends BaseScript {
     @Override
     protected void executeScript() {
 
-        if (clickContent("万次播放")){
+        if (!isTargetPkg()) {
+            return;
+        }
+
+        if (clickContent("万次播放")) {
             isFasting = true;
             return;
         }
 
-        if(isFasting){
+        if (isFasting) {
             scrollUp();
             return;
         }
@@ -37,7 +41,7 @@ public class TouTiaoFastScript extends BaseScript {
 
     //跳转个人中心
     private boolean goPersonPage() {
-        if (clickId("ad5")) {
+        if (clickId("at2")) {
             return true;
         }
         return false;
@@ -60,5 +64,12 @@ public class TouTiaoFastScript extends BaseScript {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void destory() {
+        isFasting = false;
+        clickBack();
+        clickBack();
     }
 }

@@ -26,6 +26,10 @@ public class DouyinScript extends BaseScript {
 
     @Override
     protected void executeScript() {
+        if (!isTargetPkg()) {
+            return;
+        }
+
         if(!isCheckedWozhidaole) {
             // 检查是否有青少年模式
             NodeInfo nodeInfo = findByText("*为呵护未成年人健康*");
@@ -62,5 +66,11 @@ public class DouyinScript extends BaseScript {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void destory() {
+        clickBack();
+        clickBack();
     }
 }

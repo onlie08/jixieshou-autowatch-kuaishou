@@ -219,4 +219,10 @@ public class YingKeFastScript extends BaseScript {
 //        }
         return true;
     }
+
+    @Override
+    public void destory() {
+        clickBack();
+        clickBack();
+    }
 }
