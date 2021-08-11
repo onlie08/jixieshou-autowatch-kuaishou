@@ -12,6 +12,7 @@ public class DianTaoFastScript extends BaseScript {
     private String TAG = this.getClass().getSimpleName();
 
     private int pageId = -1;//0:首页 1:个人中心  2:直播页
+    private int Count = 0;
 
     public DianTaoFastScript(AppInfo appInfo) {
         super(appInfo);
@@ -72,6 +73,8 @@ public class DianTaoFastScript extends BaseScript {
             clickBack();
         }
 
+        if(clickContent("立即签到"))return;
+
         NodeInfo nodeInfo = findByText("领取");
 
         if(nodeInfo != null){
@@ -108,7 +111,7 @@ public class DianTaoFastScript extends BaseScript {
     }
 
     private void dealNoResponse() {
-
+        if(clickContent("知道了"))return;
     }
 
 

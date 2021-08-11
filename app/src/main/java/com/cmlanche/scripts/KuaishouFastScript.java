@@ -83,6 +83,9 @@ public class KuaishouFastScript extends BaseScript {
             return;
         }
 
+        if (clickContent("查看收益")) return;
+        if (clickContent("知道了")) return;
+
         count++;
         if (count > 5) {
             clickBack();
