@@ -36,7 +36,7 @@ public class TouTiaoAdvertScript extends BaseScript {
             return;
         }
 
-        if(count >50 ){
+        if(count >20 ){
             dealNoResponse();
             count = 0;
         }
@@ -44,7 +44,7 @@ public class TouTiaoAdvertScript extends BaseScript {
         if (clickAdvert()) return;
 
         pageId = checkPageId();
-        LogUtils.d(TAG, "pageId:" + pageId);
+        LogUtils.d(TAG, "pageId:" + pageId +" count:"+count);
 
         if (pageId == 0) {
 
@@ -69,13 +69,15 @@ public class TouTiaoAdvertScript extends BaseScript {
                 clickxy = false;
             }
 
-            dealNoResponse();
+            clickBack();
             count++;
         }
 
     }
 
     private void doPageId0Things() {
+        count++;
+
         LogUtils.d(TAG, "doPageId0Things");
 
         if (clickContent("领金币")) return;
@@ -86,9 +88,11 @@ public class TouTiaoAdvertScript extends BaseScript {
 
         Utils.sleep(1000);
 
-        if (clickContent("1评论")) return;
+        if (clickContent("0评论")) return;
 
-        count++;
+        if (clickContent("继续阅读")) return;
+
+
     }
 
     boolean clickxy = false;
@@ -96,6 +100,9 @@ public class TouTiaoAdvertScript extends BaseScript {
     private void doPageId1Things() {
         count++;
         LogUtils.d(TAG, "doPageId1Things");
+
+        if (clickContent("好的")) return;
+        if (clickContent("知道了")) return;
 
         if (!findContent("看广告赚金币")) {
             scrollUp();
@@ -106,8 +113,6 @@ public class TouTiaoAdvertScript extends BaseScript {
             if (clickContent("领福利")) return;
         }
 
-        if (clickContent("好的")) return;
-
         if(findContent("分") && findContent("秒")){
             if (clickId("k2")) return;
         }else {
@@ -116,13 +121,6 @@ public class TouTiaoAdvertScript extends BaseScript {
             clickxy = true;
         }
 
-//        if (xyCount > 2 && findContent("分") && findContent("秒")) {
-//            if (clickId("k2")) {
-//                xyCount = 0;
-//                return;
-//            }
-//        }
-
     }
 
     private void doPageId2Things() {
@@ -130,8 +128,6 @@ public class TouTiaoAdvertScript extends BaseScript {
         LogUtils.d(TAG, "doPageId2Things");
 
         if (clickContent("领金币")) return;
-
-        if (clickContent("继续阅读")) return;
 
         scrollUp();
 
@@ -152,6 +148,7 @@ public class TouTiaoAdvertScript extends BaseScript {
         if (isAdvert) {
             closeAdvert3();
             adverting = isAdvert;
+            count = 0;
             return;
         }
         if (adverting && !isAdvert) {
@@ -194,7 +191,7 @@ public class TouTiaoAdvertScript extends BaseScript {
             return 2;
         }
 
-        if (findContent("s") && findContent("关闭")) {
+        if (findContent("s关闭")) {
             return 3;
         }
         return -1;
@@ -252,8 +249,11 @@ public class TouTiaoAdvertScript extends BaseScript {
 
         if (clickContent("去拿奖励")) return true;
 
+        if (clickContent("继续阅读")) return true;
+        if (clickContent("去赚钱")) return true;
+
 //        if (clickContent("新人金币礼包")) ;
-        clickXY(540, 1500);
+//        clickXY(540, 1500);
 
         clickBack();
         return false;
