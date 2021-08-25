@@ -209,7 +209,7 @@ public abstract class BaseScript implements IScript {
     public void scrollUp(){
         LogUtils.dTag(TAG, "scrollUp");
         int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int)(Math.random()*100);
-        int margin = 300+ (int)(Math.random()*100);
+        int margin = 200+ (int)(Math.random()*100);
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
         int toY = margin;
         new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();

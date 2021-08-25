@@ -51,7 +51,11 @@ public class TouTiaoAdvertScript extends BaseScript {
             doPageId0Things();
 
         } else if (pageId == 1) {
-
+            if(clickxy){
+                LogUtils.d(TAG,"count"+count);
+                clickXY(540, 1500);
+                clickxy = false;
+            }
             doPageId1Things();
 
         } else if (pageId == 2) {
@@ -63,6 +67,19 @@ public class TouTiaoAdvertScript extends BaseScript {
             doPageId3Things();
 
         } else {
+//            if(findContent("邀请码")){
+////                2021-08-11 17:06:43.988 31249-31399/com.ch.jiandou D/Utils: patternStr:k2 text:ru
+////                2021-08-11 17:06:43.989 31249-31399/com.ch.jiandou D/Utils: patternStr:k2 text:content
+////                2021-08-11 17:06:43.989 31249-31399/com.ch.jiandou D/Utils: patternStr:k2 text:bb
+////                2021-08-11 17:06:43.990 31249-31399/com.ch.jiandou D/Utils: patternStr:k2 text:dv
+////                2021-08-11 17:06:43.990 31249-31399/com.ch.jiandou D/Utils: patternStr:k2 text:
+////                2021-08-11 17:06:43.990 31249-31399/com.ch.jiandou D/Utils: patternStr:k2 text:
+////                2021-08-11 17:06:43.991 31249-31399/com.ch.jiandou D/Utils: patternStr:k2 text:a90
+////                clickId("content");
+//                clickId("a90");
+//                return;
+//            }
+
             if(clickxy){
                 LogUtils.d(TAG,"count"+count);
                 clickXY(540, 1500);
@@ -82,11 +99,11 @@ public class TouTiaoAdvertScript extends BaseScript {
 
         if (clickContent("领金币")) return;
 
-        if (clickId("at2")) return;
+        if (clickId("at5")) return;
 
         scrollUp();
 
-        Utils.sleep(1000);
+        Utils.sleep(2000);
 
         if (clickContent("0评论")) return;
 
@@ -103,6 +120,7 @@ public class TouTiaoAdvertScript extends BaseScript {
 
         if (clickContent("好的")) return;
         if (clickContent("知道了")) return;
+        if (clickContent("去看看")) return;
 
         if (!findContent("看广告赚金币")) {
             scrollUp();
@@ -113,6 +131,8 @@ public class TouTiaoAdvertScript extends BaseScript {
             if (clickContent("领福利")) return;
         }
 
+//        if(clickContent("填写邀请码")) return;
+
         if(findContent("分") && findContent("秒")){
             if (clickId("k2")) return;
         }else {
@@ -120,7 +140,6 @@ public class TouTiaoAdvertScript extends BaseScript {
             clickXY(850, 2000);
             clickxy = true;
         }
-
     }
 
     private void doPageId2Things() {
@@ -143,10 +162,9 @@ public class TouTiaoAdvertScript extends BaseScript {
     private void doPageId3Things() {
         count++;
         LogUtils.d(TAG, "doPageId3Things");
-
+        if (clickContent("继续观看")) return;
         boolean isAdvert = isAdverting();
         if (isAdvert) {
-            closeAdvert3();
             adverting = isAdvert;
             count = 0;
             return;
@@ -191,7 +209,7 @@ public class TouTiaoAdvertScript extends BaseScript {
             return 2;
         }
 
-        if (findContent("s关闭")) {
+        if (findContent("s") && findContent("关闭")) {
             return 3;
         }
         return -1;
@@ -201,11 +219,12 @@ public class TouTiaoAdvertScript extends BaseScript {
     private void closeAdvert3() {
         //关闭该页面各种弹出框
         if (clickContent("继续观看")) return;
-        if (clickContent("关闭试玩")) return;
+//        if (clickContent("关闭试玩")) return;
     }
 
     private boolean isAdverting() {
-        if (findContent("s") && findContent("关闭")) {
+//        if (findContent("s") && findContent("关闭")) {
+        if (findContent("s关闭") || findContent("进入试玩")) {
             return true;
         }
         return false;
@@ -213,12 +232,25 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     @Override
     protected int getMinSleepTime() {
-        return 3000;
+        if(pageId == 2){
+            return 1000;
+        }else if(pageId == 1){
+            return 3000;
+        }else {
+            return 3000;
+        }
+
     }
 
     @Override
     protected int getMaxSleepTime() {
-        return 3000;
+        if(pageId == 2){
+            return 1000;
+        }else if(pageId == 1){
+            return 3000;
+        }else {
+            return 3000;
+        }
     }
 
     @Override
@@ -251,11 +283,17 @@ public class TouTiaoAdvertScript extends BaseScript {
 
         if (clickContent("继续阅读")) return true;
         if (clickContent("去赚钱")) return true;
+        if (clickContent("重试")) return true;
+        if (clickContent("继续观看")) return true;
 
 //        if (clickContent("新人金币礼包")) ;
-//        clickXY(540, 1500);
+
 
         clickBack();
+
+        Utils.sleep(1000);
+
+        clickXY(540, 1500);
         return false;
     }
 }
