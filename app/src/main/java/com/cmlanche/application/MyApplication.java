@@ -2,6 +2,7 @@ package com.cmlanche.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Point;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Display;
@@ -62,6 +63,8 @@ import static com.cmlanche.core.bus.EventType.unpause_byhand;
 public class MyApplication extends Application {
 
     private static final String TAG = "MyApplication";
+    public static Point KEY_XY1;
+    public static Point KEY_XY2;
     private MyAccessbilityService accessbilityService;
     protected static MyApplication appInstance;
     private int screenWidth;
@@ -71,15 +74,6 @@ public class MyApplication extends Application {
     private MainActivity mainActivity;
     private boolean isFirstConnectAccessbilityService = false;
     private boolean isStarted = false;
-    private String baby;
-
-    public String getBaby() {
-        return baby;
-    }
-
-    public void setBaby(String baby) {
-        this.baby = baby;
-    }
 
     @Override
     public void onCreate() {
@@ -150,7 +144,7 @@ public class MyApplication extends Application {
                 }
                 break;
             case no_roots_alert:
-//                TaskExecutor.getInstance().setForcePause(true);
+                TaskExecutor.getInstance().setForcePause(true);
                 setFloatText("无法获取界面信息，请重启手机！");
                 break;
             case roots_ready:
@@ -201,7 +195,7 @@ public class MyApplication extends Application {
     private void initLeancloud() {
         try {
             AVOSCloud.initialize("15IzPzEVyONHdh2Sv6NgaY7N-gzGzoHsz", "FSW0TSuSrQ6sHHLwY4bsIxY7");
-            new InitTask().execute();
+//            new InitTask().execute();
         } catch (Exception e) {
             Logger.e(e.getMessage(), e);
         }

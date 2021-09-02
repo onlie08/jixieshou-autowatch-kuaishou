@@ -30,6 +30,16 @@ public class DouyinFastShopingScript extends BaseScript {
     boolean clickBaby = false;
 
     @Override
+    protected boolean isTargetPkg() {
+        if(MyApplication.getAppInstance().getAccessbilityService().isWrokFine()) {
+            if(!MyApplication.getAppInstance().getAccessbilityService().containsPkg(Constant.PN_DOU_YIN)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
     protected void executeScript() {
         if (!isTargetPkg()) {
             return;
@@ -70,19 +80,19 @@ public class DouyinFastShopingScript extends BaseScript {
                 return;
             }
 
-            NodeInfo nodeInfo = findByText(MyApplication.getAppInstance().getBaby());
-            if (nodeInfo != null) {
-                x = nodeInfo.getRect().right - 100;
-                y = nodeInfo.getRect().top + 246;
-                loadBitmapFromView();
-                if(checkButtonIsEnable(x,y)){
-                    LogUtils.dTag(TAG, "点击抢购 X:" + (nodeInfo.getRect().right - 100) + " Y:" + (nodeInfo.getRect().top + 246));
-                    ActionUtils.click(nodeInfo.getRect().right - 100, nodeInfo.getRect().top + 246);
-                    clickBaby = true;
-                }
-                clickBaby = true;
-                return;
-            }
+//            NodeInfo nodeInfo = findByText(MyApplication.getAppInstance().getBaby());
+//            if (nodeInfo != null) {
+//                x = nodeInfo.getRect().right - 100;
+//                y = nodeInfo.getRect().top + 246;
+//                loadBitmapFromView();
+//                if(checkButtonIsEnable(x,y)){
+//                    LogUtils.dTag(TAG, "点击抢购 X:" + (nodeInfo.getRect().right - 100) + " Y:" + (nodeInfo.getRect().top + 246));
+//                    ActionUtils.click(nodeInfo.getRect().right - 100, nodeInfo.getRect().top + 246);
+//                    clickBaby = true;
+//                }
+//                clickBaby = true;
+//                return;
+//            }
         }
     }
 

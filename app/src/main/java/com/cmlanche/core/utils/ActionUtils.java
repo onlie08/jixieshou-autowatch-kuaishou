@@ -40,6 +40,27 @@ public class ActionUtils {
         }
         return false;
     }
+    public static boolean longPress(int x, int y) {
+        if (Build.VERSION.SDK_INT >= 24) {
+            GestureDescription.Builder builder = new GestureDescription.Builder();
+            Path path = new Path();
+            path.moveTo(x, y);
+//            GestureDescription gestureDescription = builder
+//                    .addStroke(new GestureDescription.StrokeDescription(path, 20, 20))
+//                    .build();
+            GestureDescription gestureDescription = builder
+                    .addStroke(new GestureDescription.StrokeDescription(path, 100, 1500))
+                    .build();
+            return MyApplication.getAppInstance().getAccessbilityService().dispatchGesture(gestureDescription,
+                    new AccessibilityService.GestureResultCallback() {
+                        @Override
+                        public void onCompleted(GestureDescription gestureDescription) {
+                            super.onCompleted(gestureDescription);
+                        }
+                    }, null);
+        }
+        return false;
+    }
 
     /**
      * 点击某个区域的中间位置
@@ -48,6 +69,9 @@ public class ActionUtils {
      */
     public static boolean click(NodeInfo rect) {
         return click(rect.getRect().centerX(), rect.getRect().centerY());
+    }
+    public static boolean longPress(NodeInfo rect) {
+        return longPress(rect.getRect().centerX(), rect.getRect().centerY());
     }
 
     /**

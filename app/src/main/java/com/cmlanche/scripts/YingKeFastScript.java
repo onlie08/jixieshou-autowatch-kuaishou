@@ -8,6 +8,7 @@ import com.cmlanche.core.executor.builder.SFStepBuilder;
 import com.cmlanche.core.executor.builder.SwipStepBuilder;
 import com.cmlanche.core.search.node.NodeInfo;
 import com.cmlanche.core.utils.ActionUtils;
+import com.cmlanche.core.utils.Constant;
 import com.cmlanche.core.utils.Utils;
 import com.cmlanche.model.AppInfo;
 
@@ -24,6 +25,16 @@ public class YingKeFastScript extends BaseScript {
 
     public YingKeFastScript(AppInfo appInfo) {
         super(appInfo);
+    }
+
+    @Override
+    protected boolean isTargetPkg() {
+        if(MyApplication.getAppInstance().getAccessbilityService().isWrokFine()) {
+            if(!MyApplication.getAppInstance().getAccessbilityService().containsPkg(Constant.PN_YING_KE)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

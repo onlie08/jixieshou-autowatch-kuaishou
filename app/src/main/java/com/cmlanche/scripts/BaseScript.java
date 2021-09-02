@@ -10,6 +10,7 @@ import com.cmlanche.core.search.FindById;
 import com.cmlanche.core.search.FindByText;
 import com.cmlanche.core.search.node.NodeInfo;
 import com.cmlanche.core.utils.ActionUtils;
+import com.cmlanche.core.utils.Constant;
 import com.cmlanche.core.utils.Logger;
 import com.cmlanche.core.utils.Utils;
 import com.cmlanche.model.AppInfo;
@@ -107,14 +108,14 @@ public abstract class BaseScript implements IScript {
      * 当前页面是否是目标页面
      * @return
      */
-    protected boolean isTargetPkg() {
-        if(MyApplication.getAppInstance().getAccessbilityService().isWrokFine()) {
-            if(!MyApplication.getAppInstance().getAccessbilityService().containsPkg(getAppInfo().getPkgName())) {
-                return false;
-            }
-        }
-        return true;
-    }
+//    protected boolean isTargetPkg() {
+//        if(MyApplication.getAppInstance().getAccessbilityService().isWrokFine()) {
+//            if(!MyApplication.getAppInstance().getAccessbilityService().containsPkg(getAppInfo().getPkgName())) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     /**
      * 获取最大休眠时间
@@ -135,11 +136,22 @@ public abstract class BaseScript implements IScript {
      */
     protected abstract void executeScript();
 
+    protected abstract boolean isTargetPkg();
+
     /**
      * 点击 x,y
      * @return
      */
     public boolean clickXY(int x, int y) {
+        ActionUtils.click(x, y);
+        LogUtils.dTag(TAG, "click x: "+x + " y:"  + y);
+        return false;
+    }
+    /**
+     * 点击 x,y
+     * @return
+     */
+    public boolean longPressXY(int x, int y) {
         ActionUtils.click(x, y);
         LogUtils.dTag(TAG, "click x: "+x + " y:"  + y);
         return false;
@@ -155,6 +167,20 @@ public abstract class BaseScript implements IScript {
         if (nodeInfo != null) {
             LogUtils.dTag(TAG, "clickContent: "+content);
             ActionUtils.click(nodeInfo);
+            count = 0;
+            return true;
+        }
+        return false;
+    }
+    /**
+     * 点击 content
+     * @return
+     */
+    public boolean longPressContent(String content) {
+        NodeInfo nodeInfo = findByText(content);
+        if (nodeInfo != null) {
+            LogUtils.dTag(TAG, "clickContent: "+content);
+            ActionUtils.longPress(nodeInfo);
             count = 0;
             return true;
         }

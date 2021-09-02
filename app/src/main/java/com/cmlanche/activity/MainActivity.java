@@ -1,5 +1,6 @@
 package com.cmlanche.activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -8,9 +9,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.Process;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +29,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.EncryptUtils;
+import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.cmlanche.adapter.TaskListAdapter;
 import com.cmlanche.application.MyApplication;
 import com.cmlanche.common.SPService;
@@ -34,14 +46,26 @@ import com.cmlanche.core.utils.AccessibilityUtils;
 import com.cmlanche.core.utils.BaseUtil;
 import com.cmlanche.core.utils.Constant;
 import com.cmlanche.core.utils.SFUpdaterUtils;
+import com.cmlanche.core.utils.Utils;
 import com.cmlanche.floatwindow.PermissionUtil;
 import com.cmlanche.jixieshou.R;
 import com.cmlanche.model.AppInfo;
+import com.cmlanche.model.InviteEvent;
+import com.cmlanche.model.RecognitionBean;
+import com.cmlanche.model.ScreenShootEvet;
 import com.cmlanche.model.TaskInfo;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
+import com.tencent.bugly.crashreport.CrashReport;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -50,7 +74,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.ThreadMode;
+
+import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 import static com.cmlanche.core.bus.EventType.task_finish;
 import static com.cmlanche.core.utils.Constant.PN_DIAN_TAO;
 import static com.cmlanche.core.utils.Constant.PN_DOU_YIN;
@@ -64,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private CardView cardView;
-    private EditText edit_baby;
     private ListView taskListView;
     private FloatingActionButton fab;
     private TaskListAdapter taskListAdapter;
@@ -82,13 +117,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        BarUtils.setStatusBarColor(this, getResources().getColor(R.color.colorPrimary));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MyApplication.getAppInstance().setMainActivity(this);
-
+        EventBus.getDefault().register(this);
+        requestPermission();
         SFUpdaterUtils.checkVersion(this);
         BusManager.getBus().register(this);
-        edit_baby = findViewById(R.id.edit_baby);
         cardView = findViewById(R.id.newTaskCardView);
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,34 +174,44 @@ public class MainActivity extends AppCompatActivity {
             setData();
         }
         this.initData();
+        String ky1 = SPUtils.getInstance().getString("key1xy","");
+        if(!TextUtils.isEmpty(ky1)){
+            RecognitionBean recognitionBean = new Gson().fromJson(ky1,RecognitionBean.class);
+            if(null != recognitionBean){
+                Point p0 = new Point();
+                p0.x = (recognitionBean.getP1().x + recognitionBean.getP3().x)/2;
+                p0.y = (recognitionBean.getP1().y + recognitionBean.getP3().y)/2;
+                MyApplication.KEY_XY1 = p0;
+            }
+        }
     }
 
     private void setData() {
         List<AppInfo> appInfos = new ArrayList<>();
 
-        AppInfo appInfo = new AppInfo();
-        appInfo.setAppName("抖音极速版");
-        appInfo.setName("抖音极速版");
-        appInfo.setFree(true);
-        appInfo.setPeriod(4l);
-        appInfo.setPkgName(Constant.PN_DOU_YIN);
-        appInfos.add(appInfo);
+//        AppInfo appInfo = new AppInfo();
+//        appInfo.setAppName("抖音极速版");
+//        appInfo.setName("抖音极速版");
+//        appInfo.setFree(true);
+//        appInfo.setPeriod(4l);
+//        appInfo.setPkgName(Constant.PN_DOU_YIN);
+//        appInfos.add(appInfo);
 
-        appInfo = new AppInfo();
+        AppInfo appInfo = new AppInfo();
         appInfo.setAppName("今日头条极速版");
         appInfo.setName("今日头条极速版");
         appInfo.setFree(true);
-        appInfo.setPeriod(4l);
+        appInfo.setPeriod(8l);
         appInfo.setPkgName(Constant.PN_TOU_TIAO);
         appInfos.add(appInfo);
 
-        appInfo = new AppInfo();
-        appInfo.setAppName("快手极速版");
-        appInfo.setName("快手极速版");
-        appInfo.setFree(true);
-        appInfo.setPeriod(4l);
-        appInfo.setPkgName(Constant.PN_KUAI_SHOU);
-        appInfos.add(appInfo);
+//        appInfo = new AppInfo();
+//        appInfo.setAppName("快手极速版");
+//        appInfo.setName("快手极速版");
+//        appInfo.setFree(true);
+//        appInfo.setPeriod(4l);
+//        appInfo.setPkgName(Constant.PN_KUAI_SHOU);
+//        appInfos.add(appInfo);
 
         TaskInfo taskInfo = new TaskInfo();
         taskInfo.setAppInfos(appInfos);
@@ -287,10 +334,6 @@ public class MainActivity extends AppCompatActivity {
         SPService.put(SPService.SP_TASK_LIST, taskInfo);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
 
     protected boolean isAppExist(String pkgName) {
         ApplicationInfo info;
@@ -461,8 +504,241 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        MyApplication.getAppInstance().setBaby(edit_baby.getEditableText().toString());
         startService(new Intent(getApplicationContext(), MyAccessbilityService.class));
         MyApplication.getAppInstance().startTask(appInfos);
+    }
+
+    private static String[] PERMISSIONS_REQUEST = {
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+    };
+
+    boolean permission = false;
+
+    private void requestPermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (this.checkPermission(Manifest.permission.READ_PHONE_STATE, Process.myPid(), Process.myUid())
+                    != PackageManager.PERMISSION_GRANTED || this.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Process.myPid(), Process.myUid())
+                    != PackageManager.PERMISSION_GRANTED || this.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION, Process.myPid(), Process.myUid())
+                    != PackageManager.PERMISSION_GRANTED) {
+                this.requestPermissions(PERMISSIONS_REQUEST, 1);
+            } else {
+                permission = true;
+            }
+        } else {
+            permission = true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 1) {
+            for (int i = 0; i < permissions.length; i++) {
+                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                    permission = true;
+                } else {
+                    Toast.makeText(this, "软件退出，运行权限被禁止", Toast.LENGTH_SHORT).show();
+                    Log.i("=======================", "权限" + permissions[i] + "申请失败");
+                    permission = false;
+                    System.exit(0);
+                }
+            }
+        }
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(InviteEvent event) {
+        LogUtils.d(TAG, "ScreenShootEvet");
+        switch (event.getAppType()){
+            case 1:
+                ClipboardUtils.copyText("1634396786");
+                break;
+            case 2:
+                ClipboardUtils.copyText("446859698");
+                break;
+            case 3:
+                ClipboardUtils.copyText("8161779848");
+                break;
+            case 4:
+                ClipboardUtils.copyText("LRHN7T5O");
+                break;
+        }
+        boolean success = MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
+        if(!success){
+            CrashReport.postCatchedException(new Throwable("填写验证码截图失败"));
+           return;
+        }
+        Utils.sleep(1000);
+        getScreemPicFile();
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ScreenShootEvet event) {
+        LogUtils.d(TAG, "ScreenShootEvet");
+
+        boolean success = MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
+        if(!success){
+            CrashReport.postCatchedException(new Throwable("截图失败"));
+            //[750,1758][1038,2049]
+            Point point = new Point();
+            point.x = 850;
+            point.y = 2000;
+            MyApplication.KEY_XY1 = point;
+
+            Point point1 = new Point();
+            point1.x = 500;
+            point1.y = 1400;
+            MyApplication.KEY_XY2 = point1;
+            //个人中心弹出框去赚钱坐标范围[204,1335][876,1455]
+            return;
+        }
+        Utils.sleep(1000);
+        getScreemPicFile();
+
+    }
+
+    private void getScreemPicFile(){
+        if (permission) {
+            String dicmPath1 = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + File.separator + "Screenshots";
+            List<File> fileList1 = FileUtils.listFilesInDir(dicmPath1);
+            if(fileList1 != null && fileList1.size()>0){
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        startRecognition(fileList1.get(fileList1.size()-1).getPath());
+                    }
+                }).start();
+            }else {
+                String dicmPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + File.separator + "Screenshots";
+                List<File> fileList = FileUtils.listFilesInDir(dicmPath);
+                if(fileList != null && fileList.size()>0){
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            startRecognition(fileList.get(fileList.size()-1).getPath());
+                        }
+                    }).start();
+                }
+            }
+        }
+    }
+
+    private void startRecognition(String photoPath) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClient.authenticator();
+
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+        builder.addFormDataPart("type", "det_and_rec");
+
+        File file = new File(photoPath);
+        builder.addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("image/jpeg"), file));
+
+        //构建请求体
+        Request request = new Request.Builder()
+                .url("https://bcpapi.sense-map.cn/ppdocr/recognition?ak=IkSrNfvbmmLOWzgG218HzYin")
+                .post(builder.build())
+                .build();
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                LogUtils.d(TAG,"Recognition onFailure");
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response != null) {
+                    if (response.isSuccessful()) {
+                        //打印服务端返回结果
+                        final String res = response.body().string();
+                        LogUtils.d(TAG,"Recognition Successful: "+res);
+                        List<RecognitionBean> recognitionBeans = new ArrayList<>();
+
+                        Log.d(TAG, "onResponse: " + res);
+                        try {
+                            JSONObject jsonObject = new JSONObject(res);
+                            // 返回json的数组
+                            JSONArray jsonArray = jsonObject.getJSONArray("results");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                RecognitionBean recognitionBean = new RecognitionBean();
+                                String point = jsonArray.getJSONArray(i).getString(0);
+                                String point1 = point.substring(1, point.length() - 1);
+                                String[] point2 = point1.split("],");
+
+                                Point p1 = new Point();
+                                String point3 = point2[0].substring(1, point2[0].length());
+                                String[] point4 = point3.split(",");
+                                p1.x = Integer.parseInt(point4[0]);
+                                p1.y = Integer.parseInt(point4[1]);
+                                recognitionBean.setP1(p1);
+
+                                Point p2 = new Point();
+                                String point5 = point2[1].substring(1, point2[1].length());
+                                String[] point6 = point5.split(",");
+                                p2.x = Integer.parseInt(point6[0]);
+                                p2.y = Integer.parseInt(point6[1]);
+                                recognitionBean.setP2(p2);
+
+                                Point p3 = new Point();
+                                String point7 = point2[2].substring(1, point2[2].length());
+                                String[] point8 = point7.split(",");
+                                p3.x = Integer.parseInt(point8[0]);
+                                p3.y = Integer.parseInt(point8[1]);
+                                recognitionBean.setP3(p3);
+
+                                Point p4 = new Point();
+                                String point9 = point2[3].substring(1, point2[3].length() - 1);
+                                String[] point10 = point9.split(",");
+                                p4.x = Integer.parseInt(point10[0]);
+                                p4.y = Integer.parseInt(point10[1]);
+                                recognitionBean.setP4(p4);
+
+                                String result = jsonArray.getJSONArray(i).getString(1);
+                                LogUtils.d(TAG,result);
+                                String probability = jsonArray.getJSONArray(i).getString(2);
+                                recognitionBean.setRes(result);
+                                recognitionBean.setProbability(probability);
+
+                                recognitionBeans.add(recognitionBean);
+                                if(result.equals("开宝箱得金币")){
+                                    Point p0 = new Point();
+                                    p0.x = (recognitionBean.getP1().x + recognitionBean.getP3().x)/2;
+                                    p0.y = (recognitionBean.getP1().y + recognitionBean.getP3().y)/2;
+                                    MyApplication.KEY_XY1 = p0;
+                                    SPUtils.getInstance().put("key1xy",new Gson().toJson(recognitionBean));
+                                }
+                                if(result.equals("開")){
+                                    SPUtils.getInstance().put("key2xy",new Gson().toJson(recognitionBean));
+                                }
+                                if(result.equals("粘贴")){
+                                    SPUtils.getInstance().put("invitexy",new Gson().toJson(recognitionBean));
+                                }
+                                if(result.equals("粘贴")){
+                                    SPUtils.getInstance().put("ks_invitexy",new Gson().toJson(recognitionBean));
+                                }
+                                if(result.contains("输入好友的邀请码")){
+                                    SPUtils.getInstance().put("findEdit",new Gson().toJson(recognitionBean));
+                                }
+                                if(result.contains("向好友询问邀请码")){
+                                    SPUtils.getInstance().put("ks_findEdit",new Gson().toJson(recognitionBean));
+                                }
+
+                            }
+
+                        } catch (Exception e) {
+                            Log.d(TAG, "Exception: " + e.getMessage());
+                            CrashReport.postCatchedException(new Throwable("PhotoTagPresenter:" + e.getMessage()));
+                        }
+
+                    }
+                }
+            }
+        });
+
     }
 }

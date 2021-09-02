@@ -1,7 +1,9 @@
 package com.cmlanche.scripts;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.cmlanche.application.MyApplication;
 import com.cmlanche.core.search.node.NodeInfo;
+import com.cmlanche.core.utils.Constant;
 import com.cmlanche.core.utils.Utils;
 import com.cmlanche.model.AppInfo;
 
@@ -45,6 +47,15 @@ public class DianTaoFastScript extends BaseScript {
         dealNoResponse();
     }
 
+    @Override
+    protected boolean isTargetPkg() {
+        if(MyApplication.getAppInstance().getAccessbilityService().isWrokFine()) {
+            if(!MyApplication.getAppInstance().getAccessbilityService().containsPkg(Constant.PN_DIAN_TAO)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     private void doPageId0Things() {
         scrollUp();

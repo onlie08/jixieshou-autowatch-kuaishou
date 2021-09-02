@@ -1,8 +1,10 @@
 package com.cmlanche.scripts;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.cmlanche.application.MyApplication;
 import com.cmlanche.core.executor.builder.SFStepBuilder;
 import com.cmlanche.core.search.node.NodeInfo;
+import com.cmlanche.core.utils.Constant;
 import com.cmlanche.model.AppInfo;
 
 public class DouyinFastAdvertScript extends BaseScript {
@@ -23,6 +25,16 @@ public class DouyinFastAdvertScript extends BaseScript {
 
     private boolean adverting = false;
     private boolean fasting = false;
+
+    @Override
+    protected boolean isTargetPkg() {
+        if(MyApplication.getAppInstance().getAccessbilityService().isWrokFine()) {
+            if(!MyApplication.getAppInstance().getAccessbilityService().containsPkg(Constant.PN_DOU_YIN)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public DouyinFastAdvertScript(AppInfo appInfo) {
         super(appInfo);

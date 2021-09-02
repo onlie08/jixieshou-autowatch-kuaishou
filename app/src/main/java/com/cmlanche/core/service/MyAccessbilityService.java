@@ -3,6 +3,7 @@ package com.cmlanche.core.service;
 import android.accessibilityservice.AccessibilityService;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
@@ -35,6 +36,28 @@ public class MyAccessbilityService extends AccessibilityService {
     @Override
     public void onInterrupt() {
         Logger.e("MyAccessbilityService 服务被Interrupt");
+    }
+
+    public void setViewText(String viewIds,String text){
+        AccessibilityNodeInfo nodeInfo = getNodeInfo(viewIds);
+        if(null != nodeInfo){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Bundle arguments = new Bundle();
+                arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, text);
+                nodeInfo.performAction(AccessibilityNodeInfo.ACTION_FOCUS);
+                nodeInfo.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+            }
+        }
+    }
+
+    public AccessibilityNodeInfo getNodeInfo(String viewIds){
+        AccessibilityNodeInfo root = getRootInActiveWindow();
+        if(root == null) return null;
+        final List<AccessibilityNodeInfo> list = root.findAccessibilityNodeInfosByViewId(viewIds);
+        if(list != null && !list.isEmpty()){
+            return  list.get(0);
+        }
+        return null;
     }
 
     public AccessibilityNodeInfo[] getRoots() {

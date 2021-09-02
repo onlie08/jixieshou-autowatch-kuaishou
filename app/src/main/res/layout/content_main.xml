@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="34sp"
-                android:textColor="#0d0e56"
+                android:textColor="#556272"
                 android:letterSpacing="0.01"
                 android:layout_marginStart="20dp"
                 android:text="捡豆子任务" />
@@ -37,7 +37,8 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:src="@drawable/info"
-                android:visibility="gone" />
+                android:layout_toRightOf="@+id/tv_title"
+                android:visibility="visible" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_share"
@@ -81,7 +82,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:textSize="16sp" />
+            android:textIsSelectable="true"
+            android:textSize="12sp" />
 
 
         <androidx.cardview.widget.CardView

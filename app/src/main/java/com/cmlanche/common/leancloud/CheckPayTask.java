@@ -39,7 +39,7 @@ public class CheckPayTask extends AsyncTask<Void, Integer, Integer> {
     protected void onPostExecute(Integer vip) {
         super.onPostExecute(vip);
         if (vip == 0) {
-            Toast.makeText(activity, "如果您已开通VIP，但是未生效，您需要确认下您的网络是否正常！", Toast.LENGTH_LONG).show();
+//            Toast.makeText(activity, "如果您已开通VIP，但是未生效，您需要确认下您的网络是否正常！", Toast.LENGTH_LONG).show();
         }
         boolean isVip = vip == 1;
         activity.updateVIPBtn(isVip);

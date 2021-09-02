@@ -1,6 +1,8 @@
 package com.cmlanche.scripts;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.cmlanche.application.MyApplication;
+import com.cmlanche.core.utils.Constant;
 import com.cmlanche.model.AppInfo;
 
 /**
@@ -25,6 +27,16 @@ public class KuaishouFastScript extends BaseScript {
 
     private boolean fasting = false;
     private boolean adverting = false;
+
+    @Override
+    protected boolean isTargetPkg() {
+        if(MyApplication.getAppInstance().getAccessbilityService().isWrokFine()) {
+            if(!MyApplication.getAppInstance().getAccessbilityService().containsPkg(Constant.PN_KUAI_SHOU)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     // 是否有检查"我知道了"
 

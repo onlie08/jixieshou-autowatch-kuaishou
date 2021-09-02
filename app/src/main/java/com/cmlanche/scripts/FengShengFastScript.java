@@ -3,8 +3,10 @@ package com.cmlanche.scripts;
 import android.graphics.Point;
 import android.util.Log;
 
+import com.cmlanche.application.MyApplication;
 import com.cmlanche.core.executor.builder.SFStepBuilder;
 import com.cmlanche.core.search.node.NodeInfo;
+import com.cmlanche.core.utils.Constant;
 import com.cmlanche.core.utils.Logger;
 import com.cmlanche.core.utils.Utils;
 import com.cmlanche.model.AppInfo;
@@ -16,6 +18,16 @@ public class FengShengFastScript extends BaseScript {
 
     public FengShengFastScript(AppInfo appInfo) {
         super(appInfo);
+    }
+
+    @Override
+    protected boolean isTargetPkg() {
+        if(MyApplication.getAppInstance().getAccessbilityService().isWrokFine()) {
+            if(!MyApplication.getAppInstance().getAccessbilityService().containsPkg(Constant.PN_FENG_SHENG)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

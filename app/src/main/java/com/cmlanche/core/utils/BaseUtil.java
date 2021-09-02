@@ -60,10 +60,9 @@ public class BaseUtil {
             describeText = context.getResources().getString(R.string.kuaishou_describe);
         }else if(packageName.equals(Constant.PN_DOU_YIN)){
             describeText = context.getResources().getString(R.string.douyin_describe);
+        }else if(packageName.equals(Constant.PN_TOU_TIAO)){
+            describeText = context.getResources().getString(R.string.toutiao_describe);
         }
-//        else if(packageName.equals(Constant.PN_YING_KE)){
-//            describeText = context.getResources().getString(R.string.yingke_describe);
-//        }
         return describeText;
     }
 

@@ -2,13 +2,13 @@ package com.cmlanche.scripts;
 
 import android.util.Log;
 
-import com.blankj.utilcode.util.ProcessUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.cmlanche.application.MyApplication;
-import com.cmlanche.core.utils.Constant;
 import com.cmlanche.common.PackageUtils;
 import com.cmlanche.core.bus.BusEvent;
 import com.cmlanche.core.bus.BusManager;
 import com.cmlanche.core.bus.EventType;
+import com.cmlanche.core.utils.Constant;
 import com.cmlanche.core.utils.Utils;
 import com.cmlanche.model.AppInfo;
 import com.cmlanche.model.TaskInfo;
@@ -50,7 +50,19 @@ public class TaskExecutor {
     public void startTask(final TaskInfo taskInfo) {
         this.taskInfo = taskInfo;
         this.initStartFlags();
-        if(scriptThread == null) {
+        if(currentScript != null && scriptThread != null ){
+            LogUtils.d(TAG,"currentScript != null");
+            currentScript.destory();
+            currentScript = null;
+
+            scriptThread.interrupt();
+            scriptThread = null;
+
+            monitorThread.interrupt();
+            monitorThread = null;
+        }
+        if (scriptThread == null) {
+            LogUtils.d(TAG,"scriptThread == null");
             scriptThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -61,10 +73,10 @@ public class TaskExecutor {
                             IScript script = null;
                             switch (info.getPkgName()) {
                                 case Constant.PN_DOU_YIN:
-                                    script =  DouyinFastAdvertScript.getSingleton(info);
+                                    script = DouyinFastAdvertScript1.getSingleton(info);
                                     break;
                                 case Constant.PN_KUAI_SHOU:
-                                    script = KuaishouFastScript.getSingleton(info);
+                                    script = KuaishouFastScript1.getSingleton(info);
                                     break;
                                 case Constant.PN_TOU_TIAO:
                                     script = TouTiaoAdvertScript.getSingleton(info);
@@ -85,24 +97,24 @@ public class TaskExecutor {
                             }
                         }
                     } catch (Exception e) {
-                        Log.e(TAG,"执行任务异常：" + e.getMessage());
+                        Log.e(TAG, "执行任务异常：" + e.getMessage());
                         CrashReport.postCatchedException(e);
                     } finally {
                         // 执行完成
                         resetFlags();
                         PackageUtils.startSelf();
-                        Log.i(TAG,"执行完成，回到本程序");
+                        Log.i(TAG, "执行完成，回到本程序");
                         CrashReport.postCatchedException(new Exception("执行完成，回到本程序"));
                     }
                 }
             });
             scriptThread.start();
-
+            LogUtils.d(TAG,"scriptThread.start()");
             monitorThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     final long st = System.currentTimeMillis();
-                    Log.d(TAG,"st:"+st);
+//                    Log.d(TAG, "st:" + st);
                     final long allTime = taskInfo.getHours() * 60 * 60 * 1000;
 //                    final long allTime = 1 * 30* 1000;
 
@@ -114,28 +126,28 @@ public class TaskExecutor {
                     });
 
                     while (System.currentTimeMillis() - st < allTime) {
-                        Log.d(TAG,"System.currentTimeMillis() - st:"+(System.currentTimeMillis() - st));
+//                        Log.d(TAG, "System.currentTimeMillis() - st:" + (System.currentTimeMillis() - st));
                         try {
                             if (currentScript != null) {
-                                if(currentTestApp.getPkgName().equals(Constant.PN_FENG_SHENG)){
+                                if (currentTestApp.getPkgName().equals(Constant.PN_FENG_SHENG)) {
                                     Calendar c = Calendar.getInstance();//
                                     int mHour = c.get(Calendar.HOUR_OF_DAY);//时
                                     int mMinute = c.get(Calendar.MINUTE);//分
-                                    Log.d(TAG,"mHour:"+mHour +" mMinute:" + mMinute);
-                                    if((mHour == 8 && mMinute == 30) || (mHour == 22 && mMinute == 30) || (mHour == 15 && mMinute == 49)){
+//                                    Log.d(TAG, "mHour:" + mHour + " mMinute:" + mMinute);
+                                    if ((mHour == 8 && mMinute == 30) || (mHour == 22 && mMinute == 30) || (mHour == 15 && mMinute == 49)) {
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                if(!currentScript.isDestinationPage()){
+                                                if (!currentScript.isDestinationPage()) {
                                                     PackageUtils.startApp(currentTestApp.getPkgName());
                                                 }
                                             }
-                                         });
-                                    }else{
+                                        });
+                                    } else {
                                         continue;
                                     }
                                 }
-                                if(isForcePause()) {
+                                if (isForcePause()) {
                                     setPause(true);
                                 } else {
                                     setPause(!currentScript.isDestinationPage());
@@ -153,11 +165,13 @@ public class TaskExecutor {
                                 }
                             }
                         } catch (Exception e) {
-                            Log.e(TAG,"监控异常：" + e.getMessage());
+                            Log.e(TAG, "监控异常：" + e.getMessage());
                         } finally {
                             Utils.sleep(1000);
                         }
                     }
+
+                    LogUtils.d(TAG,"currentScript.destory()");
                     currentScript.destory();
                     currentScript = null;
                     Utils.sleep(1000);
@@ -175,16 +189,16 @@ public class TaskExecutor {
                             BusManager.getBus().post(new BusEvent<>(EventType.task_finish, currentTestApp));
                         }
                     });
-                    Log.e(TAG,"到期了");
+                    Log.e(TAG, "到期了");
                 }
             });
             monitorThread.start();
         } else {
-            if(currentScript != null) {
+            if (currentScript != null) {
                 currentScript.resetStartTime();
                 currentScript.startApp();
             } else {
-                Log.e(TAG,"不可能走这里，如果走这里，程序出bug了");
+                Log.e(TAG, "不可能走这里，如果走这里，程序出bug了");
             }
         }
     }

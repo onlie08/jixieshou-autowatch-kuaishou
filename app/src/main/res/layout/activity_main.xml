@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.cmlanche.activity.MainActivity">
 
-    <include layout="@layout/content_main" />
+    <include layout="@layout/content_main1" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
