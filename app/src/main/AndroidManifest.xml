@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.cmlanche.jixieshou"
+    package="com.ch.jixieshou"
     android:versionCode="1"
     android:versionName="1.0">
 
@@ -20,7 +20,7 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
-        android:name="com.cmlanche.application.MyApplication"
+        android:name="com.ch.application.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/money"
         android:label="@string/app_name"
@@ -31,7 +31,7 @@
         android:usesCleartextTraffic="true"
         >
         <activity
-            android:name="com.cmlanche.activity.MainActivity"
+            android:name="com.ch.activity.MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -43,8 +43,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.cmlanche.activity.NewOrEditTaskActivity" />
-        <activity android:name="com.cmlanche.activity.TaskTypeListActivity" />
+        <activity android:name="com.ch.activity.EditTaskActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.ch.activity.TaskTypeListActivity"
+            android:screenOrientation="portrait"/>
 
         <!--友盟分享开始-->
         <!--微博-->
@@ -73,7 +75,7 @@
         </activity>
         <!--微信-->
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="com.ch.jixieshou.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -95,11 +97,11 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name="com.cmlanche.floatwindow.FloatActivity" />
+        <activity android:name="com.ch.floatwindow.FloatActivity" />
         <!--友盟分享结束-->
 
         <service
-            android:name="com.cmlanche.core.service.MyAccessbilityService"
+            android:name="com.ch.core.service.MyAccessbilityService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:accessibilityFlags="flagReportViewIds">
             <intent-filter>

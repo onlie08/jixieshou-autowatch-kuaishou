@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.cmlanche.activity.MainActivity"
+    tools:context="com.ch.activity.MainActivity"
     android:background="@color/bg"
     tools:showIn="@layout/activity_main">
 
@@ -150,7 +150,7 @@
                 app:cardElevation="2dp"
                 android:background="#fff">
 
-                <com.cmlanche.widget.ListViewForScrollView
+                <com.ch.widget.ListViewForScrollView
                     android:id="@+id/taskListView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

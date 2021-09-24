@@ -75,7 +75,7 @@
                     app:cardElevation="4dp"
                     android:background="#fff">
 
-                    <com.cmlanche.widget.ListViewForScrollView
+                    <com.ch.widget.ListViewForScrollView
                         android:id="@+id/typeListView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
