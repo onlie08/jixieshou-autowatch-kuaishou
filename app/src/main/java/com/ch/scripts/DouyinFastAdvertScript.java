@@ -1,14 +1,23 @@
 package com.ch.scripts;
 
+import android.graphics.Point;
+import android.text.TextUtils;
+
+import com.blankj.utilcode.BuildConfig;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.search.node.NodeInfo;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
 import com.ch.model.AppInfo;
+import com.ch.model.ScreenShootEvet;
+import com.google.gson.Gson;
 import com.tencent.bugly.crashreport.CrashReport;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Random;
 
@@ -17,6 +26,8 @@ import static com.ch.core.utils.ActionUtils.pressHome;
 
 public class DouyinFastAdvertScript extends BaseScript {
     private String TAG = this.getClass().getSimpleName();
+    private Point point_ShouYe;
+    private Point point_LaiZhuanQian;
 
     private volatile static DouyinFastAdvertScript instance; //声明成 volatile
 
@@ -48,6 +59,7 @@ public class DouyinFastAdvertScript extends BaseScript {
 
     public DouyinFastAdvertScript(AppInfo appInfo) {
         super(appInfo);
+        getRecognitionResult();
     }
 
     @Override
@@ -63,29 +75,6 @@ public class DouyinFastAdvertScript extends BaseScript {
             return;
         }
 
-        if (samePageCount > 10 && samePageCount < 13) {
-            dealNoResponse2();
-        }
-
-        if (samePageCount > 12 && samePageCount < 16) {
-            Utils.sleep(1500);
-            clickBack();
-        }
-
-        if (samePageCount > 15 ) {
-            dealNoResponse3();
-        }
-//
-//        if(count >30 ){
-//            MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
-//            Utils.sleep(1500);
-//            dealNoResponse();
-//            count = 0;
-//            return;
-//        }
-
-        if (clickAdvert()) return;
-
         pageId = checkPageId();
         if (pageId == lastPageId) {
             samePageCount++;
@@ -93,9 +82,28 @@ public class DouyinFastAdvertScript extends BaseScript {
             samePageCount = 0;
         }
         lastPageId = pageId;
-        LogUtils.d(TAG, "pageId:" + pageId + " samePageCount:" + samePageCount);
-        if (pageId == 0) {
 
+        doSamePageDeal();
+        LogUtils.d(TAG, "pageId:" + pageId + " samePageCount:" + samePageCount);
+
+        if (clickAdvert()) return;
+
+        if (pageId == 0) {
+            if (point_ShouYe == null) {
+                getRecognitionResult();
+                if (point_ShouYe == null) {
+                    EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_DOU_YIN, Constant.PAGE_MAIN));
+                }
+                return;
+            }
+
+            if (point_LaiZhuanQian == null) {
+                getRecognitionResult();
+                if (point_LaiZhuanQian == null) {
+                    EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_DOU_YIN, Constant.PAGE_MAIN));
+                }
+                return;
+            }
             doPageId0Things();
 
         } else if (pageId == 1) {
@@ -106,33 +114,22 @@ public class DouyinFastAdvertScript extends BaseScript {
 
             doPageId2Things();
 
+        }else if (pageId == 3) {
+
+            doPageId3Things();
+
         } else {
             clickBack();
-            count++;
         }
     }
 
-    /**
-     * 处理返回解决不了的弹出框，而且也不能找到资源的
-     *
-     * @return
-     */
-    private boolean dealNoResponse3() {
-        int height = ScreenUtils.getScreenHeight();
-        int height1 = height / 20;
-        int width = ScreenUtils.getScreenWidth();
-        Random rand = new Random();
-        int randHeight = 20 + rand.nextInt(height1 - 20);
-        LogUtils.d(TAG, "x:" + (width / 2) + " y:" + (randHeight * 20));
-        clickXY(width / 2, randHeight * 20);
-        return false;
-    }
 
     /**
      * 处理返回解决不了的弹出框，但是能找到资源的
      * @return
      */
     private boolean dealNoResponse2() {
+        if (clickContent("暂时不要")) return true;
         if (clickContent("知道")) return true;
         if (clickContent("立即签到")) return true;
         if (clickContent("允许")) return true;
@@ -144,11 +141,11 @@ public class DouyinFastAdvertScript extends BaseScript {
     }
 
     private void doPageId0Things() {
-        count++;
         LogUtils.d(TAG, "doPageId0Things");
 
-        if(count >10){
-            if(clickId("byf")) return;
+        if(samePageCount >3){
+            clickXY(point_LaiZhuanQian.x,point_LaiZhuanQian.y);
+            return;
         }
 
         scrollUp();
@@ -156,40 +153,44 @@ public class DouyinFastAdvertScript extends BaseScript {
 
 
     private void doPageId1Things() {
-        count++;
         LogUtils.d(TAG, "doPageId1Things");
-
-        if (!findContent("看广告赚金币")) {
-            scrollUp();
-            return;
+        if(samePageCount >2){
+            clickContent("立即签到 +");
+            clickContent("去赚钱");
         }
 
+        if(samePageCount >4){
+            clickBack();
+        }
+
+        if (!findContent("看广告赚金币")) {
+            scrollUpSlow();
+            return;
+        }
+        clickContent("看广告赚金币");
+        Utils.sleep(1000);
+        if (clickContent("点击领金币")) return;
         if (clickContent("开宝箱得金币")) return;
 
-        if (clickContent("看广告赚金币")) return;
+        if (!findContent("去逛街")) {
+            scrollUpSlow();
+            return;
+        }
+        if(!findContent("后浏览还可得金币")){
+            if(clickContent("去逛街"))return;
+        }
 
-//        if(countDown()){
-//        }
-
-
-//        clickBack();
+        scrollDown();
     }
 
     private void doPageId2Things() {
-        count++;
         LogUtils.d(TAG, "doPageId2Things");
         if (clickContent("继续观看")) return;
-        boolean isAdvert = isAdverting();
-        if (isAdvert) {
-            adverting = isAdvert;
-            return;
-        }
-        if (adverting && !isAdvert) {
-            clickBack();
-            adverting = isAdvert;
-            return;
-        }
-        clickBack();
+    }
+
+    private void doPageId3Things() {
+        LogUtils.d(TAG, "doPageId2Things");
+        scrollUpSlow();
     }
 
     private boolean isAdverting() {
@@ -204,17 +205,30 @@ public class DouyinFastAdvertScript extends BaseScript {
 
     @Override
     protected int getMinSleepTime() {
+        if(pageId == 3){
+            return 10000;
+        }
         return 3000;
     }
 
     @Override
     protected int getMaxSleepTime() {
+        if(pageId == 3){
+            return 10000;
+        }
         return 4000;
     }
 
     @Override
     protected void getRecognitionResult() {
-
+        String sp_shouye = SPUtils.getInstance().getString(Constant.DOUYIN_SHOUYE, "");
+        if (!TextUtils.isEmpty(sp_shouye)) {
+            point_ShouYe = new Gson().fromJson(sp_shouye, Point.class);
+        }
+        String sp_laizhuanqian = SPUtils.getInstance().getString(Constant.DOUYIN_LAIZHUANQIAN, "");
+        if (!TextUtils.isEmpty(sp_laizhuanqian)) {
+            point_LaiZhuanQian = new Gson().fromJson(sp_laizhuanqian, Point.class);
+        }
     }
 
 
@@ -234,18 +248,17 @@ public class DouyinFastAdvertScript extends BaseScript {
                 return false;
             }
             resumeCount++;
-            if (resumeCount > 50) {
+            if (resumeCount > 20) {
                 LogUtils.d(TAG, "自动恢复到抖音极速版");
                 CrashReport.postCatchedException(new Throwable("自动恢复到抖音极速版"));
                 startApp();
             }
-            if (resumeCount > 100) {
-                MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
+            if (resumeCount > 30) {
+                if(BuildConfig.DEBUG){
+                    MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
+                }
                 LogUtils.d(TAG, "抖音极速版是不是anr了?");
-                clickContent("确定");
-                clickContent("取消");
-                clickBack();
-                clickBack();
+                dealNoResponse();
             }
             return false;
         }
@@ -255,10 +268,12 @@ public class DouyinFastAdvertScript extends BaseScript {
     @Override
     public void destory() {
         if (isTargetPkg()) {
-            pressHome();
-//            clickBack();
-//            clickBack();
+            clickBack();
+            Utils.sleep(100);
+            clickBack();
+            Utils.sleep(1000);
         }
+        pressHome();
         stop = true;
     }
 
@@ -273,41 +288,17 @@ public class DouyinFastAdvertScript extends BaseScript {
         return false;
     }
 
-    private boolean countDown(){
-        if(findContent("09:") || findContent("08:") || findContent("07:") || findContent("06:")
-                || findContent("05:")|| findContent("04:")|| findContent("03:")|| findContent("02:")
-                || findContent("01:") || findContent("00:")){
-            return false;
-        }
-        return true;
-    }
 
     private boolean dealNoResponse() {
+        if (clickContent("本次运行允许")) return true;
+        if (clickContent("仅在使用中允许")) return true;
+        if (clickContent("始终允许")) return true;
+        if (clickContent("禁止")) return true;
+
+        if (clickContent("关闭")) return true;
         if (clickContent("重试")) return true;
-        if (clickContent("继续观看")) return true;
-
-        if (clickContent("知道了")) return true;
-
-        if (clickContent("好的")) return true;
-
-        if (clickContent("立即签到")) return true;
-
-        if (clickContent("打开签到提醒")) return true;
-
-        if (clickContent("开心收下")) return true;
-
-        if (clickId("permission_allow_button")) return true;
-
-        if (clickContent("允许")) return true;
-
-        if (clickContent("立即预约")) return true;
-
-        if (clickContent("去拿奖励")) return true;
-
-        if (clickContent("继续阅读")) return true;
-        if (clickContent("去赚钱")) return true;
-
-//        if (clickContent("新人金币礼包")) ;
+        if (clickContent("取消")) return true;
+        if (clickContent("知道")) return true;
 
 
         clickBack();
@@ -326,7 +317,7 @@ public class DouyinFastAdvertScript extends BaseScript {
      */
     private int checkPageId() {
 
-        if (findId("a96") && findContent("金币")) {
+        if (findContent("开宝箱得金币") ||findContent("现金收益") ||findContent("看广告赚金币") || findContent("看视频，赚金币")|| findContent("免费看小说赚金币")) {
             return 1;
         }
 
@@ -335,11 +326,32 @@ public class DouyinFastAdvertScript extends BaseScript {
         }
 
 
-        if (findContent("后可领取") || findContent("广告")) {
+        if (findContent("后可领取")) {
             return 2;
         }
 
+        if (findContent("逛街赚钱")) {
+            return 3;
+        }
+
+        //todo 邀请码自动填写功能
         return -1;
+    }
+
+    @Override
+    protected void doSamePageDeal() {
+        if (samePageCount > 10 && samePageCount < 13) {
+            dealNoResponse2();
+        }
+
+        if (samePageCount > 12 && samePageCount < 16) {
+            Utils.sleep(1500);
+            clickBack();
+        }
+
+        if (samePageCount > 15 ) {
+            doRandomClick();
+        }
     }
 
 }
