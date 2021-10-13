@@ -367,10 +367,32 @@ public class RecognitionManage {
 
                 break;
             case Constant.PN_DOU_YIN:
+                switch (pageId) {
+                    case PAGE_MAIN:
+                        Point p_shouye = getPoint(getRecognitionBean(recognitionBeans,"首页"));
+                        if(null != p_shouye){
+                            SPUtils.getInstance().put(Constant.DOUYIN_SHOUYE, new Gson().toJson(p_shouye));
+                        }
+
+                        Point p_laizhuanqian = getPoint(getRecognitionBean(recognitionBeans,"来赚钱"));
+                        if(null != p_laizhuanqian){
+                            SPUtils.getInstance().put(Constant.DOUYIN_LAIZHUANQIAN, new Gson().toJson(p_laizhuanqian));
+                        }
+                        break;
+                    case PAGE_TASK:
+                        break;
+                    case PAGE_INVITE:
+                        break;
+                }
+
                 break;
             case Constant.PN_DIAN_TAO:
                 switch (pageId) {
                     case PAGE_MAIN:
+                        Point p_diantao = getPoint(getRecognitionBean(recognitionBeans,"点淘"));
+                        if(null != p_diantao){
+                            SPUtils.getInstance().put(Constant.DIANTAO_DIANTAO, new Gson().toJson(p_diantao));
+                        }
                         break;
                     case PAGE_TASK:
                         Point p0 = getPoint(getRecognitionBean(recognitionBeans,"领取"));
@@ -394,6 +416,16 @@ public class RecognitionManage {
             case Constant.PN_AI_QI_YI:
                 switch (pageId) {
                     case PAGE_MAIN:
+                        Point p_shouye = getPoint(getRecognitionBean(recognitionBeans,"首页"));
+                        if(null != p_shouye){
+                            SPUtils.getInstance().put(Constant.AIQIYI_SHOUYE, new Gson().toJson(p_shouye));
+                        }
+
+                        Point p_zhuanqian = getPoint(getRecognitionBean(recognitionBeans,"赚钱"));
+                        if(null != p_zhuanqian){
+                            SPUtils.getInstance().put(Constant.AIQIYI_ZHUANQIAN, new Gson().toJson(p_zhuanqian));
+                        }
+
                         break;
                     case PAGE_TASK:
                         break;
