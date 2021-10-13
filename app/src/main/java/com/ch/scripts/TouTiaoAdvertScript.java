@@ -19,8 +19,6 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.Random;
-
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 import static com.ch.core.utils.ActionUtils.pressHome;
 
@@ -136,6 +134,9 @@ public class TouTiaoAdvertScript extends BaseScript {
             doPageId3Things();
 
         } else {
+            if(samePageCount > 5){
+                if(clickContent("坚持退出"))return;
+            }
             if (clickContent("看视频得金币")) Utils.sleep(1500);
             if (clickContent("视频再领")) return;
             if (findContent("邀请码") && findContent("马上提交")) {
@@ -426,16 +427,6 @@ public class TouTiaoAdvertScript extends BaseScript {
     }
 
     /**
-     * 可能是有弹出框，先做返回处理
-     *
-     * @return
-     */
-    private boolean dealNoResponse1() {
-        clickBack();
-        return false;
-    }
-
-    /**
      * 处理返回解决不了的弹出框，但是能找到资源的
      *
      * @return
@@ -452,6 +443,8 @@ public class TouTiaoAdvertScript extends BaseScript {
         if (clickContent("重试")) return true;
         if (clickContent("取消")) return true;
         if (clickContent("开心收下")) return true;
+        if (clickContent("不允许")) return true;
+        if (clickContent("允许")) return true;
         return false;
     }
 

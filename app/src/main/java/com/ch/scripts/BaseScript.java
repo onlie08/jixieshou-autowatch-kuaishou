@@ -226,7 +226,7 @@ public abstract class BaseScript implements IScript {
     }
 
     public void scrollUpSlow(){
-        LogUtils.dTag(BASETAG, "scrollUp");
+        LogUtils.dTag(BASETAG, "scrollUpSlow");
         int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int)(Math.random()*100);
         int margin = 600+ (int)(Math.random()*100);
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
@@ -253,7 +253,7 @@ public abstract class BaseScript implements IScript {
     }
 
     public void scrollUpNormal(){
-        LogUtils.dTag(BASETAG, "scrollUp");
+        LogUtils.dTag(BASETAG, "scrollUpNormal");
         int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int)(Math.random()*100);
         int margin = 400+ (int)(Math.random()*100);
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;

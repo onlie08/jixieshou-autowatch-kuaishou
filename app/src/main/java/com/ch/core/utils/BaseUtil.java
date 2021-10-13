@@ -86,7 +86,7 @@ public class BaseUtil {
         }else if(packageName.equals(Constant.PN_BAI_DU)){
             recommendCode = "151156827638";
         }else if(packageName.equals(Constant.PN_TOU_TIAO)){
-            recommendCode = "1634396786";
+            recommendCode = "Q38842766";
         }
 //        else if(packageName.equals(Constant.PN_YING_KE)){
 //            recommendCode = "";

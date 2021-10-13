@@ -81,17 +81,6 @@ public class KuaishouFastScript extends BaseScript {
             return;
         }
 
-
-
-//        if(samePageCount > 12 && samePageCount < 15){
-//            Utils.sleep(1500);
-//            clickBack();
-//        }
-//        if(samePageCount > 16 ){
-//            Utils.sleep(1500);
-//            dealNoResponse2();
-//        }
-
         pageId = checkPageId();
 
         if(pageId == lastPageId){
@@ -160,7 +149,7 @@ public class KuaishouFastScript extends BaseScript {
     }
 
     private void doPageId0Things() {
-        if (samePageCount > 4 ) {
+        if (samePageCount > 3 ) {
             if (clickId("red_packet_anim")) return;
         }
 
@@ -309,7 +298,7 @@ public class KuaishouFastScript extends BaseScript {
         if (findContent("限时奖励Lv")) {
             return 1;
         }
-        if (findContent("任务中心") || findContent("开宝箱得金币")) {
+        if (findContent("任务中心") || findContent("开宝箱得金币") || findContent("明日再来")) {
             return 1;
         }
 

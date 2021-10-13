@@ -113,8 +113,7 @@ public class TaskExecutor {
                         // 执行完成
 //                        resetFlags();
 //                        PackageUtils.startSelf();
-                        Log.i(TAG, "执行完成，回到本程序");
-                        CrashReport.postCatchedException(new Exception("执行完成，回到本程序"));
+                        Log.e(TAG, "执行完成，回到本程序");
                     }
                 }
             });

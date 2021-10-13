@@ -24,6 +24,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.Random;
 
+import okhttp3.internal.Util;
+
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 import static com.ch.core.utils.ActionUtils.click;
 import static com.ch.core.utils.ActionUtils.pressHome;
@@ -54,6 +56,7 @@ public class DianTaoFastScript extends BaseScript {
     private Point point_RenWu;
     private Point point_ShuruYaoQingMa;
     private Point point_ZhanTie;
+    private Point point_LiJiChouJiang;
 
     public DianTaoFastScript(AppInfo appInfo) {
         super(appInfo);
@@ -121,6 +124,8 @@ public class DianTaoFastScript extends BaseScript {
             doPageId4Things();
         }else if(pageId == 5){
             doPageId5Things();
+        }else if(pageId == 6){
+            doPageId6Things();
         }else {
             if(samePageCount >= 2){
                 clickXY(point_DianTao.x,point_DianTao.y);
@@ -133,11 +138,6 @@ public class DianTaoFastScript extends BaseScript {
     private void doPageId1Things() {
         if(samePageCount >= 2){
             closeDialog();
-        }
-
-        if (!findContent("今日签到")) {
-            scrollUpSlow();
-            return;
         }
 
         if(clickContent("去签到")){
@@ -155,9 +155,10 @@ public class DianTaoFastScript extends BaseScript {
             }
         }
 
-        if (!findContent("看直播，赚元宝")) {
+        if (!findContent("去走路")) {
             scrollUpSlow();
-            return;
+            Utils.sleep(2000);
+//            return;
         }
         if(!walkingDone){
             if(!tempDone){
@@ -168,9 +169,15 @@ public class DianTaoFastScript extends BaseScript {
             }
         }
 
-        if(clickContent("去打工"))return;
+        if (!findContent("去抽奖")) {
+            scrollUpSlow();
+//            Utils.sleep(2000);
+            return;
+        }
+        if(clickContent("去抽奖")) return;
 //        if (clickContent("看直播，赚元宝")) return;
 
+        scrollDown();
     }
 
 
@@ -226,6 +233,10 @@ public class DianTaoFastScript extends BaseScript {
 
     boolean tempDone = false;
     boolean walkingDone = false;
+
+    /**
+     * 去走路逻辑
+     */
     private void doPageId4Things() {
         if(findContent("今日20000步已完成")){
             walkingDone = true;
@@ -250,7 +261,8 @@ public class DianTaoFastScript extends BaseScript {
 
         if(clickContent("出发")){
             Utils.sleep(1500);
-            if(clickContent("")){
+            if(findContent("邀请好友助力赚步数吧")){
+                clickContent("查看更多任务");
                 return;
             }
             return;
@@ -276,6 +288,27 @@ public class DianTaoFastScript extends BaseScript {
             Utils.sleep(1000);
             if(clickContent("去观看"))return;
         }
+    }
+
+    private void doPageId6Things() {
+        scrollDown();
+
+        if (point_LiJiChouJiang == null) {
+            getRecognitionResult();
+            if (point_LiJiChouJiang == null) {
+                EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_DIAN_TAO,Constant.PAGE_ACTIVE));
+            }
+            return;
+        }
+
+        if(clickContent("继续抽奖"))return;
+
+        if(!findContent("今日还剩0次抽奖机会")){
+            clickXY(point_LiJiChouJiang.x,point_LiJiChouJiang.y);
+            return;
+        }
+
+        if(clickContent("去观看"))return;
     }
 
     private boolean doTask() {
@@ -348,6 +381,9 @@ public class DianTaoFastScript extends BaseScript {
         }
         if(findContent("去打工赚钱") || findContent("打工中")){
             return 5;
+        }
+        if(findContent("做任务 得抽奖机会")){
+            return 6;
         }
 //        if (findContent("元宝中心") && findContent("我的成就")) {
         if (findContent("元宝中心") ) {
@@ -436,11 +472,13 @@ public class DianTaoFastScript extends BaseScript {
      * @return
      */
     private boolean dealNoResponse2() {
+        LogUtils.d(TAG,"dealNoResponse2()");
         if (clickId("gold_common_image")) return true;
         if (clickContent("知道")) return true;
         if (clickContent("继续赚金币")) return true;
         if (clickContent("去赚钱")) return true;
         if (clickContent("禁止")) return true;
+        if (clickContent("不允许")) return true;
         if (clickContent("允许")) return true;
         if (clickContent("立即添加")) return true;
         if (clickContent("关闭")) return true;
@@ -462,7 +500,7 @@ public class DianTaoFastScript extends BaseScript {
 
             clickContent("提交 去抽奖");
             Utils.sleep(2000);
-            CrashReport.postCatchedException(new Throwable("头条自动填写邀请码成功"));
+            CrashReport.postCatchedException(new Throwable("点淘自动填写邀请码成功"));
             return true;
         }
 
@@ -497,6 +535,11 @@ public class DianTaoFastScript extends BaseScript {
         String sp_zhantie = SPUtils.getInstance().getString(Constant.DIANTAO_ZHANTIE,"");
         if(!TextUtils.isEmpty(sp_zhantie)){
             point_ZhanTie = new Gson().fromJson(sp_zhantie,Point.class);
+        }
+
+        String sp_lijichoujiang = SPUtils.getInstance().getString(Constant.DIANTAO_LIJICHOUJIANG,"");
+        if(!TextUtils.isEmpty(sp_lijichoujiang)){
+            point_LiJiChouJiang = new Gson().fromJson(sp_lijichoujiang,Point.class);
         }
     }
 

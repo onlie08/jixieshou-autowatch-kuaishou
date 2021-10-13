@@ -36,6 +36,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.ch.core.utils.Constant.PAGE_ACTIVE;
 import static com.ch.core.utils.Constant.PAGE_ADVERT;
 import static com.ch.core.utils.Constant.PAGE_INVITE;
 import static com.ch.core.utils.Constant.PAGE_MAIN;
@@ -64,7 +65,7 @@ public class RecognitionManage {
     public void copyText(String packageName){
         switch (packageName) {
             case Constant.PN_TOU_TIAO:
-                ClipboardUtils.copyText("1634396786");
+                ClipboardUtils.copyText("Q38842766");
                 break;
             case Constant.PN_KUAI_SHOU:
                 ClipboardUtils.copyText("446859698");
@@ -79,7 +80,7 @@ public class RecognitionManage {
                 ClipboardUtils.copyText("2883663620");
                 break;
             case Constant.PN_BAI_DU:
-                ClipboardUtils.copyText("128314345628");
+                ClipboardUtils.copyText("151156827638");
                 break;
         }
     }
@@ -409,6 +410,12 @@ public class RecognitionManage {
                         Point p2 = getPoint(getRecognitionBean(recognitionBeans,"粘贴"));
                         if(null != p2){
                             SPUtils.getInstance().put(Constant.DIANTAO_ZHANTIE, new Gson().toJson(p2));
+                        }
+                        break;
+                    case PAGE_ACTIVE:
+                        Point p_lijichoujiagn = getPoint(getRecognitionBean(recognitionBeans,"立即抽奖"));
+                        if(null != p_lijichoujiagn){
+                            SPUtils.getInstance().put(Constant.DIANTAO_LIJICHOUJIANG, new Gson().toJson(p_lijichoujiagn));
                         }
                         break;
                 }

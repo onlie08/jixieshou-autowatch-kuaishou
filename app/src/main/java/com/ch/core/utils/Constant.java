@@ -41,9 +41,9 @@ public class Constant {
     public static final int PAGE_INVITE = 4;
 
     /**
-     *浏览内容页
+     *活动页
      */
-    public static final int PAGE_CONTENT = 5;
+    public static final int PAGE_ACTIVE = 5;
 
 
     /**
@@ -74,6 +74,7 @@ public class Constant {
     public static final String DIANTAO_RENWU = "DIANTAO_RENWU";
     public static final String DIANTAO_SHURUYAOQINGMA = "DIANTAO_SHURUYAOQINGMA";//输入邀请码
     public static final String DIANTAO_ZHANTIE = "DIANTAO_ZHANTIE";
+    public static final String DIANTAO_LIJICHOUJIANG = "DIANTAO_LIJICHOUJIANG";
 
     /**
      * 爱奇艺图像识别内容
