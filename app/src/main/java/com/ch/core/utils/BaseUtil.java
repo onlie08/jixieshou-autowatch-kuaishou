@@ -29,7 +29,7 @@ public class BaseUtil {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 AccessibilityUtil.goToAppMarket(context,packageName);
-                showRecommendDialog(packageName,context);
+//                showRecommendDialog(packageName,context);
             }
         });
         AlertDialog dialog = builder.create();

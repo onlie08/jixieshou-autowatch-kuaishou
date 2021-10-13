@@ -25,6 +25,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.Random;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
+import static com.ch.core.utils.ActionUtils.click;
 import static com.ch.core.utils.ActionUtils.pressHome;
 
 public class BaiDuAdvertScript extends BaseScript {
@@ -80,20 +81,6 @@ public class BaiDuAdvertScript extends BaseScript {
             return;
         }
 
-        if (samePageCount > 10 && samePageCount < 13) {
-            dealNoResponse2();
-        }
-
-        if (samePageCount > 12 && samePageCount < 16) {
-            Utils.sleep(1500);
-            clickBack();
-        }
-
-        if (samePageCount > 15) {
-            dealNoResponse3();
-        }
-
-        if (clickAdvert()) return;
 
         pageId = checkPageId();
         if (pageId == lastPageId) {
@@ -103,6 +90,10 @@ public class BaiDuAdvertScript extends BaseScript {
         }
         lastPageId = pageId;
         LogUtils.d(TAG, "pageId:" + pageId + " samePageCount:" + samePageCount);
+
+        doSamePageDeal();
+
+        if (clickAdvert()) return;
 
         if (pageId == 0) {
 
@@ -133,6 +124,11 @@ public class BaiDuAdvertScript extends BaseScript {
             doPageId6Things();
 
         } else {
+//            if(clickContent("重新加载"))return;
+            if(samePageCount >= 2){
+                if(clickContent("我知道了"))return;
+                if(clickContent("开心收下"))return;
+            }
             Utils.sleep(1500);
             clickBack();
         }
@@ -164,7 +160,7 @@ public class BaiDuAdvertScript extends BaseScript {
         }
 
         gotoPersonCount++;
-        if (gotoPersonCount > 10) {
+        if (gotoPersonCount > 4) {
             gotoPersonCount = 0;
             clickXY(point_RenWu.x,point_RenWu.y);
             return;
@@ -174,7 +170,7 @@ public class BaiDuAdvertScript extends BaseScript {
 
         scrollUp();
 
-        Utils.sleep(1000);
+        Utils.sleep(3000);
 
         clickXY(500,500);
 //        if (clickContent("0评论")) return;
@@ -183,10 +179,24 @@ public class BaiDuAdvertScript extends BaseScript {
 
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
+        if(samePageCount >= 2){
+            if(clickContent("残忍退出"))return;
+            if(clickContent("开心收下"))return;
+            if(clickContent("立即签到")){
+                Utils.sleep(1000);
+                clickBack();
+                return;
+
+            }
+        }
 
         if(clickContent("立即收下"))return;
         if(clickContent("开宝箱得金币"))return;
 
+        if(!findContent("去完成")){
+            scrollUpSlow();
+            return;
+        }
         if(!findContent("已完成")){
             if(clickContent("去完成"))return;
         }
@@ -197,8 +207,12 @@ public class BaiDuAdvertScript extends BaseScript {
 
     private void doPageId2Things() {
         LogUtils.d(TAG, "doPageId2Things");
+
         NodeInfo nodeInfo = findByText("不喜欢");
         if (null != nodeInfo) {
+            if(samePageCount > 3){
+                scrollUp();
+            }
             clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()+ SizeUtils.dp2px(100));
             return;
 
@@ -208,6 +222,9 @@ public class BaiDuAdvertScript extends BaseScript {
 
     private void doPageId3Things() {
         LogUtils.d(TAG, "doPageId3Things");
+        if(samePageCount >5){
+            clickBack();
+        }
 
     }
 
@@ -245,7 +262,7 @@ public class BaiDuAdvertScript extends BaseScript {
             return 0;
         }
 
-        if (findContent("复制") && findContent("金币")) {
+        if (findContent("做任务赚现金") || findContent("看广告赚钱")) {
             return 1;
         }
 
@@ -253,9 +270,9 @@ public class BaiDuAdvertScript extends BaseScript {
             return 2;
         }
 
-//        if (findContent("查看详情")) {
-//            return 3;
-//        }
+        if (findContent("查看详情")) {
+            return 3;
+        }
 
         if (findContent("s后得金币")) {
             return 3;
@@ -283,7 +300,7 @@ public class BaiDuAdvertScript extends BaseScript {
         } else if (pageId == 4) {
             return 2000;
         } else if (pageId == 0) {
-            return 2000;
+            return 4000;
         } else {
             return 3000;
         }
@@ -301,7 +318,7 @@ public class BaiDuAdvertScript extends BaseScript {
         } else if (pageId == 4) {
             return 2000;
         }else if (pageId == 0) {
-            return 2000;
+            return 4000;
         } else {
             return 3000;
         }
@@ -359,12 +376,12 @@ public class BaiDuAdvertScript extends BaseScript {
             }
 
             resumeCount++;
-            if (resumeCount > 50) {
+            if (resumeCount > 20) {
                 LogUtils.d(TAG, "自动恢复到头条极速版");
                 CrashReport.postCatchedException(new Throwable("自动恢复到头条极速版"));
                 startApp();
             }
-            if (resumeCount > 60) {
+            if (resumeCount > 30) {
                 if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 }
@@ -381,8 +398,12 @@ public class BaiDuAdvertScript extends BaseScript {
     @Override
     public void destory() {
         if (isTargetPkg()) {
-            pressHome();
+            clickBack();
+            Utils.sleep(100);
+            clickBack();
+            Utils.sleep(1000);
         }
+        pressHome();
         stop = true;
     }
 
@@ -392,6 +413,7 @@ public class BaiDuAdvertScript extends BaseScript {
      * @return
      */
     private boolean dealNoResponse2() {
+        if (clickContent("重新加载")) return true;
         if (clickContent("知道")) return true;
         if (clickContent("继续赚金币")) return true;
         if (clickContent("去赚钱")) return true;
@@ -404,22 +426,6 @@ public class BaiDuAdvertScript extends BaseScript {
     }
 
 
-    /**
-     * 处理返回解决不了的弹出框，而且也不能找到资源的
-     *
-     * @return
-     */
-    private boolean dealNoResponse3() {
-        int height = ScreenUtils.getScreenHeight();
-        int height1 = height / 20;
-        int width = ScreenUtils.getScreenWidth();
-        Random rand = new Random();
-        int randHeight = 20 + rand.nextInt(height1 - 20);
-        LogUtils.d(TAG, "x:" + (width / 2) + " y:" + (randHeight * 20));
-        clickXY(width / 2, randHeight * 20);
-        return false;
-    }
-
 
     /**
      * 处理不在该app时的处理，比如系统弹出框
@@ -427,13 +433,13 @@ public class BaiDuAdvertScript extends BaseScript {
      * @return
      */
     private boolean dealNoResponse() {
-        if (clickContent("去赚钱")) return true;
+        if (clickContent("本次运行允许")) return true;
+        if (clickContent("仅在使用中允许")) return true;
+        if (clickContent("始终允许")) return true;
+        if (clickContent("禁止")) return true;
 
-        //处理返回无法消失的弹出框
-        if (clickContent("立即添加")) return true;
         if (clickContent("关闭")) return true;
         if (clickContent("重试")) return true;
-        if (clickContent("允许")) return true;
         if (clickContent("取消")) return true;
         if (clickContent("知道")) return true;
 
@@ -477,6 +483,29 @@ public class BaiDuAdvertScript extends BaseScript {
             EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU,Constant.PAGE_INVITE));
         }
         return false;
+    }
+
+    @Override
+    protected void doSamePageDeal() {
+        if (samePageCount > 10 && samePageCount < 13) {
+            Utils.sleep(1500);
+            clickBack();
+        }
+
+        if (samePageCount > 12 && samePageCount < 16) {
+            dealNoResponse2();
+
+        }
+
+        if (samePageCount > 15) {
+            doRandomClick();
+        }
+        if (samePageCount > 30) {
+            clickBack();
+            clickBack();
+            samePageCount = 0;
+        }
+
     }
 }
 

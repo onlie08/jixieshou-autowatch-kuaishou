@@ -73,30 +73,15 @@ public class TouTiaoAdvertScript extends BaseScript {
             return;
         }
         if (!NetworkUtils.isAvailable()) {
-            LogUtils.d(TAG,"网络不可用");
+            LogUtils.d(TAG, "网络不可用");
             return;
         }
         if (ScreenUtils.isScreenLock()) {
-            LogUtils.d(TAG,"屏幕锁定了");
+            LogUtils.d(TAG, "屏幕锁定了");
             return;
         }
 
-        if (samePageCount > 10 && samePageCount < 13) {
-            Utils.sleep(1500);
-            clickBack();
-        }
 
-        if (samePageCount > 12 && samePageCount < 16) {
-            dealNoResponse2();
-        }
-        if (samePageCount > 15 ) {
-            dealNoResponse3();
-        }
-
-        if (samePageCount > 35 ) {
-            clickXY(point_ShouYe.x,point_ShouYe.y);
-        }
-        if (clickAdvert()) return;
 
         pageId = checkPageId();
         if (pageId == lastPageId) {
@@ -105,13 +90,16 @@ public class TouTiaoAdvertScript extends BaseScript {
             samePageCount = 0;
         }
         lastPageId = pageId;
+        doSamePageDeal();
         LogUtils.d(TAG, "pageId:" + pageId + " gotoPersonCount:" + gotoPersonCount + " samePageCount:" + samePageCount);
+
+        if (clickAdvert()) return;
 
         if (pageId == 0) {
             if (point_ShouYe == null) {
                 getRecognitionResult();
                 if (point_ShouYe == null) {
-                    EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_TOU_TIAO,Constant.PAGE_MAIN));
+                    EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_TOU_TIAO, Constant.PAGE_MAIN));
                 }
                 return;
             }
@@ -119,7 +107,7 @@ public class TouTiaoAdvertScript extends BaseScript {
             if (point_RenWu == null) {
                 getRecognitionResult();
                 if (point_RenWu == null) {
-                    EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_TOU_TIAO,Constant.PAGE_MAIN));
+                    EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_TOU_TIAO, Constant.PAGE_MAIN));
                 }
                 CrashReport.postCatchedException(new Throwable("截图时在任务倒计时中"));
                 return;
@@ -132,7 +120,7 @@ public class TouTiaoAdvertScript extends BaseScript {
             if (point_KaiBaoXiangDeJinBi == null) {
                 getRecognitionResult();
                 if (point_KaiBaoXiangDeJinBi == null) {
-                    EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_TOU_TIAO,Constant.PAGE_TASK));
+                    EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_TOU_TIAO, Constant.PAGE_TASK));
                 }
                 return;
             }
@@ -148,6 +136,8 @@ public class TouTiaoAdvertScript extends BaseScript {
             doPageId3Things();
 
         } else {
+            if (clickContent("看视频得金币")) Utils.sleep(1500);
+            if (clickContent("视频再领")) return;
             if (findContent("邀请码") && findContent("马上提交")) {
                 if (autoInvite()) {
                     clickBack();
@@ -161,13 +151,32 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     }
 
+    @Override
+    protected void doSamePageDeal() {
+        if (samePageCount > 10 && samePageCount < 13) {
+            Utils.sleep(1500);
+            clickBack();
+        }
+
+        if (samePageCount > 12 && samePageCount < 16) {
+            dealNoResponse2();
+        }
+        if (samePageCount > 15) {
+            doRandomClick();
+        }
+
+        if (samePageCount > 35) {
+            clickXY(point_ShouYe.x, point_ShouYe.y);
+        }
+    }
+
     private int gotoPersonCount = 0;
 
     private void doPageId0Things() {
         gotoPersonCount++;
-        if (gotoPersonCount > 10) {
+        if (gotoPersonCount > 4) {
             gotoPersonCount = 0;
-            clickXY(point_RenWu.x,point_RenWu.y);
+            clickXY(point_RenWu.x, point_RenWu.y);
             return;
         }
         LogUtils.d(TAG, "doPageId0Things");
@@ -191,6 +200,15 @@ public class TouTiaoAdvertScript extends BaseScript {
     private void doPageId1Things() {
 //        count++;
 
+        if(clickContent("点击翻倍"))return;
+        if(samePageCount >= 2){
+            if (clickContent("我知道了")) ;
+            if (clickContent("视频再领")) ;
+            if (clickContent("打开签到提醒"));
+        }
+        if(samePageCount >= 4){
+            clickXY(point_ShouYe.x,point_ShouYe.y);
+        }
         LogUtils.d(TAG, "doPageId1Things");
 
         if (!findContent("看广告赚金币")) {
@@ -211,7 +229,7 @@ public class TouTiaoAdvertScript extends BaseScript {
         }
 
         if (findContent("分") && findContent("秒")) {
-            clickXY(point_ShouYe.x,point_ShouYe.y);
+            clickXY(point_ShouYe.x, point_ShouYe.y);
 //            if (clickId("k2")) return;
 //            clickBack();
         } else {
@@ -262,9 +280,10 @@ public class TouTiaoAdvertScript extends BaseScript {
     private boolean clickAdvert() {
         if (clickContent("再看一个获得")) return true;
 
-        if (clickContent("视频再领")) return true;
+//        if (clickContent("视频再领")) return true;
 
         if (clickContent("继续观看")) return true;
+        if (clickContent("看视频领")) return true;
 
 
         return false;
@@ -277,11 +296,9 @@ public class TouTiaoAdvertScript extends BaseScript {
      */
     private int checkPageId() {
 //        if (findId("k2") && findContent("频道管理")&& findContent("发布")) {
-        if ( findContent("频道管理")&& findContent("发布")) {
+        if (findContent("频道管理") && findContent("发布")) {
             return 0;
         }
-
-
 
         if (findContent("搜索") || findContent("更多操作")) {
             return 2;
@@ -294,8 +311,8 @@ public class TouTiaoAdvertScript extends BaseScript {
         if ((findContent("s") && findContent("关闭")) || findContent("试玩")) {
             return 3;
         }
-        if (findContent("金币")) {
-//        if (findContent("任务页") && findContent("金币")) {
+
+        if ((findContent("日常任务") || findContent("看广告赚金币")) && findContent("金币")) {
             return 1;
         }
         return -1;
@@ -307,7 +324,7 @@ public class TouTiaoAdvertScript extends BaseScript {
         if (pageId == 2) {
             return 1000;
         } else if (pageId == 1) {
-            return 4000;
+            return 2000;
         } else if (pageId == -1) {
             return 1000;
         } else {
@@ -321,7 +338,7 @@ public class TouTiaoAdvertScript extends BaseScript {
         if (pageId == 2) {
             return 1000;
         } else if (pageId == 1) {
-            return 4000;
+            return 2000;
         } else if (pageId == -1) {
             return 1000;
         } else {
@@ -331,29 +348,29 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
-        String sp_shouye = SPUtils.getInstance().getString(Constant.TOUTIAO_SHOUYE,"");
-        if(!TextUtils.isEmpty(sp_shouye)){
-            point_ShouYe = new Gson().fromJson(sp_shouye,Point.class);
+        String sp_shouye = SPUtils.getInstance().getString(Constant.TOUTIAO_SHOUYE, "");
+        if (!TextUtils.isEmpty(sp_shouye)) {
+            point_ShouYe = new Gson().fromJson(sp_shouye, Point.class);
         }
 
-        String sp_renwu = SPUtils.getInstance().getString(Constant.TOUTIAO_RENWU,"");
-        if(!TextUtils.isEmpty(sp_renwu)){
-            point_RenWu = new Gson().fromJson(sp_renwu,Point.class);
+        String sp_renwu = SPUtils.getInstance().getString(Constant.TOUTIAO_RENWU, "");
+        if (!TextUtils.isEmpty(sp_renwu)) {
+            point_RenWu = new Gson().fromJson(sp_renwu, Point.class);
         }
 
-        String sp_kaibaoxiangdejinbi = SPUtils.getInstance().getString(Constant.TOUTIAO_KAIBAOXIANGDEJINBI,"");
-        if(!TextUtils.isEmpty(sp_kaibaoxiangdejinbi)){
-            point_KaiBaoXiangDeJinBi = new Gson().fromJson(sp_kaibaoxiangdejinbi,Point.class);
+        String sp_kaibaoxiangdejinbi = SPUtils.getInstance().getString(Constant.TOUTIAO_KAIBAOXIANGDEJINBI, "");
+        if (!TextUtils.isEmpty(sp_kaibaoxiangdejinbi)) {
+            point_KaiBaoXiangDeJinBi = new Gson().fromJson(sp_kaibaoxiangdejinbi, Point.class);
         }
 
-        String sp_shuruhaoyouyaoqingma = SPUtils.getInstance().getString(Constant.TOUTIAO_SHURUHAOYOUYAOQINGMA,"");
-        if(!TextUtils.isEmpty(sp_shuruhaoyouyaoqingma)){
-            point_ShuRuHaoYouYaoQingMa = new Gson().fromJson(sp_shuruhaoyouyaoqingma,Point.class);
+        String sp_shuruhaoyouyaoqingma = SPUtils.getInstance().getString(Constant.TOUTIAO_SHURUHAOYOUYAOQINGMA, "");
+        if (!TextUtils.isEmpty(sp_shuruhaoyouyaoqingma)) {
+            point_ShuRuHaoYouYaoQingMa = new Gson().fromJson(sp_shuruhaoyouyaoqingma, Point.class);
         }
 
-        String sp_zhantie = SPUtils.getInstance().getString(Constant.TOUTIAO_ZHANTIE,"");
-        if(!TextUtils.isEmpty(sp_zhantie)){
-            point_ZhanTie = new Gson().fromJson(sp_zhantie,Point.class);
+        String sp_zhantie = SPUtils.getInstance().getString(Constant.TOUTIAO_ZHANTIE, "");
+        if (!TextUtils.isEmpty(sp_zhantie)) {
+            point_ZhanTie = new Gson().fromJson(sp_zhantie, Point.class);
         }
     }
 
@@ -376,12 +393,12 @@ public class TouTiaoAdvertScript extends BaseScript {
             }
 
             resumeCount++;
-            if (resumeCount > 50) {
+            if (resumeCount > 20) {
                 LogUtils.d(TAG, "自动恢复到头条极速版");
                 CrashReport.postCatchedException(new Throwable("自动恢复到头条极速版"));
                 startApp();
             }
-            if (resumeCount > 60) {
+            if (resumeCount > 30) {
                 if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 }
@@ -398,10 +415,13 @@ public class TouTiaoAdvertScript extends BaseScript {
     @Override
     public void destory() {
         if (isTargetPkg()) {
-            pressHome();
-//            clickBack();
-//            clickBack();
+            clickBack();
+            Utils.sleep(100);
+            clickBack();
+            Utils.sleep(1000);
         }
+        pressHome();
+
         stop = true;
     }
 
@@ -417,12 +437,16 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     /**
      * 处理返回解决不了的弹出框，但是能找到资源的
+     *
      * @return
      */
     private boolean dealNoResponse2() {
+        if (clickContent("网络不给力，点击屏幕重试")) return true;
+        if (clickContent("禁止")) return true;
         if (clickContent("知道")) return true;
         if (clickContent("去赚钱")) return true;
-        if (clickContent("允许")) return true;
+        if (clickContent("视频再领")) return true;
+        if (clickContent("仅在使用中允许")) return true;
         if (clickContent("立即添加")) return true;
         if (clickContent("关闭")) return true;
         if (clickContent("重试")) return true;
@@ -433,50 +457,33 @@ public class TouTiaoAdvertScript extends BaseScript {
 
 
     /**
-     * 处理返回解决不了的弹出框，而且也不能找到资源的
-     *
-     * @return
-     */
-    private boolean dealNoResponse3() {
-        int height = ScreenUtils.getScreenHeight();
-        int height1 = height / 20;
-        int width = ScreenUtils.getScreenWidth();
-        Random rand = new Random();
-        int randHeight = 20 + rand.nextInt(height1 - 20);
-        LogUtils.d(TAG, "x:" + (width / 2) + " y:" + (randHeight * 20));
-        clickXY(width / 2, randHeight * 20);
-        return false;
-    }
-
-
-    /**
      * 处理不在该app时的处理，比如系统弹出框
      *
      * @return
      */
     private boolean dealNoResponse() {
-        if (clickContent("去赚钱")) return true;
+        if (clickContent("本次运行允许")) return true;
+        if (clickContent("仅在使用中允许")) return true;
+        if (clickContent("始终允许")) return true;
+        if (clickContent("禁止")) return true;
 
-        //处理返回无法消失的弹出框
-        if (clickContent("立即添加")) return true;
         if (clickContent("关闭")) return true;
         if (clickContent("重试")) return true;
-        if (clickContent("允许")) return true;
         if (clickContent("取消")) return true;
         if (clickContent("知道")) return true;
 
-        clickXY(point_ShouYe.x,point_ShouYe.y);
+        clickXY(point_ShouYe.x, point_ShouYe.y);
         ActionUtils.pressHome();
         return false;
     }
 
     private boolean autoInvite() {
         getRecognitionResult();
-        if(null == point_ShuRuHaoYouYaoQingMa){
+        if (null == point_ShuRuHaoYouYaoQingMa) {
             SPUtils.getInstance().put(Constant.TOUTIAO_ZHANTIE, "");
         }
 
-        if(null != point_ZhanTie){
+        if (null != point_ZhanTie) {
             clickXY(point_ZhanTie.x, point_ZhanTie.y);
             Utils.sleep(1000);
 
@@ -486,12 +493,12 @@ public class TouTiaoAdvertScript extends BaseScript {
             return true;
         }
 
-        if(null != point_ShuRuHaoYouYaoQingMa){
+        if (null != point_ShuRuHaoYouYaoQingMa) {
             ActionUtils.longPress(point_ShuRuHaoYouYaoQingMa.x, point_ShuRuHaoYouYaoQingMa.y);
             Utils.sleep(1500);
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_TOU_TIAO,Constant.PAGE_INVITE));
-        }else {
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_TOU_TIAO,Constant.PAGE_INVITE));
+            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_TOU_TIAO, Constant.PAGE_INVITE));
+        } else {
+            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_TOU_TIAO, Constant.PAGE_INVITE));
             return false;
         }
         return false;

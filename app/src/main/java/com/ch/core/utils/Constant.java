@@ -47,6 +47,12 @@ public class Constant {
 
 
     /**
+     * 抖音图像识别内容
+     */
+    public static final String DOUYIN_SHOUYE = "DOUYIN_SHOUYE";
+    public static final String DOUYIN_LAIZHUANQIAN = "DOUYIN_LAIZHUANQIAN";
+
+    /**
      * 头条图像识别内容
      */
     public static final String TOUTIAO_SHOUYE = "TOUTIAO_SHOUYE";
@@ -64,7 +70,8 @@ public class Constant {
     /**
      * 点淘图像识别内容
      */
-    public static final String DIANTAO_RENWU = "DIANTAO_RENWU";//输入邀请码
+    public static final String DIANTAO_DIANTAO = "DIANTAO_DIANTAO";
+    public static final String DIANTAO_RENWU = "DIANTAO_RENWU";
     public static final String DIANTAO_SHURUYAOQINGMA = "DIANTAO_SHURUYAOQINGMA";//输入邀请码
     public static final String DIANTAO_ZHANTIE = "DIANTAO_ZHANTIE";
 
@@ -75,6 +82,8 @@ public class Constant {
     public static final String AIQIYI_ZHANTIE = "AIQIYI_ZHANTIE";
     public static final String AIQIYI_INVITE_SUCCESS = "AIQIYI_INVITE_SUCCESS";
     public static final String AIQIYI_LIJIKAIYUN = "AIQIYI_LIJIKAIYUN";
+    public static final String AIQIYI_SHOUYE = "AIQIYI_SHOUYE";
+    public static final String AIQIYI_ZHUANQIAN = "AIQIYI_ZHUANQIAN";
 
 
     /**

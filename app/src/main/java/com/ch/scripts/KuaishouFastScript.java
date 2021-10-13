@@ -81,23 +81,8 @@ public class KuaishouFastScript extends BaseScript {
             return;
         }
 
-        if(samePageCount > 10 && samePageCount < 13){
-            Utils.sleep(1500);
-            dealNoResponse2();
-        }
-        if(samePageCount > 12){
-            if (BuildConfig.DEBUG) {
-                MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
-                Utils.sleep(1500);
-            }
-            dealNoResponse3();
-        }
-        if(samePageCount > 30){
-            if (BuildConfig.DEBUG) {
-                MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
-                Utils.sleep(1500);
-            }
-        }
+
+
 //        if(samePageCount > 12 && samePageCount < 15){
 //            Utils.sleep(1500);
 //            clickBack();
@@ -106,7 +91,6 @@ public class KuaishouFastScript extends BaseScript {
 //            Utils.sleep(1500);
 //            dealNoResponse2();
 //        }
-        if (clickAdvert()) return;
 
         pageId = checkPageId();
 
@@ -116,7 +100,11 @@ public class KuaishouFastScript extends BaseScript {
             samePageCount = 0;
         }
         lastPageId = pageId;
-        LogUtils.d(TAG, "pageId:" + pageId + " count:" + count+ " samePageCount:" + samePageCount);
+
+        doSamePageDeal();
+
+        LogUtils.d(TAG, "pageId:" + pageId + " samePageCount:" + samePageCount);
+        if (clickAdvert()) return;
 
         if (pageId == 0) {
 
@@ -137,9 +125,9 @@ public class KuaishouFastScript extends BaseScript {
         }else {
             Utils.sleep(1500);
             clickBack();
-            count++;
         }
     }
+
 
     /**
      * 处理返回解决不了的弹出框，但是能找到资源的
@@ -158,28 +146,13 @@ public class KuaishouFastScript extends BaseScript {
         if (clickContent("关闭")) return true;
         if (clickContent("重试")) return true;
         if (clickContent("取消")) return true;
+        if (clickContent("确认")) return true;
         if (clickContent("邀请好友赚更多")) return true;
         return false;
     }
 
-    /**
-     * 处理返回解决不了的弹出框，而且也不能找到资源的
-     *
-     * @return
-     */
-    private boolean dealNoResponse3() {
-        int height = ScreenUtils.getScreenHeight();
-        int height1 = height / 20;
-        int width = ScreenUtils.getScreenWidth();
-        Random rand = new Random();
-        int randHeight = 20 + rand.nextInt(height1 - 20);
-        LogUtils.d(TAG, "x:" + (width / 2) + " y:" + (randHeight * 20));
-        clickXY(width / 2, randHeight * 20);
-        return false;
-    }
 
     private void doPageId3Things() {
-        count++;
         if (autoInvite()) {
             clickBack();
             clickBack();
@@ -187,9 +160,7 @@ public class KuaishouFastScript extends BaseScript {
     }
 
     private void doPageId0Things() {
-        count++;
-
-        if (count > 10 ) {
+        if (samePageCount > 4 ) {
             if (clickId("red_packet_anim")) return;
         }
 
@@ -198,14 +169,19 @@ public class KuaishouFastScript extends BaseScript {
 
 
     private void doPageId1Things() {
-        count++;
+        if(samePageCount >2){
+//            if(clickContent(""))return;
+            if(clickContent("明天继续领现金"))return;
+            if(clickContent("立即领取今日现金"))return;
+            if(clickContent("都领完了，继续赚钱"))return;
+        }
 
         if(clickContent("填邀请码必得1元")){
             return;
         }
 
         if (!findContent("看广告")) {
-            scrollUp();
+            scrollUpSlow();
             return;
         }
 
@@ -218,7 +194,6 @@ public class KuaishouFastScript extends BaseScript {
     }
 
     private void doPageId2Things() {
-        count++;
         if (clickContent("继续观看")) return;
     }
 
@@ -259,15 +234,16 @@ public class KuaishouFastScript extends BaseScript {
                 return false;
             }
             resumeCount++;
-            if (resumeCount > 50) {
+            if (resumeCount > 20) {
                 LogUtils.d(TAG, "自动恢复到快手极速版");
                 CrashReport.postCatchedException(new Throwable("自动恢复到快手极速版"));
                 startApp();
             }
-            if (resumeCount > 60) {
+            if (resumeCount > 30) {
                 if(BuildConfig.DEBUG){
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 }
+                startApp();
                 LogUtils.d(TAG, "快手极速版是不是anr了?");
                 dealNoResponse();
                 clickBack();
@@ -281,26 +257,25 @@ public class KuaishouFastScript extends BaseScript {
     @Override
     public void destory() {
         if (isTargetPkg()) {
-            pressHome();
-//            clickBack();
-//            clickBack();
+            clickBack();
+            Utils.sleep(100);
+            clickBack();
+            Utils.sleep(1000);
         }
+        pressHome();
         stop = true;
     }
 
     private boolean dealNoResponse() {
-        if (clickId("close")) return true;
-        if (clickContent("查看收益")) return true;
-        if (clickContent("知道了")) return true;
-
+        if (clickContent("本次运行允许")) return true;
+        if (clickContent("仅在使用中允许")) return true;
+        if (clickContent("始终允许")) return true;
+        if (clickContent("禁止")) return true;
 
         if (clickContent("关闭")) return true;
-        if (clickContent("签到")) return true;
-        if (clickId("permission_allow_button")) return true;
-        if (clickContent("允许")) return true;
-        if (clickContent("立即预约")) return true;
-        if (clickContent("去赚钱")) return true;
         if (clickContent("重试")) return true;
+        if (clickContent("取消")) return true;
+        if (clickContent("知道")) return true;
         clickBack();
 
         Utils.sleep(1000);
@@ -331,14 +306,17 @@ public class KuaishouFastScript extends BaseScript {
      * @return //0:首页 1:个人中心  2:阅读页  3:广告页
      */
     private int checkPageId() {
+        if (findContent("限时奖励Lv")) {
+            return 1;
+        }
+        if (findContent("任务中心") || findContent("开宝箱得金币")) {
+            return 1;
+        }
 
         if (findId("left_btn")  && findContent("直播广场")) {
             return 0;
         }
 
-        if (findContent("任务中心") || findContent("开宝箱得金币")) {
-            return 1;
-        }
 
         if (findContent("s后可领取奖励")) {
             return 2;
@@ -391,4 +369,34 @@ public class KuaishouFastScript extends BaseScript {
             point_ZhanTie = new Gson().fromJson(sp_zhantie,Point.class);
         }
     }
+
+    @Override
+    protected void doSamePageDeal() {
+        if(samePageCount > 10 && samePageCount < 13){
+            Utils.sleep(1500);
+            dealNoResponse2();
+        }
+
+        if(samePageCount > 12){
+            Utils.sleep(1000);
+            clickBack();
+        }
+        if(samePageCount > 14){
+            if (BuildConfig.DEBUG) {
+                MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
+                Utils.sleep(1500);
+            }
+            doRandomClick();
+        }
+        if(samePageCount > 30){
+            if (BuildConfig.DEBUG) {
+//                MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
+//                Utils.sleep(1500);
+                Utils.sleep(1000);
+                clickBack();
+                clickBack();
+            }
+        }
+    }
+
 }

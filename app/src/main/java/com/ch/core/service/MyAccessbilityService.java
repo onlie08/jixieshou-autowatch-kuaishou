@@ -1,13 +1,21 @@
 package com.ch.core.service;
 
 import android.accessibilityservice.AccessibilityService;
+import android.accessibilityservice.AccessibilityServiceInfo;
+import android.app.ActivityManager;
+import android.app.PendingIntent;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.bus.BusEvent;
 import com.ch.core.bus.BusManager;
@@ -20,6 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.leancloud.utils.LogUtil;
+
 import static com.ch.core.bus.EventType.accessiblity_connected;
 
 public class MyAccessbilityService extends AccessibilityService {
@@ -30,7 +40,7 @@ public class MyAccessbilityService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        Logger.d("MyAccessbilityService event: " + event);
+//        Logger.d("MyAccessbilityService event: " + event);
     }
 
     @Override
@@ -107,7 +117,7 @@ public class MyAccessbilityService extends AccessibilityService {
     public void onCreate() {
         super.onCreate();
         Logger.d("MyAccessbilityService on create");
-
+        BusManager.getBus().post(new BusEvent<>(EventType.set_accessiblity, this));
     }
 
     @Override
@@ -164,5 +174,7 @@ public class MyAccessbilityService extends AccessibilityService {
     public boolean isWrokFine() {
         return isWork;
     }
+
+
 
 }

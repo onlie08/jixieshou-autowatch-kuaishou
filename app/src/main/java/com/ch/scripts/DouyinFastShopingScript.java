@@ -8,6 +8,7 @@ import com.ch.application.MyApplication;
 import com.ch.core.search.node.NodeInfo;
 import com.ch.core.utils.ActionUtils;
 import com.ch.core.utils.Constant;
+import com.ch.core.utils.Utils;
 import com.ch.model.AppInfo;
 
 import static com.ch.core.utils.ActionUtils.pressHome;
@@ -39,6 +40,11 @@ public class DouyinFastShopingScript extends BaseScript {
             }
         }
         return true;
+    }
+
+    @Override
+    protected void doSamePageDeal() {
+
     }
 
     @Override
@@ -129,10 +135,13 @@ public class DouyinFastShopingScript extends BaseScript {
     @Override
     public void destory() {
         if (isTargetPkg()) {
-            pressHome();
-//            clickBack();
-//            clickBack();
+            clickBack();
+            Utils.sleep(100);
+            clickBack();
+            Utils.sleep(1000);
         }
+        pressHome();
+
         stop = true;
     }
 

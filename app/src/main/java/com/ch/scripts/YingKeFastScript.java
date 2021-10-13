@@ -11,6 +11,8 @@ import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
 import com.ch.model.AppInfo;
 
+import static com.ch.core.utils.ActionUtils.pressHome;
+
 /**
  * 点淘急速版脚本
  */
@@ -236,6 +238,13 @@ public class YingKeFastScript extends BaseScript {
     @Override
     public void destory() {
         clickBack();
+        Utils.sleep(100);
         clickBack();
+        Utils.sleep(1000);
+        pressHome();
+    }
+    @Override
+    protected void doSamePageDeal() {
+
     }
 }

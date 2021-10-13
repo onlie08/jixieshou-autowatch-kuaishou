@@ -4,11 +4,9 @@ import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -20,11 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.EncryptUtils;
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.ch.adapter.TaskListAdapter;
 import com.ch.application.MyApplication;
@@ -50,15 +48,12 @@ import com.ch.model.ScreenShootEvet;
 import com.ch.model.TaskInfo;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -73,12 +68,14 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private CardView cardView;
+    private TextView tv_version;
     private ListView taskListView;
     private FloatingActionButton fab;
     private TaskListAdapter taskListAdapter;
     private MaterialButton startBtn;
     private MaterialButton btnShare;
     private List<AppInfo> appInfos = new ArrayList<>();
+    private List<AppInfo> currentAppInfos = new ArrayList<>();
 
     boolean permission = false;
 
@@ -103,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        tv_version = findViewById(R.id.tv_version);
+        tv_version.setText("V"+AppUtils.getAppVersionName());
+
         cardView = findViewById(R.id.newTaskCardView);
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +138,8 @@ public class MainActivity extends AppCompatActivity {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                currentAppInfos.clear();
+                currentAppInfos.addAll(appInfos);
                 startTask();
             }
         });
@@ -147,31 +149,61 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setData() {
+        if(!currentAppInfos.isEmpty()){
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.setAppInfos(currentAppInfos);
+            SPService.put(SPService.SP_TASK_LIST, taskInfo);
+            return;
+        }
         List<AppInfo> appInfos = new ArrayList<>();
 
-//        AppInfo appInfo = new AppInfo();
+        AppInfo appInfo = new AppInfo();
 //        appInfo.setAppName("抖音极速版");
 //        appInfo.setName("抖音极速版");
 //        appInfo.setFree(true);
 //        appInfo.setPeriod(4l);
 //        appInfo.setPkgName(Constant.PN_DOU_YIN);
 //        appInfos.add(appInfo);
-
-        AppInfo appInfo = new AppInfo();
-        appInfo.setAppName("今日头条极速版");
-        appInfo.setName("今日头条极速版");
-        appInfo.setFree(true);
-        appInfo.setPeriod(4l);
-        appInfo.setPkgName(Constant.PN_TOU_TIAO);
-        appInfos.add(appInfo);
-
+//
+//        appInfo = new AppInfo();
+//        appInfo.setAppName("今日头条极速版");
+//        appInfo.setName("今日头条极速版");
+//        appInfo.setFree(true);
+//        appInfo.setPeriod(4l);
+//        appInfo.setPkgName(Constant.PN_TOU_TIAO);
+//        appInfos.add(appInfo);
+//
 //        appInfo = new AppInfo();
 //        appInfo.setAppName("快手极速版");
 //        appInfo.setName("快手极速版");
 //        appInfo.setFree(true);
 //        appInfo.setPeriod(4l);
 //        appInfo.setPkgName(Constant.PN_KUAI_SHOU);
+//
 //        appInfos.add(appInfo);
+//        appInfo = new AppInfo();
+//        appInfo.setAppName("点淘");
+//        appInfo.setName("点淘");
+//        appInfo.setFree(true);
+//        appInfo.setPeriod(4l);
+//        appInfo.setPkgName(Constant.PN_DIAN_TAO);
+//
+//        appInfos.add(appInfo);
+//        appInfo = new AppInfo();
+//        appInfo.setAppName("爱奇艺极速版");
+//        appInfo.setName("爱奇艺极速版");
+//        appInfo.setFree(true);
+//        appInfo.setPeriod(4l);
+//        appInfo.setPkgName(Constant.PN_AI_QI_YI);
+
+        appInfos.add(appInfo);
+        appInfo = new AppInfo();
+        appInfo.setAppName("百度极速版");
+        appInfo.setName("百度极速版");
+        appInfo.setFree(true);
+        appInfo.setPeriod(4l);
+        appInfo.setPkgName(Constant.PN_BAI_DU);
+        appInfos.add(appInfo);
 
         TaskInfo taskInfo = new TaskInfo();
         taskInfo.setAppInfos(appInfos);
@@ -290,18 +322,18 @@ public class MainActivity extends AppCompatActivity {
 
                         if (taskInfo1 == null || taskInfo1.getAppInfos() == null || taskInfo1.getAppInfos().isEmpty()) {
 
-                            cardView.setVisibility(View.VISIBLE);
-                            fab.setVisibility(View.GONE);
-                            appInfos.clear();
-                            taskListAdapter.notifyDataSetChanged();
-
-//                            cardView.setVisibility(View.GONE);
-//                            fab.setVisibility(View.VISIBLE);
-//                            setData();
-//                            TaskInfo taskInfo = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
+//                            cardView.setVisibility(View.VISIBLE);
+//                            fab.setVisibility(View.GONE);
 //                            appInfos.clear();
-//                            appInfos.addAll(taskInfo.getAppInfos());
 //                            taskListAdapter.notifyDataSetChanged();
+
+                            cardView.setVisibility(View.GONE);
+                            fab.setVisibility(View.VISIBLE);
+                            setData();
+                            TaskInfo taskInfo = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
+                            appInfos.clear();
+                            appInfos.addAll(taskInfo.getAppInfos());
+                            taskListAdapter.notifyDataSetChanged();
                         } else {
                             cardView.setVisibility(View.GONE);
                             fab.setVisibility(View.VISIBLE);
@@ -345,7 +377,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // 判断是否开启辅助服务
-        if (!AccessibilityUtils.isAccessibilitySettingsOn(getApplicationContext())) {
+//        if (!AccessibilityUtils.isAccessibilitySettingsOn(getApplicationContext())) {
+//            Toast.makeText(getApplicationContext(), "请打开「捡豆子」的辅助服务", Toast.LENGTH_LONG).show();
+//            Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+//            startActivity(intent);
+//            return;
+//        }
+        if(!isServiceEnabled()){
             Toast.makeText(getApplicationContext(), "请打开「捡豆子」的辅助服务", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
             startActivity(intent);
@@ -355,6 +393,7 @@ public class MainActivity extends AppCompatActivity {
 //        if(!isServiceEnabled()){
             startService(new Intent(getApplicationContext(), MyAccessbilityService.class));
 //        }
+
         MyApplication.getAppInstance().startTask(appInfos);
     }
 
@@ -457,4 +496,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+
 }

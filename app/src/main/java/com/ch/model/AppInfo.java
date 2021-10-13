@@ -36,6 +36,11 @@ public class AppInfo {
      */
     private boolean isFree;
 
+    /**
+     * 适配版本
+     */
+    private String version;
+
     public String getUuid() {
         return uuid;
     }
@@ -90,5 +95,14 @@ public class AppInfo {
 
     public void setAppName(String appName) {
         this.appName = appName;
+    }
+
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

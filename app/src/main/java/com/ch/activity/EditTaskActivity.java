@@ -150,7 +150,7 @@ public class EditTaskActivity extends AppCompatActivity {
 //        testObject.put("period", appInfo.getPeriod());
 //        testObject.put("pkgName", appInfo.getPkgName());
 //        testObject.saveInBackground().blockingSubscribe();
-
+//
 //        AVObject testObject = new AVObject("task_list");
 //        AppInfo appInfo = new AppInfo();
 //        appInfo.setName("点淘App-赚金币");
@@ -176,7 +176,7 @@ public class EditTaskActivity extends AppCompatActivity {
 //        testObject1.put("period", appInfo1.getPeriod());
 //        testObject1.put("pkgName", appInfo1.getPkgName());
 //        testObject1.saveInBackground().blockingSubscribe();
-
+//
 //        AVObject testObject1 = new AVObject("task_list");
 //        AppInfo appInfo1 = new AppInfo();
 //        appInfo1.setName("爱奇艺极速版");
@@ -189,7 +189,7 @@ public class EditTaskActivity extends AppCompatActivity {
 //        testObject1.put("period", appInfo1.getPeriod());
 //        testObject1.put("pkgName", appInfo1.getPkgName());
 //        testObject1.saveInBackground().blockingSubscribe();
-
+//
 //        AVObject testObject1 = new AVObject("task_list");
 //        AppInfo appInfo1 = new AppInfo();
 //        appInfo1.setName("百度极速版");
@@ -218,7 +218,7 @@ public class EditTaskActivity extends AppCompatActivity {
     private void initAppInfo(AppInfo appInfo) {
         this.taskTypeName.setText(appInfo.getName());
         findViewById(R.id.sp).setVisibility(View.VISIBLE);
-        findViewById(R.id.periodLayout).setVisibility(View.VISIBLE);
+//        findViewById(R.id.periodLayout).setVisibility(View.VISIBLE);
         this.periodEdit.setText(String.valueOf(appInfo.getPeriod()));
         this.periodEdit.setSelection(this.periodEdit.getText().length());
 

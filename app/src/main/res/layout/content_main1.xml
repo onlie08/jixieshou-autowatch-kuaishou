@@ -148,7 +148,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:maxWidth="70dp"
-                        android:src="@drawable/ic_cards" />
+                        android:src="@drawable/icon_add" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -229,6 +229,17 @@
                 android:textSize="12sp"
                 android:visibility="visible" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginBottom="4dp"
+            android:text=""
+            android:textColor="@color/color_white"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_title"
+            app:layout_constraintStart_toEndOf="@+id/tv_title" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,14 @@
 package com.ch.core.utils;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.provider.Settings;
+
+import java.util.List;
 
 public class AccessibilityUtil {
     private final String TAG = this.getClass().getSimpleName();
@@ -34,46 +39,46 @@ public class AccessibilityUtil {
      */
     public static void goToAppMarket(Context context,String pkg) {
         try {
-            goToYingYongDownload(context,pkg);
+//            goToYingYongDownload(context,pkg);
             // 通过设备品牌获取包名
-//            String pkgName = "";
-//            String deviceBrand = android.os.Build.BRAND.toUpperCase();
-//            if ("HUAWEI".equals(deviceBrand) || "HONOR".equals(deviceBrand)) {
-//                pkgName = MARKET_PKG_NAME_HUAWEI;
-//            } else if ("OPPO".equals(deviceBrand)) {
-//                pkgName = MARKET_PKG_NAME_OPPO;
-//            } else if ("VIVO".equals(deviceBrand)) {
-//                pkgName = MARKET_PKG_NAME_VIVO;
-//            } else if ("XIAOMI".equals(deviceBrand) || "REDMI".equals(deviceBrand)) {
-//                pkgName = MARKET_PKG_NAME_MI;
-//            } else if ("MEIZU".equals(deviceBrand)) {
-//                pkgName = MARKET_PKG_NAME_MEIZU;
-//            } else {
-//                pkgName = MARKET_PKG_NAME_YINGYONGBAO;
-//            }
-//
-//            //查询符合条件的页面
-//            Uri uri = Uri.parse("market://details?id=" + pkg);
-//            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            PackageManager pm = context.getPackageManager();
-//            List<ResolveInfo> resInfo = pm.queryIntentActivities(intent, 0);
-//
-//            // 筛选指定包名的市场intent
-//            if (resInfo.size() > 0) {
-//                for (int i = 0; i < resInfo.size(); i++) {
-//                    ResolveInfo resolveInfo = resInfo.get(i);
-//                    String packageName = resolveInfo.activityInfo.packageName;
-//                    if (packageName.toLowerCase().equals(pkgName)) {
-//                        Intent intentFilterItem = new Intent(Intent.ACTION_VIEW, uri);
-//                        intentFilterItem.setComponent(new ComponentName(packageName, resolveInfo.activityInfo.name));
-//                        context.startActivity(intentFilterItem);
-//                        return;
-//                    }
-//                }
-//            }
-//            //不满足条件，那么跳转到网页版
-//            goToYingYongBaoWeb(context);
+            String pkgName = "";
+            String deviceBrand = android.os.Build.BRAND.toUpperCase();
+            if ("HUAWEI".equals(deviceBrand) || "HONOR".equals(deviceBrand)) {
+                pkgName = MARKET_PKG_NAME_HUAWEI;
+            } else if ("OPPO".equals(deviceBrand)) {
+                pkgName = MARKET_PKG_NAME_OPPO;
+            } else if ("VIVO".equals(deviceBrand)) {
+                pkgName = MARKET_PKG_NAME_VIVO;
+            } else if ("XIAOMI".equals(deviceBrand) || "REDMI".equals(deviceBrand)) {
+                pkgName = MARKET_PKG_NAME_MI;
+            } else if ("MEIZU".equals(deviceBrand)) {
+                pkgName = MARKET_PKG_NAME_MEIZU;
+            } else {
+                pkgName = MARKET_PKG_NAME_YINGYONGBAO;
+            }
+
+            //查询符合条件的页面
+            Uri uri = Uri.parse("market://details?id=" + pkg);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PackageManager pm = context.getPackageManager();
+            List<ResolveInfo> resInfo = pm.queryIntentActivities(intent, 0);
+
+            // 筛选指定包名的市场intent
+            if (resInfo.size() > 0) {
+                for (int i = 0; i < resInfo.size(); i++) {
+                    ResolveInfo resolveInfo = resInfo.get(i);
+                    String packageName = resolveInfo.activityInfo.packageName;
+                    if (packageName.toLowerCase().equals(pkgName)) {
+                        Intent intentFilterItem = new Intent(Intent.ACTION_VIEW, uri);
+                        intentFilterItem.setComponent(new ComponentName(packageName, resolveInfo.activityInfo.name));
+                        context.startActivity(intentFilterItem);
+                        return;
+                    }
+                }
+            }
+            //不满足条件，那么跳转到网页版
+            goToYingYongBaoWeb(context);
         } catch (Exception e) {
             e.printStackTrace();
             // 发生异常，跳转到应用宝网页版

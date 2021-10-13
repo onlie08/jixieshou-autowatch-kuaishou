@@ -24,12 +24,15 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.Random;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
+import static com.ch.core.utils.ActionUtils.click;
 import static com.ch.core.utils.ActionUtils.pressHome;
 
 public class AiQiYiAdvertScript extends BaseScript {
 
     private String TAG = this.getClass().getSimpleName();
 
+    private Point point_ShouYe;
+    private Point point_ZhuanQian;
     private Point point_TianXieHaoYouYaoQingMa;
     private Point point_ZhanTie;
     private Point point_LiJiKaiYun;
@@ -78,21 +81,7 @@ public class AiQiYiAdvertScript extends BaseScript {
             return;
         }
 
-        if (samePageCount > 10 && samePageCount < 13) {
-            advertDone3 = false;
-            dealNoResponse2();
-        }
 
-        if (samePageCount > 12 && samePageCount < 16) {
-            Utils.sleep(1500);
-            clickBack();
-        }
-
-        if (samePageCount > 15) {
-            dealNoResponse3();
-        }
-
-        if (clickAdvert()) return;
 
         pageId = checkPageId();
         if (pageId == lastPageId) {
@@ -101,9 +90,26 @@ public class AiQiYiAdvertScript extends BaseScript {
             samePageCount = 0;
         }
         lastPageId = pageId;
+        doSamePageDeal();
         LogUtils.d(TAG, "pageId:" + pageId + " samePageCount:" + samePageCount);
-
+        if (clickAdvert()) return;
         if (pageId == 0) {
+
+            if (point_ShouYe == null) {
+                getRecognitionResult();
+                if (point_ShouYe == null) {
+                    EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_AI_QI_YI, Constant.PAGE_MAIN));
+                }
+                return;
+            }
+
+            if (point_ZhuanQian == null) {
+                getRecognitionResult();
+                if (point_ZhuanQian == null) {
+                    EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_AI_QI_YI, Constant.PAGE_MAIN));
+                }
+                return;
+            }
 
             doPageId0Things();
 
@@ -128,11 +134,18 @@ public class AiQiYiAdvertScript extends BaseScript {
             doPageId5Things();
 
         } else {
+            if (samePageCount >= 2) {
+                scrollDown();
+                if( clickContent("刷新页面"))return;
+
+            }
             Utils.sleep(1500);
             clickBack();
         }
 
     }
+
+
 
     private void doPageId5Things() {
         if (autoInvite()) {
@@ -146,22 +159,29 @@ public class AiQiYiAdvertScript extends BaseScript {
 
 
     private void doPageId0Things() {
+        if (watchTv) {
+            watchTv = false;
+            clickXY(500, 1000);
+        }
         if (clickContent("领金币")) return;
         if (!advertDone4) {
             if (clickContent("赚金币")) {
                 Utils.sleep(1500);
-                if (clickContent("邀请好友再得")) {
+                if (clickContent("明天可再来领取哦")) {
                     advertDone4 = true;
                 }
                 return;
             }
         }
 
-        if (clickContent("开宝箱")) return;
+//        if (clickContent("开宝箱")) return;
+
+        clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
     }
 
     boolean advertDone3 = false;
     boolean advertDone4 = false;
+    boolean watchTv = false;
 
     private void doPageId1Things() {
         if (!findContent("已完成")) {
@@ -190,22 +210,6 @@ public class AiQiYiAdvertScript extends BaseScript {
             if (clickContent("1000金币轻松赚")) return;
         }
 
-//        if (!advertDone2) {
-//            if (!findContent("每日签到领大奖")) {
-//                scrollUpSlow();
-//                return;
-//            }
-//            if (findContent("立即查看")) {
-//                if (clickContent("每日签到领大奖")) {
-//                    Utils.sleep(1000);
-//                    if (clickContent("邀请好友赚28元")) {
-//                        advertDone2 = true;
-//                    }
-//                    return;
-//                }
-//
-//            }
-//        }
         if (!advertDone3) {
             if (!findContent("超级大转盘")) {
                 scrollUpSlow();
@@ -219,7 +223,10 @@ public class AiQiYiAdvertScript extends BaseScript {
             return;
         }
 
-        if (clickContent("看电视剧广告赚")) return;
+        if (clickContent("看电视剧广告赚")) {
+            watchTv = true;
+            return;
+        }
 
     }
 
@@ -241,11 +248,11 @@ public class AiQiYiAdvertScript extends BaseScript {
         }
 
         getRecognitionResult();
-        if(point_LiJiKaiYun == null){
+        if (point_LiJiKaiYun == null) {
             EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_AI_QI_YI, Constant.PAGE_ADVERT));
             return;
         }
-        clickXY(point_LiJiKaiYun.x,point_LiJiKaiYun.y);
+        clickXY(point_LiJiKaiYun.x, point_LiJiKaiYun.y);
 //        dealNoResponse3();
     }
 
@@ -277,7 +284,7 @@ public class AiQiYiAdvertScript extends BaseScript {
             return 2;
         }
 
-        if (findContent("活动规则")) {
+        if (findContent("活动规则") && findContent("金币")) {
             return 1;
         }
 
@@ -303,7 +310,7 @@ public class AiQiYiAdvertScript extends BaseScript {
         } else if (pageId == 4) {
             return 20000;
         } else {
-            return 4000;
+            return 2000;
         }
 
     }
@@ -319,12 +326,20 @@ public class AiQiYiAdvertScript extends BaseScript {
         } else if (pageId == 4) {
             return 20000;
         } else {
-            return 4000;
+            return 2000;
         }
     }
 
     @Override
     protected void getRecognitionResult() {
+        String sp_shouye = SPUtils.getInstance().getString(Constant.AIQIYI_SHOUYE, "");
+        if (!TextUtils.isEmpty(sp_shouye)) {
+            point_ShouYe = new Gson().fromJson(sp_shouye, Point.class);
+        }
+        String sp_zhuanqian = SPUtils.getInstance().getString(Constant.AIQIYI_ZHUANQIAN, "");
+        if (!TextUtils.isEmpty(sp_zhuanqian)) {
+            point_ZhuanQian = new Gson().fromJson(sp_zhuanqian, Point.class);
+        }
         String sp_tianxiehaoyouyaoqingma = SPUtils.getInstance().getString(Constant.AIQIYI_TIANXIEHAOYOUYAOQINGMA, "");
         if (!TextUtils.isEmpty(sp_tianxiehaoyouyaoqingma)) {
             point_TianXieHaoYouYaoQingMa = new Gson().fromJson(sp_tianxiehaoyouyaoqingma, Point.class);
@@ -360,12 +375,12 @@ public class AiQiYiAdvertScript extends BaseScript {
             }
 
             resumeCount++;
-            if (resumeCount > 50) {
+            if (resumeCount > 20) {
                 LogUtils.d(TAG, "自动恢复到头条极速版");
                 CrashReport.postCatchedException(new Throwable("自动恢复到头条极速版"));
                 startApp();
             }
-            if (resumeCount > 60) {
+            if (resumeCount > 30) {
                 if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 }
@@ -382,10 +397,12 @@ public class AiQiYiAdvertScript extends BaseScript {
     @Override
     public void destory() {
         if (isTargetPkg()) {
-            pressHome();
-//            clickBack();
-//            clickBack();
+            clickBack();
+            Utils.sleep(100);
+            clickBack();
+            Utils.sleep(1000);
         }
+        pressHome();
         stop = true;
     }
 
@@ -398,31 +415,14 @@ public class AiQiYiAdvertScript extends BaseScript {
         if (clickContent("知道")) return true;
         if (clickContent("继续赚金币")) return true;
         if (clickContent("去赚钱")) return true;
-        if (clickContent("允许")) return true;
+        if (clickContent("仅在使用中允许")) return true;
         if (clickContent("立即添加")) return true;
         if (clickContent("关闭")) return true;
         if (clickContent("重试")) return true;
         if (clickContent("取消")) return true;
+        if (clickContent("我的收益")) return true;
         return false;
     }
-
-
-    /**
-     * 处理返回解决不了的弹出框，而且也不能找到资源的
-     *
-     * @return
-     */
-    private boolean dealNoResponse3() {
-        int height = ScreenUtils.getScreenHeight();
-        int height1 = height / 20;
-        int width = ScreenUtils.getScreenWidth();
-        Random rand = new Random();
-        int randHeight = 20 + rand.nextInt(height1 - 20);
-        LogUtils.d(TAG, "x:" + (width / 2) + " y:" + (randHeight * 20));
-        clickXY(width / 2, randHeight * 20);
-        return false;
-    }
-
 
     /**
      * 处理不在该app时的处理，比如系统弹出框
@@ -430,13 +430,13 @@ public class AiQiYiAdvertScript extends BaseScript {
      * @return
      */
     private boolean dealNoResponse() {
-        if (clickContent("去赚钱")) return true;
+        if (clickContent("本次运行允许")) return true;
+        if (clickContent("仅在使用中允许")) return true;
+        if (clickContent("始终允许")) return true;
+        if (clickContent("禁止")) return true;
 
-        //处理返回无法消失的弹出框
-        if (clickContent("立即添加")) return true;
         if (clickContent("关闭")) return true;
         if (clickContent("重试")) return true;
-        if (clickContent("允许")) return true;
         if (clickContent("取消")) return true;
         if (clickContent("知道")) return true;
 
@@ -470,46 +470,6 @@ public class AiQiYiAdvertScript extends BaseScript {
             EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_AI_QI_YI, Constant.PAGE_INVITE));
             return false;
         }
-
-
-//        String ky1 = SPUtils.getInstance().getString("findEdit", "");/**/
-//        if (TextUtils.isEmpty(ky1)) {
-//            SPUtils.getInstance().put("invitexy", "");
-//        }
-//
-//        String ky2 = SPUtils.getInstance().getString("invitexy", "");
-//        if (!TextUtils.isEmpty(ky2)) {
-//            RecognitionBean recognitionBean = new Gson().fromJson(ky2, RecognitionBean.class);
-//            if (null != recognitionBean) {
-//                Point p0 = new Point();
-//                p0.x = (recognitionBean.getP1().x + recognitionBean.getP3().x) / 2;
-//                p0.y = (recognitionBean.getP1().y + recognitionBean.getP3().y) / 2;
-//                clickXY(p0.x, p0.y);
-//                Utils.sleep(1000);
-//
-//                clickContent("马上提交");
-//                Utils.sleep(2000);
-//                CrashReport.postCatchedException(new Throwable("爱奇艺自动填写邀请码成功"));
-//                return true;
-//
-//            }
-//        }
-//
-//        if (!TextUtils.isEmpty(ky1)) {
-//            RecognitionBean recognitionBean = new Gson().fromJson(ky1, RecognitionBean.class);
-//            if (null != recognitionBean) {
-//                Point p0 = new Point();
-//                p0.x = (recognitionBean.getP1().x + recognitionBean.getP3().x) / 2;
-//                p0.y = (recognitionBean.getP1().y + recognitionBean.getP3().y) / 2;
-//
-//                ActionUtils.longPress(p0.x, p0.y);
-//                Utils.sleep(1500);
-//                EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_AI_QI_YI,Constant.PAGE_INVITE));
-//            }
-//        } else {
-//            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_AI_QI_YI,Constant.PAGE_INVITE));
-//            return false;
-//        }
         return false;
     }
 
@@ -522,5 +482,22 @@ public class AiQiYiAdvertScript extends BaseScript {
 //        }
 //    }
 
+    @Override
+    protected void doSamePageDeal() {
+        if (samePageCount > 10 && samePageCount < 13) {
+            Utils.sleep(1500);
+            clickBack();
+        }
+
+        if (samePageCount > 12 && samePageCount < 16) {
+            advertDone3 = false;
+            dealNoResponse2();
+        }
+
+        if (samePageCount > 15) {
+            doRandomClick();
+        }
+
+    }
 }
 

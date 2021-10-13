@@ -7,7 +7,9 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
+import com.ch.core.search.node.NodeInfo;
 import com.ch.core.utils.ActionUtils;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
@@ -17,13 +19,13 @@ import com.ch.model.RecognitionBean;
 import com.ch.model.ScreenShootEvet;
 import com.google.gson.Gson;
 import com.tencent.bugly.crashreport.CrashReport;
-import com.umeng.commonsdk.debug.E;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.Random;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
+import static com.ch.core.utils.ActionUtils.click;
 import static com.ch.core.utils.ActionUtils.pressHome;
 
 /**
@@ -48,6 +50,7 @@ public class DianTaoFastScript extends BaseScript {
     private int lastPageId = -1; //上次的页面
     private int samePageCount = 0; //同一个页面停留次数
 
+    private Point point_DianTao;
     private Point point_RenWu;
     private Point point_ShuruYaoQingMa;
     private Point point_ZhanTie;
@@ -69,19 +72,6 @@ public class DianTaoFastScript extends BaseScript {
             return;
         }
 
-        if (samePageCount > 10 && samePageCount < 13) {
-            Utils.sleep(1500);
-            clickBack();
-        }
-
-        if (samePageCount > 12 && samePageCount < 16) {
-            dealNoResponse2();
-
-        }
-
-        if (samePageCount > 15) {
-            dealNoResponse3();
-        }
 
         if (doTask()) return;
 
@@ -92,9 +82,19 @@ public class DianTaoFastScript extends BaseScript {
             samePageCount = 0;
         }
         lastPageId = pageId;
+
+        doSamePageDeal();
+
         LogUtils.d(TAG, "pageId:" + pageId + " samePageCount:" + samePageCount);
 
         if (pageId == 0) {
+            if(point_DianTao == null){
+                getRecognitionResult();
+                if(point_DianTao == null){
+                    EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_DIAN_TAO,Constant.PAGE_MAIN));
+                }
+                return;
+            }
 
             doPageId0Things();
 
@@ -104,7 +104,6 @@ public class DianTaoFastScript extends BaseScript {
                 if (point_RenWu == null) {
                     EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_DIAN_TAO,Constant.PAGE_TASK));
                 }
-                CrashReport.postCatchedException(new Throwable("截图时在任务倒计时中"));
                 return;
             }
 
@@ -118,16 +117,88 @@ public class DianTaoFastScript extends BaseScript {
 
             doPageId3Things();
 
-        } else {
+        } else if(pageId == 4){
+            doPageId4Things();
+        }else if(pageId == 5){
+            doPageId5Things();
+        }else {
+            if(samePageCount >= 2){
+                clickXY(point_DianTao.x,point_DianTao.y);
+            }
             Utils.sleep(1500);
             clickBack();
-//            dealNoResponse();
         }
-//        dealNoResponse();
     }
 
-    boolean editPage = false;
+    private void doPageId1Things() {
+        if(samePageCount >= 2){
+            closeDialog();
+        }
 
+        if (!findContent("今日签到")) {
+            scrollUpSlow();
+            return;
+        }
+
+        if(clickContent("去签到")){
+            return;
+        }
+
+        if(!findContent("00:")){
+            clickXY(point_RenWu.x,point_RenWu.y);
+        }
+
+        if (!SPUtils.getInstance().getBoolean("dt_invite", false)) {
+            if (clickContent("新人填写邀请码")){
+                editPage =false;
+                return;
+            }
+        }
+
+        if (!findContent("看直播，赚元宝")) {
+            scrollUpSlow();
+            return;
+        }
+        if(!walkingDone){
+            if(!tempDone){
+                if (clickContent("去走路")){
+                    tempDone = false;
+                    return;
+                }
+            }
+        }
+
+        if(clickContent("去打工"))return;
+//        if (clickContent("看直播，赚元宝")) return;
+
+    }
+
+
+    int timeCount = 0;
+    boolean findTaskCount = false;
+    private void doPageId2Things() {
+        if(findContent("后完成")){
+            findTaskCount = true;
+            scrollUp();
+            Utils.sleep(1500);
+        }else {
+            if(findTaskCount){
+                findTaskCount = false;
+                clickBack();
+            }
+        }
+        if (findContent("6/6")) {
+            timeCount++;
+            if (timeCount > 4) {
+                if (clickId("gold_turns_container")) return;
+            }
+        } else {
+            timeCount = 0;
+        }
+    }
+
+
+    boolean editPage = false;
     private void doPageId3Things() {
         if (findContent("抱歉 你已经抽过奖了")) {
             SPUtils.getInstance().put("dt_invite", true);
@@ -153,10 +224,68 @@ public class DianTaoFastScript extends BaseScript {
 
     }
 
+    boolean tempDone = false;
+    boolean walkingDone = false;
+    private void doPageId4Things() {
+        if(findContent("今日20000步已完成")){
+            walkingDone = true;
+            clickBack();
+            return;
+        }
+        if(findContent("做任务赚步数") && !findContent("去观看")){
+            clickBack();
+            Utils.sleep(1000);
+            clickBack();
+            tempDone = true;
+            return;
+        }
+        if(clickContent("去观看"))return;
+        if(clickContent("去领步数"))return;
+
+        NodeInfo nodeInfo = findByText("领取");
+        if (nodeInfo != null) {
+            ActionUtils.click(nodeInfo.getRect().centerX(), nodeInfo.getRect().centerY()-SizeUtils.dp2px(20));
+            return;
+        }
+
+        if(clickContent("出发")){
+            Utils.sleep(1500);
+            if(clickContent("")){
+                return;
+            }
+            return;
+        }
+        scrollDown();
+
+    }
+
+//    boolean tempWorkDone = false;
+    private void doPageId5Things() {
+        if(clickContent("领取体力"))return;
+        if(clickContent("去打工赚钱")){
+            Utils.sleep(1000);
+            if(clickContent("开始打工")){
+                Utils.sleep(1000);
+                clickBack();
+                return;
+            }
+            return;
+        }
+
+        if(clickContent("赚体力")){
+            Utils.sleep(1000);
+            if(clickContent("去观看"))return;
+        }
+    }
+
     private boolean doTask() {
-        if (clickContent("继续做任务")) return true;
+        if (clickContent("继续做任务")){
+            samePageCount = 0;
+            return true;
+        }
 
         if (clickContent("去看直播赚")) return true;
+        if (clickContent("秒再得")) return true;
 
         return false;
     }
@@ -173,59 +302,33 @@ public class DianTaoFastScript extends BaseScript {
 
     private void doPageId0Things() {
 
+
         if (clickId("gold_common_image")) return;
 
-    }
-
-    private void doPageId1Things() {
-        if (!findContent("今日签到")) {
-            scrollUpSlow();
-            return;
-        }
-
-        if(!findContent("00:")){
-            clickXY(point_RenWu.x,point_RenWu.y);
-        }
-//        if (!findContent("待开奖")) {
-//            if (clickContent("今日签到")) return;
-//        }
-
-        if (!SPUtils.getInstance().getBoolean("dt_invite", false)) {
-            if (clickContent("新人填写邀请码")){
-                editPage =false;
-                return;
-            }
-        }
-
-        if (!findContent("看直播，赚元宝")) {
-            scrollUpSlow();
-            return;
-        }
-        if (clickContent("看直播，赚元宝")) return;
+        clickContent("直播");
 
     }
 
-    int timeCount = 0;
-
-    private void doPageId2Things() {
-        if (findContent("6/6")) {
-            timeCount++;
-            if (timeCount > 4) {
-                if (clickId("gold_turns_container")) return;
-            }
-        } else {
-            timeCount = 0;
-        }
+    private void closeDialog(){
+        clickContent("邀请好友 再赚");
+        clickContent("走路赚元宝 每日");
+        clickContent("立即签到");
+        clickContent("残忍退出");
     }
+
+
+
 
     private void dealNoResponse() {
-        if (clickContent("允许")) return;
-        if (clickContent("取消")) return;
-        if (clickContent("知道")) return;
-        if (clickContent("知道")) return;
-        if (clickContent("添加")) return;
-        if (clickContent("关闭")) return;
-        if (clickContent("重试")) return;
+        if (clickContent("本次运行允许")) return ;
+        if (clickContent("仅在使用中允许")) return ;
+        if (clickContent("始终允许")) return ;
+        if (clickContent("禁止")) return ;
+
+        if (clickContent("关闭")) return ;
+        if (clickContent("重试")) return ;
+        if (clickContent("取消")) return ;
+        if (clickContent("知道")) return ;
 
     }
 
@@ -236,21 +339,29 @@ public class DianTaoFastScript extends BaseScript {
      * @return //0:首页 1:个人中心  2:直播
      */
     private int checkPageId() {
-        if (findId("homepage_container") && findId("gold_common_image")) {
+//        if (findId("homepage_container") && findId("gold_common_image")) {
+        if (findId("tl_homepage2_search_entry_big")) {
             return 0;
         }
-
-        if (findContent("元宝中心") && findContent("我的成就")) {
+        if(findContent("日 获得大礼包")){
+            return 4;
+        }
+        if(findContent("去打工赚钱") || findContent("打工中")){
+            return 5;
+        }
+//        if (findContent("元宝中心") && findContent("我的成就")) {
+        if (findContent("元宝中心") ) {
             return 1;
         }
 
-        if (findId("taolive_room_watermark_text")) {
+        if (findId("taolive_room_watermark_text") || findId("gold_countdown_container")) {
             return 2;
         }
 
         if (findContent("填邀请码 赚元宝")) {
             return 3;
         }
+
 
         return -1;
     }
@@ -287,12 +398,12 @@ public class DianTaoFastScript extends BaseScript {
             }
 
             resumeCount++;
-            if (resumeCount > 50) {
+            if (resumeCount > 20) {
                 LogUtils.d(TAG, "自动恢复到点淘");
                 CrashReport.postCatchedException(new Throwable("自动恢复到点淘"));
                 startApp();
             }
-            if (resumeCount > 60) {
+            if (resumeCount > 30) {
                 if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 }
@@ -309,10 +420,13 @@ public class DianTaoFastScript extends BaseScript {
     @Override
     public void destory() {
         if (isTargetPkg()) {
-            pressHome();
-//            clickBack();
-//            clickBack();
+            clickBack();
+            Utils.sleep(100);
+            clickBack();
+            Utils.sleep(1000);
         }
+        pressHome();
+
         stop = true;
     }
 
@@ -322,30 +436,16 @@ public class DianTaoFastScript extends BaseScript {
      * @return
      */
     private boolean dealNoResponse2() {
+        if (clickId("gold_common_image")) return true;
         if (clickContent("知道")) return true;
         if (clickContent("继续赚金币")) return true;
         if (clickContent("去赚钱")) return true;
+        if (clickContent("禁止")) return true;
         if (clickContent("允许")) return true;
         if (clickContent("立即添加")) return true;
         if (clickContent("关闭")) return true;
         if (clickContent("重试")) return true;
         if (clickContent("取消")) return true;
-        return false;
-    }
-
-    /**
-     * 处理返回解决不了的弹出框，而且也不能找到资源的
-     *
-     * @return
-     */
-    private boolean dealNoResponse3() {
-        int height = ScreenUtils.getScreenHeight();
-        int height1 = height / 20;
-        int width = ScreenUtils.getScreenWidth();
-        Random rand = new Random();
-        int randHeight = 20 + rand.nextInt(height1 - 20);
-        LogUtils.d(TAG, "x:" + (width / 2) + " y:" + (randHeight * 20));
-        clickXY(width / 2, randHeight * 20);
         return false;
     }
 
@@ -379,6 +479,11 @@ public class DianTaoFastScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
+        String sp_diantao = SPUtils.getInstance().getString(Constant.DIANTAO_DIANTAO,"");
+        if(!TextUtils.isEmpty(sp_diantao)){
+            point_DianTao = new Gson().fromJson(sp_diantao,Point.class);
+        }
+
         String sp_renwu = SPUtils.getInstance().getString(Constant.DIANTAO_RENWU,"");
         if(!TextUtils.isEmpty(sp_renwu)){
             point_RenWu = new Gson().fromJson(sp_renwu,Point.class);
@@ -395,4 +500,21 @@ public class DianTaoFastScript extends BaseScript {
         }
     }
 
+    @Override
+    protected void doSamePageDeal() {
+
+        if (samePageCount > 10 && samePageCount < 13) {
+            Utils.sleep(1500);
+            clickBack();
+        }
+
+        if (samePageCount > 12 && samePageCount < 16) {
+            dealNoResponse2();
+
+        }
+
+        if (samePageCount > 15) {
+            doRandomClick();
+        }
+    }
 }

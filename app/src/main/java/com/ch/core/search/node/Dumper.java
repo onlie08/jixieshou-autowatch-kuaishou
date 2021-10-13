@@ -5,6 +5,7 @@ import android.util.Log;
 import android.util.Xml;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.utils.AccessibilityNodeInfoHelper;
 import com.ch.core.utils.Logger;
@@ -22,6 +23,7 @@ import java.util.List;
  * 控件树dump工具
  */
 public class Dumper {
+    private String TAG = this.getClass().getSimpleName();
 
     private AccessibilityNodeInfo[] roots;
 
@@ -70,12 +72,12 @@ public class Dumper {
             // 获取屏幕大小
             screenW = MyApplication.getAppInstance().getScreenWidth();
             screenH = MyApplication.getAppInstance().getScreenHeight();
-            Log.e(Utils.tag, "orginal screen width: " + screenW + "   screen height: " + screenH);
+//            LogUtils.d(TAG, "orginal screen width: " + screenW + "   screen height: " + screenH);
 
             // 初始化xml序列化器
             serializer = Xml.newSerializer();
         } catch (Exception e) {
-            Log.e(Utils.tag, e.getMessage(), e);
+            Log.e(TAG, e.getMessage(), e);
         }
     }
 
@@ -108,7 +110,7 @@ public class Dumper {
      */
     public TreeInfo dump() {
         try {
-            Logger.d("use new dumper");
+//            LogUtils.d(TAG,"use new dumper");
             long st = System.currentTimeMillis();
             StringWriter stringWriter = new StringWriter();
             serializer.setOutput(stringWriter);
@@ -119,12 +121,13 @@ public class Dumper {
                 treeInfo = new TreeInfo();
             }
             // 解析所有节点
-            Logger.d("window info roots size = " + roots.length);
+//            LogUtils.d(TAG,"window info roots size = " + roots.length);
             for (int i = 0; i < roots.length; i++) {
                 AccessibilityNodeInfo root = roots[i];
-                Logger.d(String.format("%d.dump root package: %s", i + 1, Utils.getRootPackageName(root)));
+//                LogUtils.d(TAG,String.format("%d.dump root package: %s", i + 1, Utils.getRootPackageName(root)));
                 if (root != null && Utils.isVisiableToUser(root, screenW, screenH)) {
                     dumpNodeRec(root, i, null);
+//                    LogUtils.d(TAG,String.format("%d.dump root package: %s", i + 1, Utils.getRootPackageName(root))+" SUCCESS");
                 } else {
                     Logger.e("remove root: " + root);
                 }
@@ -133,7 +136,7 @@ public class Dumper {
             // 解析WebView中的节点，可能会有多个WebView
             List<TreeNode<NodeInfo>> treeRootNodes = getWebViewTreeNodes();
             for (int i = 0; i < treeRootNodes.size(); i++) {
-                Logger.d("dump web elements: " + treeRootNodes.get(i).getData());
+//                LogUtils.d(TAG,"dump web elements: " + treeRootNodes.get(i).getData());
                 dumpWebNodeRec(treeRootNodes.get(i), i, null);
             }
 
@@ -141,10 +144,10 @@ public class Dumper {
             serializer.endDocument();
             String windowinfoStr = stringWriter.toString();
             treeInfo.setWindowinfo(windowinfoStr);
-            Logger.d("dump window tree cost: " + (System.currentTimeMillis() - st));
+//            LogUtils.d(TAG,"dump window tree cost: " + (System.currentTimeMillis() - st));
             return treeInfo;
         } catch (Exception e) {
-            Logger.d(e.getMessage(), e);
+            LogUtils.d(TAG,e.getMessage(), e);
         }
         return null;
     }
@@ -158,8 +161,10 @@ public class Dumper {
      * @throws IOException
      */
     private void dumpNodeRec(AccessibilityNodeInfo node, int index, String parentXpath) throws IOException {
+//        LogUtils.d(TAG,"dumpNodeRec()");
+//        LogUtils.e(TAG,"dumpNodeRec1");
         NodeInfo myrect = convertAccessbilityNode(node);
-
+//        LogUtils.e(TAG,"dumpNodeRec2");
         int count = node.getChildCount();
 
         myrect.setLeaf(count == 0);
@@ -175,8 +180,8 @@ public class Dumper {
         serializer.startTag("", "node");
         writeToSerializer(myrect, myXpath, index);
 
-
-        // Logger.d(Utils.tag, "node child count = " + count);
+//        LogUtils.e(TAG,"dumpNodeRec3");
+        // LogUtils.d(TAG,TAG, "node child count = " + count);
         for (int i = 0; i < count; i++) {
             AccessibilityNodeInfo child = node.getChild(i);
             if (child != null) {
@@ -191,7 +196,7 @@ public class Dumper {
                 }
             }
         }
-
+//        LogUtils.e(TAG,"dumpNodeRec4");
         serializer.endTag("", "node");
     }
 
@@ -204,6 +209,7 @@ public class Dumper {
      * @throws IOException
      */
     private void dumpWebNodeRec(TreeNode<NodeInfo> node, int index, String parentXpath) throws IOException {
+//        LogUtils.d(TAG,"dumpWebNodeRec");
         NodeInfo myrect = node.getData();
 
         int count = node.getChildren() != null ? node.getChildren().size() : 0;
@@ -229,7 +235,7 @@ public class Dumper {
         serializer.startTag("", "node");
         writeToSerializer(myrect, myXpath, index);
 
-        // Logger.d(Utils.tag, "node child count = " + count);
+        // LogUtils.d(TAG,TAG, "node child count = " + count);
         for (int i = 0; i < count; i++) {
             TreeNode<NodeInfo> child = node.getChildren().get(i);
             if (child != null) {
@@ -279,6 +285,7 @@ public class Dumper {
      * @return
      */
     private List<TreeNode<NodeInfo>> getWebViewTreeNodes() {
+//        LogUtils.d(TAG,"getWebViewTreeNodes()");
         List<TreeNode<NodeInfo>> treeNodes = new ArrayList<TreeNode<NodeInfo>>();
         for (AccessibilityNodeInfo webNode : webviewNodes) {
             List<NodeInfo> container = new ArrayList<NodeInfo>();
@@ -302,6 +309,7 @@ public class Dumper {
      * @param container
      */
     private void dumpWebViewItem(AccessibilityNodeInfo node, List<NodeInfo> container) {
+//        LogUtils.d(TAG,"dumpWebViewItem()");
         if (node != null) {
             container.add(convertAccessbilityNode(node));
             int childCount = node.getChildCount();
@@ -323,6 +331,7 @@ public class Dumper {
      * @param rect
      */
     private void addRect(NodeInfo rect) {
+//        LogUtils.d(TAG,"addRect()");
         if (treeInfo != null) {
             treeInfo.addRect(rect);
         }
@@ -335,6 +344,7 @@ public class Dumper {
      * @return
      */
     private NodeInfo convertAccessbilityNode(AccessibilityNodeInfo node) {
+//        LogUtils.d(TAG,"convertAccessbilityNode()");
         NodeInfo myrect = new NodeInfo();
 
         CharSequence packaeName = node.getPackageName() == null ? "" : node.getPackageName();
@@ -400,6 +410,7 @@ public class Dumper {
      * @return 是否添加成功
      */
     private boolean addToTree(TreeNode<NodeInfo> root, final NodeInfo nodeInfo) {
+//        LogUtils.d(TAG,"addToTree()");
         return root.addToTree(nodeInfo, new TreeNode.Detector<NodeInfo>() {
             @Override
             public TreeNode.RelationShip getRelationship(TreeNode<NodeInfo> currNode, NodeInfo newData) {

@@ -125,8 +125,8 @@ public class TaskExecutor {
                 public void run() {
                     final long st = System.currentTimeMillis();
 //                    Log.d(TAG, "st:" + st);
-                    final long allTime = taskInfo.getHours() * 60 * 60 * 1000;
-//                    final long allTime = 1 * 30 * 1000;
+//                    final long allTime = taskInfo.getHours() * 60 * 60 * 1000;
+                    final long allTime = 5 * 60 * 1000;
 
                     runOnUiThread(new Runnable() {
                         @Override

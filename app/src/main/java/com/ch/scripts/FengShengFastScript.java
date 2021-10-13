@@ -13,6 +13,8 @@ import com.ch.model.AppInfo;
 
 import java.util.Calendar;
 
+import static com.ch.core.utils.ActionUtils.pressHome;
+
 public class FengShengFastScript extends BaseScript {
     private String TAG = this.getClass().getSimpleName();
 
@@ -113,6 +115,13 @@ public class FengShengFastScript extends BaseScript {
     @Override
     public void destory() {
         clickBack();
+        Utils.sleep(100);
         clickBack();
+        Utils.sleep(1000);
+        pressHome();
+    }
+    @Override
+    protected void doSamePageDeal() {
+
     }
 }
