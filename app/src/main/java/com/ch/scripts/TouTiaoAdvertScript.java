@@ -175,7 +175,7 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     private void doPageId0Things() {
         gotoPersonCount++;
-        if (gotoPersonCount > 4) {
+        if (gotoPersonCount > 10) {
             gotoPersonCount = 0;
             clickXY(point_RenWu.x, point_RenWu.y);
             return;
@@ -199,22 +199,29 @@ public class TouTiaoAdvertScript extends BaseScript {
     int baoXiangClickCount = 0;
 
     private void doPageId1Things() {
-//        count++;
+        LogUtils.d(TAG, "doPageId1Things");
 
         if(clickContent("点击翻倍"))return;
         if(samePageCount >= 2){
-            if (clickContent("我知道了")) ;
-            if (clickContent("视频再领")) ;
-            if (clickContent("打开签到提醒"));
+            if (clickContent("视频再领")) Utils.sleep(1500);
+            if (clickContent("我知道了")) return;
+            if (clickContent("打开签到提醒"))return;
         }
-        if(samePageCount >= 4){
+        if(samePageCount >= 3){
             clickXY(point_ShouYe.x,point_ShouYe.y);
         }
-        LogUtils.d(TAG, "doPageId1Things");
+
+        clickXY(point_KaiBaoXiangDeJinBi.x, point_KaiBaoXiangDeJinBi.y);
+        Utils.sleep(2000);
 
         if (!findContent("看广告赚金币")) {
             scrollUpSlow();
-            return;
+           return;
+        }
+        if (!findContent("已完成 10/10 次")) {
+            if (findContent("领福利")) {
+                if (clickContent("看广告赚金币")) return;
+            }
         }
 
         if (clickContent("填写邀请码")) {
@@ -223,27 +230,17 @@ public class TouTiaoAdvertScript extends BaseScript {
             return;
         }
 
-        if (!findContent("已完成 10/10 次")) {
-            if (findContent("领福利")) {
-                if (clickContent("看广告赚金币")) return;
-            }
-        }
-
-        if (findContent("分") && findContent("秒")) {
-            clickXY(point_ShouYe.x, point_ShouYe.y);
-//            if (clickId("k2")) return;
-//            clickBack();
-        } else {
-            clickXY(point_KaiBaoXiangDeJinBi.x, point_KaiBaoXiangDeJinBi.y);
-        }
-
     }
 
     private void doPageId2Things() {
 //        count++;
         LogUtils.d(TAG, "doPageId2Things");
+        if (clickContent("领金币")) {
+            Utils.sleep(2000);
+            if (clickContent("视频再领")) return;
+            return;
+        }
 
-        if (clickContent("领金币")) return;
 
         scrollUp();
 
@@ -280,9 +277,6 @@ public class TouTiaoAdvertScript extends BaseScript {
      */
     private boolean clickAdvert() {
         if (clickContent("再看一个获得")) return true;
-
-//        if (clickContent("视频再领")) return true;
-
         if (clickContent("继续观看")) return true;
         if (clickContent("看视频领")) return true;
 
@@ -300,7 +294,9 @@ public class TouTiaoAdvertScript extends BaseScript {
         if (findContent("频道管理") && findContent("发布")) {
             return 0;
         }
-
+        if ((findContent("日常任务") || findContent("看广告赚金币")) && findContent("金币")) {
+            return 1;
+        }
         if (findContent("搜索") || findContent("更多操作")) {
             return 2;
         }
@@ -313,9 +309,7 @@ public class TouTiaoAdvertScript extends BaseScript {
             return 3;
         }
 
-        if ((findContent("日常任务") || findContent("看广告赚金币")) && findContent("金币")) {
-            return 1;
-        }
+
         return -1;
     }
 
@@ -405,6 +399,7 @@ public class TouTiaoAdvertScript extends BaseScript {
                 }
                 LogUtils.d(TAG, "头条极速版是不是anr了?");
                 dealNoResponse();
+                Utils.sleep(1000);
                 clickBack();
             }
             return false;
