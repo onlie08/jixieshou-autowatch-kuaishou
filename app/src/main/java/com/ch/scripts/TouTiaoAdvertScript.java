@@ -107,7 +107,6 @@ public class TouTiaoAdvertScript extends BaseScript {
                 if (point_RenWu == null) {
                     EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_TOU_TIAO, Constant.PAGE_MAIN));
                 }
-                CrashReport.postCatchedException(new Throwable("截图时在任务倒计时中"));
                 return;
             }
 
@@ -256,20 +255,6 @@ public class TouTiaoAdvertScript extends BaseScript {
     private void doPageId3Things() {
         LogUtils.d(TAG, "doPageId3Things");
         if (clickContent("继续观看")) return;
-//        boolean isAdvert = isAdverting();
-//        if (isAdvert) {
-//            adverting = isAdvert;
-//            return;
-//        }
-//        if (adverting && !isAdvert) {
-//            clickBack();
-//            adverting = isAdvert;
-//            return;
-//        }
-//
-//        clickBack();
-
-
     }
 
     /**
@@ -279,8 +264,6 @@ public class TouTiaoAdvertScript extends BaseScript {
         if (clickContent("再看一个获得")) return true;
         if (clickContent("继续观看")) return true;
         if (clickContent("看视频领")) return true;
-
-
         return false;
     }
 
@@ -290,7 +273,6 @@ public class TouTiaoAdvertScript extends BaseScript {
      * @return //0:首页 1:个人中心  2:阅读页  3:广告页
      */
     private int checkPageId() {
-//        if (findId("k2") && findContent("频道管理")&& findContent("发布")) {
         if (findContent("频道管理") && findContent("发布")) {
             return 0;
         }
@@ -322,6 +304,8 @@ public class TouTiaoAdvertScript extends BaseScript {
             return 2000;
         } else if (pageId == -1) {
             return 1000;
+        }else if (pageId == 0) {
+            return 2500;
         } else {
             return 4000;
         }
@@ -336,6 +320,8 @@ public class TouTiaoAdvertScript extends BaseScript {
             return 2000;
         } else if (pageId == -1) {
             return 1000;
+        }else if (pageId == 0) {
+            return 2500;
         } else {
             return 4000;
         }

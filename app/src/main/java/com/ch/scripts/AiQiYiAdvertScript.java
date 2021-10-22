@@ -136,7 +136,8 @@ public class AiQiYiAdvertScript extends BaseScript {
         } else {
             if (samePageCount >= 2) {
                 scrollDown();
-                if( clickContent("刷新页面"))return;
+                Utils.sleep(2000);
+                if(clickContent("刷新页面"))return;
 
             }
             Utils.sleep(1500);
@@ -159,10 +160,6 @@ public class AiQiYiAdvertScript extends BaseScript {
 
 
     private void doPageId0Things() {
-        if (watchTv) {
-            watchTv = false;
-            clickXY(500, 1000);
-        }
         if (clickContent("领金币")) return;
         if (!advertDone4) {
             if (clickContent("赚金币")) {
@@ -181,7 +178,6 @@ public class AiQiYiAdvertScript extends BaseScript {
 
     boolean advertDone3 = false;
     boolean advertDone4 = false;
-    boolean watchTv = false;
 
     private void doPageId1Things() {
         if (!findContent("已完成")) {
@@ -224,7 +220,14 @@ public class AiQiYiAdvertScript extends BaseScript {
         }
 
         if (clickContent("看电视剧广告赚")) {
-            watchTv = true;
+            Utils.sleep(1500);
+            if(clickContent("点击开始赚钱")){
+                Utils.sleep(2000);
+                clickXY(500,500);
+            }else {
+                Utils.sleep(2000);
+                clickXY(500,500);
+            }
             return;
         }
 
@@ -288,7 +291,7 @@ public class AiQiYiAdvertScript extends BaseScript {
             return 1;
         }
 
-        if (findContent("看广告赚金币")) {
+        if (findContent("看广告赚金币") || findContent("看广告赚10倍金币")) {
             return 4;
         }
         if (findContent("只支持填写数字")) {
@@ -298,18 +301,20 @@ public class AiQiYiAdvertScript extends BaseScript {
         return -1;
     }
 
-
+    //0:首页 1:个人中心  2:广告页 3：幸运大转盘 4:看广告赚金币
     @Override
     protected int getMinSleepTime() {
         if (pageId == 2) {
             return 3000;
         } else if (pageId == 1) {
-            return 4000;
+            return 2000;
         } else if (pageId == 3) {
             return 3000;
         } else if (pageId == 4) {
             return 20000;
-        } else {
+        } else if (pageId == -1) {
+            return 1000;
+        }else {
             return 2000;
         }
 
@@ -320,11 +325,13 @@ public class AiQiYiAdvertScript extends BaseScript {
         if (pageId == 2) {
             return 3000;
         } else if (pageId == 1) {
-            return 4000;
+            return 2000;
         } else if (pageId == 3) {
             return 3000;
         } else if (pageId == 4) {
             return 20000;
+        }else if (pageId == -1) {
+            return 1000;
         } else {
             return 2000;
         }
@@ -384,8 +391,9 @@ public class AiQiYiAdvertScript extends BaseScript {
                 if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 }
-                LogUtils.d(TAG, "头条极速版是不是anr了?");
+                LogUtils.d(TAG, "爱奇艺极速版是不是anr了?");
                 dealNoResponse();
+                Utils.sleep(1000);
                 clickBack();
             }
             return false;

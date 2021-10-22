@@ -1,6 +1,6 @@
-package com.cmlanche;
+package com.ch;
 
-import com.cmlanche.core.utils.Utils;
+import com.ch.core.utils.Utils;
 
 import org.junit.Test;
 

@@ -9,19 +9,19 @@
     <string name="contact">其他说明:\n1.软件开启任务时会自动保持亮屏,黑屏无法执行任务。\n2.根据提示在无障碍辅助设置中找到并开启捡豆子服务。\n3.任务软件版本需要固定,如果不匹配可以卸载手机的任务软件,然后在捡豆子点击启动时,根据提示下载固定版本。\n4.如果提示无法获取界面信息，可重启手机，或在手机-设置-无障碍-重启下捡豆子服务。\n「本软件纯娱乐不用于任何商业用途！」</string>
     <string name="tip_vip">开通会员将「永久」享受所有VIP任务，\n敬请期待更多好玩又有价值的任务！</string>
 
-    <string name="diantao_describe">第一步：下载点淘App,用户登录\n第二步：进入我的-元宝中心-下滑找到邀请码填写：LRHN7T5O\n第三步：提交成功得现金奖励！</string>
-    <string name="kuaishou_describe">第一步：下载快手极速版App,用户登录\n第二步：点击金蛋进入任务中心,下滑找到邀请码填写：446859698\n第三步：提交成功得现金奖励！</string>
-    <string name="douyin_describe">第一步：下载抖音极速版App,用户登录\n第二步：点击红包进入赚钱任务,下滑找到邀请码填写：8161779848\n第三步：提交成功得现金奖励！</string>
-    <string name="toutiao_describe">第一步：下载头条极速版App,用户登录\n第二步：进入赚钱任务,下滑找到邀请码填写：Q38842766\n第三步：提交成功得现金奖励！</string>
-    <string name="aiqiyi_describe">第一步：下载爱奇艺极速版App,用户登录\n第二步：进入赚钱任务,下滑找到邀请码填写：2883663620\n第三步：提交成功得现金奖励！</string>
-    <string name="baidu_describe">第一步：下载百度极速版App,用户登录\n第二步：进入赚钱任务,下滑找到邀请码填写：1511568276638\n第三步：提交成功得现金奖励！</string>
+    <string name="diantao_describe">第一步：根据提示下载安装点淘App\n第二步：登录点淘App\n第三步：捡豆子App启动任务(确保无障碍权限已开启)</string>
+    <string name="kuaishou_describe">第一步：根据提示下载安装快手极速版App\n第二步：登录快手极速版App\n第三步：捡豆子App启动任务(确保无障碍权限已开启)</string>
+    <string name="douyin_describe">第一步：根据提示下载安装抖音极速版App\n第二步：登录抖音极速版App\n第三步：捡豆子App启动任务(确保无障碍权限已开启)</string>
+    <string name="toutiao_describe">第一步：根据提示下载安装头条极速版App\n第二步：登录头条极速版App\n第三步：捡豆子App启动任务(确保无障碍权限已开启)</string>
+    <string name="aiqiyi_describe">第一步：根据提示下载安装爱奇艺极速版App\n第二步：登录爱奇艺极速版App\n第三步：捡豆子App启动任务(确保无障碍权限已开启)</string>
+    <string name="baidu_describe">第一步：根据提示下载安装百度极速版App\n第二步：登录百度极速版App\n第三步：捡豆子App启动任务(确保无障碍权限已开启)</string>
 
-    <string name="toutiao_detail">头条极速版任务攻略:\n1.任务推荐指数：五颗星，过新手期后预计稳定收入1到2元。\n2.新手期奖励丰厚，部分机型可通过卸载重装头条极速版app来刷新新手奖励(安装时把头条读取手机权限给禁止了)。</string>
-    <string name="douyin_detail">抖音极速版任务攻略:\n1.任务推荐指数：四颗星，过新手期后预计稳定收入1元。\n2.新手期奖励丰厚，部分机型可通过卸载重装抖音极速版app来刷新新手奖励(安装时把软件权限给禁止了)。</string>
-    <string name="kuaishou_detail">快手极速版任务攻略:\n1.任务推荐指数：三颗星，过新手期后预计稳定收入1元。\n2.新手期奖励丰厚，部分机型可通过卸载重装快手极速版app来刷新新手奖励(安装时把软件权限给禁止了)。</string>
-    <string name="diantao_detail">点淘任务攻略:\n1.任务推荐指数：五颗星，过新手期后预计稳定收入1到2元。\n2.新手期奖励丰厚，部分机型可通过卸载重装点淘app来刷新新手奖励(安装时把软件权限给禁止了)。</string>
-    <string name="aiqiyi_detail">爱奇艺极速版任务攻略:\n1.任务推荐指数：两颗星，过新手期后预计稳定收入0.5到1元。\n2.新手期奖励丰厚，部分机型可通过卸载爱奇艺极速版app来刷新新手奖励(安装时把软件权限给禁止了)。</string>
-    <string name="baidu_detail">百度极速版任务攻略:\n1.任务推荐指数：四颗星，过新手期后预计稳定收入1到2元。\n2.新手期奖励丰厚，部分机型可通过卸载重装百度极速版app来刷新新手奖励(安装时把软件权限给禁止了)。</string>
+    <string name="toutiao_detail">头条极速版任务攻略:\n1.任务推荐指数：五颗星，过新手期后预计稳定收入1到2元。\n2.推荐码:Q38842766，可加群获取如何一直刷新手任务方法。</string>
+    <string name="douyin_detail">抖音极速版任务攻略:\n1.任务推荐指数：四颗星，过新手期后预计稳定收入1元。\n2.推荐码:8161779848，可加群获取如何一直刷新手任务方法。</string>
+    <string name="kuaishou_detail">快手极速版任务攻略:\n1.任务推荐指数：三颗星，过新手期后预计稳定收入1元。\n2.推荐码:446859698，可加群获取如何一直刷新手任务方法。</string>
+    <string name="diantao_detail">点淘任务攻略:\n1.任务推荐指数：五颗星，过新手期后预计稳定收入1到2元。\n2.推荐码:LRHN7T5O，可加群获取如何一直刷新手任务方法。</string>
+    <string name="aiqiyi_detail">爱奇艺极速版任务攻略:\n1.任务推荐指数：两颗星，过新手期后预计稳定收入0.5到1元。\n2.推荐码:2883663620，可加群获取如何一直刷新手任务方法。</string>
+    <string name="baidu_detail">百度极速版任务攻略:\n1.任务推荐指数：四颗星，过新手期后预计稳定收入1到2元。\n2.推荐码:151156827638，可加群获取如何一直刷新手任务方法。</string>
 
 </resources>
 

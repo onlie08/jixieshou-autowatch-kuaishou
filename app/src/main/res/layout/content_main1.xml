@@ -38,6 +38,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tv_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginBottom="4dp"
+            android:text=""
+            android:textColor="@color/color_white"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_title"
+            app:layout_constraintStart_toEndOf="@+id/tv_title" />
+
+        <TextView
             android:id="@+id/deviceNo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -124,7 +135,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
             android:background="#fff"
-            android:visibility="visible"
+            android:visibility="gone"
             app:cardCornerRadius="8dp"
             app:cardElevation="2dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -173,6 +184,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:orientation="vertical"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/newTaskCardView">
@@ -184,7 +196,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="32dp"
                 android:background="#fff"
                 android:visibility="visible"
                 app:cardCornerRadius="8dp"
@@ -197,50 +208,190 @@
 
             </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/startBtn"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="16dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/colorPrimary"
-                android:gravity="center"
-                android:text="点我启动"
-                android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                android:textColor="#ffffff"
-                android:textSize="15sp"
-                app:cornerRadius="30dp" />
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="21dp"
-                android:gravity="bottom"
-                android:lineSpacingExtra="4sp"
-                android:text="@string/contact"
-                android:textColor="#7b7c98"
-                android:textSize="12sp"
-                android:visibility="visible" />
         </LinearLayout>
 
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/startBtn"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimary"
+            android:gravity="center"
+            android:text="点我启动"
+            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            app:cornerRadius="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/taskListLayout" />
+
         <TextView
-            android:id="@+id/tv_version"
+            android:id="@+id/tv_describe"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="bottom"
+            android:lineSpacingExtra="4sp"
+            android:text="使用说明"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/startBtn" />
+
+
+        <TextView
+            android:id="@+id/tv_describe_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginBottom="4dp"
-            android:text=""
-            android:textColor="@color/color_white"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_title"
-            app:layout_constraintStart_toEndOf="@+id/tv_title" />
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:gravity="bottom"
+            android:lineSpacingExtra="4sp"
+            android:text="1、如何打开捡豆子无障碍服务？"
+            android:textColor="#7b7c98"
+            android:textSize="12sp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_describe" />
 
+        <TextView
+            android:id="@+id/tv_describe_one_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:lineSpacingExtra="4sp"
+            android:text="查看示例操作"
+            android:textColor="@color/warning"
+            android:textSize="12sp"
+            android:visibility="visible"
+            android:background="@drawable/text_underline"
+            app:layout_constraintStart_toEndOf="@+id/tv_describe_one"
+            app:layout_constraintTop_toTopOf="@+id/tv_describe_one" />
+
+
+        <TextView
+            android:id="@+id/tv_describe_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:gravity="bottom"
+            android:lineSpacingExtra="4sp"
+            android:text="2、如果提示无法获取界面信息怎么办?"
+            android:textColor="#7b7c98"
+            android:textSize="12sp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_describe_one" />
+
+        <TextView
+            android:id="@+id/tv_describe_two_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:lineSpacingExtra="4sp"
+            android:text="查看解决办法"
+            android:textColor="@color/warning"
+            android:textSize="12sp"
+            android:visibility="visible"
+            android:background="@drawable/text_underline"
+            app:layout_constraintStart_toEndOf="@+id/tv_describe_two"
+            app:layout_constraintTop_toTopOf="@+id/tv_describe_two" />
+
+        <TextView
+            android:id="@+id/tv_describe_thire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:gravity="bottom"
+            android:lineSpacingExtra="4sp"
+            android:text="3、如何收益最大化？"
+            android:textColor="#7b7c98"
+            android:textSize="12sp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_describe_two" />
+
+        <TextView
+            android:id="@+id/tv_describe_thire_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:lineSpacingExtra="4sp"
+            android:text="查看示例操作"
+            android:textColor="@color/warning"
+            android:textSize="12sp"
+            android:visibility="visible"
+            android:background="@drawable/text_underline"
+            app:layout_constraintStart_toEndOf="@+id/tv_describe_thire"
+            app:layout_constraintTop_toTopOf="@+id/tv_describe_thire" />
+
+        <TextView
+            android:id="@+id/tv_describe_four"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:gravity="bottom"
+            android:lineSpacingExtra="4sp"
+            android:text="4、遇到问题，或了解更多极致薅法请联系？"
+            android:textColor="#7b7c98"
+            android:textSize="12sp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_describe_thire" />
+
+        <TextView
+            android:id="@+id/tv_describe_four_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:lineSpacingExtra="4sp"
+            android:text="加入捡豆子党"
+            android:textColor="@color/warning"
+            android:textSize="12sp"
+            android:visibility="visible"
+            android:background="@drawable/text_underline"
+            app:layout_constraintStart_toEndOf="@+id/tv_describe_four"
+            app:layout_constraintTop_toTopOf="@+id/tv_describe_four" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="bottom"
+            android:lineSpacingExtra="4sp"
+            android:text="@string/contact"
+            android:textColor="#7b7c98"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/startBtn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

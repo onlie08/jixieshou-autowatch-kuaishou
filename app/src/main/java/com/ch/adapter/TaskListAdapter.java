@@ -54,7 +54,7 @@ public class TaskListAdapter extends BaseAdapter {
         }
 
         AppInfo appInfo = getItem(i);
-
+        if(null ==appInfo.getPkgName())return view;
         holder.name.setText(appInfo.getName());
         if (appInfo.getPkgName().equals(Constant.PN_DOU_YIN)) {
             holder.icon.setImageResource(R.drawable.dy_fast);

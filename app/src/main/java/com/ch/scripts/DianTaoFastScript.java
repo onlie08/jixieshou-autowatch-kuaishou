@@ -155,6 +155,13 @@ public class DianTaoFastScript extends BaseScript {
             }
         }
 
+        if (!findContent("去抽奖")) {
+            scrollUpSlow();
+            Utils.sleep(2000);
+            return;
+        }
+        if(clickContent("去抽奖")) return;
+
         if (!findContent("去走路")) {
             scrollUpSlow();
             Utils.sleep(2000);
@@ -163,18 +170,14 @@ public class DianTaoFastScript extends BaseScript {
         if(!walkingDone){
             if(!tempDone){
                 if (clickContent("去走路")){
-                    tempDone = false;
                     return;
                 }
+            }else{
+                tempDone = false;
             }
         }
 
-        if (!findContent("去抽奖")) {
-            scrollUpSlow();
-//            Utils.sleep(2000);
-            return;
-        }
-        if(clickContent("去抽奖")) return;
+
 //        if (clickContent("看直播，赚元宝")) return;
 
         scrollDown();
@@ -184,6 +187,9 @@ public class DianTaoFastScript extends BaseScript {
     int timeCount = 0;
     boolean findTaskCount = false;
     private void doPageId2Things() {
+        if(samePageCount > 6){
+            if(clickContent("重新加载"))return;
+        }
         if(findContent("后完成")){
             findTaskCount = true;
             scrollUp();
@@ -238,6 +244,10 @@ public class DianTaoFastScript extends BaseScript {
      * 去走路逻辑
      */
     private void doPageId4Things() {
+        tempDone = true;
+        if(samePageCount >3 ){
+            if(clickContent("我知道了"))return;
+        }
         if(findContent("今日20000步已完成")){
             walkingDone = true;
             clickBack();
@@ -247,7 +257,6 @@ public class DianTaoFastScript extends BaseScript {
             clickBack();
             Utils.sleep(1000);
             clickBack();
-            tempDone = true;
             return;
         }
         if(clickContent("去观看"))return;
@@ -352,17 +361,18 @@ public class DianTaoFastScript extends BaseScript {
 
 
 
-    private void dealNoResponse() {
-        if (clickContent("本次运行允许")) return ;
-        if (clickContent("仅在使用中允许")) return ;
-        if (clickContent("始终允许")) return ;
-        if (clickContent("禁止")) return ;
+    private boolean dealNoResponse() {
+        if (clickContent("禁止且不再询问")) return true;
+        if (clickContent("本次运行允许")) return true;
+        if (clickContent("仅在使用中允许")) return true;
+        if (clickContent("始终允许")) return true;
+        if (clickContent("禁止")) return true;
 
-        if (clickContent("关闭")) return ;
-        if (clickContent("重试")) return ;
-        if (clickContent("取消")) return ;
-        if (clickContent("知道")) return ;
-
+        if (clickContent("关闭")) return true;
+        if (clickContent("重试")) return true;
+        if (clickContent("取消")) return true;
+        if (clickContent("知道")) return true;
+        return false;
     }
 
 
@@ -405,11 +415,35 @@ public class DianTaoFastScript extends BaseScript {
 
     @Override
     protected int getMinSleepTime() {
+        if(pageId == 1){
+            return 1500;
+        }
+        if(pageId == 4){
+            return 1500;
+        }
+        if(pageId == 6){
+            return 1500;
+        }
+        if(pageId == -1){
+            return 1000;
+        }
         return 5000;
     }
 
     @Override
     protected int getMaxSleepTime() {
+        if(pageId == 1){
+            return 1500;
+        }
+        if(pageId == 4){
+            return 1500;
+        }
+        if(pageId == 6){
+            return 1500;
+        }
+        if(pageId == -1){
+            return 1000;
+        }
         return 5000;
     }
 
@@ -445,6 +479,8 @@ public class DianTaoFastScript extends BaseScript {
                 }
                 LogUtils.d(TAG, "点淘极速版是不是anr了?");
                 dealNoResponse();
+                Utils.sleep(1000);
+
                 clickBack();
             }
             return false;

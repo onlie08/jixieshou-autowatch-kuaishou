@@ -29,7 +29,7 @@ public class BaseUtil {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 AccessibilityUtil.goToAppMarket(context,packageName);
-//                showRecommendDialog(packageName,context);
+                showRecommendDialog(packageName,context);
             }
         });
         AlertDialog dialog = builder.create();
@@ -115,11 +115,11 @@ public class BaseUtil {
 
     public static void showRecommendDialog(String packageName ,final Context context){
         if(needRecommend(packageName)){
-            showRecommendDilaog(getDescribeText(context,packageName),getRecommendCode(packageName),context);
+            showRecommendDilaog(packageName,getDescribeText(context,packageName),getRecommendCode(packageName),context);
         }
     }
 
-    public static void showRecommendDilaog(String describe,String recommendCode, Context context) {
+    public static void showRecommendDilaog(String packageName ,String describe,String recommendCode, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View inflate = LayoutInflater.from(context).inflate(R.layout.dialog_recommend, null);
         builder.setView(inflate);
@@ -130,7 +130,7 @@ public class BaseUtil {
         TextView tv_copy = inflate.findViewById(R.id.tv_copy);
         TextView tv_describe = inflate.findViewById(R.id.tv_describe);
         MaterialButton btn_recommend_code = inflate.findViewById(R.id.btn_recommend_code);
-        btn_recommend_code.setText("推荐码:"+recommendCode);
+        btn_recommend_code.setText(getAppName(packageName)+"已安装并登录");
         tv_describe.setText(describe);
         tv_copy.setOnClickListener(v -> {
             //获取剪贴板管理器：
@@ -143,12 +143,12 @@ public class BaseUtil {
         });
         btn_recommend_code.setOnClickListener(v -> {
             //获取剪贴板管理器：
-            ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            // 创建普通字符型ClipData
-            ClipData mClipData = ClipData.newPlainText("Label", recommendCode);
-            // 将ClipData内容放到系统剪贴板里。
-            cm.setPrimaryClip(mClipData);
-            Toast.makeText(context, "推荐码已复制,可粘贴填写", Toast.LENGTH_LONG).show();
+//            ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+//            // 创建普通字符型ClipData
+//            ClipData mClipData = ClipData.newPlainText("Label", recommendCode);
+//            // 将ClipData内容放到系统剪贴板里。
+//            cm.setPrimaryClip(mClipData);
+//            Toast.makeText(context, "推荐码已复制,可粘贴填写", Toast.LENGTH_LONG).show();
             dialog.dismiss();
         });
     }

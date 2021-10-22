@@ -4,7 +4,9 @@ import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,11 +49,13 @@ import com.ch.jixieshou.R;
 import com.ch.model.AppInfo;
 import com.ch.model.ScreenShootEvet;
 import com.ch.model.TaskInfo;
+import com.ch.utils.LogcatFileManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.otto.Subscribe;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,11 +67,14 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 import static com.ch.core.bus.EventType.task_finish;
+import static com.ch.core.utils.BaseUtil.showRecommendDialog;
+import static com.umeng.socialize.utils.DeviceConfigInternal.context;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
+    private LinearLayout taskListLayout;
     private CardView cardView;
     private TextView tv_version;
     private ListView taskListView;
@@ -95,14 +103,29 @@ public class MainActivity extends AppCompatActivity {
 
         initView();
         initData();
+        taskListView.setAdapter(taskListAdapter = new TaskListAdapter(this, appInfos));
 
+        try {
+            LogcatFileManager.getInstance().start(Environment.getExternalStorageDirectory().getAbsolutePath()
+                    + File.separator + "01JianDouZi" + File.separator + "logcat");
+        } catch (Exception e) {
+            LogUtils.e(TAG,e.getMessage());
+        }
 
     }
 
     private void initView() {
         tv_version = findViewById(R.id.tv_version);
         tv_version.setText("V"+AppUtils.getAppVersionName());
+        tv_version.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                playInfo();
+                SFUpdaterUtils.checkVersion(MainActivity.this);
+            }
+        });
 
+        taskListLayout = findViewById(R.id.taskListLayout);
         cardView = findViewById(R.id.newTaskCardView);
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         taskListView = findViewById(R.id.taskListView);
-        taskListView.setAdapter(taskListAdapter = new TaskListAdapter(this, appInfos));
         taskListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -130,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                showRecommendDialog(Constant.PN_DOU_YIN,MainActivity.this);
                 CommonDialogManage.getSingleton().showShareAppDilaog(MainActivity.this);
             }
         });
@@ -146,6 +169,35 @@ public class MainActivity extends AppCompatActivity {
 
         TextView textView = findViewById(R.id.deviceNo);
         textView.setText("设备号：" + EncryptUtils.encryptMD5ToString(DeviceUtils.getMacAddress()));
+
+        findViewById(R.id.tv_describe_one_info).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playInfo(1);
+            }
+        });
+
+        findViewById(R.id.tv_describe_two_info).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playInfo(2);
+            }
+        });
+
+        findViewById(R.id.tv_describe_thire_info).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playInfo(3);
+            }
+        });
+
+        findViewById(R.id.tv_describe_four_info).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playInfo(4);
+            }
+        });
+
     }
 
     private void setData() {
@@ -165,13 +217,13 @@ public class MainActivity extends AppCompatActivity {
 //        appInfo.setPkgName(Constant.PN_DOU_YIN);
 //        appInfos.add(appInfo);
 //
-//        appInfo = new AppInfo();
-//        appInfo.setAppName("今日头条极速版");
-//        appInfo.setName("今日头条极速版");
-//        appInfo.setFree(true);
-//        appInfo.setPeriod(4l);
-//        appInfo.setPkgName(Constant.PN_TOU_TIAO);
-//        appInfos.add(appInfo);
+        appInfo = new AppInfo();
+        appInfo.setAppName("今日头条极速版");
+        appInfo.setName("今日头条极速版");
+        appInfo.setFree(true);
+        appInfo.setPeriod(4l);
+        appInfo.setPkgName(Constant.PN_TOU_TIAO);
+        appInfos.add(appInfo);
 //
 //        appInfo = new AppInfo();
 //        appInfo.setAppName("快手极速版");
@@ -195,15 +247,15 @@ public class MainActivity extends AppCompatActivity {
 //        appInfo.setFree(true);
 //        appInfo.setPeriod(4l);
 //        appInfo.setPkgName(Constant.PN_AI_QI_YI);
+//        appInfos.add(appInfo);
 
-        appInfos.add(appInfo);
-        appInfo = new AppInfo();
-        appInfo.setAppName("百度极速版");
-        appInfo.setName("百度极速版");
-        appInfo.setFree(true);
-        appInfo.setPeriod(4l);
-        appInfo.setPkgName(Constant.PN_BAI_DU);
-        appInfos.add(appInfo);
+//        appInfo = new AppInfo();
+//        appInfo.setAppName("百度极速版");
+//        appInfo.setName("百度极速版");
+//        appInfo.setFree(true);
+//        appInfo.setPeriod(4l);
+//        appInfo.setPkgName(Constant.PN_BAI_DU);
+//        appInfos.add(appInfo);
 
         TaskInfo taskInfo = new TaskInfo();
         taskInfo.setAppInfos(appInfos);
@@ -224,12 +276,15 @@ public class MainActivity extends AppCompatActivity {
         TaskInfo taskInfo = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
         if (taskInfo == null || taskInfo.getAppInfos() == null || taskInfo.getAppInfos().isEmpty()) {
             cardView.setVisibility(View.VISIBLE);
+            taskListLayout.setVisibility(View.GONE);
+
             fab.setVisibility(View.GONE);
         } else {
             cardView.setVisibility(View.GONE);
+            taskListLayout.setVisibility(View.VISIBLE);
             fab.setVisibility(View.VISIBLE);
             appInfos.addAll(taskInfo.getAppInfos());
-            taskListAdapter.notifyDataSetChanged();
+//            taskListAdapter.notifyDataSetChanged();
         }
 
     }
@@ -328,6 +383,7 @@ public class MainActivity extends AppCompatActivity {
 //                            taskListAdapter.notifyDataSetChanged();
 
                             cardView.setVisibility(View.GONE);
+                            taskListLayout.setVisibility(View.VISIBLE);
                             fab.setVisibility(View.VISIBLE);
                             setData();
                             TaskInfo taskInfo = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
@@ -336,6 +392,7 @@ public class MainActivity extends AppCompatActivity {
                             taskListAdapter.notifyDataSetChanged();
                         } else {
                             cardView.setVisibility(View.GONE);
+                            taskListLayout.setVisibility(View.VISIBLE);
                             fab.setVisibility(View.VISIBLE);
                             appInfos.clear();
                             appInfos.addAll(taskInfo1.getAppInfos());
@@ -454,6 +511,7 @@ public class MainActivity extends AppCompatActivity {
     public void onMessageEvent(AddTaskEvent event) {
         LogUtils.d(TAG, "AddTaskEvent");
         cardView.setVisibility(View.GONE);
+        taskListLayout.setVisibility(View.VISIBLE);
         fab.setVisibility(View.VISIBLE);
         appInfos.add(event.getAppInfo());
         taskListAdapter.notifyDataSetChanged();
@@ -478,6 +536,7 @@ public class MainActivity extends AppCompatActivity {
         deleteAppInfo(appInfo);
         if (appInfos.isEmpty()) {
             cardView.setVisibility(View.VISIBLE);
+            taskListLayout.setVisibility(View.GONE);
             fab.setVisibility(View.GONE);
         }
         saveTaskList();
@@ -495,6 +554,28 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private void playInfo(int type){
+        Uri uri = null;
+        switch (type){
+            case 1:
+                uri = Uri.parse("https://v.kuaishouapp.com/s/ofnbLIJT");
+                break;
+            case 2:
+                uri = Uri.parse("https://v.kuaishouapp.com/s/4NIVDpUa");
+                break;
+            case 3:
+                uri = Uri.parse("https://v.kuaishouapp.com/s/49IDnusm");
+                break;
+            case 4:
+                uri = Uri.parse("https://v.kuaishouapp.com/s/kMLqIurI");
+                break;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData (uri);
+        startActivity(intent);
+
     }
 
 }

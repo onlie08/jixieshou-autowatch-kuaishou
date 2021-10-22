@@ -294,13 +294,15 @@ public class BaiDuAdvertScript extends BaseScript {
         if (pageId == 2) {
             return 2000;
         } else if (pageId == 1) {
-            return 4000;
+            return 2000;
         } else if (pageId == 3) {
             return 3000;
         } else if (pageId == 4) {
             return 2000;
         } else if (pageId == 0) {
             return 4000;
+        } else if (pageId == -1) {
+            return 1000;
         } else {
             return 3000;
         }
@@ -312,13 +314,15 @@ public class BaiDuAdvertScript extends BaseScript {
         if (pageId == 2) {
             return 2000;
         } else if (pageId == 1) {
-            return 4000;
+            return 2000;
         } else if (pageId == 3) {
             return 3000;
         } else if (pageId == 4) {
             return 2000;
         }else if (pageId == 0) {
             return 4000;
+        }else if (pageId == -1) {
+            return 1000;
         } else {
             return 3000;
         }
@@ -387,6 +391,7 @@ public class BaiDuAdvertScript extends BaseScript {
                 }
                 LogUtils.d(TAG, "头条极速版是不是anr了?");
                 dealNoResponse();
+                Utils.sleep(1000);
                 clickBack();
             }
             return false;

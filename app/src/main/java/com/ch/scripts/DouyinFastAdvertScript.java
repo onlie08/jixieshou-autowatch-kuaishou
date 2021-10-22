@@ -8,6 +8,7 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.search.node.NodeInfo;
 import com.ch.core.utils.Constant;
@@ -22,6 +23,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.Random;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
+import static com.ch.core.utils.ActionUtils.click;
 import static com.ch.core.utils.ActionUtils.pressHome;
 
 public class DouyinFastAdvertScript extends BaseScript {
@@ -159,7 +161,7 @@ public class DouyinFastAdvertScript extends BaseScript {
             clickContent("去赚钱");
         }
 
-        if(samePageCount >4){
+        if(samePageCount >3){
             clickBack();
         }
 
@@ -169,18 +171,27 @@ public class DouyinFastAdvertScript extends BaseScript {
         }
         clickContent("看广告赚金币");
         Utils.sleep(1000);
+
+        NodeInfo nodeInfo = findByText("点击领金币");
+        if(null != nodeInfo){
+            Point point = new Point(nodeInfo.getRect().centerX()+SizeUtils.dp2px(50),nodeInfo.getRect().centerY());
+            clickXY(point.x,point.y);
+            return;
+        }
         if (clickContent("点击领金币")) return;
+
         if (clickContent("开宝箱得金币")) return;
 
         if (!findContent("去逛街")) {
             scrollUpSlow();
             return;
         }
-        if(!findContent("后浏览还可得金币")){
-            if(clickContent("去逛街"))return;
+        if(!findContent("后浏览还可得金币") && !findContent("明日浏览可得金币")){
+            if(clickContent("逛街赚钱"))return;
         }
 
         scrollDown();
+
     }
 
     private void doPageId2Things() {
@@ -207,16 +218,24 @@ public class DouyinFastAdvertScript extends BaseScript {
     protected int getMinSleepTime() {
         if(pageId == 3){
             return 10000;
+        }else if (pageId == -1) {
+            return 1000;
+        }else if (pageId == 0) {
+            return 4000;
         }
-        return 3000;
+        return 2000;
     }
 
     @Override
     protected int getMaxSleepTime() {
         if(pageId == 3){
             return 10000;
+        }else if (pageId == -1) {
+            return 1000;
+        }else if (pageId == 0) {
+            return 6000;
         }
-        return 4000;
+        return 2000;
     }
 
     @Override
@@ -258,6 +277,7 @@ public class DouyinFastAdvertScript extends BaseScript {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 }
                 LogUtils.d(TAG, "抖音极速版是不是anr了?");
+                Utils.sleep(1000);
                 dealNoResponse();
             }
             return false;

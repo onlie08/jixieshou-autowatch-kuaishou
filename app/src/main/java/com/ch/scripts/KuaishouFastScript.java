@@ -190,18 +190,24 @@ public class KuaishouFastScript extends BaseScript {
     protected int getMinSleepTime() {
         if(pageId == -1){
             return 1000;
-        }else {
-            return 3000;
+        }else if(pageId == 0){
+            return 4000;
+        }else if(pageId == 1){
+            return 2000;
         }
+        return 3000;
     }
 
     @Override
     protected int getMaxSleepTime() {
         if(pageId == -1){
             return 1000;
-        }else {
-            return 4000;
+        }else if(pageId == 0){
+            return 6000;
+        }else if(pageId == 1){
+            return 2000;
         }
+        return 3000;
     }
 
 
@@ -235,6 +241,7 @@ public class KuaishouFastScript extends BaseScript {
                 startApp();
                 LogUtils.d(TAG, "快手极速版是不是anr了?");
                 dealNoResponse();
+                Utils.sleep(1000);
                 clickBack();
             }
             return false;
