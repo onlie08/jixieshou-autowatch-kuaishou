@@ -79,4 +79,33 @@ public class CommonDialogManage {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+    public void showAboutDialog(Activity context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("免责声明：");
+        builder.setMessage("软件免费试用，切仅供学习和交流，禁止用于非法用途，禁止未经同意擅自转载贩卖到其它群聊或平台，请务必在下载安装24小时后主动删除卸载此软件，" +
+                "如果继续，恶意非法使用而承受法律责任一律和作者无关。软件仅适用于学习交流和教程无障碍辅助相关知识。");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void showScreemReasonDialog(Activity context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("软件自动截图说明");
+        builder.setMessage("由于无障碍辅助服务无法获取部分控件的id和位置，需要截图然后通过图像识别技术来获取控件id和位置。识别成功后会将数据保存，下次进入便不会再截图。");
+        builder.setPositiveButton("了解了", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }

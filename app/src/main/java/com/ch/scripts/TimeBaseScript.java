@@ -17,13 +17,13 @@ import com.ch.model.AppInfo;
 
 import java.util.Random;
 
-public abstract class BaseScript implements IScript {
+public abstract class TimeBaseScript implements IScript {
     private String BASETAG = this.getClass().getSimpleName();
 
     private AppInfo appInfo;
     private long startTime;
     public boolean stop = false;
-    public BaseScript(AppInfo appInfo) {
+    public TimeBaseScript(AppInfo appInfo) {
         this.appInfo = appInfo;
     }
 
@@ -174,7 +174,7 @@ public abstract class BaseScript implements IScript {
     public boolean clickContent(String content) {
         NodeInfo nodeInfo = findByText(content);
         if (nodeInfo != null) {
-            LogUtils.dTag(BASETAG, "clickContent: "+content + " x:"+nodeInfo.getRect().centerX() + " y:"+nodeInfo.getRect().centerY());
+            LogUtils.dTag(BASETAG, "clickContent: "+content);
             ActionUtils.click(nodeInfo);
             return true;
         }

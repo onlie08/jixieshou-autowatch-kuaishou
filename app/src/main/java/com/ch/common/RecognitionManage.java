@@ -82,6 +82,9 @@ public class RecognitionManage {
             case Constant.PN_BAI_DU:
                 ClipboardUtils.copyText("151156827638");
                 break;
+            case Constant.PN_JING_DONG:
+                ClipboardUtils.copyText("ZW99VA");
+                break;
         }
     }
 
@@ -496,6 +499,41 @@ public class RecognitionManage {
                 case PAGE_ADVERT:
                     break;
             }
+            case Constant.PN_JING_DONG:
+                switch (pageId) {
+                case PAGE_MAIN:
+                    break;
+                case PAGE_TASK:
+                    Point p_zhuanjinbi = getPoint(getRecognitionBean(recognitionBeans,"赚金币"));
+                    if(null != p_zhuanjinbi){
+                        SPUtils.getInstance().put(Constant.JINGDONG_ZHUANJINBI, new Gson().toJson(p_zhuanjinbi));
+                    }
+                    break;
+                case PAGE_INVITE:
+//                    Point inviteP1 = getPoint(getRecognitionBean(recognitionBeans,"填写邀请码"));
+//                    if(null != inviteP1){
+//                        SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA1, new Gson().toJson(inviteP1));
+//                    }
+//
+//                    Point inviteP2 = getPoint(getRecognitionBean(recognitionBeans,"好友邀请码"));
+//                    if(null != inviteP2){
+//                        SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA2, new Gson().toJson(inviteP2));
+//                    }
+//
+//                    Point inviteP3 = getPoint(getRecognitionBean(recognitionBeans,"立即提交"));
+//                    if(null != inviteP3){
+//                        SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA3, new Gson().toJson(inviteP3));
+//                    }
+//
+//                    Point inviteP4 = getPoint(getRecognitionBean(recognitionBeans,"粘贴"));
+//                    if(null != inviteP4){
+//                        SPUtils.getInstance().put(Constant.BAIDU_ZHANTIE, new Gson().toJson(inviteP4));
+//                    }
+                    break;
+                case PAGE_ADVERT:
+                    break;
+            }
+
                 break;
         }
 

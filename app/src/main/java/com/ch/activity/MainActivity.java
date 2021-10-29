@@ -45,6 +45,7 @@ import com.ch.event.AddTaskEvent;
 import com.ch.event.DelectTaskEvent;
 import com.ch.event.RefreshTaskEvent;
 import com.ch.floatwindow.PermissionUtil;
+import com.ch.jixieshou.BuildConfig;
 import com.ch.jixieshou.R;
 import com.ch.model.AppInfo;
 import com.ch.model.ScreenShootEvet;
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MyApplication.getAppInstance().setMainActivity(this);
+//        MyApplication.getAppInstance().setMainActivity(this);
         EventBus.getDefault().register(this);
         permission = PerMissionManage.getSingleton().requestPermission(MainActivity.this);
         SFUpdaterUtils.checkVersion(this);
@@ -103,11 +104,14 @@ public class MainActivity extends AppCompatActivity {
 
         initView();
         initData();
+
         taskListView.setAdapter(taskListAdapter = new TaskListAdapter(this, appInfos));
 
         try {
-            LogcatFileManager.getInstance().start(Environment.getExternalStorageDirectory().getAbsolutePath()
-                    + File.separator + "01JianDouZi" + File.separator + "logcat");
+            if(BuildConfig.DEBUG){
+                LogcatFileManager.getInstance().start(Environment.getExternalStorageDirectory().getAbsolutePath()
+                        + File.separator + "01JianDouZi" + File.separator + "logcat");
+            }
         } catch (Exception e) {
             LogUtils.e(TAG,e.getMessage());
         }
@@ -194,10 +198,17 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.tv_describe_four_info).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playInfo(4);
+                playInfo(5);
             }
         });
 
+        findViewById(R.id.tv_describe_end_info).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playInfo(4);
+            }
+        });
+        CrashReport.setUserId(EncryptUtils.encryptMD5ToString(DeviceUtils.getMacAddress()));
     }
 
     private void setData() {
@@ -209,14 +220,7 @@ public class MainActivity extends AppCompatActivity {
         }
         List<AppInfo> appInfos = new ArrayList<>();
 
-        AppInfo appInfo = new AppInfo();
-//        appInfo.setAppName("抖音极速版");
-//        appInfo.setName("抖音极速版");
-//        appInfo.setFree(true);
-//        appInfo.setPeriod(4l);
-//        appInfo.setPkgName(Constant.PN_DOU_YIN);
-//        appInfos.add(appInfo);
-//
+        AppInfo appInfo;
         appInfo = new AppInfo();
         appInfo.setAppName("今日头条极速版");
         appInfo.setName("今日头条极速版");
@@ -224,38 +228,6 @@ public class MainActivity extends AppCompatActivity {
         appInfo.setPeriod(4l);
         appInfo.setPkgName(Constant.PN_TOU_TIAO);
         appInfos.add(appInfo);
-//
-//        appInfo = new AppInfo();
-//        appInfo.setAppName("快手极速版");
-//        appInfo.setName("快手极速版");
-//        appInfo.setFree(true);
-//        appInfo.setPeriod(4l);
-//        appInfo.setPkgName(Constant.PN_KUAI_SHOU);
-//
-//        appInfos.add(appInfo);
-//        appInfo = new AppInfo();
-//        appInfo.setAppName("点淘");
-//        appInfo.setName("点淘");
-//        appInfo.setFree(true);
-//        appInfo.setPeriod(4l);
-//        appInfo.setPkgName(Constant.PN_DIAN_TAO);
-//
-//        appInfos.add(appInfo);
-//        appInfo = new AppInfo();
-//        appInfo.setAppName("爱奇艺极速版");
-//        appInfo.setName("爱奇艺极速版");
-//        appInfo.setFree(true);
-//        appInfo.setPeriod(4l);
-//        appInfo.setPkgName(Constant.PN_AI_QI_YI);
-//        appInfos.add(appInfo);
-
-//        appInfo = new AppInfo();
-//        appInfo.setAppName("百度极速版");
-//        appInfo.setName("百度极速版");
-//        appInfo.setFree(true);
-//        appInfo.setPeriod(4l);
-//        appInfo.setPkgName(Constant.PN_BAI_DU);
-//        appInfos.add(appInfo);
 
         TaskInfo taskInfo = new TaskInfo();
         taskInfo.setAppInfos(appInfos);
@@ -293,8 +265,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, TaskTypeListActivity.class);
         intent.putExtra("type", 1);
-        startActivity(intent);
-    }
+    startActivity(intent);
+}
 
     private void gotoEditTaskActivity(AppInfo appInfo) {
         Intent i = new Intent(this, EditTaskActivity.class);
@@ -366,21 +338,9 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             }
                         }
-//                        Iterator<AppInfo> iterator = appInfoList.iterator();
-//                        while (iterator.hasNext()) {
-//                            if (iterator.next().getPkgName().equals(appInfo.getPkgName())) {
-//                                iterator.remove();
-//                                Log.d(TAG, "移除当前任务");
-//                            }
-//                        }
                         SPService.put(SPService.SP_TASK_LIST, taskInfo1);
 
                         if (taskInfo1 == null || taskInfo1.getAppInfos() == null || taskInfo1.getAppInfos().isEmpty()) {
-
-//                            cardView.setVisibility(View.VISIBLE);
-//                            fab.setVisibility(View.GONE);
-//                            appInfos.clear();
-//                            taskListAdapter.notifyDataSetChanged();
 
                             cardView.setVisibility(View.GONE);
                             taskListLayout.setVisibility(View.VISIBLE);
@@ -569,6 +529,9 @@ public class MainActivity extends AppCompatActivity {
                 uri = Uri.parse("https://v.kuaishouapp.com/s/49IDnusm");
                 break;
             case 4:
+                uri = Uri.parse("https://v.kuaishouapp.com/s/kMLqIurI");
+                break;
+            case 5:
                 uri = Uri.parse("https://v.kuaishouapp.com/s/kMLqIurI");
                 break;
         }

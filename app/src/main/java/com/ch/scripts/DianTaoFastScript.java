@@ -155,13 +155,6 @@ public class DianTaoFastScript extends BaseScript {
             }
         }
 
-        if (!findContent("去抽奖")) {
-            scrollUpSlow();
-            Utils.sleep(2000);
-            return;
-        }
-        if(clickContent("去抽奖")) return;
-
         if (!findContent("去走路")) {
             scrollUpSlow();
             Utils.sleep(2000);
@@ -177,7 +170,12 @@ public class DianTaoFastScript extends BaseScript {
             }
         }
 
-
+        if (!findContent("去抽奖")) {
+            scrollUpSlow();
+            Utils.sleep(2000);
+            return;
+        }
+        if(clickContent("去抽奖")) return;
 //        if (clickContent("看直播，赚元宝")) return;
 
         scrollDown();

@@ -354,7 +354,7 @@
             android:layout_marginTop="4dp"
             android:gravity="bottom"
             android:lineSpacingExtra="4sp"
-            android:text="4、遇到问题，或了解更多极致薅法请联系？"
+            android:text="4、软件为什么在截图？"
             android:textColor="#7b7c98"
             android:textSize="12sp"
             android:visibility="visible"
@@ -368,13 +368,47 @@
             android:layout_gravity="center"
             android:layout_marginStart="8dp"
             android:lineSpacingExtra="4sp"
-            android:text="加入捡豆子党"
+            android:text="查看原因"
             android:textColor="@color/warning"
             android:textSize="12sp"
             android:visibility="visible"
             android:background="@drawable/text_underline"
             app:layout_constraintStart_toEndOf="@+id/tv_describe_four"
             app:layout_constraintTop_toTopOf="@+id/tv_describe_four" />
+
+        <TextView
+            android:id="@+id/tv_describe_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="bottom"
+            android:lineSpacingExtra="4sp"
+            android:text="5、遇到问题，或了解更多极致薅法请联系？"
+            android:textColor="#7b7c98"
+            android:textSize="12sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_describe_four" />
+
+        <TextView
+            android:id="@+id/tv_describe_end_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:lineSpacingExtra="4sp"
+            android:text="加入捡豆子党"
+            android:textColor="@color/warning"
+            android:textSize="12sp"
+            android:visibility="visible"
+            android:background="@drawable/text_underline"
+            app:layout_constraintStart_toEndOf="@+id/tv_describe_end"
+            app:layout_constraintTop_toTopOf="@+id/tv_describe_end" />
+
 
         <TextView
             android:layout_width="0dp"

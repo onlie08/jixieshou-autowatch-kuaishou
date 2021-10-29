@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.AppUtils;
+import com.ch.common.PackageUtils;
 import com.ch.core.utils.Constant;
 import com.ch.jixieshou.R;
 import com.ch.model.AppInfo;
@@ -55,11 +57,12 @@ public class AppListAdapter extends BaseAdapter {
         }
         AppInfo info = getItem(position);
         holder.name.setText(info.getName());
-        if (info.isFree()) {
-            holder.free.setText("免费");
-        } else {
-            holder.free.setText("VIP");
-        }
+        holder.free.setText(getAppInstall(info.getPkgName()));
+
+//        if (info.isFree()) {
+//        } else {
+//            holder.free.setText("VIP");
+//        }
         holder.name.setText(info.getName());
         if (info.getPkgName().equals(Constant.PN_DOU_YIN)) {
             holder.icon.setImageResource(R.drawable.dy_fast);
@@ -79,6 +82,8 @@ public class AppListAdapter extends BaseAdapter {
             holder.icon.setImageResource(R.drawable.icon_aiqiyi);
         }else if (info.getPkgName().equals(Constant.PN_BAI_DU)) {
             holder.icon.setImageResource(R.drawable.icon_baidu);
+        }else if (info.getPkgName().equals(Constant.PN_JING_DONG)) {
+            holder.icon.setImageResource(R.drawable.icon_jingdong);
         }
         return convertView;
     }
@@ -88,4 +93,12 @@ public class AppListAdapter extends BaseAdapter {
         TextView name;
         TextView free;
     }
+
+    private String getAppInstall(String pkgName) {
+        if( AppUtils.isAppInstalled(pkgName)){
+            return "已安装";
+        }
+        return "未安装";
+    }
+
 }

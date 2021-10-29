@@ -13,6 +13,7 @@ import static com.ch.core.utils.Constant.PN_BAI_DU;
 import static com.ch.core.utils.Constant.PN_DIAN_TAO;
 import static com.ch.core.utils.Constant.PN_DOU_YIN;
 import static com.ch.core.utils.Constant.PN_FENG_SHENG;
+import static com.ch.core.utils.Constant.PN_JING_DONG;
 import static com.ch.core.utils.Constant.PN_KUAI_SHOU;
 import static com.ch.core.utils.Constant.PN_TOU_TIAO;
 import static com.ch.core.utils.Constant.PN_YING_KE;
@@ -27,7 +28,8 @@ public class DownLoadAppManage {
     private boolean isInstallDianTao = false;
     private boolean isInstallYingKe = false;
     private boolean isInstallBaiDu = false;
-    
+    private boolean isInstallJingDong = false;
+
     private volatile static DownLoadAppManage instance; //声明成 volatile
 
     public static DownLoadAppManage getSingleton() {
@@ -50,6 +52,7 @@ public class DownLoadAppManage {
         isInstallDianTao = BaseUtil.isInstallPackage(PN_DIAN_TAO);
         isInstallYingKe = BaseUtil.isInstallPackage(PN_YING_KE);
         isInstallBaiDu = BaseUtil.isInstallPackage(PN_BAI_DU);
+        isInstallJingDong = BaseUtil.isInstallPackage(PN_JING_DONG);
     }
     
     public boolean checkIsAppExit(Context context, List<AppInfo> appInfos){
@@ -72,6 +75,13 @@ public class DownLoadAppManage {
             if (appInfo.getPkgName().equals(Constant.PN_BAI_DU)) {
                 if (!isInstallBaiDu) {
                     BaseUtil.showDownLoadDialog(PN_BAI_DU, context);
+                    return false;
+                }
+
+            }
+            if (appInfo.getPkgName().equals(Constant.PN_JING_DONG)) {
+                if (!isInstallJingDong) {
+                    BaseUtil.showDownLoadDialog(PN_JING_DONG, context);
                     return false;
                 }
 

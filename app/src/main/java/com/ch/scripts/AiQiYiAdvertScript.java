@@ -438,10 +438,11 @@ public class AiQiYiAdvertScript extends BaseScript {
      * @return
      */
     private boolean dealNoResponse() {
+        if (clickContent("禁止")) return true;
+
         if (clickContent("本次运行允许")) return true;
         if (clickContent("仅在使用中允许")) return true;
         if (clickContent("始终允许")) return true;
-        if (clickContent("禁止")) return true;
 
         if (clickContent("关闭")) return true;
         if (clickContent("重试")) return true;

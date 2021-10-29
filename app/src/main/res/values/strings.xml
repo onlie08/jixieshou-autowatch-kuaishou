@@ -15,6 +15,7 @@
     <string name="toutiao_describe">第一步：根据提示下载安装头条极速版App\n第二步：登录头条极速版App\n第三步：捡豆子App启动任务(确保无障碍权限已开启)</string>
     <string name="aiqiyi_describe">第一步：根据提示下载安装爱奇艺极速版App\n第二步：登录爱奇艺极速版App\n第三步：捡豆子App启动任务(确保无障碍权限已开启)</string>
     <string name="baidu_describe">第一步：根据提示下载安装百度极速版App\n第二步：登录百度极速版App\n第三步：捡豆子App启动任务(确保无障碍权限已开启)</string>
+    <string name="jingdong_describe">第一步：根据提示下载安装京东极速版App\n第二步：登录京东极速版App\n第三步：捡豆子App启动任务(确保无障碍权限已开启)</string>
 
     <string name="toutiao_detail">头条极速版任务攻略:\n1.任务推荐指数：五颗星，过新手期后预计稳定收入1到2元。\n2.推荐码:Q38842766，可加群获取如何一直刷新手任务方法。</string>
     <string name="douyin_detail">抖音极速版任务攻略:\n1.任务推荐指数：四颗星，过新手期后预计稳定收入1元。\n2.推荐码:8161779848，可加群获取如何一直刷新手任务方法。</string>
@@ -22,6 +23,11 @@
     <string name="diantao_detail">点淘任务攻略:\n1.任务推荐指数：五颗星，过新手期后预计稳定收入1到2元。\n2.推荐码:LRHN7T5O，可加群获取如何一直刷新手任务方法。</string>
     <string name="aiqiyi_detail">爱奇艺极速版任务攻略:\n1.任务推荐指数：两颗星，过新手期后预计稳定收入0.5到1元。\n2.推荐码:2883663620，可加群获取如何一直刷新手任务方法。</string>
     <string name="baidu_detail">百度极速版任务攻略:\n1.任务推荐指数：四颗星，过新手期后预计稳定收入1到2元。\n2.推荐码:151156827638，可加群获取如何一直刷新手任务方法。</string>
+    <string name="jingdong_detail">京东极速版任务攻略:\n1.任务推荐指数：四颗星，过新手期后预计稳定收入1到2元。\n2.推荐码:ZW99VA，可加群获取如何一直刷新手任务方法。</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 </resources>
 

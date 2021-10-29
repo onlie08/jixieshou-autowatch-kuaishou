@@ -9,6 +9,7 @@ public class Constant {
     public static final String PN_AI_QI_YI = "com.qiyi.video.lite";// 爱奇艺极速版
     public static final String PN_BAI_DU = "com.baidu.searchbox.lite";// 百度极速版
     public static final String PN_DIAN_TAO = "com.taobao.live";// 点淘
+    public static final String PN_JING_DONG = "com.jd.jdlite";// 京东极速版
 
     public static final String PN_FENG_SHENG = "com.sfexpress.sfim";// 丰声打卡
 
@@ -96,5 +97,10 @@ public class Constant {
     public static final String BAIDU_TIANXIEYAOQINGMA2 = "BAIDU_TIANXIEYAOQINGMA2";
     public static final String BAIDU_TIANXIEYAOQINGMA3 = "BAIDU_TIANXIEYAOQINGMA3";
     public static final String BAIDU_ZHANTIE = "BAIDU_ZHANTIE";
+
+    /**
+     * 百度图像识别内容
+     */
+    public static final String JINGDONG_ZHUANJINBI = "JINGDONG_ZHUANJINBI";
 
 }

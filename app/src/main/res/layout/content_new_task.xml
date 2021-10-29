@@ -59,13 +59,13 @@
 
                         <LinearLayout
                             android:id="@+id/sp"
-                            android:visibility="gone"
                             android:layout_width="match_parent"
+                            android:layout_height="1dp"
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
                             android:background="#e5e5ea"
                             android:orientation="vertical"
-                            android:layout_height="1dp" />
+                            android:visibility="gone" />
 
                         <include
                             android:visibility="gone"

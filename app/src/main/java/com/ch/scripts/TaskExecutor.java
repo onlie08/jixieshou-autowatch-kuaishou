@@ -52,17 +52,6 @@ public class TaskExecutor {
         LogUtils.d(TAG, "startTask:" + new Gson().toJson(taskInfo));
         this.taskInfo = taskInfo;
         this.initStartFlags();
-//        if(currentScript != null && scriptThread != null ){
-//            LogUtils.d(TAG,"currentScript != null");
-//            currentScript.destory();
-//            currentScript = null;
-//
-//            scriptThread.interrupt();
-//            scriptThread = null;
-//
-//            monitorThread.interrupt();
-//            monitorThread = null;
-//        }
         if (scriptThread == null) {
             LogUtils.d(TAG, "scriptThread == null");
             scriptThread = new Thread(new Runnable() {
@@ -98,6 +87,9 @@ public class TaskExecutor {
                                 break;
                             case Constant.PN_BAI_DU:
                                 script = BaiDuAdvertScript.getSingleton(info);
+                                break;
+                            case Constant.PN_JING_DONG:
+                                script = JingDongAdvertScript.getSingleton(info);
                                 break;
                         }
                         if (script != null) {

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.blankj.utilcode.util.LogUtils;
 import com.ch.activity.MainActivity;
 import com.ch.activity.EditTaskActivity;
+import com.ch.activity.MainActivity2;
 import com.ch.activity.TaskTypeListActivity;
 import com.ch.common.PackageUtils;
 import com.ch.common.SPService;
@@ -66,7 +67,7 @@ public class MyApplication extends Application {
     private int screenHeight;
     private boolean isVip = false;
     private View floatView;
-    private MainActivity mainActivity;
+    private MainActivity2 mainActivity;
     private boolean isFirstConnectAccessbilityService = false;
     private boolean isStarted = false;
 
@@ -87,6 +88,8 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Logger.setDebug(true);
+//        XUI.init(this); //初始化UI框架
+//        XUI.debug(true);  //开启UI框架调试日志
         CrashReport.initCrashReport(getApplicationContext(), "8aa7474c90", BuildConfig.DEBUG);
         initUmeng();
         initLeancloud();
@@ -252,11 +255,11 @@ public class MyApplication extends Application {
         isVip = vip;
     }
 
-    public MainActivity getMainActivity() {
+    public MainActivity2 getMainActivity() {
         return mainActivity;
     }
 
-    public void setMainActivity(MainActivity mainActivity) {
+    public void setMainActivity(MainActivity2 mainActivity) {
         this.mainActivity = mainActivity;
     }
 

@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.StringUtil;
@@ -140,11 +141,11 @@ public class EditTaskActivity extends AppCompatActivity {
 
 //        AVObject testObject = new AVObject("task_list");
 //        AppInfo appInfo = new AppInfo();
-//        appInfo.setName("今日头条极速版-看视频");
-//        appInfo.setAppName("今日头条极速版App");
+//        appInfo.setName("京东极速版");
+//        appInfo.setAppName("京东头条极速版App");
 //        appInfo.setFree(true);
 //        appInfo.setPeriod(4l);
-//        appInfo.setPkgName(Constant.PN_TOU_TIAO);
+//        appInfo.setPkgName(Constant.PN_JING_DONG);
 //        testObject.put("name", appInfo.getName());
 //        testObject.put("isFree", appInfo.isFree());
 //        testObject.put("period", appInfo.getPeriod());
@@ -241,6 +242,9 @@ public class EditTaskActivity extends AppCompatActivity {
             case Constant.PN_BAI_DU:
                 tv_detail.setText(getResources().getText(R.string.baidu_detail));
                 break;
+            case Constant.PN_JING_DONG:
+                tv_detail.setText(getResources().getText(R.string.jingdong_detail));
+                break;
         }
     }
 
@@ -255,5 +259,12 @@ public class EditTaskActivity extends AppCompatActivity {
         LogUtils.d(TAG, "onMessageEvent");
         appInfo = event.getAppInfo();
         this.initAppInfo(appInfo);
+    }
+
+    private String getAppInstall(String pkgName) {
+        if( AppUtils.isAppInstalled(pkgName)){
+            return "已安装";
+        }
+        return "未安装";
     }
 }

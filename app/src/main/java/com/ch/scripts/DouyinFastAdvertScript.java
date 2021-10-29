@@ -120,6 +120,10 @@ public class DouyinFastAdvertScript extends BaseScript {
 
             doPageId3Things();
 
+        }else if (pageId == 4) {
+            Utils.sleep(30000);
+
+
         } else {
             clickBack();
         }
@@ -162,14 +166,15 @@ public class DouyinFastAdvertScript extends BaseScript {
         }
 
         if(samePageCount >3){
-            clickBack();
+            doRandomClick();
         }
+//        if(clickContent("开宝箱得金币"))Utils.sleep(2000);
 
-        if (!findContent("看广告赚金币")) {
+        if (!findContent("看广告")) {
             scrollUpSlow();
             return;
         }
-        clickContent("看广告赚金币");
+        clickContent("看广告");
         Utils.sleep(1000);
 
         NodeInfo nodeInfo = findByText("点击领金币");
@@ -178,7 +183,7 @@ public class DouyinFastAdvertScript extends BaseScript {
             clickXY(point.x,point.y);
             return;
         }
-        if (clickContent("点击领金币")) return;
+//        if (clickContent("点击领金币")) return;
 
         if (clickContent("开宝箱得金币")) return;
 
@@ -186,6 +191,7 @@ public class DouyinFastAdvertScript extends BaseScript {
             scrollUpSlow();
             return;
         }
+//        if(clickContent("逛街赚钱"))return;
         if(!findContent("后浏览还可得金币") && !findContent("明日浏览可得金币")){
             if(clickContent("逛街赚钱"))return;
         }
@@ -336,6 +342,9 @@ public class DouyinFastAdvertScript extends BaseScript {
      * @return //0:首页 1:个人中心  2:阅读页  3:广告页
      */
     private int checkPageId() {
+        if(findContent("跳过广告") && findContent("点击跳转至第三方页面")){
+            return 4;
+        }
 
         if (findContent("开宝箱得金币") ||findContent("现金收益") ||findContent("看广告赚金币") || findContent("看视频，赚金币")|| findContent("免费看小说赚金币")) {
             return 1;
