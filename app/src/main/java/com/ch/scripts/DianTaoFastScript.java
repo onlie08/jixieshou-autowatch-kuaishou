@@ -2,6 +2,7 @@ package com.ch.scripts;
 
 import android.graphics.Point;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
@@ -10,8 +11,10 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.search.node.NodeInfo;
+import com.ch.core.service.MyAccessbilityService;
 import com.ch.core.utils.ActionUtils;
 import com.ch.core.utils.Constant;
+import com.ch.core.utils.Logger;
 import com.ch.core.utils.Utils;
 import com.ch.jixieshou.BuildConfig;
 import com.ch.model.AppInfo;
@@ -380,6 +383,8 @@ public class DianTaoFastScript extends BaseScript {
      * @return //0:首页 1:个人中心  2:直播
      */
     private int checkPageId() {
+//        LogUtils.d(TAG,"curPageEvent:"+MyAccessbilityService.curPageEvent.getClassName());
+
 //        if (findId("homepage_container") && findId("gold_common_image")) {
         if (findId("tl_homepage2_search_entry_big")) {
             return 0;
@@ -466,12 +471,12 @@ public class DianTaoFastScript extends BaseScript {
             }
 
             resumeCount++;
-            if (resumeCount > 20) {
+            if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到点淘");
                 CrashReport.postCatchedException(new Throwable("自动恢复到点淘"));
                 startApp();
             }
-            if (resumeCount > 30) {
+            if (resumeCount > 10) {
                 if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 }
@@ -524,6 +529,9 @@ public class DianTaoFastScript extends BaseScript {
 
     private boolean autoInvite() {
         //[50,718][1150,838]
+        if(true){
+            return true;
+        }
         getRecognitionResult();
         if(null == point_ShuruYaoQingMa){
             SPUtils.getInstance().put(Constant.DIANTAO_ZHANTIE, "");

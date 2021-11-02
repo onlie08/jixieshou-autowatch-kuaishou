@@ -63,8 +63,8 @@ public class MyApplication extends Application {
     private static final String TAG = "MyApplication";
     public static MyAccessbilityService accessbilityService;
     protected static MyApplication appInstance;
-    private int screenWidth;
-    private int screenHeight;
+    private static int screenWidth;
+    private static int screenHeight;
     private boolean isVip = false;
     private View floatView;
     private MainActivity2 mainActivity;
@@ -239,7 +239,7 @@ public class MyApplication extends Application {
         return accessbilityService != null;
     }
 
-    public int getScreenWidth() {
+    public static int getScreenWidth() {
         return screenWidth;
     }
 

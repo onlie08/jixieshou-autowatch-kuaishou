@@ -164,3 +164,5 @@
 
 -keep class com.cmlanche.core.service.MyAccessbilityService {*;}
 -keep class com.cmlanche.application.MyApplication {*;}
+
+-keep class com.xuexiang.xui.widget.edittext.materialedittext.** { *; }

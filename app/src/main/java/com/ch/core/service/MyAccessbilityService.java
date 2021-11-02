@@ -3,6 +3,7 @@ package com.ch.core.service;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.ActivityManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -37,10 +39,28 @@ public class MyAccessbilityService extends AccessibilityService {
     private int noRootCount = 0;
     private static final int maxNoRootCount = 3;
     private boolean isWork = false;
+//    public static AccessibilityEvent curPageEvent;
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-//        Logger.d("MyAccessbilityService event: " + event);
+        final int eventType = event.getEventType();
+        if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
+            List<CharSequence> texts = event.getText();
+            for (CharSequence text : texts)
+            {
+                String content = text.toString();
+                if (!TextUtils.isEmpty(content))
+                {
+                    //判断是否含有[微信红包]字样
+                    if (content.contains("[微信红包]"))
+                    {
+                        //如果有则打开微信红包页面
+                        openWeChatPage(event);
+                    }
+                }
+            }
+        }
+        Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
     }
 
     @Override
@@ -176,5 +196,24 @@ public class MyAccessbilityService extends AccessibilityService {
     }
 
 
+    /**
+     * 开启红包所在的聊天页面
+     */
+    private void openWeChatPage(AccessibilityEvent event)
+    {
+        if (event.getParcelableData() != null && event.getParcelableData() instanceof Notification)
+        {
+            Notification notification = (Notification) event.getParcelableData();
 
+            //打开对应的聊天界面
+            PendingIntent pendingIntent = notification.contentIntent;
+            try
+            {
+                pendingIntent.send();
+            } catch (PendingIntent.CanceledException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
 }

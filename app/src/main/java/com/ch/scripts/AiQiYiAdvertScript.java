@@ -7,6 +7,7 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.search.node.NodeInfo;
 import com.ch.core.utils.ActionUtils;
@@ -138,6 +139,7 @@ public class AiQiYiAdvertScript extends BaseScript {
                 scrollDown();
                 Utils.sleep(2000);
                 if(clickContent("刷新页面"))return;
+                if(clickContent("人最高赚"))return;
 
             }
             Utils.sleep(1500);
@@ -164,8 +166,9 @@ public class AiQiYiAdvertScript extends BaseScript {
         if (!advertDone4) {
             if (clickContent("赚金币")) {
                 Utils.sleep(1500);
-                if (clickContent("明天可再来领取哦")) {
+                if (findContent("明天可再来领取哦")) {
                     advertDone4 = true;
+                    if(clickContent("人最高赚"))return;
                 }
                 return;
             }
@@ -176,6 +179,7 @@ public class AiQiYiAdvertScript extends BaseScript {
         clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
     }
 
+    boolean advertDone1 = false;
     boolean advertDone3 = false;
     boolean advertDone4 = false;
 
@@ -189,36 +193,43 @@ public class AiQiYiAdvertScript extends BaseScript {
             }
         }
 
-
+        if (samePageCount >= 4) {
+            scrollDown();
+            Utils.sleep(1500);
+        }
         LogUtils.d(TAG, "doPageId1Things");
 
         if (!findContent("明日可领")) {
             if (clickContent("开宝箱领金币")) return;
-            return;
         }
 
+//        if (!advertDone3) {
+//            if (!findContent("幸运大转盘")) {
+//                scrollUpSlow();
+//                return;
+//            }
+//            if (clickContent("幸运大转盘")) return;
+//        }
 
-        if (!findContent("1000金币轻松赚")) {
-            scrollUpSlow();
-            return;
-        }
-        if (!findContent("今日进度10/10")) {
-            if (clickContent("1000金币轻松赚")) return;
-        }
-
-        if (!advertDone3) {
-            if (!findContent("超级大转盘")) {
+        if(!advertDone1){
+            if (!findContent("1000金币轻松赚")) {
                 scrollUpSlow();
                 return;
             }
-            if (clickContent("超级大转盘")) return;
+            if (!findContent("今日进度10/10")) {
+                if (clickContent("1000金币轻松赚")) return;
+            }else {
+                scrollDown();
+                advertDone1 = true;
+                return;
+            }
         }
+
 
         if (!findContent("看电视剧广告赚")) {
             scrollUpSlow();
             return;
         }
-
         if (clickContent("看电视剧广告赚")) {
             Utils.sleep(1500);
             if(clickContent("点击开始赚钱")){
@@ -231,6 +242,7 @@ public class AiQiYiAdvertScript extends BaseScript {
             return;
         }
 
+        scrollDown();
     }
 
     private void doPageId2Things() {
@@ -256,6 +268,11 @@ public class AiQiYiAdvertScript extends BaseScript {
             return;
         }
         clickXY(point_LiJiKaiYun.x, point_LiJiKaiYun.y);
+        Utils.sleep(1500);
+        if(findContent("恭喜到账")){
+            NodeInfo nodeInfo = findByText("恭喜到账");
+            clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()+SizeUtils.dp2px(120));
+        }
 //        dealNoResponse3();
     }
 
@@ -279,14 +296,14 @@ public class AiQiYiAdvertScript extends BaseScript {
             return 0;
         }
 
-        if (findContent("幸运大转盘")) {
-            return 3;
-        }
+
 
         if (findContent("s后可领取奖励")) {
             return 2;
         }
-
+//        if (findContent("幸运大转盘") && findContent("恭喜")) {
+//            return 3;
+//        }
         if (findContent("活动规则") && findContent("金币")) {
             return 1;
         }
@@ -382,12 +399,12 @@ public class AiQiYiAdvertScript extends BaseScript {
             }
 
             resumeCount++;
-            if (resumeCount > 20) {
+            if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到头条极速版");
                 CrashReport.postCatchedException(new Throwable("自动恢复到头条极速版"));
                 startApp();
             }
-            if (resumeCount > 30) {
+            if (resumeCount > 10) {
                 if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 }
@@ -455,6 +472,9 @@ public class AiQiYiAdvertScript extends BaseScript {
     }
 
     private boolean autoInvite() {
+        if(true){
+            return true;
+        }
         //[50,718][1150,838]
         getRecognitionResult();
         if (null == point_TianXieHaoYouYaoQingMa) {

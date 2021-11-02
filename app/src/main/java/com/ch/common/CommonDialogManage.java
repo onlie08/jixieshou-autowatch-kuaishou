@@ -1,24 +1,18 @@
 package com.ch.common;
 
-import android.accessibilityservice.AccessibilityService;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.accessibility.AccessibilityEvent;
 import android.widget.Toast;
 
-import com.ch.core.service.MyAccessbilityService;
 import com.ch.jixieshou.R;
 
 import com.google.android.material.button.MaterialButton;
-
-import static com.ch.application.MyApplication.accessbilityService;
 
 public class CommonDialogManage {
     private String TAG = this.getClass().getSimpleName();
@@ -64,13 +58,6 @@ public class CommonDialogManage {
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                if(null != accessbilityService){
-//                    accessbilityService.onInterrupt();
-//                    accessbilityService.onBind(new Intent(context, MyAccessbilityService.class));
-//                    accessbilityService.stopSelf();
-//                    accessbilityService.onDestroy();
-//                }
-
                 context.finish();
                 System.exit(0);
                 Toast.makeText(context, "退出捡豆子", Toast.LENGTH_LONG).show();
@@ -83,8 +70,21 @@ public class CommonDialogManage {
     public void showAboutDialog(Activity context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("免责声明：");
-        builder.setMessage("软件免费试用，切仅供学习和交流，禁止用于非法用途，禁止未经同意擅自转载贩卖到其它群聊或平台，请务必在下载安装24小时后主动删除卸载此软件，" +
-                "如果继续，恶意非法使用而承受法律责任一律和作者无关。软件仅适用于学习交流和教程无障碍辅助相关知识。");
+        builder.setMessage("软件免费试用，切仅供学习和交流，禁止用于非法用途，禁止未经同意擅自转载贩卖到其它群聊或平台，" +
+                "恶意非法使用而承受法律责任一律和作者无关。软件仅适用于学习交流和教程无障碍辅助相关知识。");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    public void showAboutDialog1(Activity context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("关于捡豆子助手");
+        builder.setMessage("每个任务是个自动化脚本,例如能自动刷广告视频获得金币,自动签到抢红包等,过程无需人为干预，多个任务时会按顺序自动逐个执行。该软件非常适合有闲置手机的童靴，每天可稳定刷5到10元钱。");
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -100,6 +100,20 @@ public class CommonDialogManage {
         builder.setTitle("软件自动截图说明");
         builder.setMessage("由于无障碍辅助服务无法获取部分控件的id和位置，需要截图然后通过图像识别技术来获取控件id和位置。识别成功后会将数据保存，下次进入便不会再截图。");
         builder.setPositiveButton("了解了", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void showUninstallQQDialog(Activity context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("本机未安装QQ应用");
+        builder.setMessage("问题反馈交流可搜索加入QQ群：849944602");
+        builder.setPositiveButton("知道了", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

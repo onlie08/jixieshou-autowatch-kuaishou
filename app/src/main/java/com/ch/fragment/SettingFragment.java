@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.ch.activity.HelpDocumentActivity;
 import com.ch.common.CommonDialogManage;
 import com.ch.common.PackageUtils;
 import com.ch.core.utils.SFUpdaterUtils;
@@ -51,44 +52,23 @@ public class SettingFragment extends Fragment {
     }
 
     private void initView(View view) {
-        view.findViewById(R.id.btn_join).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PackageUtils.openQQ(getActivity());
-            }
+        view.findViewById(R.id.btn_join).setOnClickListener(view1 -> PackageUtils.openQQ(getActivity()));
+        view.findViewById(R.id.btn_clear_data).setOnClickListener(view12 -> {
+            SPUtils.getInstance().clear();
+            ToastUtils.showLong("本地缓存已清除成功");
         });
-        view.findViewById(R.id.btn_clear_data).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SPUtils.getInstance().clear();
-                ToastUtils.showLong("本地缓存已清除成功");
-            }
+        view.findViewById(R.id.btn_feedback).setOnClickListener(view13 -> {
+            ToastUtils.showLong("可加入群聊反馈遇到的问题");
+            PackageUtils.openQQ(getActivity());
         });
-        view.findViewById(R.id.btn_feedback).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ToastUtils.showLong("可加入群聊反馈遇到的问题");
-                PackageUtils.openQQ(getActivity());
-            }
-        });
-        view.findViewById(R.id.btn_about).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CommonDialogManage.getSingleton().showAboutDialog(getActivity());
-            }
-        });
-        view.findViewById(R.id.btn_exit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.exit(0);
-            }
-        });
-        view.findViewById(R.id.btn_update).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                SFUpdaterUtils.checkVersion(getActivity());
-                SFUpdaterUtils.setOnVersionCheckListener(getActivity());
-            }
+        view.findViewById(R.id.btn_about).setOnClickListener(view14 -> CommonDialogManage.getSingleton().showAboutDialog1(getActivity()));
+        view.findViewById(R.id.btn_warming).setOnClickListener(view15 -> CommonDialogManage.getSingleton().showAboutDialog(getActivity()));
+        view.findViewById(R.id.btn_exit).setOnClickListener(view16 -> System.exit(0));
+        view.findViewById(R.id.btn_update).setOnClickListener(view17 -> SFUpdaterUtils.setOnVersionCheckListener(getActivity()));
+        view.findViewById(R.id.btn_help).setOnClickListener(view18 -> {
+            Intent intent = new Intent();
+            intent.setClass(getContext(),HelpDocumentActivity.class);
+            getActivity().startActivity(intent);
         });
     }
     private void initData() {

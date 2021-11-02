@@ -10,6 +10,7 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.search.node.NodeInfo;
+import com.ch.core.service.MyAccessbilityService;
 import com.ch.core.utils.ActionUtils;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
@@ -193,12 +194,15 @@ public class BaiDuAdvertScript extends BaseScript {
         if(clickContent("立即收下"))return;
         if(clickContent("开宝箱得金币"))return;
 
-        if(!findContent("去完成")){
+        if(!findContent("看广告赚钱")){
             scrollUpSlow();
             return;
-        }
-        if(!findContent("已完成")){
-            if(clickContent("去完成"))return;
+        }else {
+            if(!findContent("已完成")){
+                NodeInfo nodeInfo = findByText("看广告赚钱");
+                clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(70),nodeInfo.getRect().centerY());
+                return;
+            }
         }
 
         clickXY(point_ShouYe.x,point_ShouYe.y);
@@ -380,12 +384,12 @@ public class BaiDuAdvertScript extends BaseScript {
             }
 
             resumeCount++;
-            if (resumeCount > 20) {
+            if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到头条极速版");
                 CrashReport.postCatchedException(new Throwable("自动恢复到头条极速版"));
                 startApp();
             }
-            if (resumeCount > 30) {
+            if (resumeCount > 10) {
                 if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 }
@@ -454,6 +458,9 @@ public class BaiDuAdvertScript extends BaseScript {
     }
 
     private boolean autoInvite() {
+        if(true){
+            return true;
+        }
         //[50,718][1150,838]
         getRecognitionResult();
 

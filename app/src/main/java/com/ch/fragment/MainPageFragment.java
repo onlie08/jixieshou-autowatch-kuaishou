@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.ch.activity.EditTaskActivity;
 import com.ch.activity.MainActivity2;
 import com.ch.activity.TaskTypeListActivity;
@@ -40,6 +41,7 @@ import com.ch.floatwindow.PermissionUtil;
 import com.ch.jixieshou.R;
 import com.ch.model.AppInfo;
 import com.ch.model.TaskInfo;
+import com.ch.scripts.WeiXinScript;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -67,6 +69,7 @@ public class MainPageFragment extends Fragment {
     private CardView listCardView;
     private CardView f_view;
     private RecyclerView taskListView;
+    private TextView tv_wx_statue;
     private TextView tv_add_task;
     private TextView tv_acceess_enable;
     private TaskListAdapter1 taskListAdapter1;
@@ -149,6 +152,30 @@ public class MainPageFragment extends Fragment {
                 playInfo(7);
             }
         });
+        view.findViewById(R.id.f_view3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(f_view.getVisibility() == View.VISIBLE){
+                    gotoAccessSetting();
+                    return;
+                }
+                if(tv_wx_statue.getText().equals("未开启")){
+                    tv_wx_statue.setText("已开启");
+                    startWeiXinTask();
+                }else {
+                    tv_wx_statue.setText("未开启");
+                    stopWeiXinTask();
+                }
+
+            }
+        });
+        view.findViewById(R.id.f_view4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToastUtils.showLong("程序员在薅头发加速开发中。。。");
+            }
+        });
+        tv_wx_statue = view.findViewById(R.id.tv_wx_statue);
         f_view = view.findViewById(R.id.f_view);
         f_view.setOnClickListener(view1 -> gotoAccessSetting());
 
@@ -173,6 +200,29 @@ public class MainPageFragment extends Fragment {
                 startTask();
             }
         });
+    }
+
+    private void startWeiXinTask(){
+        new Thread(() -> {
+            AppInfo appInfo = new AppInfo();
+            appInfo.setPkgName(Constant.PN_WEI_XIN);
+            appInfo.setAppName("微信抢红包");
+            appInfo.setName("微信抢红包");
+            WeiXinScript.getSingleton(appInfo).stop = false;
+            WeiXinScript.getSingleton(appInfo).execute();
+        }).start();
+
+    }
+
+    private void stopWeiXinTask(){
+//        new Thread(() -> {
+            AppInfo appInfo = new AppInfo();
+            appInfo.setPkgName(Constant.PN_WEI_XIN);
+            appInfo.setAppName("微信抢红包");
+            appInfo.setName("微信抢红包");
+            WeiXinScript.getSingleton(appInfo).stop = true;
+//        }).start();
+
     }
 
     private void startTask() {

@@ -3,8 +3,7 @@ package com.ch.activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.ch.adapter.FragmentAdapter;
@@ -12,7 +11,6 @@ import com.ch.application.MyApplication;
 import com.ch.common.CommonDialogManage;
 import com.ch.common.PerMissionManage;
 import com.ch.common.RecognitionManage;
-import com.ch.core.utils.AccessibilityUtils;
 import com.ch.core.utils.FragmentNavigator;
 import com.ch.core.utils.SFUpdaterUtils;
 import com.ch.core.utils.Utils;
@@ -28,8 +26,8 @@ import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -44,26 +42,23 @@ public class MainActivity2 extends AppCompatActivity {
     private String TAG = this.getClass().getSimpleName();
 
     private BottomNavigationView navigation;
+    private TextView tv_version;
     private List<Fragment> fragments;
     private FragmentNavigator mNavigator;
     boolean permission = false;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    setCurrentTab(0);
-                    return true;
-                case R.id.navigation_dashboard:
-                    setCurrentTab(1);
-                    return true;
-            }
-            return false;
-        }
-    };
+            = item -> {
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        setCurrentTab(0);
+                        return true;
+                    case R.id.navigation_dashboard:
+                        setCurrentTab(1);
+                        return true;
+                }
+                return false;
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +75,9 @@ public class MainActivity2 extends AppCompatActivity {
         fragments.add(MainPageFragment.newInstance());
         fragments.add(SettingFragment.newInstance());
 
-        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        tv_version = findViewById(R.id.tv_version);
+        tv_version.setText("捡豆子助手V"+AppUtils.getAppVersionName());
+        navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         mNavigator = new FragmentNavigator(getSupportFragmentManager(), new FragmentAdapter(fragments), R.id.container);

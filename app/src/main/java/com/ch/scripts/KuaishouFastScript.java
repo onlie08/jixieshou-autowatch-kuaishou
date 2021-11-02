@@ -229,12 +229,12 @@ public class KuaishouFastScript extends BaseScript {
                 return false;
             }
             resumeCount++;
-            if (resumeCount > 20) {
+            if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到快手极速版");
                 CrashReport.postCatchedException(new Throwable("自动恢复到快手极速版"));
                 startApp();
             }
-            if (resumeCount > 30) {
+            if (resumeCount > 10) {
                 if(BuildConfig.DEBUG){
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 }
@@ -326,6 +326,10 @@ public class KuaishouFastScript extends BaseScript {
 
 
     private boolean autoInvite() {
+
+        if(true){
+            return true;
+        }
         getRecognitionResult();
 //        ClipboardUtils.copyText("446859698");
         if(null == point_XiangHaoYouXunWenYaoQingMa){

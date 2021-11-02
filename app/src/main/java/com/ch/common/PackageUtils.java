@@ -1,5 +1,6 @@
 package com.ch.common;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -88,6 +89,7 @@ public class PackageUtils {
         if (checkApkExist(context, "com.tencent.mobileqq")) {
             joinQQGroup(context,"fAcXwqcQ8uknhkD7pV7bpJIwNrZb6ZSC");
         } else {
+            CommonDialogManage.getSingleton().showUninstallQQDialog((Activity) context);
             ToastUtils.showLong("本机未安装QQ应用");
         }
     }

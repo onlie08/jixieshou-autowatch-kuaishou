@@ -374,12 +374,12 @@ public class TouTiaoAdvertScript extends BaseScript {
             }
 
             resumeCount++;
-            if (resumeCount > 20) {
+            if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到头条极速版");
                 CrashReport.postCatchedException(new Throwable("自动恢复到头条极速版"));
                 startApp();
             }
-            if (resumeCount > 30) {
+            if (resumeCount > 10) {
                 if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 }
@@ -452,6 +452,9 @@ public class TouTiaoAdvertScript extends BaseScript {
     }
 
     private boolean autoInvite() {
+        if(true){
+            return true;
+        }
         getRecognitionResult();
         if (null == point_ShuRuHaoYouYaoQingMa) {
             SPUtils.getInstance().put(Constant.TOUTIAO_ZHANTIE, "");
