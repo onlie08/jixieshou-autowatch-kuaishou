@@ -16,6 +16,7 @@ public class Constant {
     public static final String PN_YING_KE = "com.ingkee.lite";// 映客直播极速版
     public static final String PN_WEI_XIN = "com.tencent.mm";// 微信
     public static final String PN_QQ = "com.tencent.mm";// QQ
+    public static final String PN_MEI_TIAN_ZHUAN_DIAN = "com.yongloveru.hjw";// QQ
 
     public static String KUAISHOU_SWICH  = "KS_AutoScan";
     public static int AUTO_TYPE_SCAN  = 1;//自动浏览

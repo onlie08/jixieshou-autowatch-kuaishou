@@ -53,6 +53,8 @@ public class BaseUtil {
             needRecommend = true;
         }else if(packageName.equals(Constant.PN_JING_DONG)){
             needRecommend = true;
+        }else if(packageName.equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
+            needRecommend = true;
         }
         return needRecommend;
     }
@@ -73,6 +75,8 @@ public class BaseUtil {
             describeText = context.getResources().getString(R.string.baidu_describe);
         }else if(packageName.equals(Constant.PN_JING_DONG)){
             describeText = context.getResources().getString(R.string.jingdong_describe);
+        }else if(packageName.equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
+            describeText = context.getResources().getString(R.string.meitianzhuandian_describe);
         }
         return describeText;
     }
@@ -93,6 +97,8 @@ public class BaseUtil {
             recommendCode = "Q38842766";
         }else if(packageName.equals(Constant.PN_JING_DONG)){
             recommendCode = "ZW99VA";
+        }else if(packageName.equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
+            recommendCode = "17619698";
         }
 //        else if(packageName.equals(Constant.PN_YING_KE)){
 //            recommendCode = "";
@@ -118,6 +124,8 @@ public class BaseUtil {
             recommendCode = "京东极速版";
         }else if(packageName.equals(Constant.PN_TOU_TIAO)){
             recommendCode = "今日头条极速版";
+        }else if(packageName.equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
+            recommendCode = "每天赚点";
         }
         return recommendCode;
     }

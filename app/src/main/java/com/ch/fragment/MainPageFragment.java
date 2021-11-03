@@ -305,13 +305,22 @@ public class MainPageFragment extends Fragment {
         }
         List<AppInfo> appInfos = new ArrayList<>();
 
+//        AppInfo appInfo;
+//        appInfo = new AppInfo();
+//        appInfo.setAppName("今日头条极速版");
+//        appInfo.setName("今日头条极速版");
+//        appInfo.setFree(true);
+//        appInfo.setPeriod(4l);
+//        appInfo.setPkgName(Constant.PN_TOU_TIAO);
+//        appInfos.add(appInfo);
+
         AppInfo appInfo;
         appInfo = new AppInfo();
-        appInfo.setAppName("今日头条极速版");
-        appInfo.setName("今日头条极速版");
+        appInfo.setAppName("每日赚点");
+        appInfo.setName("每日赚点");
         appInfo.setFree(true);
         appInfo.setPeriod(4l);
-        appInfo.setPkgName(Constant.PN_TOU_TIAO);
+        appInfo.setPkgName(Constant.PN_MEI_TIAN_ZHUAN_DIAN);
         appInfos.add(appInfo);
 
         TaskInfo taskInfo = new TaskInfo();

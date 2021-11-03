@@ -125,6 +125,10 @@ public class AccessibilityUtil {
                 case Constant.PN_BAI_DU:
                     url = "https://marm-core.sf-express.com/app-download/74dd96faca5d426d898912b7ac3b6248";
                     break;
+                case Constant.PN_MEI_TIAN_ZHUAN_DIAN:
+                    //todo 上链接
+                    url = "https://marm-core.sf-express.com/app-download/74dd96faca5d426d898912b7ac3b6248";
+                    break;
             }
             Uri uri = Uri.parse(url);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);

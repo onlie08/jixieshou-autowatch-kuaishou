@@ -85,6 +85,9 @@ public class RecognitionManage {
             case Constant.PN_JING_DONG:
                 ClipboardUtils.copyText("ZW99VA");
                 break;
+            case Constant.PN_MEI_TIAN_ZHUAN_DIAN:
+                ClipboardUtils.copyText("17619698");
+                break;
         }
     }
 

@@ -329,6 +329,7 @@ public class DianTaoFastScript extends BaseScript {
 
         if (clickContent("去看直播赚")) return true;
         if (clickContent("秒再得")) return true;
+        if (clickContent("秒直播再得")) return true;
 
         return false;
     }

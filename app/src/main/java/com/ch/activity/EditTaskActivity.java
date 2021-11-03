@@ -16,6 +16,7 @@ import com.ch.event.EditTaskEvent;
 import com.ch.event.RefreshTaskEvent;
 import com.ch.jixieshou.R;
 import com.ch.model.AppInfo;
+import com.ch.model.RecommendBean;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -139,6 +140,30 @@ public class EditTaskActivity extends AppCompatActivity {
             sureBtn.setText("更新");
         }
 
+//        AVObject testObject = new AVObject("recommend_list");
+//        RecommendBean recommendBean = new RecommendBean();
+//        recommendBean.setRecommendUser("13720282090");
+//        recommendBean.setCode_aiqiyi("2883663620");
+//        recommendBean.setCode_baidu("151156827638");
+//        recommendBean.setCode_diantao("LRHN7T5O");
+//        recommendBean.setCode_douyin("8161779848");
+//        recommendBean.setCode_kuaishou("446859698");
+//        recommendBean.setCode_toutiao("Q38842766");
+//        recommendBean.setCode_meituan("");
+//        recommendBean.setCode_eleme("");
+//
+//        testObject.put("recommendUser", recommendBean.getRecommendUser());
+//        testObject.put("code_aiqiyi", recommendBean.getCode_aiqiyi());
+//        testObject.put("code_baidu", recommendBean.getCode_baidu());
+//        testObject.put("code_diantao", recommendBean.getCode_diantao());
+//        testObject.put("code_douyin", recommendBean.getCode_douyin());
+//        testObject.put("code_kuaishou", recommendBean.getCode_kuaishou());
+//        testObject.put("code_toutiao", recommendBean.getCode_toutiao());
+//        testObject.put("code_meituan", recommendBean.getCode_meituan());
+//        testObject.put("code_eleme", recommendBean.getCode_eleme());
+//        testObject.saveInBackground().blockingSubscribe();
+
+
 //        AVObject testObject = new AVObject("task_list");
 //        AppInfo appInfo = new AppInfo();
 //        appInfo.setName("京东极速版");
@@ -244,6 +269,9 @@ public class EditTaskActivity extends AppCompatActivity {
                 break;
             case Constant.PN_JING_DONG:
                 tv_detail.setText(getResources().getText(R.string.jingdong_detail));
+                break;
+            case Constant.PN_MEI_TIAN_ZHUAN_DIAN:
+                tv_detail.setText(getResources().getText(R.string.meitianzhuandian_detail));
                 break;
         }
     }
