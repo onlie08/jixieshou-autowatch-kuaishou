@@ -9,12 +9,12 @@
     <TextView
         android:id="@+id/tv_version"
         android:layout_width="wrap_content"
-        android:layout_height="68dp"
+        android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:gravity="center"
         android:text="捡豆子助手V3.6"
         android:textColor="@color/color_white"
-        android:textSize="22sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

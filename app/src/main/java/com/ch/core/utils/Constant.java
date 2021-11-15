@@ -10,13 +10,19 @@ public class Constant {
     public static final String PN_BAI_DU = "com.baidu.searchbox.lite";// 百度极速版
     public static final String PN_DIAN_TAO = "com.taobao.live";// 点淘
     public static final String PN_JING_DONG = "com.jd.jdlite";// 京东极速版
+    public static final String PN_MEI_TIAN_ZHUAN_DIAN = "com.yongloveru.hjw";// 每天赚点
+    public static final String PN_XIAO_HONG_SHU = "com.xingin.xhs";// 小红书
+    public static final String PN_TAO_BAO = "com.taobao.taobao";// 淘宝
+    public static final String PN_HUO_SHAN = "com.ss.android.ugc.live";// 抖音火山
+
+    public static final String PN_WEI_XIN = "com.tencent.mm";// 微信
+    public static final String PN_QQ = "com.tencent.mm";// QQ
+
 
     public static final String PN_FENG_SHENG = "com.sfexpress.sfim";// 丰声打卡
 
     public static final String PN_YING_KE = "com.ingkee.lite";// 映客直播极速版
-    public static final String PN_WEI_XIN = "com.tencent.mm";// 微信
-    public static final String PN_QQ = "com.tencent.mm";// QQ
-    public static final String PN_MEI_TIAN_ZHUAN_DIAN = "com.yongloveru.hjw";// QQ
+
 
     public static String KUAISHOU_SWICH  = "KS_AutoScan";
     public static int AUTO_TYPE_SCAN  = 1;//自动浏览

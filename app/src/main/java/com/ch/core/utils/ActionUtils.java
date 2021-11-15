@@ -131,4 +131,12 @@ public class ActionUtils {
         int toY = margin;
         new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
     }
+
+    public static void zuohua(){
+        int x = MyApplication.getAppInstance().getScreenWidth()  - 150;
+        int margin = 100+ (int)(Math.random()*100);
+        int fromY = MyApplication.getAppInstance().getScreenHeight()/2;
+        int toX = 200;
+        new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(toX, fromY)).get().execute();
+    }
 }

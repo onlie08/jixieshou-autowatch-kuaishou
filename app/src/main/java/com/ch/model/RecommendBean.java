@@ -4,26 +4,44 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class RecommendBean implements Parcelable {
-    private String recommendUser;
+    private String recommendCode;
     private String code_toutiao;
     private String code_douyin;
     private String code_kuaishou;
     private String code_diantao;
     private String code_baidu;
     private String code_aiqiyi;
+    private String code_meitianzhuandian;
     private String code_meituan;
     private String code_eleme;
+    private String code_huoshan;
 
-    public String getRecommendUser() {
-        return recommendUser;
+    public String getRecommendCode() {
+        return recommendCode;
     }
 
-    public void setRecommendUser(String recommendUser) {
-        this.recommendUser = recommendUser;
+    public void setRecommendCode(String recommendCode) {
+        this.recommendCode = recommendCode;
+    }
+
+    public String getCode_meitianzhuandian() {
+        return code_meitianzhuandian;
+    }
+
+    public void setCode_meitianzhuandian(String code_meitianzhuandian) {
+        this.code_meitianzhuandian = code_meitianzhuandian;
     }
 
     public String getCode_toutiao() {
         return code_toutiao;
+    }
+
+    public String getCode_huoshan() {
+        return code_huoshan;
+    }
+
+    public void setCode_huoshan(String code_huoshan) {
+        this.code_huoshan = code_huoshan;
     }
 
     public void setCode_toutiao(String code_toutiao) {
@@ -86,6 +104,9 @@ public class RecommendBean implements Parcelable {
         this.code_eleme = code_eleme;
     }
 
+    public RecommendBean() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -93,33 +114,34 @@ public class RecommendBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.recommendUser);
+        dest.writeString(this.recommendCode);
         dest.writeString(this.code_toutiao);
         dest.writeString(this.code_douyin);
         dest.writeString(this.code_kuaishou);
         dest.writeString(this.code_diantao);
         dest.writeString(this.code_baidu);
         dest.writeString(this.code_aiqiyi);
+        dest.writeString(this.code_meitianzhuandian);
         dest.writeString(this.code_meituan);
         dest.writeString(this.code_eleme);
-    }
-
-    public RecommendBean() {
+        dest.writeString(this.code_huoshan);
     }
 
     protected RecommendBean(Parcel in) {
-        this.recommendUser = in.readString();
+        this.recommendCode = in.readString();
         this.code_toutiao = in.readString();
         this.code_douyin = in.readString();
         this.code_kuaishou = in.readString();
         this.code_diantao = in.readString();
         this.code_baidu = in.readString();
         this.code_aiqiyi = in.readString();
+        this.code_meitianzhuandian = in.readString();
         this.code_meituan = in.readString();
         this.code_eleme = in.readString();
+        this.code_huoshan = in.readString();
     }
 
-    public static final Parcelable.Creator<RecommendBean> CREATOR = new Parcelable.Creator<RecommendBean>() {
+    public static final Creator<RecommendBean> CREATOR = new Creator<RecommendBean>() {
         @Override
         public RecommendBean createFromParcel(Parcel source) {
             return new RecommendBean(source);

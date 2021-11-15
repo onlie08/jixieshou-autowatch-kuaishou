@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/tv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:drawableLeft="@drawable/back_light"
+            android:gravity="center"
+            android:text="邀请码设置"
+            android:textColor="@color/color_white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="提交"
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:textColor="@color/color_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraint_top">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:id="@+id/tv_indo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="功能介绍:\n1.输入手机号即是您的邀请码。(必填)\n2.好友填写您的邀请码后，会尝试自动填写您设置的各个任务APP邀请码，有丰厚的收益。\n提示:\n1.各任务app的邀请码为非必填项，需您在各个App里面查询后填写，可随时更新。"
+                android:textColor="@color/color_text"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_input_jinritoutiao" />
+
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:drawableLeft="@drawable/icon_need"
+                android:gravity="center_vertical"
+                android:text="生成邀请码："
+                android:textColor="@color/color_text"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_input_yaoqingma"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_input_yaoqingma" />
+
+            <EditText
+                android:id="@+id/edit_input_yaoqingma"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="输入手机号生成您的邀请码"
+                android:inputType="textPersonName"
+                android:paddingLeft="16dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView25"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="每天赚点："
+                android:textColor="@color/color_text"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_input_meitianzhuandian"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_input_meitianzhuandian" />
+
+            <EditText
+                android:id="@+id/edit_input_meitianzhuandian"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/shape_input_bg"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="请输入你的邀请码"
+                android:inputType="textPersonName"
+                android:paddingLeft="16dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/edit_input_jinritoutiao"
+                app:layout_constraintTop_toBottomOf="@+id/edit_input_yaoqingma" />
+
+
+
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="抖音极速版："
+                android:textColor="@color/color_text"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_input_douyin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_input_douyin" />
+
+            <EditText
+                android:id="@+id/edit_input_douyin"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/shape_input_bg"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="请输入你的邀请码"
+                android:inputType="textPersonName"
+                android:paddingLeft="16dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/edit_input_jinritoutiao"
+                app:layout_constraintTop_toBottomOf="@+id/edit_input_meitianzhuandian" />
+
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="快手极速版："
+                android:textColor="@color/color_text"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_input_kuaishou"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_input_kuaishou" />
+
+            <EditText
+                android:id="@+id/edit_input_kuaishou"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/shape_input_bg"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="请输入你的邀请码"
+                android:inputType="textPersonName"
+                android:paddingLeft="16dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/edit_input_jinritoutiao"
+                app:layout_constraintTop_toBottomOf="@+id/edit_input_douyin" />
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="点淘极速版："
+                android:textColor="@color/color_text"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_input_diantao"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_input_diantao" />
+
+            <EditText
+                android:id="@+id/edit_input_diantao"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/shape_input_bg"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="请输入你的邀请码"
+                android:inputType="textPersonName"
+                android:paddingLeft="16dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/edit_input_jinritoutiao"
+                app:layout_constraintTop_toBottomOf="@+id/edit_input_kuaishou" />
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="百度极速版："
+                android:textColor="@color/color_text"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_input_baidu"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_input_baidu" />
+
+            <EditText
+                android:id="@+id/edit_input_baidu"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/shape_input_bg"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="请输入你的邀请码"
+                android:inputType="textPersonName"
+                android:paddingLeft="16dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/edit_input_jinritoutiao"
+                app:layout_constraintTop_toBottomOf="@+id/edit_input_diantao" />
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="爱奇艺极速版："
+                android:textColor="@color/color_text"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_input_aiqiyi"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_input_aiqiyi" />
+
+            <EditText
+                android:id="@+id/edit_input_aiqiyi"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/shape_input_bg"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="请输入你的邀请码"
+                android:inputType="textPersonName"
+                android:paddingLeft="16dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/edit_input_jinritoutiao"
+                app:layout_constraintTop_toBottomOf="@+id/edit_input_baidu" />
+
+            <TextView
+                android:id="@+id/textView19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="今日头条极速版："
+                android:textColor="@color/color_text"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_input_jinritoutiao"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_input_jinritoutiao" />
+
+            <EditText
+                android:id="@+id/edit_input_jinritoutiao"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/shape_input_bg"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="请输入你的邀请码"
+                android:inputType="textPersonName"
+                android:paddingLeft="16dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView19"
+                app:layout_constraintTop_toBottomOf="@+id/edit_input_aiqiyi" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

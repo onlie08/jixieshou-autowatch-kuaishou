@@ -8,11 +8,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ch.jixieshou.R;
 
 import com.google.android.material.button.MaterialButton;
+
+import androidx.fragment.app.FragmentActivity;
 
 public class CommonDialogManage {
     private String TAG = this.getClass().getSimpleName();
@@ -121,5 +124,19 @@ public class CommonDialogManage {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void showRecommendDialog(FragmentActivity context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View inflate = LayoutInflater.from(context).inflate(R.layout.dialog_input_recommend, null);
+        builder.setView(inflate);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        EditText edit_input = inflate.findViewById(R.id.edit_input);
+        MaterialButton btn_send = inflate.findViewById(R.id.btn_send);
+        btn_send.setOnClickListener(v -> {
+            dialog.dismiss();
+            RecommendCodeManage.getSingleton().getRecommendBean(edit_input.getText().toString());
+        });
     }
 }

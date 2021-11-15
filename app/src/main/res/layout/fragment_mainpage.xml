@@ -65,99 +65,99 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/f_view1"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="1dp"
-            app:layout_constraintEnd_toStartOf="@+id/f_view2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/f_view">
+        <!--<androidx.cardview.widget.CardView-->
+            <!--android:id="@+id/f_view1"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="80dp"-->
+            <!--android:layout_marginStart="12dp"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:layout_marginEnd="8dp"-->
+            <!--android:clickable="true"-->
+            <!--android:foreground="?android:attr/selectableItemBackground"-->
+            <!--app:cardCornerRadius="4dp"-->
+            <!--app:cardElevation="1dp"-->
+            <!--app:layout_constraintEnd_toStartOf="@+id/f_view2"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/f_view">-->
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <!--<androidx.constraintlayout.widget.ConstraintLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="16dp"
-                    android:src="@drawable/meituan"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="领美团\n外卖优惠券"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#FEC21F"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imageView"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/f_view2"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="12dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/f_view1"
-            app:layout_constraintTop_toBottomOf="@+id/f_view">
+                <!--<ImageView-->
+                    <!--android:id="@+id/imageView"-->
+                    <!--android:layout_width="48dp"-->
+                    <!--android:layout_height="48dp"-->
+                    <!--android:layout_marginStart="16dp"-->
+                    <!--android:src="@drawable/meituan"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--app:layout_constraintStart_toStartOf="parent"-->
+                    <!--app:layout_constraintTop_toTopOf="parent" />-->
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                <!--<TextView-->
+                    <!--android:id="@+id/textView4"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="领美团\n外卖优惠券"-->
+                    <!--android:textSize="16sp"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:textColor="#FEC21F"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--app:layout_constraintStart_toEndOf="@+id/imageView"-->
+                    <!--app:layout_constraintTop_toTopOf="parent" />-->
+            <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 
-                <ImageView
-                    android:id="@+id/img_eleme"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="16dp"
-                    android:src="@drawable/eleme"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        <!--</androidx.cardview.widget.CardView>-->
+
+        <!--<androidx.cardview.widget.CardView-->
+            <!--android:id="@+id/f_view2"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="80dp"-->
+            <!--android:layout_marginStart="8dp"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:layout_marginEnd="12dp"-->
+            <!--android:clickable="true"-->
+            <!--android:foreground="?android:attr/selectableItemBackground"-->
+            <!--app:cardCornerRadius="4dp"-->
+            <!--app:cardElevation="1dp"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintStart_toEndOf="@+id/f_view1"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/f_view">-->
 
 
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="领饿了么\n外卖优惠券"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#1682E6"
-                    app:layout_constraintStart_toEndOf="@+id/img_eleme"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <!--<androidx.constraintlayout.widget.ConstraintLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
 
-        </androidx.cardview.widget.CardView>
+                <!--<ImageView-->
+                    <!--android:id="@+id/img_eleme"-->
+                    <!--android:layout_width="48dp"-->
+                    <!--android:layout_height="48dp"-->
+                    <!--android:layout_marginStart="16dp"-->
+                    <!--android:src="@drawable/eleme"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--app:layout_constraintStart_toStartOf="parent"-->
+                    <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+
+                <!--<TextView-->
+                    <!--android:id="@+id/textView5"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="领饿了么\n外卖优惠券"-->
+                    <!--android:textSize="16sp"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:textColor="#1682E6"-->
+                    <!--app:layout_constraintStart_toEndOf="@+id/img_eleme"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--app:layout_constraintTop_toTopOf="parent" />-->
+            <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+        <!--</androidx.cardview.widget.CardView>-->
 
 
         <androidx.cardview.widget.CardView
@@ -173,7 +173,7 @@
             app:cardElevation="1dp"
             app:layout_constraintEnd_toStartOf="@+id/f_view4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/f_view1">
+            app:layout_constraintTop_toBottomOf="@+id/f_view">
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -232,7 +232,7 @@
             app:cardElevation="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/f_view3"
-            app:layout_constraintTop_toBottomOf="@+id/f_view1">
+            app:layout_constraintTop_toBottomOf="@+id/f_view">
 
 
             <androidx.constraintlayout.widget.ConstraintLayout

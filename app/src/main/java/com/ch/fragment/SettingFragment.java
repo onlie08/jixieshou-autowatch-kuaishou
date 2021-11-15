@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.ch.activity.HelpDocumentActivity;
+import com.ch.activity.SetRecommendCodeActivity;
 import com.ch.common.CommonDialogManage;
 import com.ch.common.PackageUtils;
 import com.ch.core.utils.SFUpdaterUtils;
@@ -70,6 +71,16 @@ public class SettingFragment extends Fragment {
             intent.setClass(getContext(),HelpDocumentActivity.class);
             getActivity().startActivity(intent);
         });
+        view.findViewById(R.id.btn_recommend).setOnClickListener(view16 -> {
+            CommonDialogManage.getSingleton().showRecommendDialog(getActivity());
+        });
+        view.findViewById(R.id.btn_set_code).setOnClickListener(view16 -> {
+            Intent intent = new Intent();
+            intent.setClass(getActivity(),SetRecommendCodeActivity.class);
+            startActivity(intent);
+        });
+
+
     }
     private void initData() {
     }

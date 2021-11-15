@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.ch.application.MyApplication;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.StringUtil;
 import com.ch.event.DelectTaskEvent;
@@ -166,11 +167,11 @@ public class EditTaskActivity extends AppCompatActivity {
 
 //        AVObject testObject = new AVObject("task_list");
 //        AppInfo appInfo = new AppInfo();
-//        appInfo.setName("京东极速版");
-//        appInfo.setAppName("京东头条极速版App");
+//        appInfo.setName("每天赚点");
+//        appInfo.setAppName("每天赚点");
 //        appInfo.setFree(true);
 //        appInfo.setPeriod(4l);
-//        appInfo.setPkgName(Constant.PN_JING_DONG);
+//        appInfo.setPkgName(Constant.PN_MEI_TIAN_ZHUAN_DIAN);
 //        testObject.put("name", appInfo.getName());
 //        testObject.put("isFree", appInfo.isFree());
 //        testObject.put("period", appInfo.getPeriod());
@@ -250,28 +251,38 @@ public class EditTaskActivity extends AppCompatActivity {
 
         switch (appInfo.getPkgName()){
             case Constant.PN_TOU_TIAO:
-                tv_detail.setText(getResources().getText(R.string.toutiao_detail));
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.toutiao_detail)),MyApplication.recommendBean.getCode_toutiao()));
                 break;
             case Constant.PN_DOU_YIN:
-                tv_detail.setText(getResources().getText(R.string.douyin_detail));
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.douyin_detail)),MyApplication.recommendBean.getCode_douyin()));
+
                 break;
             case Constant.PN_KUAI_SHOU:
-                tv_detail.setText(getResources().getText(R.string.kuaishou_detail));
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.kuaishou_detail)),MyApplication.recommendBean.getCode_kuaishou()));
+
                 break;
             case Constant.PN_DIAN_TAO:
-                tv_detail.setText(getResources().getText(R.string.diantao_detail));
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.diantao_detail)),MyApplication.recommendBean.getCode_diantao()));
+
                 break;
             case Constant.PN_AI_QI_YI:
-                tv_detail.setText(getResources().getText(R.string.aiqiyi_detail));
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.aiqiyi_detail)),MyApplication.recommendBean.getCode_aiqiyi()));
+
                 break;
             case Constant.PN_BAI_DU:
-                tv_detail.setText(getResources().getText(R.string.baidu_detail));
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.baidu_detail)),MyApplication.recommendBean.getCode_baidu()));
+
+                break;
+            case Constant.PN_HUO_SHAN:
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.huoshan_detail)),MyApplication.recommendBean.getCode_huoshan()));
+
                 break;
             case Constant.PN_JING_DONG:
                 tv_detail.setText(getResources().getText(R.string.jingdong_detail));
                 break;
             case Constant.PN_MEI_TIAN_ZHUAN_DIAN:
-                tv_detail.setText(getResources().getText(R.string.meitianzhuandian_detail));
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.meitianzhuandian_detail)),MyApplication.recommendBean.getCode_meitianzhuandian()));
+
                 break;
         }
     }

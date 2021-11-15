@@ -163,6 +163,18 @@ public class Utils {
         return isMatch(escapeExprSpecialWord(patternStr), text);
     }
 
+    public static boolean textTotalMatch(String patternStr, String text) {
+        Log.d(TAG,"patternStr:"+patternStr + " text:"+text);
+        if (!"".equals(patternStr) && patternStr.startsWith(Utils.REGULAR)
+                && patternStr.endsWith(Utils.REGULAR)
+                && patternStr.length() >= 2) {
+            patternStr = patternStr.substring(1, patternStr.lastIndexOf(Utils.REGULAR));
+            boolean isMatch = isRegularMatch(patternStr, text);
+            return isMatch;
+        }
+        return isMatch(escapeExprSpecialWord(patternStr), text);
+    }
+
 
     public static String escapeExprSpecialWord(String keyword) {
         return keyword.replaceAll("[\\\\$\\(\\)\\+\\.\\[\\]\\?\\^\\{\\}|]", "\\\\" + "$0");

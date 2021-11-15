@@ -173,12 +173,12 @@ public class TouTiaoAdvertScript extends BaseScript {
     private int gotoPersonCount = 0;
 
     private void doPageId0Things() {
-        gotoPersonCount++;
-        if (gotoPersonCount > 10) {
-            gotoPersonCount = 0;
-            clickXY(point_RenWu.x, point_RenWu.y);
-            return;
-        }
+//        gotoPersonCount++;
+//        if (gotoPersonCount > 10) {
+//            gotoPersonCount = 0;
+//            clickXY(point_RenWu.x, point_RenWu.y);
+//            return;
+//        }
         LogUtils.d(TAG, "doPageId0Things");
 
         if (clickContent("领金币")) return;

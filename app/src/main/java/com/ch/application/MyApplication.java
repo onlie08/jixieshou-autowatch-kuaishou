@@ -33,6 +33,7 @@ import com.ch.floatwindow.ViewStateListener;
 import com.ch.jixieshou.BuildConfig;
 import com.ch.jixieshou.R;
 import com.ch.model.AppInfo;
+import com.ch.model.RecommendBean;
 import com.ch.model.TaskInfo;
 import com.ch.scripts.TaskExecutor;
 import com.sf.appupdater.log.LogInfo;
@@ -62,6 +63,7 @@ public class MyApplication extends Application {
 
     private static final String TAG = "MyApplication";
     public static MyAccessbilityService accessbilityService;
+    public static RecommendBean recommendBean;
     protected static MyApplication appInstance;
     private static int screenWidth;
     private static int screenHeight;
@@ -139,6 +141,12 @@ public class MyApplication extends Application {
                 if (isStarted) {
                     // String reason = (String) event.getData();
                     setFloatText("已暂停(非任务页面)");
+                    if(null != FloatWindow.get()){
+                        if(FloatWindow.get().isShowing()){
+                            FloatWindow.get().hide();
+                            LogUtils.d(TAG,"FloatWindow.get().hide()");
+                        }
+                    }
                 }
                 break;
             case goto_target_app:
@@ -151,6 +159,9 @@ public class MyApplication extends Application {
                         setFloatText("定时打卡");
                     } else {
                         setFloatText("已执行：" + event.getData());
+                        if(!FloatWindow.get().isShowing()){
+                            FloatWindow.get().show();
+                        }
                     }
                 }
                 break;
@@ -243,7 +254,7 @@ public class MyApplication extends Application {
         return screenWidth;
     }
 
-    public int getScreenHeight() {
+    public static int getScreenHeight() {
         return screenHeight;
     }
 

@@ -11,13 +11,17 @@ import com.ch.application.MyApplication;
 import com.ch.common.CommonDialogManage;
 import com.ch.common.PerMissionManage;
 import com.ch.common.RecognitionManage;
+import com.ch.common.RecommendCodeManage;
 import com.ch.core.utils.FragmentNavigator;
 import com.ch.core.utils.SFUpdaterUtils;
 import com.ch.core.utils.Utils;
+import com.ch.fragment.CouponFragment;
 import com.ch.fragment.MainPageFragment;
 import com.ch.fragment.SettingFragment;
 import com.ch.jixieshou.R;
+import com.ch.model.RecommendBean;
 import com.ch.model.ScreenShootEvet;
+import com.ch.model.SearchAuthorBean;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -53,8 +57,11 @@ public class MainActivity2 extends AppCompatActivity {
                     case R.id.navigation_home:
                         setCurrentTab(0);
                         return true;
-                    case R.id.navigation_dashboard:
+                    case R.id.navigation_coupon:
                         setCurrentTab(1);
+                        return true;
+                    case R.id.navigation_dashboard:
+                        setCurrentTab(2);
                         return true;
                 }
                 return false;
@@ -73,6 +80,7 @@ public class MainActivity2 extends AppCompatActivity {
         initData();
         fragments = new ArrayList<>();
         fragments.add(MainPageFragment.newInstance());
+        fragments.add(CouponFragment.newInstance());
         fragments.add(SettingFragment.newInstance());
 
         tv_version = findViewById(R.id.tv_version);
@@ -102,6 +110,7 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     private void initData() {
+        MyApplication.recommendBean = RecommendCodeManage.getSingleton().getRecommendBean();
     }
 
 
@@ -173,4 +182,6 @@ public class MainActivity2 extends AppCompatActivity {
             }
         }
     }
+
+
 }

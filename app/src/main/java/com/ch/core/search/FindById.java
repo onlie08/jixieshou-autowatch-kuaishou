@@ -11,8 +11,22 @@ import com.ch.core.search.node.TreeInfo;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
 
+import java.util.List;
+
 public class FindById {
     static String TAG = "FindById";
+
+    public static AccessibilityNodeInfo findAccessibilityNode(String id){
+        AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
+        if(root == null) return null;
+        final List<AccessibilityNodeInfo> list = root.findAccessibilityNodeInfosByViewId("com.zhihu.android:id/input");
+        if(list != null && !list.isEmpty()){
+            return list.get(0);
+        }
+        return null;
+    }
+
+
     public static NodeInfo find(String id) {
         AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getRoots();
         if (roots == null) {
@@ -69,13 +83,13 @@ public class FindById {
         }
         if(hasId){
             for(int i=0;i<roots.length;i++){
-                if(roots[i].getPackageName().toString().equals(Constant.PN_AI_QI_YI)){
+//                if(roots[i].getPackageName().toString().equals(Constant.PN_AI_QI_YI)){
                     Bundle arguments = new Bundle();
                     arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, text);
                     roots[i].performAction(AccessibilityNodeInfo.ACTION_FOCUS);
                     roots[i].performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
                     return true;
-                }
+//                }
             }
         }
         return false;

@@ -77,6 +77,7 @@ public class MainPageFragment extends Fragment {
     private List<AppInfo> appInfos = new ArrayList<>();
     private List<AppInfo> currentAppInfos = new ArrayList<>();
     private boolean accessEnable = false;
+    private boolean tasking = false;
 
     public static MainPageFragment newInstance() {
         Bundle args = new Bundle();
@@ -140,18 +141,18 @@ public class MainPageFragment extends Fragment {
             }
         });
 
-        view.findViewById(R.id.f_view1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                playInfo(6);
-            }
-        });
-        view.findViewById(R.id.f_view2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                playInfo(7);
-            }
-        });
+//        view.findViewById(R.id.f_view1).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                playInfo(6);
+//            }
+//        });
+//        view.findViewById(R.id.f_view2).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                playInfo(7);
+//            }
+//        });
         view.findViewById(R.id.f_view3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -252,7 +253,7 @@ public class MainPageFragment extends Fragment {
             gotoAccessSetting();
             return;
         }
-
+        tasking = true;
         getActivity().startService(new Intent(getActivity(), MyAccessbilityService.class));
         MyApplication.getAppInstance().startTask(appInfos);
     }
@@ -293,6 +294,7 @@ public class MainPageFragment extends Fragment {
             }
         });
         taskListView.setAdapter(taskListAdapter1);
+        checkAccessEnable();
     }
 
 
@@ -425,6 +427,15 @@ public class MainPageFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        if(!tasking){
+            checkAccessEnable();
+        }
+        if(null != taskListAdapter1){
+            taskListAdapter1.notifyDataSetChanged();
+        }
+    }
+
+    private void checkAccessEnable(){
         accessEnable = AccessibilityUtils.isServiceEnabled(getActivity());
         if(accessEnable){
             tv_acceess_enable.setText("捡豆子无障碍权限已开启");
@@ -438,9 +449,6 @@ public class MainPageFragment extends Fragment {
             Drawable drawable= getResources().getDrawable(R.drawable.warming);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             tv_acceess_enable.setCompoundDrawables(drawable,null,null,null);
-        }
-        if(null != taskListAdapter1){
-            taskListAdapter1.notifyDataSetChanged();
         }
     }
 

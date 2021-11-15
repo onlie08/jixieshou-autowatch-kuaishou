@@ -29,7 +29,7 @@ public class FengShengUtil {
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                AccessibilityUtil.goToAppMarket(context,Constant.PN_FENG_SHENG);
+//                AccessibilityUtil.goToAppMarket(context,Constant.PN_FENG_SHENG);
             }
         });
         AlertDialog dialog = builder.create();

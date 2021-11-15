@@ -163,6 +163,7 @@ public class KuaishouFastScript extends BaseScript {
             if(clickContent("明天继续领现金"))return;
             if(clickContent("立即领取今日现金"))return;
             if(clickContent("都领完了，继续赚钱"))return;
+//            if (clickContent("立即签到")) return;
         }
 
         if(clickContent("填邀请码必得1元")){

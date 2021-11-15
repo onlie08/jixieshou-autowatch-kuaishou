@@ -1,6 +1,7 @@
 package com.ch.scripts;
 
 import android.graphics.Point;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ScreenUtils;
@@ -99,6 +100,10 @@ public abstract class BaseScript implements IScript {
     protected NodeInfo findById(String id) {
         return FindById.find(id);
     }
+//
+    protected AccessibilityNodeInfo findAccessibilityNodeById(String id) {
+        return FindById.findAccessibilityNode(id);
+    }
 
     /**
      * 设置edittext控件文字
@@ -112,6 +117,9 @@ public abstract class BaseScript implements IScript {
 
     protected NodeInfo findByText(String text) {
         return FindByText.find(text);
+    }
+    protected NodeInfo findTotalMatchByText(String text) {
+        return FindByText.findTotalMatch(text);
     }
 
     protected void runOnUiThread(Runnable runnable) {
@@ -166,6 +174,10 @@ public abstract class BaseScript implements IScript {
         return false;
     }
 
+    public String getContent(String s) {
+        NodeInfo nodeInfo = findByText(s);
+        return nodeInfo.getText();
+    }
 
     /**
      * 点击 content
@@ -176,6 +188,24 @@ public abstract class BaseScript implements IScript {
         if (nodeInfo != null) {
             LogUtils.dTag(BASETAG, "clickContent: "+content + " x:"+nodeInfo.getRect().centerX() + " y:"+nodeInfo.getRect().centerY());
             ActionUtils.click(nodeInfo);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean clickTotalMatchContent(String content) {
+        NodeInfo nodeInfo = findTotalMatchByText(content);
+        if (nodeInfo != null) {
+            LogUtils.dTag(BASETAG, "clickContent: "+content + " x:"+nodeInfo.getRect().centerX() + " y:"+nodeInfo.getRect().centerY());
+            ActionUtils.click(nodeInfo);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean findTotalMatchContent(String content) {
+        NodeInfo nodeInfo = findTotalMatchByText(content);
+        if (nodeInfo != null) {
             return true;
         }
         return false;

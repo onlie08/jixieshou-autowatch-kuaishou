@@ -9,6 +9,7 @@ import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
+import com.ch.application.MyApplication;
 import com.ch.core.utils.Constant;
 import com.ch.model.RecognitionBean;
 import com.google.gson.Gson;
@@ -65,28 +66,31 @@ public class RecognitionManage {
     public void copyText(String packageName){
         switch (packageName) {
             case Constant.PN_TOU_TIAO:
-                ClipboardUtils.copyText("Q38842766");
+                ClipboardUtils.copyText(MyApplication.recommendBean.getCode_toutiao());
                 break;
             case Constant.PN_KUAI_SHOU:
-                ClipboardUtils.copyText("446859698");
+                ClipboardUtils.copyText(MyApplication.recommendBean.getCode_kuaishou());
                 break;
             case Constant.PN_DIAN_TAO:
-                ClipboardUtils.copyText("LRHN7T5O");
+                ClipboardUtils.copyText(MyApplication.recommendBean.getCode_diantao());
                 break;
             case Constant.PN_DOU_YIN:
-                ClipboardUtils.copyText("8161779848");
+                ClipboardUtils.copyText(MyApplication.recommendBean.getCode_douyin());
                 break;
             case Constant.PN_AI_QI_YI:
-                ClipboardUtils.copyText("2883663620");
+                ClipboardUtils.copyText(MyApplication.recommendBean.getCode_aiqiyi());
                 break;
             case Constant.PN_BAI_DU:
-                ClipboardUtils.copyText("151156827638");
+                ClipboardUtils.copyText(MyApplication.recommendBean.getCode_baidu());
                 break;
             case Constant.PN_JING_DONG:
                 ClipboardUtils.copyText("ZW99VA");
                 break;
+            case Constant.PN_HUO_SHAN:
+                ClipboardUtils.copyText(MyApplication.recommendBean.getCode_huoshan());
+                break;
             case Constant.PN_MEI_TIAN_ZHUAN_DIAN:
-                ClipboardUtils.copyText("17619698");
+                ClipboardUtils.copyText(MyApplication.recommendBean.getCode_meitianzhuandian());
                 break;
         }
     }
@@ -513,25 +517,7 @@ public class RecognitionManage {
                     }
                     break;
                 case PAGE_INVITE:
-//                    Point inviteP1 = getPoint(getRecognitionBean(recognitionBeans,"填写邀请码"));
-//                    if(null != inviteP1){
-//                        SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA1, new Gson().toJson(inviteP1));
-//                    }
-//
-//                    Point inviteP2 = getPoint(getRecognitionBean(recognitionBeans,"好友邀请码"));
-//                    if(null != inviteP2){
-//                        SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA2, new Gson().toJson(inviteP2));
-//                    }
-//
-//                    Point inviteP3 = getPoint(getRecognitionBean(recognitionBeans,"立即提交"));
-//                    if(null != inviteP3){
-//                        SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA3, new Gson().toJson(inviteP3));
-//                    }
-//
-//                    Point inviteP4 = getPoint(getRecognitionBean(recognitionBeans,"粘贴"));
-//                    if(null != inviteP4){
-//                        SPUtils.getInstance().put(Constant.BAIDU_ZHANTIE, new Gson().toJson(inviteP4));
-//                    }
+
                     break;
                 case PAGE_ADVERT:
                     break;

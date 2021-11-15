@@ -91,6 +91,9 @@ public class TaskExecutor {
                             case Constant.PN_JING_DONG:
                                 script = JingDongAdvertScript.getSingleton(info);
                                 break;
+                            case Constant.PN_HUO_SHAN:
+                                script = HuoShanAdvertScript.getSingleton(info);
+                                break;
                             case Constant.PN_MEI_TIAN_ZHUAN_DIAN:
                                 script = MeiTianZhuanDianScript.getSingleton(info);
                                 break;
@@ -117,7 +120,7 @@ public class TaskExecutor {
             monitorThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    final long st = System.currentTimeMillis();
+                    long st = System.currentTimeMillis();
 //                    Log.d(TAG, "st:" + st);
 //                    final long allTime = taskInfo.getHours() * 60 * 60 * 1000;
                     final long allTime = 5 * 60 * 1000;
@@ -133,36 +136,42 @@ public class TaskExecutor {
 //                        Log.d(TAG, "System.currentTimeMillis() - st:" + (System.currentTimeMillis() - st));
                         try {
                             if (currentScript != null) {
-                                if (currentTestApp.getPkgName().equals(Constant.PN_FENG_SHENG)) {
-                                    Calendar c = Calendar.getInstance();//
-                                    int mHour = c.get(Calendar.HOUR_OF_DAY);//时
-                                    int mMinute = c.get(Calendar.MINUTE);//分
-//                                    Log.d(TAG, "mHour:" + mHour + " mMinute:" + mMinute);
-                                    if ((mHour == 8 && mMinute == 30) || (mHour == 22 && mMinute == 30) || (mHour == 15 && mMinute == 49)) {
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                if (!currentScript.isDestinationPage()) {
-                                                    PackageUtils.startApp(currentTestApp.getPkgName());
-                                                }
-                                            }
-                                        });
-                                    } else {
-                                        continue;
-                                    }
-                                }
+//                                if (currentTestApp.getPkgName().equals(Constant.PN_FENG_SHENG)) {
+//                                    Calendar c = Calendar.getInstance();//
+//                                    int mHour = c.get(Calendar.HOUR_OF_DAY);//时
+//                                    int mMinute = c.get(Calendar.MINUTE);//分
+////                                    Log.d(TAG, "mHour:" + mHour + " mMinute:" + mMinute);
+//                                    if ((mHour == 8 && mMinute == 30) || (mHour == 22 && mMinute == 30) || (mHour == 15 && mMinute == 49)) {
+//                                        runOnUiThread(new Runnable() {
+//                                            @Override
+//                                            public void run() {
+//                                                if (!currentScript.isDestinationPage()) {
+//                                                    PackageUtils.startApp(currentTestApp.getPkgName());
+//                                                }
+//                                            }
+//                                        });
+//                                    } else {
+//                                        continue;
+//                                    }
+//                                }
                                 if (isForcePause()) {
                                     setPause(true);
                                 } else {
 //                                    LogUtils.d(TAG,"setPause()");
-                                    setPause(!currentScript.isDestinationPage());
+                                    boolean isDestinationPage = currentScript.isDestinationPage();
+                                    if(!isDestinationPage){
+                                        st += 1000;
+                                        LogUtils.d(TAG,"System.currentTimeMillis():"+System.currentTimeMillis()+" st:"+st);
+                                    }
+                                    setPause(!isDestinationPage);
+                                    long finalSt = st;
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             if (isPause()) {
                                                 BusManager.getBus().post(new BusEvent<>(pause_becauseof_not_destination_page, currentScript.getAppInfo().getAppName()));
                                             } else {
-                                                String s = Utils.getTimeDescription(System.currentTimeMillis() - st);
+                                                String s = Utils.getTimeDescription(System.currentTimeMillis() - finalSt);
                                                 BusManager.getBus().post(new BusEvent<>(EventType.refresh_time, s));
                                             }
                                         }

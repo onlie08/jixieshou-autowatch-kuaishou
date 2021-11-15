@@ -2,6 +2,7 @@ package com.ch.common;
 
 import android.content.Context;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.ch.core.utils.BaseUtil;
 import com.ch.core.utils.Constant;
 import com.ch.model.AppInfo;
@@ -15,8 +16,11 @@ import static com.ch.core.utils.Constant.PN_DIAN_TAO;
 import static com.ch.core.utils.Constant.PN_DOU_YIN;
 import static com.ch.core.utils.Constant.PN_FENG_SHENG;
 import static com.ch.core.utils.Constant.PN_JING_DONG;
+import static com.ch.core.utils.Constant.PN_HUO_SHAN;
 import static com.ch.core.utils.Constant.PN_KUAI_SHOU;
+import static com.ch.core.utils.Constant.PN_TAO_BAO;
 import static com.ch.core.utils.Constant.PN_TOU_TIAO;
+import static com.ch.core.utils.Constant.PN_XIAO_HONG_SHU;
 import static com.ch.core.utils.Constant.PN_YING_KE;
 
 public class DownLoadAppManage {
@@ -30,7 +34,10 @@ public class DownLoadAppManage {
     private boolean isInstallYingKe = false;
     private boolean isInstallBaiDu = false;
     private boolean isInstallJingDong = false;
+    private boolean isInstallHuoShan = false;
     private boolean isInstallMeiTianZhuanDian = false;
+    private boolean isInstallXiaoHongShu = false;
+    private boolean isInstallTaoBao = false;
 
     private volatile static DownLoadAppManage instance; //声明成 volatile
 
@@ -55,7 +62,10 @@ public class DownLoadAppManage {
         isInstallYingKe = BaseUtil.isInstallPackage(PN_YING_KE);
         isInstallBaiDu = BaseUtil.isInstallPackage(PN_BAI_DU);
         isInstallJingDong = BaseUtil.isInstallPackage(PN_JING_DONG);
+        isInstallHuoShan = BaseUtil.isInstallPackage(PN_HUO_SHAN);
         isInstallMeiTianZhuanDian = BaseUtil.isInstallPackage(PN_MEI_TIAN_ZHUAN_DIAN);
+        isInstallXiaoHongShu = BaseUtil.isInstallPackage(PN_XIAO_HONG_SHU);
+        isInstallTaoBao = BaseUtil.isInstallPackage(PN_TAO_BAO);
     }
     
     public boolean checkIsAppExit(Context context, List<AppInfo> appInfos){
@@ -80,6 +90,16 @@ public class DownLoadAppManage {
                     BaseUtil.showDownLoadDialog(PN_MEI_TIAN_ZHUAN_DIAN, context);
                     return false;
                 }
+                if (!isInstallXiaoHongShu) {
+                    BaseUtil.showDownLoadDialog(PN_XIAO_HONG_SHU, context);
+                    ToastUtils.showLong("每天赚点App会自动做小红书关注任务，需要下载登录小红书App");
+                    return false;
+                }
+                if (!isInstallTaoBao) {
+                    BaseUtil.showDownLoadDialog(PN_TAO_BAO, context);
+                    ToastUtils.showLong("每天赚点App会自动做淘宝糖喵和浏览任务，需要下载登录淘宝App");
+                    return false;
+                }
 
             }
             if (appInfo.getPkgName().equals(Constant.PN_BAI_DU)) {
@@ -92,6 +112,13 @@ public class DownLoadAppManage {
             if (appInfo.getPkgName().equals(Constant.PN_JING_DONG)) {
                 if (!isInstallJingDong) {
                     BaseUtil.showDownLoadDialog(PN_JING_DONG, context);
+                    return false;
+                }
+
+            }
+            if (appInfo.getPkgName().equals(Constant.PN_HUO_SHAN)) {
+                if (!isInstallHuoShan) {
+                    BaseUtil.showDownLoadDialog(PN_HUO_SHAN, context);
                     return false;
                 }
 
