@@ -315,27 +315,6 @@ public class DouyinFastAdvertScript extends BaseScript {
     }
 
 
-    private boolean dealNoResponse() {
-        if (clickContent("本次运行允许")) return true;
-        if (clickContent("仅在使用中允许")) return true;
-        if (clickContent("始终允许")) return true;
-        if (clickContent("禁止")) return true;
-
-        if (clickContent("关闭")) return true;
-        if (clickContent("重试")) return true;
-        if (clickContent("取消")) return true;
-        if (clickContent("知道")) return true;
-
-
-        clickBack();
-
-        Utils.sleep(1000);
-
-        clickXY(540, 1500);
-        return false;
-    }
-
-
     /**
      * 检查是在那个页面
      *

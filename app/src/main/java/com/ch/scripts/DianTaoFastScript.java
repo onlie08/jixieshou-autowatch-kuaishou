@@ -68,16 +68,6 @@ public class DianTaoFastScript extends BaseScript {
 
     @Override
     protected void executeScript() {
-        if (!isTargetPkg()) {
-            return;
-        }
-        if (!NetworkUtils.isAvailable()) {
-            return;
-        }
-        if (ScreenUtils.isScreenLock()) {
-            return;
-        }
-
 
         if (doTask()) return;
 
@@ -173,12 +163,12 @@ public class DianTaoFastScript extends BaseScript {
             }
         }
 
-        if (!findContent("去抽奖")) {
-            scrollUpSlow();
-            Utils.sleep(2000);
-            return;
-        }
-        if(clickContent("去抽奖")) return;
+//        if (!findContent("去抽奖")) {
+//            scrollUpSlow();
+//            Utils.sleep(2000);
+//            return;
+//        }
+//        if(clickContent("去抽奖")) return;
 //        if (clickContent("看直播，赚元宝")) return;
 
         scrollDown();
@@ -358,23 +348,6 @@ public class DianTaoFastScript extends BaseScript {
         clickContent("走路赚元宝 每日");
         clickContent("立即签到");
         clickContent("残忍退出");
-    }
-
-
-
-
-    private boolean dealNoResponse() {
-        if (clickContent("禁止且不再询问")) return true;
-        if (clickContent("本次运行允许")) return true;
-        if (clickContent("仅在使用中允许")) return true;
-        if (clickContent("始终允许")) return true;
-        if (clickContent("禁止")) return true;
-
-        if (clickContent("关闭")) return true;
-        if (clickContent("重试")) return true;
-        if (clickContent("取消")) return true;
-        if (clickContent("知道")) return true;
-        return false;
     }
 
 

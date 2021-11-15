@@ -429,29 +429,6 @@ public class HuoShanAdvertScript extends BaseScript {
         return false;
     }
 
-
-
-    /**
-     * 处理不在该app时的处理，比如系统弹出框
-     *
-     * @return
-     */
-    private boolean dealNoResponse() {
-        if (clickContent("本次运行允许")) return true;
-        if (clickContent("仅在使用中允许")) return true;
-        if (clickContent("始终允许")) return true;
-        if (clickContent("禁止")) return true;
-
-        if (clickContent("关闭")) return true;
-        if (clickContent("重试")) return true;
-        if (clickContent("取消")) return true;
-        if (clickContent("知道")) return true;
-
-        if (clickId("k2")) return true;
-
-        return false;
-    }
-
     private boolean autoInvite() {
         if(true){
             return true;

@@ -4,6 +4,7 @@ import android.graphics.Point;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.ch.application.MyApplication;
 import com.ch.common.PackageUtils;
@@ -43,6 +44,15 @@ public abstract class BaseScript implements IScript {
             try {
                 if (isPause()) {
                     Utils.sleep(2000);
+                    continue;
+                }
+                if (!isTargetPkg()) {
+                    continue;
+                }
+                if (!NetworkUtils.isAvailable()) {
+                    continue;
+                }
+                if (ScreenUtils.isScreenLock()) {
                     continue;
                 }
                 executeScript();
@@ -305,6 +315,26 @@ public abstract class BaseScript implements IScript {
         int randHeight = 20 + rand.nextInt(height1 - 20);
         LogUtils.d(BASETAG, "x:" + (width / 2) + " y:" + (randHeight * 20));
         clickXY(width / 2, randHeight * 20);
+        return false;
+    }
+
+    /**
+     * 处理不在该app时的处理，比如系统弹出框
+     *
+     * @return
+     */
+    public boolean dealNoResponse() {
+        if (clickTotalMatchContent("禁止且不再询问")) return true;
+        if (clickTotalMatchContent("本次运行允许")) return true;
+        if (clickTotalMatchContent("仅在使用中允许")) return true;
+        if (clickTotalMatchContent("始终允许")) return true;
+        if (clickTotalMatchContent("禁止")) return true;
+        if (clickTotalMatchContent("允许")) return true;
+
+        if (clickTotalMatchContent("关闭")) return true;
+        if (clickContent("重试")) return true;
+        if (clickTotalMatchContent("取消")) return true;
+        if (clickContent("知道")) return true;
         return false;
     }
 }
