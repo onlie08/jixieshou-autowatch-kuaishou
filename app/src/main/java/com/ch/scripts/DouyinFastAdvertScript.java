@@ -162,10 +162,12 @@ public class DouyinFastAdvertScript extends BaseScript {
         LogUtils.d(TAG, "doPageId1Things");
         if(samePageCount >2){
             clickContent("立即签到 +");
-            clickContent("去赚钱");
+//            clickContent("去赚钱");
         }
 
-        if(samePageCount >3){
+        if(samePageCount >4){
+            scrollDown();
+            Utils.sleep(2000);
             doRandomClick();
         }
 //        if(clickContent("开宝箱得金币"))Utils.sleep(2000);
@@ -175,7 +177,7 @@ public class DouyinFastAdvertScript extends BaseScript {
             return;
         }
         clickContent("看广告");
-        Utils.sleep(1000);
+        Utils.sleep(2000);
 
         NodeInfo nodeInfo = findByText("点击领金币");
         if(null != nodeInfo){
@@ -187,17 +189,19 @@ public class DouyinFastAdvertScript extends BaseScript {
 
         if (clickContent("开宝箱得金币")) return;
 
-        if (!findContent("去逛街")) {
-            scrollUpSlow();
-            return;
-        }
-//        if(clickContent("逛街赚钱"))return;
-        if(!findContent("后浏览还可得金币") && !findContent("明日浏览可得金币")){
-            if(clickContent("逛街赚钱"))return;
-        }
+//        if (!findContent("去逛街")) {
+//            scrollUpSlow();
+//            Utils.sleep(2000);
+//        }
+////        if(clickContent("逛街赚钱"))return;
+//        if(!findContent("后浏览还可得金币") && !findContent("明日浏览可得金币")){
+//            if(clickContent("逛街赚钱"))return;
+//        }
 
-        scrollDown();
-
+//        scrollDown();
+//        Utils.sleep(2000);
+//        scrollDown();
+        return;
     }
 
     private void doPageId2Things() {
@@ -207,6 +211,7 @@ public class DouyinFastAdvertScript extends BaseScript {
 
     private void doPageId3Things() {
         LogUtils.d(TAG, "doPageId2Things");
+        if(clickContent("回到页面"))return;
         scrollUpSlow();
     }
 
@@ -285,6 +290,7 @@ public class DouyinFastAdvertScript extends BaseScript {
                 LogUtils.d(TAG, "抖音极速版是不是anr了?");
                 Utils.sleep(1000);
                 dealNoResponse();
+                resumeCount = 0;
             }
             return false;
         }
@@ -325,7 +331,7 @@ public class DouyinFastAdvertScript extends BaseScript {
             return 4;
         }
 
-        if (findContent("开宝箱得金币") ||findContent("现金收益") ||findContent("看广告赚金币") || findContent("看视频，赚金币")|| findContent("免费看小说赚金币")) {
+        if (findContent("赚钱任务") ||findContent("开宝箱得金币") ||findContent("现金收益") ||findContent("看广告赚金币") || findContent("看视频，赚金币")|| findContent("看小说赚金币")) {
             return 1;
         }
 

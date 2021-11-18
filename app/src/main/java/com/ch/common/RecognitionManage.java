@@ -8,6 +8,7 @@ import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.utils.Constant;
@@ -88,6 +89,9 @@ public class RecognitionManage {
                 break;
             case Constant.PN_HUO_SHAN:
                 ClipboardUtils.copyText(MyApplication.recommendBean.getCode_huoshan());
+                break;
+            case Constant.PN_FAN_QIE:
+                ClipboardUtils.copyText(MyApplication.recommendBean.getCode_fanqie());
                 break;
             case Constant.PN_MEI_TIAN_ZHUAN_DIAN:
                 ClipboardUtils.copyText(MyApplication.recommendBean.getCode_meitianzhuandian());
@@ -348,6 +352,8 @@ public class RecognitionManage {
                         Point point3 = getPoint(getRecognitionBean(recognitionBeans,"开宝箱得金币"));
                         if(null != point3){
                             SPUtils.getInstance().put(Constant.TOUTIAO_KAIBAOXIANGDEJINBI, new Gson().toJson(point3));
+                        }else {
+                            point3 = new Point(MyApplication.getScreenWidth()- SizeUtils.dp2px(60),MyApplication.getScreenHeight()-SizeUtils.dp2px(80));
                         }
                         break;
                     case PAGE_INVITE:
@@ -387,6 +393,9 @@ public class RecognitionManage {
 
                         Point p_laizhuanqian = getPoint(getRecognitionBean(recognitionBeans,"来赚钱"));
                         if(null != p_laizhuanqian){
+                            SPUtils.getInstance().put(Constant.DOUYIN_LAIZHUANQIAN, new Gson().toJson(p_laizhuanqian));
+                        }else {
+                            p_laizhuanqian = new Point(MyApplication.getScreenWidth()/2,p_shouye.y);
                             SPUtils.getInstance().put(Constant.DOUYIN_LAIZHUANQIAN, new Gson().toJson(p_laizhuanqian));
                         }
                         break;

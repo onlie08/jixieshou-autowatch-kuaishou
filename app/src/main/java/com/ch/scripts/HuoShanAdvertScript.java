@@ -1,25 +1,19 @@
 package com.ch.scripts;
 
-import android.graphics.Point;
-import android.text.TextUtils;
+import android.os.Bundle;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.search.node.NodeInfo;
-import com.ch.core.utils.ActionUtils;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
 import com.ch.jixieshou.BuildConfig;
 import com.ch.model.AppInfo;
-import com.ch.model.ScreenShootEvet;
-import com.google.gson.Gson;
 import com.tencent.bugly.crashreport.CrashReport;
-
-import org.greenrobot.eventbus.EventBus;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 import static com.ch.core.utils.ActionUtils.pressHome;
@@ -27,12 +21,6 @@ import static com.ch.core.utils.ActionUtils.pressHome;
 public class HuoShanAdvertScript extends BaseScript {
 
     private String TAG = this.getClass().getSimpleName();
-    private Point point_ShouYe;
-    private Point point_RenWu;
-    private Point point_TianXieYaoQingMa1;
-    private Point point_TianXieYaoQingMa2;
-    private Point point_TianXieYaoQingMa3;
-    private Point point_ZhanTie;
 
     private volatile static HuoShanAdvertScript instance; //声明成 volatile
 
@@ -54,7 +42,7 @@ public class HuoShanAdvertScript extends BaseScript {
     @Override
     protected boolean isTargetPkg() {
         if (MyApplication.getAppInstance().getAccessbilityService().isWrokFine()) {
-            if (!MyApplication.getAppInstance().getAccessbilityService().containsPkg(Constant.PN_BAI_DU)) {
+            if (!MyApplication.getAppInstance().getAccessbilityService().containsPkg(Constant.PN_HUO_SHAN)) {
                 return false;
             }
         }
@@ -107,20 +95,7 @@ public class HuoShanAdvertScript extends BaseScript {
 
             doPageId3Things();
 
-        } else if (pageId == 4) {
-
-            doPageId4Things();
-
-        } else if (pageId == 5) {
-
-            doPageId5Things();
-
-        } else if (pageId == 6) {
-
-            doPageId6Things();
-
-        } else {
-//            if(clickContent("重新加载"))return;
+        }  else {
             if(samePageCount >= 2){
                 if(clickContent("我知道了"))return;
                 if(clickContent("开心收下"))return;
@@ -131,45 +106,19 @@ public class HuoShanAdvertScript extends BaseScript {
 
     }
 
-    private void doPageId6Things() {
-        clickContent("看文章赚金币");
-    }
-
     private int gotoPersonCount = 0;
     private void doPageId0Things() {
         LogUtils.d(TAG, "doPageId0Things");
 
-        if (point_ShouYe == null) {
-            getRecognitionResult();
-            if (point_ShouYe == null) {
-                EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU,Constant.PAGE_MAIN));
-            }
-            return;
-        }
-
-        if (point_RenWu == null) {
-            getRecognitionResult();
-            if (point_RenWu == null) {
-                EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU,Constant.PAGE_MAIN));
-            }
-            return;
-        }
-
         gotoPersonCount++;
         if (gotoPersonCount > 4) {
             gotoPersonCount = 0;
-            clickXY(point_RenWu.x,point_RenWu.y);
+            if(clickContent("火苗管理，按钮"))return;
             return;
         }
 
-        if (clickId("fc6")) return;
-
         scrollUp();
-
-        Utils.sleep(3000);
-
-        clickXY(500,500);
-//        if (clickContent("0评论")) return;
+        return;
 
     }
 
@@ -182,41 +131,32 @@ public class HuoShanAdvertScript extends BaseScript {
                 Utils.sleep(1000);
                 clickBack();
                 return;
-
             }
         }
-
-        if(clickContent("立即收下"))return;
-        if(clickContent("开宝箱得金币"))return;
-
-        if(!findContent("看广告赚钱")){
-            scrollUpSlow();
+        if(samePageCount >= 4){
+            clickBack();
             return;
-        }else {
-            if(!findContent("已完成")){
-                NodeInfo nodeInfo = findByText("看广告赚钱");
-                clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(70),nodeInfo.getRect().centerY());
-                return;
-            }
         }
 
-        clickXY(point_ShouYe.x,point_ShouYe.y);
+        if(clickTotalMatchContent("去填写")){
+            return;
+        }
+        if(clickTotalMatchContent("开宝箱得火苗")){
+            return;
+        }
 
+        NodeInfo nodeInfo = findByText("限时任务赚火苗");
+        if(null != nodeInfo){
+            clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(40),nodeInfo.getRect().centerY());
+            Utils.sleep(2000);
+        }
+        return;
     }
 
     private void doPageId2Things() {
         LogUtils.d(TAG, "doPageId2Things");
 
-        NodeInfo nodeInfo = findByText("不喜欢");
-        if (null != nodeInfo) {
-            if(samePageCount > 3){
-                scrollUp();
-            }
-            clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()+ SizeUtils.dp2px(100));
-            return;
-
-        }
-        scrollUp();
+        if(clickContent("继续观看"))return;
     }
 
     private void doPageId3Things() {
@@ -224,21 +164,37 @@ public class HuoShanAdvertScript extends BaseScript {
         if(samePageCount >5){
             clickBack();
         }
+        NodeInfo nodeInfo = findById("shareCode");
 
-    }
-
-    private void doPageId4Things() {
-        LogUtils.d(TAG, "doPageId4Things");
-
-    }
-
-    private void doPageId5Things() {
-        LogUtils.d(TAG, "doPageId5Things");
-        if(autoInvite()){
+        if(null != nodeInfo){
+            clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY());
+        }
+        Utils.sleep(2000);
+        AccessibilityNodeInfo textInfo = findAccessibilityNode();
+        if (textInfo != null) {
+            Bundle arguments = new Bundle();
+            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, MyApplication.recommendBean.getCode_huoshan());
+            textInfo.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+            Utils.sleep(2000);
             clickBack();
+            Utils.sleep(2000);
+            if(clickContent("提交"))return;
         }
     }
 
+    public AccessibilityNodeInfo findAccessibilityNode(){
+        AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
+        if(root == null) return null;
+        AccessibilityNodeInfo root1 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
+        AccessibilityNodeInfo root2 = root1.getChild(0);
+        AccessibilityNodeInfo root3 = root2.getChild(0);
+        AccessibilityNodeInfo root4 = root3.getChild(1);
+        AccessibilityNodeInfo root5 = root4.getChild(3);
+        if(null != root5){
+            return root5;
+        }
+        return null;
+    }
     /**
      * 弹出框里点击看广告
      */
@@ -246,8 +202,6 @@ public class HuoShanAdvertScript extends BaseScript {
         if (clickContent("视频再")) return true;
         if (clickContent("再看一个")) return true;
         if (clickContent("看广告再得")) return true;
-//        if (clickContent("继续赚金币")) return true;
-
         return false;
     }
 
@@ -257,31 +211,19 @@ public class HuoShanAdvertScript extends BaseScript {
      * @return //0:首页 1:个人中心  2:阅读页  3:广告页
      */
     private int checkPageId() {
-        if (findContent("频道管理") && findContent("推荐")) {
+        if (findContent("火苗管理，按钮")) {
             return 0;
         }
-
-        if (findContent("做任务赚现金") || findContent("看广告赚钱")) {
+        if (findContent("火苗管理") && findContent("火苗账单")) {
             return 1;
         }
 
-        if (findContent("分享") && findContent("收藏")&& findContent("返回")) {
+        if (findContent("后可领取奖励")) {
             return 2;
         }
 
-        if (findContent("查看详情")) {
+        if (findContent("输入邀请码解锁现金红包")) {
             return 3;
-        }
-
-        if (findContent("s后得金币")) {
-            return 3;
-        }
-
-        if (findContent("预估总收益")) {
-            return 5;
-        }
-        if (findContent("看文章赚金币")) {
-            return 6;
         }
 
         return -1;
@@ -296,9 +238,7 @@ public class HuoShanAdvertScript extends BaseScript {
             return 2000;
         } else if (pageId == 3) {
             return 3000;
-        } else if (pageId == 4) {
-            return 2000;
-        } else if (pageId == 0) {
+        }  else if (pageId == 0) {
             return 4000;
         } else if (pageId == -1) {
             return 1000;
@@ -316,10 +256,8 @@ public class HuoShanAdvertScript extends BaseScript {
             return 2000;
         } else if (pageId == 3) {
             return 3000;
-        } else if (pageId == 4) {
-            return 2000;
-        }else if (pageId == 0) {
-            return 4000;
+        } else if (pageId == 0) {
+            return 8000;
         }else if (pageId == -1) {
             return 1000;
         } else {
@@ -329,40 +267,11 @@ public class HuoShanAdvertScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
-        String sp_shouye = SPUtils.getInstance().getString(Constant.BAIDU_SHOUYE,"");
-        if(!TextUtils.isEmpty(sp_shouye)){
-            point_ShouYe = new Gson().fromJson(sp_shouye,Point.class);
-        }
-
-        String sp_renwu = SPUtils.getInstance().getString(Constant.BAIDU_RENWU,"");
-        if(!TextUtils.isEmpty(sp_renwu)){
-            point_RenWu = new Gson().fromJson(sp_renwu,Point.class);
-        }
-
-        String sp_tianxieyaoqingma1 = SPUtils.getInstance().getString(Constant.BAIDU_TIANXIEYAOQINGMA1,"");
-        if(!TextUtils.isEmpty(sp_tianxieyaoqingma1)){
-            point_TianXieYaoQingMa1 = new Gson().fromJson(sp_tianxieyaoqingma1,Point.class);
-        }
-
-        String sp_tianxieyaoqingma2 = SPUtils.getInstance().getString(Constant.BAIDU_TIANXIEYAOQINGMA2,"");
-        if(!TextUtils.isEmpty(sp_tianxieyaoqingma2)){
-            point_TianXieYaoQingMa2 = new Gson().fromJson(sp_tianxieyaoqingma2,Point.class);
-        }
-
-        String sp_tianxieyaoqingma3 = SPUtils.getInstance().getString(Constant.BAIDU_TIANXIEYAOQINGMA3,"");
-        if(!TextUtils.isEmpty(sp_tianxieyaoqingma3)){
-            point_TianXieYaoQingMa3 = new Gson().fromJson(sp_tianxieyaoqingma3,Point.class);
-        }
-
-        String sp_zhantie = SPUtils.getInstance().getString(Constant.BAIDU_ZHANTIE,"");
-        if(!TextUtils.isEmpty(sp_zhantie)){
-            point_ZhanTie = new Gson().fromJson(sp_zhantie,Point.class);
-        }
     }
 
 
     public boolean isCurrentScipte() {
-        return getAppInfo().getPkgName().equals(Constant.PN_BAI_DU) ? true : false;
+        return getAppInfo().getPkgName().equals(Constant.PN_HUO_SHAN) ? true : false;
     }
 
     int resumeCount = 0;
@@ -380,18 +289,19 @@ public class HuoShanAdvertScript extends BaseScript {
 
             resumeCount++;
             if (resumeCount > 5) {
-                LogUtils.d(TAG, "自动恢复到头条极速版");
-                CrashReport.postCatchedException(new Throwable("自动恢复到头条极速版"));
+                LogUtils.d(TAG, "自动恢复到抖音火山版");
+                CrashReport.postCatchedException(new Throwable("自动恢复到抖音火山版"));
                 startApp();
             }
             if (resumeCount > 10) {
                 if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 }
-                LogUtils.d(TAG, "头条极速版是不是anr了?");
+                LogUtils.d(TAG, "抖音火山版是不是anr了?");
                 dealNoResponse();
                 Utils.sleep(1000);
                 clickBack();
+                resumeCount = 0;
             }
             return false;
         }
@@ -421,51 +331,11 @@ public class HuoShanAdvertScript extends BaseScript {
         if (clickContent("知道")) return true;
         if (clickContent("继续赚金币")) return true;
         if (clickContent("去赚钱")) return true;
-        if (clickContent("允许")) return true;
+        if (clickTotalMatchContent("允许")) return true;
         if (clickContent("立即添加")) return true;
         if (clickContent("关闭")) return true;
         if (clickContent("重试")) return true;
         if (clickContent("取消")) return true;
-        return false;
-    }
-
-    private boolean autoInvite() {
-        if(true){
-            return true;
-        }
-        //[50,718][1150,838]
-        getRecognitionResult();
-
-        if(null == point_TianXieYaoQingMa1){
-            SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA2, "");
-            SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA3, "");
-            SPUtils.getInstance().put(Constant.BAIDU_ZHANTIE, "");
-        }
-
-        if(null != point_ZhanTie){
-            clickXY(point_ZhanTie.x, point_ZhanTie.y);
-            Utils.sleep(1000);
-            clickXY(point_TianXieYaoQingMa3.x, point_TianXieYaoQingMa3.y);
-            Utils.sleep(2000);
-            CrashReport.postCatchedException(new Throwable("百度自动填写邀请码成功"));
-        }
-
-        if(null == point_TianXieYaoQingMa1){
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU,Constant.PAGE_INVITE));
-            return false;
-        }
-
-        if(null != point_TianXieYaoQingMa1 && point_TianXieYaoQingMa2 == null){
-            clickXY(point_TianXieYaoQingMa1.x, point_TianXieYaoQingMa1.y);
-            Utils.sleep(1000);
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU,Constant.PAGE_INVITE));
-        }
-
-        if(null != point_TianXieYaoQingMa2 && point_TianXieYaoQingMa3 != null){
-            ActionUtils.longPress(point_TianXieYaoQingMa2.x, (point_TianXieYaoQingMa3.y + point_TianXieYaoQingMa2.y)/2);
-            Utils.sleep(1500);
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU,Constant.PAGE_INVITE));
-        }
         return false;
     }
 

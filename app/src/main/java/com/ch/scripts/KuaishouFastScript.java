@@ -234,16 +234,18 @@ public class KuaishouFastScript extends BaseScript {
                 LogUtils.d(TAG, "自动恢复到快手极速版");
                 CrashReport.postCatchedException(new Throwable("自动恢复到快手极速版"));
                 startApp();
+                Utils.sleep(2000);
             }
             if (resumeCount > 10) {
                 if(BuildConfig.DEBUG){
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 }
-                startApp();
+//                startApp();
                 LogUtils.d(TAG, "快手极速版是不是anr了?");
                 dealNoResponse();
-                Utils.sleep(1000);
+                Utils.sleep(2000);
                 clickBack();
+                resumeCount = 0;
             }
             return false;
         }
@@ -269,15 +271,11 @@ public class KuaishouFastScript extends BaseScript {
     private boolean clickAdvert() {
         if (clickContent("视频再赚")) return true;
         if (clickContent("视频就赚")) return true;
-
+        if (clickContent("看视频最高得")) return true;
         if (clickContent("看精彩视频赚更多")) return true;
-
         if (clickContent("视频再领")) return true;
         if (clickContent("看广告再得")) return true;
-
         if (clickContent("继续观看")) return true;
-
-
         return false;
     }
 

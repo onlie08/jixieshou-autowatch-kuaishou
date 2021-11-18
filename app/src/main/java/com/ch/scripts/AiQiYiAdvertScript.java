@@ -135,6 +135,9 @@ public class AiQiYiAdvertScript extends BaseScript {
             doPageId5Things();
 
         } else {
+            Utils.sleep(1500);
+            clickBack();
+            Utils.sleep(1500);
             if (samePageCount >= 2) {
                 scrollDown();
                 Utils.sleep(2000);
@@ -142,8 +145,7 @@ public class AiQiYiAdvertScript extends BaseScript {
                 if(clickContent("人最高赚"))return;
 
             }
-            Utils.sleep(1500);
-            clickBack();
+
         }
 
     }
@@ -226,10 +228,23 @@ public class AiQiYiAdvertScript extends BaseScript {
         }
 
 
-        if (!findContent("看电视剧广告赚")) {
+        if (!findContent("看视频每天赚")) {
             scrollUpSlow();
             return;
         }
+
+        if (clickContent("看视频每天赚")) {
+            Utils.sleep(1500);
+            if(clickContent("点击开始赚钱")){
+                Utils.sleep(2000);
+                clickXY(500,500);
+            }else {
+                Utils.sleep(2000);
+                clickXY(500,500);
+            }
+            return;
+        }
+
         if (clickContent("看电视剧广告赚")) {
             Utils.sleep(1500);
             if(clickContent("点击开始赚钱")){
@@ -304,11 +319,11 @@ public class AiQiYiAdvertScript extends BaseScript {
 //        if (findContent("幸运大转盘") && findContent("恭喜")) {
 //            return 3;
 //        }
-        if (findContent("活动规则") && findContent("金币")) {
+        if (findContent("明日可领") || (findContent("活动规则") && findContent("金币") )) {
             return 1;
         }
 
-        if (findContent("看广告赚金币") || findContent("看广告赚10倍金币")) {
+        if (findContent("看广告赚金币") || findContent("看广告赚10倍金币") || findContent("/6")) {
             return 4;
         }
         if (findContent("只支持填写数字")) {
@@ -400,8 +415,8 @@ public class AiQiYiAdvertScript extends BaseScript {
 
             resumeCount++;
             if (resumeCount > 5) {
-                LogUtils.d(TAG, "自动恢复到头条极速版");
-                CrashReport.postCatchedException(new Throwable("自动恢复到头条极速版"));
+                LogUtils.d(TAG, "自动恢复到爱奇艺极速版");
+                CrashReport.postCatchedException(new Throwable("自动恢复到爱奇艺极速版"));
                 startApp();
             }
             if (resumeCount > 10) {
@@ -412,6 +427,7 @@ public class AiQiYiAdvertScript extends BaseScript {
                 dealNoResponse();
                 Utils.sleep(1000);
                 clickBack();
+                resumeCount = 0;
             }
             return false;
         }

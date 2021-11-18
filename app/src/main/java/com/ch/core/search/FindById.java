@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.search.node.Dumper;
 import com.ch.core.search.node.NodeInfo;
@@ -19,13 +20,12 @@ public class FindById {
     public static AccessibilityNodeInfo findAccessibilityNode(String id){
         AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
         if(root == null) return null;
-        final List<AccessibilityNodeInfo> list = root.findAccessibilityNodeInfosByViewId("com.zhihu.android:id/input");
+        final List<AccessibilityNodeInfo> list = root.findAccessibilityNodeInfosByViewId(id);
         if(list != null && !list.isEmpty()){
             return list.get(0);
         }
         return null;
     }
-
 
     public static NodeInfo find(String id) {
         AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getRoots();

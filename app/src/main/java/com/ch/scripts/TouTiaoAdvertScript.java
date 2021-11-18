@@ -387,6 +387,7 @@ public class TouTiaoAdvertScript extends BaseScript {
                 dealNoResponse();
                 Utils.sleep(1000);
                 clickBack();
+                resumeCount = 0;
             }
             return false;
         }

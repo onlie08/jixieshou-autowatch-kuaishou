@@ -167,11 +167,11 @@ public class EditTaskActivity extends AppCompatActivity {
 
 //        AVObject testObject = new AVObject("task_list");
 //        AppInfo appInfo = new AppInfo();
-//        appInfo.setName("每天赚点");
-//        appInfo.setAppName("每天赚点");
+//        appInfo.setName("番茄畅听");
+//        appInfo.setAppName("番茄畅听");
 //        appInfo.setFree(true);
 //        appInfo.setPeriod(4l);
-//        appInfo.setPkgName(Constant.PN_MEI_TIAN_ZHUAN_DIAN);
+//        appInfo.setPkgName(Constant.PN_FAN_QIE);
 //        testObject.put("name", appInfo.getName());
 //        testObject.put("isFree", appInfo.isFree());
 //        testObject.put("period", appInfo.getPeriod());
@@ -275,7 +275,9 @@ public class EditTaskActivity extends AppCompatActivity {
                 break;
             case Constant.PN_HUO_SHAN:
                 tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.huoshan_detail)),MyApplication.recommendBean.getCode_huoshan()));
-
+                break;
+            case Constant.PN_FAN_QIE:
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.fanqie_detail)),MyApplication.recommendBean.getCode_fanqie()));
                 break;
             case Constant.PN_JING_DONG:
                 tv_detail.setText(getResources().getText(R.string.jingdong_detail));

@@ -73,6 +73,8 @@ public class BaseUtil {
             needRecommend = true;
         }else if(packageName.equals(Constant.PN_HUO_SHAN)){
             needRecommend = true;
+        }else if(packageName.equals(Constant.PN_FAN_QIE)){
+            needRecommend = true;
         }
         return needRecommend;
     }
@@ -97,6 +99,8 @@ public class BaseUtil {
             describeText = context.getResources().getString(R.string.meitianzhuandian_describe);
         }else if(packageName.equals(Constant.PN_HUO_SHAN)){
             describeText = context.getResources().getString(R.string.huoshan_describe);
+        }else if(packageName.equals(Constant.PN_FAN_QIE)){
+            describeText = context.getResources().getString(R.string.fanqie_describe);
         }
         return describeText;
     }
@@ -121,6 +125,8 @@ public class BaseUtil {
             recommendCode = MyApplication.recommendBean.getCode_meitianzhuandian();
         }else if(packageName.equals(Constant.PN_HUO_SHAN)){
             recommendCode = MyApplication.recommendBean.getCode_huoshan();
+        }else if(packageName.equals(Constant.PN_FAN_QIE)){
+            recommendCode = MyApplication.recommendBean.getCode_fanqie();
         }
 //        else if(packageName.equals(Constant.PN_YING_KE)){
 //            recommendCode = "";
@@ -154,6 +160,8 @@ public class BaseUtil {
             recommendCode = "淘宝";
         }else if(packageName.equals(Constant.PN_HUO_SHAN)){
             recommendCode = "抖音火山极速版";
+        }else if(packageName.equals(Constant.PN_FAN_QIE)){
+            recommendCode = "番茄畅听";
         }
         return recommendCode;
     }

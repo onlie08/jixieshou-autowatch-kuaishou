@@ -80,6 +80,8 @@ public class TaskListAdapter extends BaseAdapter {
             holder.icon.setImageResource(R.drawable.icon_meitianzhuandian);
         }else if (appInfo.getPkgName().equals(Constant.PN_HUO_SHAN)) {
             holder.icon.setImageResource(R.drawable.icon_huoshan);
+        }else if (appInfo.getPkgName().equals(Constant.PN_FAN_QIE)) {
+            holder.icon.setImageResource(R.drawable.icon_fanqie);
         }
         holder.time.setText(String.format("%d小时", appInfo.getPeriod()));
         return view;

@@ -307,23 +307,32 @@ public class MainPageFragment extends Fragment {
         }
         List<AppInfo> appInfos = new ArrayList<>();
 
-//        AppInfo appInfo;
-//        appInfo = new AppInfo();
-//        appInfo.setAppName("今日头条极速版");
-//        appInfo.setName("今日头条极速版");
-//        appInfo.setFree(true);
-//        appInfo.setPeriod(4l);
-//        appInfo.setPkgName(Constant.PN_TOU_TIAO);
-//        appInfos.add(appInfo);
-
         AppInfo appInfo;
         appInfo = new AppInfo();
-        appInfo.setAppName("每日赚点");
-        appInfo.setName("每日赚点");
+        appInfo.setAppName("抖音火山版");
+        appInfo.setName("抖音火山版");
         appInfo.setFree(true);
         appInfo.setPeriod(4l);
-        appInfo.setPkgName(Constant.PN_MEI_TIAN_ZHUAN_DIAN);
+        appInfo.setPkgName(Constant.PN_HUO_SHAN);
         appInfos.add(appInfo);
+
+
+        appInfo = new AppInfo();
+        appInfo.setAppName("番茄畅听");
+        appInfo.setName("番茄畅听");
+        appInfo.setFree(true);
+        appInfo.setPeriod(4l);
+        appInfo.setPkgName(Constant.PN_FAN_QIE);
+        appInfos.add(appInfo);
+
+//        AppInfo appInfo;
+//        appInfo = new AppInfo();
+//        appInfo.setAppName("每日赚点");
+//        appInfo.setName("每日赚点");
+//        appInfo.setFree(true);
+//        appInfo.setPeriod(4l);
+//        appInfo.setPkgName(Constant.PN_MEI_TIAN_ZHUAN_DIAN);
+//        appInfos.add(appInfo);
 
         TaskInfo taskInfo = new TaskInfo();
         taskInfo.setAppInfos(appInfos);

@@ -66,6 +66,45 @@ public class DianTaoFastScript extends BaseScript {
         getRecognitionResult();
     }
 
+    /**
+     * 检查是在那个页面
+     *
+     * @return //0:首页 1:个人中心  2:直播
+     */
+    private int checkPageId() {
+
+//        if (findId("homepage_container") && findId("gold_common_image")) {
+        if (findId("tl_homepage2_search_entry_big")) {
+            return 0;
+        }
+        if(findContent("日 获得大礼包")){
+            return 4;
+        }
+//        if(findContent("去打工赚钱") || findContent("打工中")){
+//            return 5;
+//        }
+        if(findContent("做任务 得抽奖机会")){
+            return 6;
+        }
+//        if (findContent("元宝中心") && findContent("我的成就")) {
+        if (findContent("元宝中心") ) {
+            return 1;
+        }
+
+        if (findId("taolive_room_watermark_text") || findId("gold_countdown_container") || findContent("后完成")) {
+            return 2;
+        }
+
+        if (findContent("填邀请码 赚元宝")) {
+            return 3;
+        }
+
+        if (findContent("打工赚元宝")) {
+            return 7;
+        }
+        return -1;
+    }
+
     @Override
     protected void executeScript() {
 
@@ -116,9 +155,11 @@ public class DianTaoFastScript extends BaseScript {
         } else if(pageId == 4){
             doPageId4Things();
         }else if(pageId == 5){
-            doPageId5Things();
+//            doPageId5Things();
         }else if(pageId == 6){
             doPageId6Things();
+        }else if(pageId == 7){
+            doPageId7Things();
         }else {
             if(samePageCount >= 2){
                 clickXY(point_DianTao.x,point_DianTao.y);
@@ -126,6 +167,37 @@ public class DianTaoFastScript extends BaseScript {
             Utils.sleep(1500);
             clickBack();
         }
+    }
+
+    private void doPageId7Things() {
+
+        if(clickContent("去观看")){
+            return;
+        }
+        if(clickContent("看直播")){
+            return;
+        }
+        if(clickContent("查看更多任务")){
+            return;
+        }
+        if(clickContent("体力+")){
+            Utils.sleep(2000);
+            if(clickContent("查看更多任务")){
+                return;
+            }else {
+                NodeInfo nodeInfo = findByText("体力+");
+                clickXY(nodeInfo.getRect().centerX()+SizeUtils.dp2px(50),nodeInfo.getRect().centerY());
+                Utils.sleep(2000);
+            }
+        }
+
+        if(clickId("sign-panel-btn")){
+            Utils.sleep(2000);
+        }
+
+
+        NodeInfo nodeInfo = findByText("体力+");
+//        clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(80),nodeInfo.getRect().centerY());
     }
 
     private void doPageId1Things() {
@@ -148,21 +220,27 @@ public class DianTaoFastScript extends BaseScript {
             }
         }
 
-        if (!findContent("去走路")) {
-            scrollUpSlow();
-            Utils.sleep(2000);
-//            return;
+        if (clickContent("走路赚元宝")){
+            return;
         }
-        if(!walkingDone){
-            if(!tempDone){
-                if (clickContent("去走路")){
-                    return;
-                }
-            }else{
-                tempDone = false;
-            }
-        }
+//        if (!findContent("去走路")) {
+//            scrollUpSlow();
+//            Utils.sleep(2000);
+////            return;
+//        }
+//        if(!walkingDone){
+//            if(!tempDone){
+//                if (clickContent("走路赚元宝")){
+//                    return;
+//                }
+//            }else{
+//                tempDone = false;
+//            }
+//        }
 
+//        if(clickContent("打工赚元宝")){
+//            return;
+//        }
 //        if (!findContent("去抽奖")) {
 //            scrollUpSlow();
 //            Utils.sleep(2000);
@@ -253,7 +331,7 @@ public class DianTaoFastScript extends BaseScript {
         if(clickContent("去观看"))return;
         if(clickContent("去领步数"))return;
 
-        NodeInfo nodeInfo = findByText("领取");
+        NodeInfo nodeInfo = findTotalMatchByText("领取");
         if (nodeInfo != null) {
             ActionUtils.click(nodeInfo.getRect().centerX(), nodeInfo.getRect().centerY()-SizeUtils.dp2px(20));
             return;
@@ -272,23 +350,23 @@ public class DianTaoFastScript extends BaseScript {
     }
 
 //    boolean tempWorkDone = false;
-    private void doPageId5Things() {
-        if(clickContent("领取体力"))return;
-        if(clickContent("去打工赚钱")){
-            Utils.sleep(1000);
-            if(clickContent("开始打工")){
-                Utils.sleep(1000);
-                clickBack();
-                return;
-            }
-            return;
-        }
-
-        if(clickContent("赚体力")){
-            Utils.sleep(1000);
-            if(clickContent("去观看"))return;
-        }
-    }
+//    private void doPageId5Things() {
+//        if(clickContent("领取体力"))return;
+//        if(clickContent("去打工赚钱")){
+//            Utils.sleep(1000);
+//            if(clickContent("开始打工")){
+//                Utils.sleep(1000);
+//                clickBack();
+//                return;
+//            }
+//            return;
+//        }
+//
+//        if(clickContent("赚体力")){
+//            Utils.sleep(1000);
+//            if(clickContent("去观看"))return;
+//        }
+//    }
 
     private void doPageId6Things() {
         scrollDown();
@@ -335,12 +413,9 @@ public class DianTaoFastScript extends BaseScript {
     }
 
     private void doPageId0Things() {
-
-
         if (clickId("gold_common_image")) return;
 
         clickContent("直播");
-
     }
 
     private void closeDialog(){
@@ -350,44 +425,6 @@ public class DianTaoFastScript extends BaseScript {
         clickContent("残忍退出");
     }
 
-
-    /**
-     * 检查是在那个页面
-     *
-     * @return //0:首页 1:个人中心  2:直播
-     */
-    private int checkPageId() {
-//        LogUtils.d(TAG,"curPageEvent:"+MyAccessbilityService.curPageEvent.getClassName());
-
-//        if (findId("homepage_container") && findId("gold_common_image")) {
-        if (findId("tl_homepage2_search_entry_big")) {
-            return 0;
-        }
-        if(findContent("日 获得大礼包")){
-            return 4;
-        }
-        if(findContent("去打工赚钱") || findContent("打工中")){
-            return 5;
-        }
-        if(findContent("做任务 得抽奖机会")){
-            return 6;
-        }
-//        if (findContent("元宝中心") && findContent("我的成就")) {
-        if (findContent("元宝中心") ) {
-            return 1;
-        }
-
-        if (findId("taolive_room_watermark_text") || findId("gold_countdown_container")) {
-            return 2;
-        }
-
-        if (findContent("填邀请码 赚元宝")) {
-            return 3;
-        }
-
-
-        return -1;
-    }
 
 
     @Override
@@ -401,10 +438,16 @@ public class DianTaoFastScript extends BaseScript {
         if(pageId == 6){
             return 1500;
         }
+        if(pageId == 7){
+            return 1500;
+        }
         if(pageId == -1){
             return 1000;
         }
-        return 5000;
+        if(pageId == 2){
+            return 5000;
+        }
+        return 2000;
     }
 
     @Override
@@ -418,14 +461,17 @@ public class DianTaoFastScript extends BaseScript {
         if(pageId == 6){
             return 1500;
         }
+        if(pageId == 7){
+            return 1500;
+        }
         if(pageId == -1){
             return 1000;
         }
-        return 5000;
+        if(pageId == 2){
+            return 5000;
+        }
+        return 2000;
     }
-
-
-
 
     public boolean isCurrentScipte() {
         return getAppInfo().getPkgName().equals(Constant.PN_DIAN_TAO) ? true : false;
@@ -459,6 +505,7 @@ public class DianTaoFastScript extends BaseScript {
                 Utils.sleep(1000);
 
                 clickBack();
+                resumeCount = 0;
             }
             return false;
         }
@@ -484,15 +531,15 @@ public class DianTaoFastScript extends BaseScript {
      *
      * @return
      */
-    private boolean dealNoResponse2() {
+    public boolean dealNoResponse2() {
         LogUtils.d(TAG,"dealNoResponse2()");
         if (clickId("gold_common_image")) return true;
         if (clickContent("知道")) return true;
         if (clickContent("继续赚金币")) return true;
         if (clickContent("去赚钱")) return true;
-        if (clickContent("禁止")) return true;
+        if (clickTotalMatchContent("禁止")) return true;
         if (clickContent("不允许")) return true;
-        if (clickContent("允许")) return true;
+        if (clickTotalMatchContent("允许")) return true;
         if (clickContent("立即添加")) return true;
         if (clickContent("关闭")) return true;
         if (clickContent("重试")) return true;

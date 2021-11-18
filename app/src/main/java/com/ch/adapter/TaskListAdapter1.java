@@ -50,6 +50,8 @@ public class TaskListAdapter1 extends BaseQuickAdapter<AppInfo, BaseViewHolder> 
             helper.setBackgroundRes(R.id.icon,R.drawable.icon_meitianzhuandian);
         }else if (item.getPkgName().equals(Constant.PN_HUO_SHAN)) {
             helper.setBackgroundRes(R.id.icon,R.drawable.icon_huoshan);
+        }else if (item.getPkgName().equals(Constant.PN_FAN_QIE)) {
+            helper.setBackgroundRes(R.id.icon,R.drawable.icon_fanqie);
         }
     }
 

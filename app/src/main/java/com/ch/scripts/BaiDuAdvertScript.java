@@ -90,7 +90,7 @@ public class BaiDuAdvertScript extends BaseScript {
             samePageCount = 0;
         }
         lastPageId = pageId;
-        LogUtils.d(TAG, "pageId:" + pageId + " samePageCount:" + samePageCount);
+        LogUtils.d(TAG, "pageId:" + pageId + " samePageCount:" + samePageCount+ " gotoPersonCount:" + gotoPersonCount);
 
         doSamePageDeal();
 
@@ -181,6 +181,7 @@ public class BaiDuAdvertScript extends BaseScript {
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
         if(samePageCount >= 2){
+            if(clickContent("我知道了"))return;
             if(clickContent("残忍退出"))return;
             if(clickContent("开心收下"))return;
             if(clickContent("立即签到")){
@@ -198,14 +199,18 @@ public class BaiDuAdvertScript extends BaseScript {
             scrollUpSlow();
             return;
         }else {
-            if(!findContent("已完成")){
-                NodeInfo nodeInfo = findByText("看广告赚钱");
-                clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(70),nodeInfo.getRect().centerY());
+            NodeInfo nodeInfo = findByText("看广告赚钱");
+            clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(70),nodeInfo.getRect().centerY());
+            Utils.sleep(2000);
+            if(findContent("后得金币")){
                 return;
             }
         }
 
+        if(clickContent("去签到"))return;
+
         clickXY(point_ShouYe.x,point_ShouYe.y);
+        return;
 
     }
 
@@ -214,10 +219,17 @@ public class BaiDuAdvertScript extends BaseScript {
 
         NodeInfo nodeInfo = findByText("不喜欢");
         if (null != nodeInfo) {
-            if(samePageCount > 3){
-                scrollUp();
-            }
+//            if(samePageCount > 3){
+//                scrollUp();
+//            }
             clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()+ SizeUtils.dp2px(100));
+            Utils.sleep(3000);
+            if(checkPageId() == -1){
+                clickBack();
+                Utils.sleep(2000);
+                clickBack();
+                return;
+            }
             return;
 
         }
@@ -397,6 +409,7 @@ public class BaiDuAdvertScript extends BaseScript {
                 dealNoResponse();
                 Utils.sleep(1000);
                 clickBack();
+                resumeCount = 0;
             }
             return false;
         }

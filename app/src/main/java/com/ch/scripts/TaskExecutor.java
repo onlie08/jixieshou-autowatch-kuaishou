@@ -97,6 +97,9 @@ public class TaskExecutor {
                             case Constant.PN_MEI_TIAN_ZHUAN_DIAN:
                                 script = MeiTianZhuanDianScript.getSingleton(info);
                                 break;
+                            case Constant.PN_FAN_QIE:
+                                script = FanQieScript.getSingleton(info);
+                                break;
                         }
                         if (script != null) {
                             currentScript = script;

@@ -141,12 +141,12 @@ public class MyApplication extends Application {
                 if (isStarted) {
                     // String reason = (String) event.getData();
                     setFloatText("已暂停(非任务页面)");
-                    if(null != FloatWindow.get()){
-                        if(FloatWindow.get().isShowing()){
-                            FloatWindow.get().hide();
-                            LogUtils.d(TAG,"FloatWindow.get().hide()");
-                        }
-                    }
+//                    if(null != FloatWindow.get()){
+//                        if(FloatWindow.get().isShowing()){
+//                            FloatWindow.get().hide();
+//                            LogUtils.d(TAG,"FloatWindow.get().hide()");
+//                        }
+//                    }
                 }
                 break;
             case goto_target_app:

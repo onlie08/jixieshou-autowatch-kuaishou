@@ -171,14 +171,14 @@ public class MeiTianZhuanDianScript extends BaseScript {
             return;
         }
 
-        if(clickContent("淘宝喵糖总动员邀")){
-            curTaskType = 3;
-            return;
-        }
-        if(clickContent("淘宝农场助力")){
-            curTaskType = 4;
-            return;
-        }
+//        if(clickContent("淘宝喵糖总动员邀")){
+//            curTaskType = 3;
+//            return;
+//        }
+//        if(clickContent("淘宝农场助力")){
+//            curTaskType = 4;
+//            return;
+//        }
         if(clickContent("小红书点赞")){
             curTaskType = 5;
             return;
@@ -354,7 +354,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
      */
     private void doTask0() {
         if(clickTotalMatchContent("打开链接")){
-            Utils.sleep(2000);
+            Utils.sleep(5000);
             openXiaoHongShu();
             return;
         }
@@ -380,7 +380,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
                     NodeInfo nodeInfo = findById("a0v");
                     if(null != nodeInfo){
                         clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()+SizeUtils.dp2px(80));
-                        Utils.sleep(2000);
+                        Utils.sleep(5000);
                         openXiaoHongShu();
                         return;
                     }
@@ -577,6 +577,17 @@ public class MeiTianZhuanDianScript extends BaseScript {
                         clickBack();
                         return true;
                     }
+                }else {
+                    NodeInfo nodeInfo = findByText("最近");
+                    if(null != nodeInfo){
+                        clickXY(SizeUtils.dp2px(80),nodeInfo.getRect().centerY()+SizeUtils.dp2px(100));
+                        Utils.sleep(2000);
+                        if(clickContent("提交审核")){
+                            Utils.sleep(5000);
+                            clickBack();
+                            return true;
+                        }
+                    }
                 }
             }
         }
@@ -708,7 +719,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
             }
 
             resumeCount++;
-            if (resumeCount > 30) {
+            if (resumeCount > 36) {
                 LogUtils.d(TAG, "自动恢复到头条极速版");
                 CrashReport.postCatchedException(new Throwable("自动恢复到头条极速版"));
                 startApp();
@@ -721,6 +732,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
                 dealNoResponse();
                 Utils.sleep(1000);
                 clickBack();
+                resumeCount = 0;
             }
             return false;
         }
@@ -842,7 +854,6 @@ public class MeiTianZhuanDianScript extends BaseScript {
             clickTotalMatchContent("打开");
             Utils.sleep(2000);
         }
-        NodeInfo nodeInfo = findByText("发弹幕");
         NodeInfo nodeInfo1 = findByText("说点什么");
         if(null != nodeInfo1){
             ActionUtils.zuohua();
@@ -858,9 +869,11 @@ public class MeiTianZhuanDianScript extends BaseScript {
             return;
         }
         Utils.sleep(1000*20);
+        NodeInfo nodeInfo = findByText("发弹幕");
         clickXY(MyApplication.getScreenWidth()/2,nodeInfo.getRect().centerY());
         Utils.sleep(2000);
         MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
+        Utils.sleep(2000);
         clickBack();
         screemSuccess = true;
         Utils.sleep(2000);
@@ -899,7 +912,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
         Utils.sleep(8000);
         if(clickId("input")){
             Utils.sleep(2000);
-            AccessibilityNodeInfo textInfo = findAccessibilityNodeById("input");
+            AccessibilityNodeInfo textInfo = findAccessibilityNodeById("com.zhihu.android:id/input");
             if (textInfo != null) {
                 Bundle arguments = new Bundle();
                 arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, searchAuthorBean.getSearchKey());
