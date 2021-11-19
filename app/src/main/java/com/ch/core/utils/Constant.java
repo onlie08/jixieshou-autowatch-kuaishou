@@ -108,8 +108,14 @@ public class Constant {
     public static final String BAIDU_ZHANTIE = "BAIDU_ZHANTIE";
 
     /**
-     * 百度图像识别内容
+     * 京东图像识别内容
      */
     public static final String JINGDONG_ZHUANJINBI = "JINGDONG_ZHUANJINBI";
+
+    /**
+     * 每天赚点图像识别内容
+     */
+    public static final String MEITIANZHUANDIAN_SHOUYE = "MEITIANZHUANDIAN_SHOUYE";
+    public static final String MEITIANZHUANDIAN_WODE = "MEITIANZHUANDIAN_WODE";
 
 }

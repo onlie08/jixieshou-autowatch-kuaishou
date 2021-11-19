@@ -277,6 +277,7 @@ public class Dumper {
         serializer.attribute("", "scrollable", Boolean.toString(nodeInfo.isScrollable()));
         serializer.attribute("", "isTextFromDes", Boolean.toString(nodeInfo.isTextFromDes()));
         serializer.attribute("", "apptype", nodeInfo.getApptype());
+        serializer.attribute("", "childCount",  Integer.toString(nodeInfo.getChildCount()));
     }
 
     /**
@@ -396,6 +397,7 @@ public class Dumper {
         myrect.setFocused(node.isFocused());
         myrect.setLongClickable(node.isLongClickable());
         myrect.setSelected(node.isSelected());
+        myrect.setChildCount(node.getChildCount());
         Rect visiableRect = AccessibilityNodeInfoHelper.getVisibleBoundsInScreen(node, screenW, screenH, myrect);
         myrect.setBounds(visiableRect.toShortString());
         myrect.setScrollable(node.isScrollable());

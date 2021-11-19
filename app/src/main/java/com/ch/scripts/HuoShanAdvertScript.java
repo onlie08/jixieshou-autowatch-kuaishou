@@ -125,8 +125,6 @@ public class HuoShanAdvertScript extends BaseScript {
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
         if(samePageCount >= 2){
-            if(clickContent("残忍退出"))return;
-            if(clickContent("开心收下"))return;
             if(clickContent("立即签到")){
                 Utils.sleep(1000);
                 clickBack();
@@ -138,13 +136,17 @@ public class HuoShanAdvertScript extends BaseScript {
             return;
         }
 
-        if(clickTotalMatchContent("去填写")){
-            return;
-        }
         if(clickTotalMatchContent("开宝箱得火苗")){
             return;
         }
-
+        scrollUpSlow();
+        Utils.sleep(2000);
+        if(clickTotalMatchContent("去填写")){
+            return;
+        }else {
+            scrollDown();
+            Utils.sleep(2000);
+        }
         NodeInfo nodeInfo = findByText("限时任务赚火苗");
         if(null != nodeInfo){
             clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(40),nodeInfo.getRect().centerY());

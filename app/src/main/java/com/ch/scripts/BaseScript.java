@@ -17,6 +17,7 @@ import com.ch.core.utils.Logger;
 import com.ch.core.utils.Utils;
 import com.ch.model.AppInfo;
 
+import java.util.List;
 import java.util.Random;
 
 public abstract class BaseScript implements IScript {
@@ -113,6 +114,10 @@ public abstract class BaseScript implements IScript {
 //
     protected AccessibilityNodeInfo findAccessibilityNodeById(String id) {
         return FindById.findAccessibilityNode(id);
+    }
+//
+    protected List<AccessibilityNodeInfo> findAccessibilityNodeListById(String id) {
+        return FindById.findAccessibilityNodeList(id);
     }
 
     /**

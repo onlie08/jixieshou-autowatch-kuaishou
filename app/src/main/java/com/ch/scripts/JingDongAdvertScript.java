@@ -146,7 +146,17 @@ public class JingDongAdvertScript extends BaseScript {
 
     private void doPageId3Things() {
         LogUtils.d(TAG, "doPageId3Things");
-        if(clickContent("点击逛下一个"))return;
+        if(findContent("今日已完成")){
+            while (checkPageId() != 2 && isTargetPkg()){
+                clickBack();
+                Utils.sleep(1500);
+            }
+            return;
+        }
+        if(clickContent("点击逛下一个")){
+            samePageCount = 0;
+            return;
+        }
        scrollUp();
 
     }
@@ -236,7 +246,7 @@ public class JingDongAdvertScript extends BaseScript {
         } else if (pageId == 1) {
             return 2000;
         } else if (pageId == 3) {
-            return 3000;
+            return 2000;
         } else if (pageId == 4) {
             return 2000;
         }else if (pageId == 0) {

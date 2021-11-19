@@ -531,6 +531,19 @@ public class RecognitionManage {
                 case PAGE_ADVERT:
                     break;
             }
+            case Constant.PN_MEI_TIAN_ZHUAN_DIAN:
+                switch (pageId) {
+                case PAGE_MAIN:
+                    Point p_shouye = getPoint(getRecognitionBean(recognitionBeans,"首页"));
+                    if(null != p_shouye){
+                        SPUtils.getInstance().put(Constant.MEITIANZHUANDIAN_SHOUYE, new Gson().toJson(p_shouye));
+                    }
+                    Point p_wode = getPoint(getRecognitionBean(recognitionBeans,"我的"));
+                    if(null != p_wode){
+                        SPUtils.getInstance().put(Constant.MEITIANZHUANDIAN_WODE, new Gson().toJson(p_wode));
+                    }
+                    break;
+            }
 
                 break;
         }

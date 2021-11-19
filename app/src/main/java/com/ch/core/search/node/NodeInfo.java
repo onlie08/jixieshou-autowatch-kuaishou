@@ -58,6 +58,15 @@ public class NodeInfo {
     private boolean scrollable;
     private String apptype;
     private String bounds;
+    private int childCount;
+
+    public int getChildCount() {
+        return childCount;
+    }
+
+    public void setChildCount(int childCount) {
+        this.childCount = childCount;
+    }
 
     /**
      * 简单xpath

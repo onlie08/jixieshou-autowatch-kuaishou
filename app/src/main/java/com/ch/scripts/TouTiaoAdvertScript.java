@@ -1,13 +1,17 @@
 package com.ch.scripts;
 
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.text.TextUtils;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
+import com.ch.core.search.node.NodeInfo;
 import com.ch.core.utils.ActionUtils;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
@@ -19,7 +23,10 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.List;
+
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
+import static android.content.Context.NOTIFICATION_SERVICE;
 import static com.ch.core.utils.ActionUtils.pressHome;
 
 public class TouTiaoAdvertScript extends BaseScript {
@@ -186,9 +193,44 @@ public class TouTiaoAdvertScript extends BaseScript {
         scrollUp();
 
         Utils.sleep(3000);
+        List<AccessibilityNodeInfo> accessibilityNodeInfos = findAccessibilityNodeListById("com.ss.android.article.lite:id/agp");
+        if(null == accessibilityNodeInfos){
+            accessibilityNodeInfos = findAccessibilityNodeListById("com.ss.android.article.lite:id/afk");
+        }
+
+        if(null != accessibilityNodeInfos){
+            for(int i=0;i<accessibilityNodeInfos.size();i++){
+                LogUtils.d(TAG,"nodeInfo.getChildCount():"+accessibilityNodeInfos.get(i).getChildCount() + " postion:"+i);
+                if(accessibilityNodeInfos.get(i).getChildCount()>2){
+                    continue;
+                }else {
+                    AccessibilityNodeInfo accessibilityNodeInfo = accessibilityNodeInfos.get(i);
+                    Rect nodeRect = new Rect();
+                    accessibilityNodeInfo.getBoundsInScreen(nodeRect);
+                    clickXY(nodeRect.centerX(),nodeRect.centerY());
+
+//                    accessibilityNodeInfos.get(i).performAction(AccessibilityNodeInfo.ACTION_CLICK);
+//                    Utils.sleep(2000);
+                    return;
+                }
+            }
+        }
 
 
-        if (clickContent("0评论")) return;
+//        NodeInfo nodeInfo = findById("agp");
+////        NodeInfo nodeInfo = findByText("0评论");
+//        if(null != nodeInfo){
+//            LogUtils.d(TAG,"nodeInfo.getChildCount():"+nodeInfo.getChildCount());
+//            if(nodeInfo.getChildCount()>2){
+////                scrollUpSlow();
+//                return;
+//            }else {
+//                clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY());
+//                return;
+//            }
+//        }
+
+//        if (clickContent("0评论")) return;
 
         if (clickContent("继续阅读")) return;
 
@@ -242,10 +284,21 @@ public class TouTiaoAdvertScript extends BaseScript {
 
 
         scrollUp();
+        NodeInfo nodeInfo = findById("mc-footer");
+        if(null != nodeInfo){
+            LogUtils.d(TAG,"nodeInfo.getChildCount():"+nodeInfo.getChildCount());
+            if(nodeInfo.getChildCount() >3){
+                clickXY(MyApplication.getScreenWidth()- SizeUtils.dp2px(80),nodeInfo.getRect().top+SizeUtils.dp2px(100));
+                return;
+            }else {
+                clickBack();
+                return;
+            }
 
-        if (findId("bz")) {
-            clickBack();
         }
+//        if (findId("bz")) {
+////            clickBack();
+////        }
         if (findContent("已显示全部评论") || findContent("暂无评论，点击抢沙发")) {
             clickBack();
         }

@@ -1,7 +1,9 @@
 package com.ch.scripts;
 
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.text.TextUtils;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
@@ -23,6 +25,7 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.List;
 import java.util.Random;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
@@ -161,19 +164,33 @@ public class BaiDuAdvertScript extends BaseScript {
         }
 
         gotoPersonCount++;
-        if (gotoPersonCount > 4) {
+        if (gotoPersonCount > 10) {
             gotoPersonCount = 0;
             clickXY(point_RenWu.x,point_RenWu.y);
             return;
         }
 
+
         if (clickId("fc6")) return;
 
         scrollUp();
 
-        Utils.sleep(3000);
+        Utils.sleep(2000);
 
-        clickXY(500,500);
+        List<AccessibilityNodeInfo> accessibilityNodeInfos = findAccessibilityNodeListById("com.baidu.searchbox.lite:id/c8");
+        if(null != accessibilityNodeInfos){
+            for(int i =0;i<accessibilityNodeInfos.get(0).getChildCount();i++){
+                AccessibilityNodeInfo accessibilityNodeInfo = accessibilityNodeInfos.get(0).getChild(i);
+                if(accessibilityNodeInfo.getChildCount() == 2){
+                    Rect rect = new Rect();
+                    accessibilityNodeInfo.getBoundsInScreen(rect);
+                    clickXY(rect.centerX(),rect.centerY());
+                    return;
+                }
+            }
+        }
+
+//        clickXY(500,500);
 //        if (clickContent("0评论")) return;
 
     }
@@ -316,7 +333,7 @@ public class BaiDuAdvertScript extends BaseScript {
         } else if (pageId == 4) {
             return 2000;
         } else if (pageId == 0) {
-            return 4000;
+            return 2000;
         } else if (pageId == -1) {
             return 1000;
         } else {
@@ -336,7 +353,7 @@ public class BaiDuAdvertScript extends BaseScript {
         } else if (pageId == 4) {
             return 2000;
         }else if (pageId == 0) {
-            return 4000;
+            return 2000;
         }else if (pageId == -1) {
             return 1000;
         } else {
