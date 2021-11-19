@@ -186,6 +186,20 @@ public class AiQiYiAdvertScript extends BaseScript {
     boolean advertDone4 = false;
 
     private void doPageId1Things() {
+
+
+        if (samePageCount >= 4) {
+            scrollDown();
+            Utils.sleep(1500);
+        }
+        LogUtils.d(TAG, "doPageId1Things");
+
+        if (clickContent("开宝箱领金币")) return;
+
+        if(clickContent("领1000金币")){
+            return;
+        }
+
         if (!findContent("已完成")) {
             if (clickContent("填写邀请码奖励")) {
                 SPUtils.getInstance().put(Constant.AIQIYI_TIANXIEHAOYOUYAOQINGMA, "");
@@ -195,38 +209,13 @@ public class AiQiYiAdvertScript extends BaseScript {
             }
         }
 
-        if (samePageCount >= 4) {
-            scrollDown();
+        if(clickContent("看视频赚钱")){
             Utils.sleep(1500);
+            scrollUp();
+            Utils.sleep(3000);
+            clickXY(500,500);
+            return;
         }
-        LogUtils.d(TAG, "doPageId1Things");
-
-        if (!findContent("明日可领")) {
-            if (clickContent("开宝箱领金币")) return;
-        }
-
-//        if (!advertDone3) {
-//            if (!findContent("幸运大转盘")) {
-//                scrollUpSlow();
-//                return;
-//            }
-//            if (clickContent("幸运大转盘")) return;
-//        }
-
-        if(!advertDone1){
-            if (!findContent("1000金币轻松赚")) {
-                scrollUpSlow();
-                return;
-            }
-            if (!findContent("今日进度10/10")) {
-                if (clickContent("1000金币轻松赚")) return;
-            }else {
-                scrollDown();
-                advertDone1 = true;
-                return;
-            }
-        }
-
 
         if (!findContent("看视频每天赚")) {
             scrollUpSlow();
