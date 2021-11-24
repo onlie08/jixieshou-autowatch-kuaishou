@@ -217,6 +217,8 @@ public class AiQiYiAdvertScript extends BaseScript {
             return;
         }
 
+
+        //以下是旧版兼容
         if (!findContent("看视频每天赚")) {
             scrollUpSlow();
             return;
@@ -407,15 +409,20 @@ public class AiQiYiAdvertScript extends BaseScript {
                 LogUtils.d(TAG, "自动恢复到爱奇艺极速版");
                 CrashReport.postCatchedException(new Throwable("自动恢复到爱奇艺极速版"));
                 startApp();
+                Utils.sleep(2000);
             }
             if (resumeCount > 10) {
                 if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
+                    Utils.sleep(2000);
                 }
+                clickBack();
+                Utils.sleep(2000);
+                clickBack();
+                Utils.sleep(2000);
                 LogUtils.d(TAG, "爱奇艺极速版是不是anr了?");
                 dealNoResponse();
-                Utils.sleep(1000);
-                clickBack();
+                Utils.sleep(2000);
                 resumeCount = 0;
             }
             return false;

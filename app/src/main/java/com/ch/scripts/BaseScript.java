@@ -26,6 +26,16 @@ public abstract class BaseScript implements IScript {
     private AppInfo appInfo;
     private long startTime;
     public boolean stop = false;
+    public boolean todayDone = false;
+
+    public boolean isTodayDone() {
+        return todayDone;
+    }
+
+    public void setTodayDone(boolean todayDone) {
+        this.todayDone = todayDone;
+    }
+
     public BaseScript(AppInfo appInfo) {
         this.appInfo = appInfo;
     }
@@ -184,7 +194,7 @@ public abstract class BaseScript implements IScript {
      * @return
      */
     public boolean longPressXY(int x, int y) {
-        ActionUtils.click(x, y);
+        ActionUtils.longPress(x, y);
         LogUtils.dTag(BASETAG, "click x: "+x + " y:"  + y);
         return false;
     }

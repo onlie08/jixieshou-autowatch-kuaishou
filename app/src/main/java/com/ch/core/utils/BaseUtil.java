@@ -75,6 +75,8 @@ public class BaseUtil {
             needRecommend = true;
         }else if(packageName.equals(Constant.PN_FAN_QIE)){
             needRecommend = true;
+        }else if(packageName.equals(Constant.PN_TAO_TE)){
+            needRecommend = true;
         }
         return needRecommend;
     }
@@ -95,6 +97,8 @@ public class BaseUtil {
             describeText = context.getResources().getString(R.string.baidu_describe);
         }else if(packageName.equals(Constant.PN_JING_DONG)){
             describeText = context.getResources().getString(R.string.jingdong_describe);
+        }else if(packageName.equals(Constant.PN_TAO_TE)){
+            describeText = context.getResources().getString(R.string.taote_describe);
         }else if(packageName.equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
             describeText = context.getResources().getString(R.string.meitianzhuandian_describe);
         }else if(packageName.equals(Constant.PN_HUO_SHAN)){
@@ -120,7 +124,9 @@ public class BaseUtil {
         }else if(packageName.equals(Constant.PN_TOU_TIAO)){
             recommendCode = MyApplication.recommendBean.getCode_toutiao();
         }else if(packageName.equals(Constant.PN_JING_DONG)){
-            recommendCode = "ZW99VA";
+            recommendCode = MyApplication.recommendBean.getCode_jingdong();
+        }else if(packageName.equals(Constant.PN_TAO_TE)){
+            recommendCode = MyApplication.recommendBean.getCode_taote();
         }else if(packageName.equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
             recommendCode = MyApplication.recommendBean.getCode_meitianzhuandian();
         }else if(packageName.equals(Constant.PN_HUO_SHAN)){
@@ -150,6 +156,8 @@ public class BaseUtil {
             recommendCode = "百度极速版";
         }else if(packageName.equals(Constant.PN_JING_DONG)){
             recommendCode = "京东极速版";
+        }else if(packageName.equals(Constant.PN_TAO_TE)){
+            recommendCode = "淘特";
         }else if(packageName.equals(Constant.PN_TOU_TIAO)){
             recommendCode = "今日头条极速版";
         }else if(packageName.equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){

@@ -31,6 +31,7 @@ public class SPService {
     private static final String COMMON_CONFIG = "monitor_db";
     public static final String SP_TASK_LIST = "task_list";
     public static final String CLOUD_PAY_ID = "cloud_pay_id";
+    public static final String SP_HIS_TASK_LIST = "his_task_list";//记录每次开启任务时的任务
 
     private static SharedPreferences preferences;
 

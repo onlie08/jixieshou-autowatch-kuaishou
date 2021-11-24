@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.LogUtils;
-import com.ch.activity.MainActivity;
+//import com.ch.activity.MainActivity;
 import com.ch.activity.EditTaskActivity;
 import com.ch.activity.MainActivity2;
 import com.ch.activity.TaskTypeListActivity;
@@ -283,7 +283,7 @@ public class MyApplication extends Application {
                 .setView(floatView)
                 .setY(150)
                 .setX(0)
-                .setFilter(false, MainActivity.class, EditTaskActivity.class, TaskTypeListActivity.class)
+                .setFilter(false, MainActivity2.class, EditTaskActivity.class, TaskTypeListActivity.class)
                 .setMoveType(MoveType.slide)
                 .setMoveStyle(500, new BounceInterpolator())
                 .setViewStateListener(mViewStateListener)

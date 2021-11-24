@@ -282,6 +282,9 @@ public class EditTaskActivity extends AppCompatActivity {
             case Constant.PN_JING_DONG:
                 tv_detail.setText(getResources().getText(R.string.jingdong_detail));
                 break;
+            case Constant.PN_TAO_TE:
+                tv_detail.setText(getResources().getText(R.string.taote_detail));
+                break;
             case Constant.PN_MEI_TIAN_ZHUAN_DIAN:
                 tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.meitianzhuandian_detail)),MyApplication.recommendBean.getCode_meitianzhuandian()));
 

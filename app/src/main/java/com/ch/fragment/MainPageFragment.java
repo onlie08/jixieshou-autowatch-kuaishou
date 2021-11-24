@@ -198,6 +198,13 @@ public class MainPageFragment extends Fragment {
             public void onClick(View view) {
                 currentAppInfos.clear();
                 currentAppInfos.addAll(appInfos);
+
+                if(!currentAppInfos.isEmpty()){
+                    TaskInfo taskInfo = new TaskInfo();
+                    taskInfo.setAppInfos(currentAppInfos);
+                    SPService.put(SPService.SP_HIS_TASK_LIST, taskInfo);
+                }
+
                 startTask();
             }
         });
@@ -267,23 +274,15 @@ public class MainPageFragment extends Fragment {
     }
 
     private void initData() {
-        TaskInfo hisTaskInfo = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
-        if (hisTaskInfo == null || hisTaskInfo.getAppInfos() == null || hisTaskInfo.getAppInfos().isEmpty()) {
-            setData();
-        }
 
-        TaskInfo taskInfo = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
+        TaskInfo taskInfo = SPService.get(SPService.SP_HIS_TASK_LIST, TaskInfo.class);
         if (taskInfo == null || taskInfo.getAppInfos() == null || taskInfo.getAppInfos().isEmpty()) {
             newTaskCardView.setVisibility(View.VISIBLE);
             listCardView.setVisibility(View.GONE);
-
-//            fab.setVisibility(View.GONE);
-        } else {
+            } else {
             newTaskCardView.setVisibility(View.GONE);
             listCardView.setVisibility(View.VISIBLE);
-//            fab.setVisibility(View.VISIBLE);
             appInfos.addAll(taskInfo.getAppInfos());
-//            taskListAdapter.notifyDataSetChanged();
         }
 
         taskListAdapter1 = new TaskListAdapter1(getActivity(),appInfos);
@@ -305,38 +304,21 @@ public class MainPageFragment extends Fragment {
             SPService.put(SPService.SP_TASK_LIST, taskInfo);
             return;
         }
-        List<AppInfo> appInfos = new ArrayList<>();
-
-        AppInfo appInfo;
-        appInfo = new AppInfo();
-        appInfo.setAppName("抖音火山版");
-        appInfo.setName("抖音火山版");
-        appInfo.setFree(true);
-        appInfo.setPeriod(4l);
-        appInfo.setPkgName(Constant.PN_HUO_SHAN);
-        appInfos.add(appInfo);
-
-
-        appInfo = new AppInfo();
-        appInfo.setAppName("番茄畅听");
-        appInfo.setName("番茄畅听");
-        appInfo.setFree(true);
-        appInfo.setPeriod(4l);
-        appInfo.setPkgName(Constant.PN_FAN_QIE);
-        appInfos.add(appInfo);
-
+//
+//        List<AppInfo> appInfos = new ArrayList<>();
+//
 //        AppInfo appInfo;
 //        appInfo = new AppInfo();
-//        appInfo.setAppName("每日赚点");
-//        appInfo.setName("每日赚点");
+//        appInfo.setAppName("淘特");
+//        appInfo.setName("淘特");
 //        appInfo.setFree(true);
 //        appInfo.setPeriod(4l);
-//        appInfo.setPkgName(Constant.PN_MEI_TIAN_ZHUAN_DIAN);
+//        appInfo.setPkgName(Constant.PN_TAO_TE);
 //        appInfos.add(appInfo);
-
-        TaskInfo taskInfo = new TaskInfo();
-        taskInfo.setAppInfos(appInfos);
-        SPService.put(SPService.SP_TASK_LIST, taskInfo);
+//
+//        TaskInfo taskInfo = new TaskInfo();
+//        taskInfo.setAppInfos(appInfos);
+//        SPService.put(SPService.SP_TASK_LIST, taskInfo);
     }
 
     private void gotoAddNewTaskActivity() {
@@ -541,8 +523,8 @@ public class MainPageFragment extends Fragment {
 
                         if (taskInfo1 == null || taskInfo1.getAppInfos() == null || taskInfo1.getAppInfos().isEmpty()) {
 
-                            listCardView.setVisibility(View.GONE);
-                            newTaskCardView.setVisibility(View.VISIBLE);
+//                            listCardView.setVisibility(View.GONE);
+//                            newTaskCardView.setVisibility(View.VISIBLE);
                             setData();
                             TaskInfo taskInfo = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
                             appInfos.clear();

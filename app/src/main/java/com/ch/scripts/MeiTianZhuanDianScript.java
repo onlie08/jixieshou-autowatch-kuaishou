@@ -139,6 +139,9 @@ public class MeiTianZhuanDianScript extends BaseScript {
 
         }
         else {
+            if(samePageCount > 8){
+                scrollDown();
+            }
             Utils.sleep(1500);
             clickBack();
         }
@@ -223,10 +226,10 @@ public class MeiTianZhuanDianScript extends BaseScript {
             curTaskType = 1;
             return;
         }
-        if(clickContent("淘宝产品浏览") || clickContent("淘宝浏览产品")){
-            curTaskType = 2;
-            return;
-        }
+//        if(clickContent("淘宝产品浏览") || clickContent("淘宝浏览产品")){
+//            curTaskType = 2;
+//            return;
+//        }
 
 //        if(clickContent("淘宝喵糖总动员邀")){
 //            curTaskType = 3;
@@ -237,14 +240,14 @@ public class MeiTianZhuanDianScript extends BaseScript {
 //            return;
 //        }
 
-        if(clickContent("小红书点赞")){
-            curTaskType = 5;
-            return;
-        }
-        if(clickContent("简单搜索浏览") || clickContent("简单浏览任务")){
-            curTaskType = 99;
-            return;
-        }
+//        if(clickContent("小红书点赞")){
+//            curTaskType = 5;
+//            return;
+//        }
+//        if(clickContent("简单搜索浏览") || clickContent("简单浏览任务")){
+//            curTaskType = 99;
+//            return;
+//        }
 
 //        if(clickContent("简单浏览，")){
 //            curTaskType = 98;
@@ -414,6 +417,12 @@ public class MeiTianZhuanDianScript extends BaseScript {
     private void doTask0() {
         if(clickTotalMatchContent("打开链接")){
             Utils.sleep(5000);
+            if(findContent("打开方式")){
+                if(clickTotalMatchContent("小红书")){
+                    Utils.sleep(5000);
+                }
+
+            }
             openXiaoHongShu();
             return;
         }
@@ -423,29 +432,43 @@ public class MeiTianZhuanDianScript extends BaseScript {
      * 扫码跳转小红书关注
      */
     private void doTask1() {
-        if(clickContent("点击保存二维码")){
-            PackageUtils.startApp(Constant.PN_XIAO_HONG_SHU);
-            Utils.sleep(6000);
-            if(clickId("br8")){
+        NodeInfo nodeInfo = findByText("点击保存二维码");
+        longPressXY(MyApplication.getScreenWidth()/2,nodeInfo.getRect().centerY()-SizeUtils.dp2px(80));
+        Utils.sleep(3000);
+        if(clickTotalMatchContent("识别二维码")){
+            Utils.sleep(5000);
+            if(findTotalMatchContent("识别二维码")){
+                clickBack();
                 Utils.sleep(2000);
+                cancelTask();
+                return;
             }
-            if(clickId("dkn")){
-                Utils.sleep(2000);
-            }
-            if(clickContent("扫一扫")){
-                Utils.sleep(2000);
-                if(clickId("c9p")){
-                    Utils.sleep(2000);
-                    NodeInfo nodeInfo = findById("a0v");
-                    if(null != nodeInfo){
-                        clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()+SizeUtils.dp2px(80));
-                        Utils.sleep(5000);
-                        openXiaoHongShu();
-                        return;
-                    }
-                }
-            }
+            openXiaoHongShu();
         }
+
+//        if(clickContent("点击保存二维码")){
+//            PackageUtils.startApp(Constant.PN_XIAO_HONG_SHU);
+//            Utils.sleep(6000);
+//            if(clickId("bs5")){
+//                Utils.sleep(2000);
+//            }
+//            if(clickId("dn8")){
+//                Utils.sleep(2000);
+//            }
+//            if(clickContent("扫一扫")){
+//                Utils.sleep(2000);
+//                if(clickId("caa")){
+//                    Utils.sleep(2000);
+//                    NodeInfo nodeInfo = findById("a0v");
+//                    if(null != nodeInfo){
+//                        clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()+SizeUtils.dp2px(80));
+//                        Utils.sleep(5000);
+//                        openXiaoHongShu();
+//                        return;
+//                    }
+//                }
+//            }
+//        }
     }
 
     /**
@@ -492,174 +515,190 @@ public class MeiTianZhuanDianScript extends BaseScript {
      * 上传截图提交任务
      */
     private boolean uploadTask(){
-        if(null != curSearchAuthorBean){
-
-            if(curSearchAuthorBean.getType() == 1){
-                NodeInfo nodeInfo = findByText("文末内容");
-                if(null != nodeInfo){
-                    clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(100),nodeInfo.getRect().centerY() + SizeUtils.dp2px(80));
-                    Utils.sleep(2000);
-                    NodeInfo nodeInfo2 = findByText("手机上的近期图片");
-                    if(null != nodeInfo2){
-                        clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(60),nodeInfo2.getRect().centerY()+SizeUtils.dp2px(100));
-                        Utils.sleep(2000);
-                    }
-
-                    while (!findTotalMatchContent("3")&& pageId == 2){
-                        scrollUpSlow();
-                        Utils.sleep(2000);
-                    }
-                    nodeInfo = findTotalMatchByText("3");
-                    int height6 = nodeInfo.getRect().centerY();
-                    if(MyApplication.getScreenHeight()< SizeUtils.dp2px(100)+height6){
-                        scrollUpSlow();
-                        Utils.sleep(2000);
-                    }
-                    nodeInfo = findTotalMatchByText("3");
-                    height6 = nodeInfo.getRect().centerY();
-                    clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(100),height6 + SizeUtils.dp2px(60));
-                    Utils.sleep(2000);
-                    nodeInfo2 = findByText("手机上的近期图片");
-                    if(null != nodeInfo2){
-                        clickXY(MyApplication.getScreenWidth()/2,nodeInfo2.getRect().centerY()+SizeUtils.dp2px(100));
-                        Utils.sleep(2000);
-                    }
-
-                    while (!findTotalMatchContent("4")&& pageId == 2){
-                        scrollUpSlow();
-                        Utils.sleep(2000);
-                    }
-                    nodeInfo = findTotalMatchByText("4");
-                    int height7 = nodeInfo.getRect().centerY();
-                    if(MyApplication.getScreenHeight()< SizeUtils.dp2px(100)+height7){
-                        scrollUpSlow();
-                        Utils.sleep(2000);
-                    }
-                    nodeInfo = findTotalMatchByText("4");
-                    height7 = nodeInfo.getRect().centerY();
-                    clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(100),height7 + SizeUtils.dp2px(60));
-                    Utils.sleep(2000);
-                    nodeInfo2 = findByText("手机上的近期图片");
-                    if(null != nodeInfo2){
-                        clickXY(SizeUtils.dp2px(80),nodeInfo2.getRect().centerY()+SizeUtils.dp2px(100));
-                        Utils.sleep(2000);
-                        if(clickContent("提交审核")){
-                            Utils.sleep(5000);
-                            curSearchAuthorBean = null;
-                            clickBack();
-                            return true;
-                        }
-                    }
-                }
-                return true;
-            }
-
-
-            while (!findTotalMatchContent("5")  && pageId == 2){
-                scrollUpSlow();
-                Utils.sleep(2000);
-            }
-            NodeInfo nodeInfo = findTotalMatchByText("5");
-            int height = nodeInfo.getRect().centerY();
-            if(MyApplication.getScreenHeight()< SizeUtils.dp2px(100)+height){
-                scrollUpSlow();
-                Utils.sleep(2000);
-            }
-            nodeInfo = findTotalMatchByText("5");
-            int height1 = nodeInfo.getRect().centerY();
-            clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(100),height1 + SizeUtils.dp2px(60));
-            Utils.sleep(2000);
-            NodeInfo nodeInfo2 = findByText("手机上的近期图片");
-            if(null != nodeInfo2){
-                clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(60),nodeInfo2.getRect().centerY()+SizeUtils.dp2px(100));
-                Utils.sleep(2000);
-            }
-
-            while (!findTotalMatchContent("6")&& pageId == 2){
-                scrollUpSlow();
-                Utils.sleep(2000);
-            }
-            nodeInfo = findTotalMatchByText("6");
-            int height6 = nodeInfo.getRect().centerY();
-            if(MyApplication.getScreenHeight()< SizeUtils.dp2px(100)+height6){
-                scrollUpSlow();
-                Utils.sleep(2000);
-            }
-            nodeInfo = findTotalMatchByText("6");
-            height6 = nodeInfo.getRect().centerY();
-            clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(100),height6 + SizeUtils.dp2px(60));
-            Utils.sleep(2000);
-            nodeInfo2 = findByText("手机上的近期图片");
-            if(null != nodeInfo2){
-                clickXY(MyApplication.getScreenWidth()/2,nodeInfo2.getRect().centerY()+SizeUtils.dp2px(100));
-                Utils.sleep(2000);
-            }
-
-            while (!findTotalMatchContent("7")&& pageId == 2){
-                scrollUpSlow();
-                Utils.sleep(2000);
-            }
-            nodeInfo = findTotalMatchByText("7");
-            int height7 = nodeInfo.getRect().centerY();
-            if(MyApplication.getScreenHeight()< SizeUtils.dp2px(100)+height7){
-                scrollUpSlow();
-                Utils.sleep(2000);
-            }
-            nodeInfo = findTotalMatchByText("7");
-            height7 = nodeInfo.getRect().centerY();
-            clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(100),height7 + SizeUtils.dp2px(60));
-            Utils.sleep(2000);
-            nodeInfo2 = findByText("手机上的近期图片");
-            if(null != nodeInfo2){
-                clickXY(SizeUtils.dp2px(80),nodeInfo2.getRect().centerY()+SizeUtils.dp2px(100));
-                Utils.sleep(2000);
-                if(clickContent("提交审核")){
-                    Utils.sleep(5000);
-                    curSearchAuthorBean = null;
-                    clickBack();
-                    return true;
-                }
-            }
-            return false;
-        }
+//        if(null != curSearchAuthorBean){
+//
+//            if(curSearchAuthorBean.getType() == 1){
+//                NodeInfo nodeInfo = findByText("文末内容");
+//                if(null != nodeInfo){
+//                    clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(100),nodeInfo.getRect().centerY() + SizeUtils.dp2px(80));
+//                    Utils.sleep(2000);
+//                    NodeInfo nodeInfo2 = findByText("手机上的近期图片");
+//                    if(null != nodeInfo2){
+//                        clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(60),nodeInfo2.getRect().centerY()+SizeUtils.dp2px(100));
+//                        Utils.sleep(2000);
+//                    }
+//
+//                    while (!findTotalMatchContent("3")&& pageId == 2){
+//                        scrollUpSlow();
+//                        Utils.sleep(2000);
+//                    }
+//                    nodeInfo = findTotalMatchByText("3");
+//                    int height6 = nodeInfo.getRect().centerY();
+//                    if(MyApplication.getScreenHeight()< SizeUtils.dp2px(100)+height6){
+//                        scrollUpSlow();
+//                        Utils.sleep(2000);
+//                    }
+//                    nodeInfo = findTotalMatchByText("3");
+//                    height6 = nodeInfo.getRect().centerY();
+//                    clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(100),height6 + SizeUtils.dp2px(60));
+//                    Utils.sleep(2000);
+//                    nodeInfo2 = findByText("手机上的近期图片");
+//                    if(null != nodeInfo2){
+//                        clickXY(MyApplication.getScreenWidth()/2,nodeInfo2.getRect().centerY()+SizeUtils.dp2px(100));
+//                        Utils.sleep(2000);
+//                    }
+//
+//                    while (!findTotalMatchContent("4")&& pageId == 2){
+//                        scrollUpSlow();
+//                        Utils.sleep(2000);
+//                    }
+//                    nodeInfo = findTotalMatchByText("4");
+//                    int height7 = nodeInfo.getRect().centerY();
+//                    if(MyApplication.getScreenHeight()< SizeUtils.dp2px(100)+height7){
+//                        scrollUpSlow();
+//                        Utils.sleep(2000);
+//                    }
+//                    nodeInfo = findTotalMatchByText("4");
+//                    height7 = nodeInfo.getRect().centerY();
+//                    clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(100),height7 + SizeUtils.dp2px(60));
+//                    Utils.sleep(2000);
+//                    nodeInfo2 = findByText("手机上的近期图片");
+//                    if(null != nodeInfo2){
+//                        clickXY(SizeUtils.dp2px(80),nodeInfo2.getRect().centerY()+SizeUtils.dp2px(100));
+//                        Utils.sleep(2000);
+//                        if(clickContent("提交审核")){
+//                            Utils.sleep(5000);
+//                            curSearchAuthorBean = null;
+//                            clickBack();
+//                            return true;
+//                        }
+//                    }
+//                }
+//                return true;
+//            }
+//
+//
+//            while (!findTotalMatchContent("5")  && pageId == 2){
+//                scrollUpSlow();
+//                Utils.sleep(2000);
+//            }
+//            NodeInfo nodeInfo = findTotalMatchByText("5");
+//            int height = nodeInfo.getRect().centerY();
+//            if(MyApplication.getScreenHeight()< SizeUtils.dp2px(100)+height){
+//                scrollUpSlow();
+//                Utils.sleep(2000);
+//            }
+//            nodeInfo = findTotalMatchByText("5");
+//            int height1 = nodeInfo.getRect().centerY();
+//            clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(100),height1 + SizeUtils.dp2px(60));
+//            Utils.sleep(2000);
+//            NodeInfo nodeInfo2 = findByText("手机上的近期图片");
+//            if(null != nodeInfo2){
+//                clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(60),nodeInfo2.getRect().centerY()+SizeUtils.dp2px(100));
+//                Utils.sleep(2000);
+//            }
+//
+//            while (!findTotalMatchContent("6")&& pageId == 2){
+//                scrollUpSlow();
+//                Utils.sleep(2000);
+//            }
+//            nodeInfo = findTotalMatchByText("6");
+//            int height6 = nodeInfo.getRect().centerY();
+//            if(MyApplication.getScreenHeight()< SizeUtils.dp2px(100)+height6){
+//                scrollUpSlow();
+//                Utils.sleep(2000);
+//            }
+//            nodeInfo = findTotalMatchByText("6");
+//            height6 = nodeInfo.getRect().centerY();
+//            clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(100),height6 + SizeUtils.dp2px(60));
+//            Utils.sleep(2000);
+//            nodeInfo2 = findByText("手机上的近期图片");
+//            if(null != nodeInfo2){
+//                clickXY(MyApplication.getScreenWidth()/2,nodeInfo2.getRect().centerY()+SizeUtils.dp2px(100));
+//                Utils.sleep(2000);
+//            }
+//
+//            while (!findTotalMatchContent("7")&& pageId == 2){
+//                scrollUpSlow();
+//                Utils.sleep(2000);
+//            }
+//            nodeInfo = findTotalMatchByText("7");
+//            int height7 = nodeInfo.getRect().centerY();
+//            if(MyApplication.getScreenHeight()< SizeUtils.dp2px(100)+height7){
+//                scrollUpSlow();
+//                Utils.sleep(2000);
+//            }
+//            nodeInfo = findTotalMatchByText("7");
+//            height7 = nodeInfo.getRect().centerY();
+//            clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(100),height7 + SizeUtils.dp2px(60));
+//            Utils.sleep(2000);
+//            nodeInfo2 = findByText("手机上的近期图片");
+//            if(null != nodeInfo2){
+//                clickXY(SizeUtils.dp2px(80),nodeInfo2.getRect().centerY()+SizeUtils.dp2px(100));
+//                Utils.sleep(2000);
+//                if(clickContent("提交审核")){
+//                    Utils.sleep(5000);
+//                    curSearchAuthorBean = null;
+//                    clickBack();
+//                    return true;
+//                }
+//            }
+//            return false;
+//        }
         if(findContent("提交审核")){
             scrollUp();
             Utils.sleep(2000);
             if (clickContent("选择文件")){
                 Utils.sleep(2000);
-                NodeInfo nodeInfo1 = findByText("手机上的近期图片");
-                if(null != nodeInfo1){
-                    clickXY(SizeUtils.dp2px(80),nodeInfo1.getRect().centerY()+SizeUtils.dp2px(100));
-                    Utils.sleep(2000);
-                    if(clickContent("提交审核")){
-                        Utils.sleep(5000);
-                        clickBack();
-                        return true;
+                AccessibilityNodeInfo accessibilityNodeInfo = findAccessibilityNodeById("com.android.documentsui:id/dir_list");
+                if(null == accessibilityNodeInfo){
+                    accessibilityNodeInfo = findAccessibilityNodeById("com.google.android.documentsui:id/dir_list");
+                }
+                if(null != accessibilityNodeInfo){
+                    AccessibilityNodeInfo accessibilityNodeInfo3 = accessibilityNodeInfo.getChild(0);
+                    if(null != accessibilityNodeInfo3){
+                        accessibilityNodeInfo3.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                        Utils.sleep(2000);
+                        if(clickContent("提交审核")){
+                            Utils.sleep(5000);
+                            clickBack();
+                            return true;
+                        }
                     }
                 }
-
-
-                NodeInfo nodeInfo3 = findByText("近期的图片");
-                if(null != nodeInfo3){
-                    clickXY(SizeUtils.dp2px(80),nodeInfo3.getRect().centerY()+SizeUtils.dp2px(80));
-                    Utils.sleep(2000);
-                    if(clickContent("提交审核")){
-                        Utils.sleep(5000);
-                        clickBack();
-                        return true;
-                    }
-                }
-
-                NodeInfo nodeInfo2 = findByText("最近");
-                if(null != nodeInfo2){
-                    clickXY(SizeUtils.dp2px(80),nodeInfo2.getRect().centerY()+SizeUtils.dp2px(100));
-                    Utils.sleep(2000);
-                    if(clickContent("提交审核")){
-                        Utils.sleep(5000);
-                        clickBack();
-                        return true;
-                    }
-                }
+//                NodeInfo no deInfo1 = findByText("手机上的近期图片");
+//                if(null != nodeInfo1){
+//                    clickXY(SizeUtils.dp2px(80),nodeInfo1.getRect().centerY()+SizeUtils.dp2px(100));
+//                    Utils.sleep(2000);
+//                    if(clickContent("提交审核")){
+//                        Utils.sleep(5000);
+//                        clickBack();
+//                        return true;
+//                    }
+//                }
+//
+//
+//                NodeInfo nodeInfo3 = findByText("近期的图片");
+//                if(null != nodeInfo3){
+//                    clickXY(SizeUtils.dp2px(80),nodeInfo3.getRect().centerY()+SizeUtils.dp2px(80));
+//                    Utils.sleep(2000);
+//                    if(clickContent("提交审核")){
+//                        Utils.sleep(5000);
+//                        clickBack();
+//                        return true;
+//                    }
+//                }
+//
+//                NodeInfo nodeInfo2 = findByText("最近");
+//                if(null != nodeInfo2){
+//                    clickXY(SizeUtils.dp2px(80),nodeInfo2.getRect().centerY()+SizeUtils.dp2px(100));
+//                    Utils.sleep(2000);
+//                    if(clickContent("提交审核")){
+//                        Utils.sleep(5000);
+//                        clickBack();
+//                        return true;
+//                    }
+//                }
 
             }
         }
@@ -933,6 +972,8 @@ public class MeiTianZhuanDianScript extends BaseScript {
         if(clickTotalMatchContent("打开App")){
             Utils.sleep(2000);
             clickTotalMatchContent("打开");
+            Utils.sleep(2000);
+            clickTotalMatchContent("确定");
             Utils.sleep(2000);
         }
         NodeInfo nodeInfo1 = findByText("说点什么");

@@ -211,6 +211,9 @@ public class DianTaoFastScript extends BaseScript {
 
         if(!findContent("00:")){
             clickXY(point_RenWu.x,point_RenWu.y);
+            Utils.sleep(1500);
+            closeDialog();
+            return;
         }
 
         if (!SPUtils.getInstance().getBoolean("dt_invite", false)) {
@@ -317,17 +320,17 @@ public class DianTaoFastScript extends BaseScript {
         if(samePageCount >3 ){
             if(clickContent("我知道了"))return;
         }
-        if(findContent("今日20000步已完成")){
-            walkingDone = true;
-            clickBack();
-            return;
-        }
-        if(findContent("做任务赚步数") && !findContent("去观看")){
-            clickBack();
-            Utils.sleep(1000);
-            clickBack();
-            return;
-        }
+//        if(findContent("今日20000步已完成")){
+//            walkingDone = true;
+//            clickBack();
+//            return;
+//        }
+//        if(findContent("做任务赚步数") && !findContent("去观看")){
+//            clickBack();
+//            Utils.sleep(1000);
+//            clickBack();
+//            return;
+//        }
         if(clickContent("去观看"))return;
         if(clickContent("去领步数"))return;
 
@@ -419,10 +422,10 @@ public class DianTaoFastScript extends BaseScript {
     }
 
     private void closeDialog(){
-        clickContent("邀请好友 再赚");
-        clickContent("走路赚元宝 每日");
-        clickContent("立即签到");
-        clickContent("残忍退出");
+        if(clickContent("邀请好友 再赚")) return;
+        if(clickContent("走路赚元宝 每日"))return;
+        if(clickContent("立即签到"))return;
+        if(clickContent("残忍退出"))return;
     }
 
 
@@ -495,16 +498,20 @@ public class DianTaoFastScript extends BaseScript {
                 LogUtils.d(TAG, "自动恢复到点淘");
                 CrashReport.postCatchedException(new Throwable("自动恢复到点淘"));
                 startApp();
+                Utils.sleep(2000);
             }
             if (resumeCount > 10) {
                 if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
+                    Utils.sleep(2000);
                 }
-                LogUtils.d(TAG, "点淘极速版是不是anr了?");
-                dealNoResponse();
-                Utils.sleep(1000);
-
                 clickBack();
+                Utils.sleep(2000);
+                clickBack();
+                Utils.sleep(2000);
+                LogUtils.d(TAG, "爱奇艺极速版是不是anr了?");
+                dealNoResponse();
+                Utils.sleep(2000);
                 resumeCount = 0;
             }
             return false;

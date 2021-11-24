@@ -132,6 +132,8 @@ public class RecommendCodeManage {
         recommendBean.setCode_meituan("http://dpurl.cn/AsqYbGSz");
         recommendBean.setCode_huoshan("F5QE9E");
         recommendBean.setCode_fanqie("452019513");
+        recommendBean.setCode_taote("");
+        recommendBean.setCode_jingdong("ZW99VA");
         return recommendBean;
     }
 

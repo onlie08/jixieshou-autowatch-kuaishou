@@ -417,15 +417,20 @@ public class BaiDuAdvertScript extends BaseScript {
                 LogUtils.d(TAG, "自动恢复到头条极速版");
                 CrashReport.postCatchedException(new Throwable("自动恢复到头条极速版"));
                 startApp();
+                Utils.sleep(2000);
             }
             if (resumeCount > 10) {
                 if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
+                    Utils.sleep(2000);
                 }
-                LogUtils.d(TAG, "头条极速版是不是anr了?");
-                dealNoResponse();
-                Utils.sleep(1000);
                 clickBack();
+                Utils.sleep(2000);
+                clickBack();
+                Utils.sleep(2000);
+                LogUtils.d(TAG, "爱奇艺极速版是不是anr了?");
+                dealNoResponse();
+                Utils.sleep(2000);
                 resumeCount = 0;
             }
             return false;

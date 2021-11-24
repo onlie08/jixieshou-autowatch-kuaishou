@@ -237,14 +237,17 @@ public class KuaishouFastScript extends BaseScript {
                 Utils.sleep(2000);
             }
             if (resumeCount > 10) {
-                if(BuildConfig.DEBUG){
+                if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
+                    Utils.sleep(2000);
                 }
-//                startApp();
-                LogUtils.d(TAG, "快手极速版是不是anr了?");
-                dealNoResponse();
+                clickBack();
                 Utils.sleep(2000);
                 clickBack();
+                Utils.sleep(2000);
+                LogUtils.d(TAG, "爱奇艺极速版是不是anr了?");
+                dealNoResponse();
+                Utils.sleep(2000);
                 resumeCount = 0;
             }
             return false;

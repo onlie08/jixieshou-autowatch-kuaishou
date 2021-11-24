@@ -16,6 +16,24 @@ public class RecommendBean implements Parcelable {
     private String code_eleme;
     private String code_huoshan;
     private String code_fanqie;
+    private String code_taote;
+    private String code_jingdong;
+
+    public String getCode_taote() {
+        return code_taote;
+    }
+
+    public void setCode_taote(String code_taote) {
+        this.code_taote = code_taote;
+    }
+
+    public String getCode_jingdong() {
+        return code_jingdong;
+    }
+
+    public void setCode_jingdong(String code_jingdong) {
+        this.code_jingdong = code_jingdong;
+    }
 
     public String getCode_fanqie() {
         return code_fanqie;
@@ -135,6 +153,8 @@ public class RecommendBean implements Parcelable {
         dest.writeString(this.code_eleme);
         dest.writeString(this.code_huoshan);
         dest.writeString(this.code_fanqie);
+        dest.writeString(this.code_taote);
+        dest.writeString(this.code_jingdong);
     }
 
     protected RecommendBean(Parcel in) {
@@ -150,6 +170,8 @@ public class RecommendBean implements Parcelable {
         this.code_eleme = in.readString();
         this.code_huoshan = in.readString();
         this.code_fanqie = in.readString();
+        this.code_taote = in.readString();
+        this.code_jingdong = in.readString();
     }
 
     public static final Creator<RecommendBean> CREATOR = new Creator<RecommendBean>() {

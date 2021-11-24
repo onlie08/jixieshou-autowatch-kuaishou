@@ -85,7 +85,10 @@ public class RecognitionManage {
                 ClipboardUtils.copyText(MyApplication.recommendBean.getCode_baidu());
                 break;
             case Constant.PN_JING_DONG:
-                ClipboardUtils.copyText("ZW99VA");
+                ClipboardUtils.copyText(MyApplication.recommendBean.getCode_jingdong());
+                break;
+            case Constant.PN_TAO_TE:
+                ClipboardUtils.copyText(MyApplication.recommendBean.getCode_taote());
                 break;
             case Constant.PN_HUO_SHAN:
                 ClipboardUtils.copyText(MyApplication.recommendBean.getCode_huoshan());

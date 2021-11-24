@@ -5,6 +5,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
@@ -99,6 +100,7 @@ public class HuoShanAdvertScript extends BaseScript {
             if(samePageCount >= 2){
                 if(clickContent("我知道了"))return;
                 if(clickContent("开心收下"))return;
+                if(clickContent("精选"))return;
             }
             Utils.sleep(1500);
             clickBack();
@@ -139,19 +141,31 @@ public class HuoShanAdvertScript extends BaseScript {
         if(clickTotalMatchContent("开宝箱得火苗")){
             return;
         }
-        scrollUpSlow();
-        Utils.sleep(2000);
-        if(clickTotalMatchContent("去填写")){
-            return;
-        }else {
-            scrollDown();
-            Utils.sleep(2000);
-        }
+
         NodeInfo nodeInfo = findByText("限时任务赚火苗");
         if(null != nodeInfo){
-            clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(40),nodeInfo.getRect().centerY());
+            clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(60),nodeInfo.getRect().centerY());
             Utils.sleep(2000);
+
         }
+
+        if(!SPUtils.getInstance().getBoolean("invite_huoshan",false)){
+            if(clickTotalMatchContent("去填写")){
+                return;
+            }else {
+                scrollDown();
+                Utils.sleep(2000);
+            }
+            return;
+        }
+
+//        NodeInfo nodeInfo = findByText("限时任务赚火苗");
+//        if(null != nodeInfo){
+//            clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(40),nodeInfo.getRect().centerY());
+//            Utils.sleep(2000);
+//        }
+        scrollUpSlow();
+        Utils.sleep(2000);
         return;
     }
 
@@ -164,6 +178,7 @@ public class HuoShanAdvertScript extends BaseScript {
     private void doPageId3Things() {
         LogUtils.d(TAG, "doPageId3Things");
         if(samePageCount >5){
+            SPUtils.getInstance().put("invite_huoshan",true);
             clickBack();
         }
         NodeInfo nodeInfo = findById("shareCode");
@@ -180,6 +195,7 @@ public class HuoShanAdvertScript extends BaseScript {
             Utils.sleep(2000);
             clickBack();
             Utils.sleep(2000);
+            SPUtils.getInstance().put("invite_huoshan",true);
             if(clickContent("提交"))return;
         }
     }
@@ -216,7 +232,7 @@ public class HuoShanAdvertScript extends BaseScript {
         if (findContent("火苗管理，按钮")) {
             return 0;
         }
-        if (findContent("火苗管理") && findContent("火苗账单")) {
+        if (findContent("火苗账单")) {
             return 1;
         }
 
@@ -294,15 +310,20 @@ public class HuoShanAdvertScript extends BaseScript {
                 LogUtils.d(TAG, "自动恢复到抖音火山版");
                 CrashReport.postCatchedException(new Throwable("自动恢复到抖音火山版"));
                 startApp();
+                Utils.sleep(2000);
             }
             if (resumeCount > 10) {
                 if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
+                    Utils.sleep(2000);
                 }
-                LogUtils.d(TAG, "抖音火山版是不是anr了?");
-                dealNoResponse();
-                Utils.sleep(1000);
                 clickBack();
+                Utils.sleep(2000);
+                clickBack();
+                Utils.sleep(2000);
+                LogUtils.d(TAG, "爱奇艺极速版是不是anr了?");
+                dealNoResponse();
+                Utils.sleep(2000);
                 resumeCount = 0;
             }
             return false;

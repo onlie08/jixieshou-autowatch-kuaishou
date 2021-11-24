@@ -193,7 +193,7 @@ public class DouyinFastAdvertScript extends BaseScript {
 //            scrollUpSlow();
 //            Utils.sleep(2000);
 //        }
-////        if(clickContent("逛街赚钱"))return;
+        if(clickContent("逛街赚钱"))return;
 //        if(!findContent("后浏览还可得金币") && !findContent("明日浏览可得金币")){
 //            if(clickContent("逛街赚钱"))return;
 //        }
@@ -282,14 +282,20 @@ public class DouyinFastAdvertScript extends BaseScript {
                 LogUtils.d(TAG, "自动恢复到抖音极速版");
                 CrashReport.postCatchedException(new Throwable("自动恢复到抖音极速版"));
                 startApp();
+                Utils.sleep(2000);
             }
             if (resumeCount > 10) {
-                if(BuildConfig.DEBUG){
+                if (com.ch.jixieshou.BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
+                    Utils.sleep(2000);
                 }
-                LogUtils.d(TAG, "抖音极速版是不是anr了?");
-                Utils.sleep(1000);
+                clickBack();
+                Utils.sleep(2000);
+                clickBack();
+                Utils.sleep(2000);
+                LogUtils.d(TAG, "爱奇艺极速版是不是anr了?");
                 dealNoResponse();
+                Utils.sleep(2000);
                 resumeCount = 0;
             }
             return false;

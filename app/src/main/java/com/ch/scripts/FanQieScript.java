@@ -5,6 +5,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
@@ -102,9 +103,14 @@ public class FanQieScript extends BaseScript {
             doPageId4Things();
 
         }  else {
-            if(samePageCount >= 2){
-                if(clickContent("我知道了"))return;
-                if(clickContent("开心收下"))return;
+            if(samePageCount >= 4){
+                if(clickContent("继续观看"))return;
+                NodeInfo nodeInfo = findByText("反馈");
+                if(null != nodeInfo){
+                    clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(40),nodeInfo.getRect().centerY());
+                    Utils.sleep(1500);
+                }
+
             }
             Utils.sleep(1500);
             clickBack();
@@ -113,6 +119,10 @@ public class FanQieScript extends BaseScript {
     }
 
     private void doPageId4Things() {
+        if(samePageCount > 2){
+            SPUtils.getInstance().put("invite_fanqie",true);
+            return;
+        }
         clickId("input");
 
         Utils.sleep(2000);
@@ -125,15 +135,19 @@ public class FanQieScript extends BaseScript {
             Utils.sleep(2000);
             clickBack();
             Utils.sleep(2000);
-            if(clickContent("马上提交"))return;
+            if(clickContent("马上提交")){
+                Utils.sleep(2000);
+                SPUtils.getInstance().put("invite_fanqie",true);
+                return;
+            }
         }
     }
 
     //    private int gotoPersonCount = 0;
     private void doPageId0Things() {
         LogUtils.d(TAG, "doPageId0Things");
-        NodeInfo nodeInfo = findByText("我的");
-        clickXY(nodeInfo.getRect().centerX()-SizeUtils.dp2px(50),nodeInfo.getRect().centerY());
+        NodeInfo nodeInfo = findByText("听过");
+        clickXY(MyApplication.getScreenWidth() - nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY());
 //        clickContent("")
 //        gotoPersonCount++;
 //        if (gotoPersonCount > 4) {
@@ -150,6 +164,8 @@ public class FanQieScript extends BaseScript {
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
         if(samePageCount > 2){
+            if(clickContent("立即签到"))return;
+//            clickContent("立即签到");
             scrollDown();
         }
         if(samePageCount > 4){
@@ -157,11 +173,14 @@ public class FanQieScript extends BaseScript {
             clickXY(MyApplication.getScreenWidth()/2,nodeInfo.getRect().centerY());
             return;
         }
-        if(clickContent("填写邀请码"))return;
-        if(clickContent("立即领取"))return;
-        if(clickContent("立即观看"))return;
         if(clickContent("开宝箱得金币"))return;
 
+        if(clickContent("点击领取"))return;
+        if(clickContent("立即领取"))return;
+        if(clickContent("立即观看"))return;
+        if(!SPUtils.getInstance().getBoolean("invite_fanqie",false)){
+            if(clickContent("填写邀请码"))return;
+        }
         scrollUpSlow();
         return;
     }
@@ -174,9 +193,11 @@ public class FanQieScript extends BaseScript {
 
     private void doPageId3Things() {
         LogUtils.d(TAG, "doPageId3Things");
+        if(clickContent("看小视频免费听"))return;
         if(samePageCount >5){
             clickBack();
         }
+
     }
 
     public AccessibilityNodeInfo findAccessibilityNode(){
@@ -222,6 +243,9 @@ public class FanQieScript extends BaseScript {
         if (findContent("定时")&& findContent("语速")) {
             return 3;
         }
+//        if (findContent("反馈")&& findContent("跳过")) {
+//            return 2;
+//        }
 
         if (findContent("马上提交")) {
             return 4;
@@ -293,15 +317,20 @@ public class FanQieScript extends BaseScript {
                 LogUtils.d(TAG, "自动恢复到抖音火山版");
                 CrashReport.postCatchedException(new Throwable("自动恢复到抖音火山版"));
                 startApp();
+                Utils.sleep(2000);
             }
             if (resumeCount > 10) {
                 if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
+                    Utils.sleep(2000);
                 }
-                LogUtils.d(TAG, "抖音火山版是不是anr了?");
-                dealNoResponse();
-                Utils.sleep(1000);
                 clickBack();
+                Utils.sleep(2000);
+                clickBack();
+                Utils.sleep(2000);
+                LogUtils.d(TAG, "爱奇艺极速版是不是anr了?");
+                dealNoResponse();
+                Utils.sleep(2000);
                 resumeCount = 0;
             }
             return false;
