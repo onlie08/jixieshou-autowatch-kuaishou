@@ -134,6 +134,10 @@ public class HuoShanAdvertScript extends BaseScript {
             }
         }
         if(samePageCount >= 4){
+            setTodayDone(true);
+//            if(findContent("今日")){
+//
+//            }
             clickBack();
             return;
         }

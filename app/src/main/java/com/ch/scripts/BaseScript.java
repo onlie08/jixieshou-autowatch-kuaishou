@@ -34,6 +34,7 @@ public abstract class BaseScript implements IScript {
 
     public void setTodayDone(boolean todayDone) {
         this.todayDone = todayDone;
+        this.appInfo.setTodayDone(todayDone);
     }
 
     public BaseScript(AppInfo appInfo) {

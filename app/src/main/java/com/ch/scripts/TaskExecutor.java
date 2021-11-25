@@ -25,17 +25,17 @@ import static com.ch.core.bus.EventType.pause_becauseof_not_destination_page;
  */
 public class TaskExecutor {
     private String TAG = this.getClass().getSimpleName();
-    private TaskInfo taskInfo;
-
     private boolean isStarted = false;
     private boolean pause = false;
     private boolean forcePause = false;
     private boolean isFinished = true;
-    private AppInfo currentTestApp;
+    private AppInfo currentTaskApp;
     private IScript currentScript;
 
     private Thread scriptThread;
     private Thread monitorThread;
+
+    long allTime;
 
     private static class TaskExecutorHolder {
         private static TaskExecutor instance = new TaskExecutor();
@@ -48,9 +48,12 @@ public class TaskExecutor {
         return TaskExecutorHolder.instance;
     }
 
-    public void startTask(final TaskInfo taskInfo) {
-        LogUtils.d(TAG, "startTask:" + new Gson().toJson(taskInfo));
-        this.taskInfo = taskInfo;
+    public void startTask(final AppInfo appInfo) {
+        LogUtils.d(TAG, "startTask:" + new Gson().toJson(appInfo));
+        currentTaskApp = appInfo;
+        allTime = appInfo.getPeriod() * 60 * 1000;
+//        allTime = 1 * 60 * 1000;
+
         this.initStartFlags();
         if (scriptThread == null) {
             LogUtils.d(TAG, "scriptThread == null");
@@ -58,50 +61,46 @@ public class TaskExecutor {
                 @Override
                 public void run() {
                     try {
-//                        List<AppInfo> appInfos = taskInfo.getAppInfos();
-//                        for (AppInfo info : appInfos) {
-                        AppInfo info = taskInfo.getAppInfos().get(0);
-                        currentTestApp = info;
                         IScript script = null;
-                        switch (info.getPkgName()) {
+                        switch (appInfo.getPkgName()) {
                             case Constant.PN_DOU_YIN:
-                                script = DouyinFastAdvertScript.getSingleton(info);
+                                script = DouyinFastAdvertScript.getSingleton(appInfo);
                                 break;
                             case Constant.PN_KUAI_SHOU:
-                                script = KuaishouFastScript.getSingleton(info);
+                                script = KuaishouFastScript.getSingleton(appInfo);
                                 break;
                             case Constant.PN_TOU_TIAO:
-                                script = TouTiaoAdvertScript.getSingleton(info);
+                                script = TouTiaoAdvertScript.getSingleton(appInfo);
                                 break;
                             case Constant.PN_FENG_SHENG:
-                                script = new FengShengFastScript(info);
+                                script = new FengShengFastScript(appInfo);
                                 break;
                             case Constant.PN_DIAN_TAO:
-                                script = DianTaoFastScript.getSingleton(info);
+                                script = DianTaoFastScript.getSingleton(appInfo);
                                 break;
                             case Constant.PN_YING_KE:
-                                script = new YingKeFastScript(info);
+                                script = new YingKeFastScript(appInfo);
                                 break;
                             case Constant.PN_AI_QI_YI:
-                                script = AiQiYiAdvertScript.getSingleton(info);
+                                script = AiQiYiAdvertScript.getSingleton(appInfo);
                                 break;
                             case Constant.PN_BAI_DU:
-                                script = BaiDuAdvertScript.getSingleton(info);
+                                script = BaiDuAdvertScript.getSingleton(appInfo);
                                 break;
                             case Constant.PN_JING_DONG:
-                                script = JingDongAdvertScript.getSingleton(info);
+                                script = JingDongAdvertScript.getSingleton(appInfo);
                                 break;
                             case Constant.PN_TAO_TE:
-                                script = TaoTeScript.getSingleton(info);
+                                script = TaoTeScript.getSingleton(appInfo);
                                 break;
                             case Constant.PN_HUO_SHAN:
-                                script = HuoShanAdvertScript.getSingleton(info);
+                                script = HuoShanAdvertScript.getSingleton(appInfo);
                                 break;
                             case Constant.PN_MEI_TIAN_ZHUAN_DIAN:
-                                script = MeiTianZhuanDianScript.getSingleton(info);
+                                script = MeiTianZhuanDianScript.getSingleton(appInfo);
                                 break;
                             case Constant.PN_FAN_QIE:
-                                script = FanQieScript.getSingleton(info);
+                                script = FanQieScript.getSingleton(appInfo);
                                 break;
                         }
                         if (script != null) {
@@ -127,10 +126,6 @@ public class TaskExecutor {
                 @Override
                 public void run() {
                     long st = System.currentTimeMillis();
-//                    Log.d(TAG, "st:" + st);
-//                    final long allTime = taskInfo.getHours() * 60 * 60 * 1000;
-                    final long allTime = currentTestApp.getPeriod() * 60 * 1000;
-
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -139,18 +134,12 @@ public class TaskExecutor {
                     });
 
                     while (System.currentTimeMillis() - st < allTime) {
-//                        Log.d(TAG, "System.currentTimeMillis() - st:" + (System.currentTimeMillis() - st));
                         try {
                             if (currentScript != null) {
                                 if (isForcePause()) {
                                     setPause(true);
                                 } else {
-//                                    LogUtils.d(TAG,"setPause()");
                                     boolean isDestinationPage = currentScript.isDestinationPage();
-//                                    if(!isDestinationPage){
-//                                        st += 1000;
-//                                        LogUtils.d(TAG,"System.currentTimeMillis():"+System.currentTimeMillis()+" st:"+st);
-//                                    }
                                     setPause(!isDestinationPage);
                                     long finalSt = st;
                                     runOnUiThread(new Runnable() {
@@ -187,7 +176,7 @@ public class TaskExecutor {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            BusManager.getBus().post(new BusEvent<>(EventType.task_finish, currentTestApp));
+                            BusManager.getBus().post(new BusEvent<>(EventType.task_finish, currentTaskApp));
                         }
                     });
                     PackageUtils.startSelf();
@@ -196,20 +185,10 @@ public class TaskExecutor {
             });
             monitorThread.start();
         } else {
-            if (taskInfo.getAppInfos().get(0).equals(currentTestApp)) {
-                if (currentScript != null) {
-                    currentScript.resetStartTime();
-                    currentScript.startApp();
-                }
-            } else {
-
+            if (currentScript != null) {
+                currentScript.resetStartTime();
+                currentScript.startApp();
             }
-//            if (currentScript != null) {
-//                currentScript.resetStartTime();
-//                currentScript.startApp();
-//            } else {
-//                Log.e(TAG, "不可能走这里，如果走这里，程序出bug了");
-//            }
         }
     }
 
@@ -271,7 +250,4 @@ public class TaskExecutor {
         this.forcePause = forcePause;
     }
 
-    public AppInfo getCurrentTestApp() {
-        return currentTestApp;
-    }
 }

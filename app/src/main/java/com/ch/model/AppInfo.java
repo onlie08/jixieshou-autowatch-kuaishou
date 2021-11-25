@@ -41,6 +41,11 @@ public class AppInfo {
      */
     private String version;
 
+    /**
+     * 标识今天任务是否完成
+     */
+    private boolean todayDone;
+
     public String getUuid() {
         return uuid;
     }
@@ -104,5 +109,13 @@ public class AppInfo {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public boolean isTodayDone() {
+        return todayDone;
+    }
+
+    public void setTodayDone(boolean todayDone) {
+        this.todayDone = todayDone;
     }
 }

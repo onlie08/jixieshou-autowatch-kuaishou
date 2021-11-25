@@ -26,10 +26,12 @@ import com.ch.core.utils.Constant;
 import com.ch.core.utils.Logger;
 import com.ch.core.utils.SFUpdaterUtils;
 import com.ch.core.utils.Utils;
+import com.ch.event.StartTaskEvent;
 import com.ch.floatwindow.FloatWindow;
 import com.ch.floatwindow.MoveType;
 import com.ch.floatwindow.PermissionListener;
 import com.ch.floatwindow.ViewStateListener;
+import com.ch.fragment.MainPageFragment;
 import com.ch.jixieshou.BuildConfig;
 import com.ch.jixieshou.R;
 import com.ch.model.AppInfo;
@@ -40,6 +42,8 @@ import com.sf.appupdater.log.LogInfo;
 import com.sf.appupdater.log.LogWriter;
 import com.squareup.otto.Subscribe;
 import com.tencent.bugly.crashreport.CrashReport;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -149,19 +153,14 @@ public class MyApplication extends Application {
 //                    }
                 }
                 break;
-            case goto_target_app:
-                TaskInfo taskInfo = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
-                startTask(taskInfo.getAppInfos());
-                break;
+//            case goto_target_app:
+//                EventBus.getDefault().post(new StartTaskEvent());
+//                break;
             case refresh_time:
                 if (!TaskExecutor.getInstance().isForcePause()) {
-                    if (TaskExecutor.getInstance().getCurrentTestApp().getPkgName().equals(Constant.PN_FENG_SHENG)) {
-                        setFloatText("定时打卡");
-                    } else {
-                        setFloatText("已执行：" + event.getData());
-                        if(!FloatWindow.get().isShowing()){
-                            FloatWindow.get().show();
-                        }
+                    setFloatText("已执行：" + event.getData());
+                    if(!FloatWindow.get().isShowing()){
+                        FloatWindow.get().show();
                     }
                 }
                 break;
@@ -177,32 +176,6 @@ public class MyApplication extends Application {
                 this.isFirstConnectAccessbilityService = true;
                 setFloatText("准备就绪，点我启动");
                 break;
-//            case task_finish:
-//                Log.d(TAG, "当前任务完成");
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        AppInfo appInfo = (AppInfo) event.getData();
-//                        TaskInfo taskInfo1 = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
-//                        List<AppInfo> appInfos = taskInfo1.getAppInfos();
-//                        Iterator<AppInfo> iterator = appInfos.iterator();
-//                        while (iterator.hasNext()) {
-//                            if (iterator.next().getPkgName().equals(appInfo.getPkgName())) {
-//                                iterator.remove();
-//                                Log.d(TAG, "移除当前任务");
-//                            }
-//                        }
-//                        taskInfo1.setAppInfos(appInfos);
-////                        SPService.put(SPService.SP_TASK_LIST, taskInfo1);
-//                        if (!appInfos.isEmpty()) {
-//                            startTask(appInfos);
-//                        } else {
-//                        }
-//                    }
-//                },3000);
-//                Utils.sleep(3000);
-
-//                break;
         }
     }
 
@@ -313,26 +286,27 @@ public class MyApplication extends Application {
         tv_option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TaskInfo taskInfo = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
-                if (taskInfo != null && taskInfo.getAppInfos() != null && taskInfo.getAppInfos().size() > 0 &&
-                        isFirstConnectAccessbilityService) {
-                    // 服务岗连接上，可以点击快速启动，不需要跳转到捡豆子app去启动
-                    isFirstConnectAccessbilityService = false;
-                    startTask(taskInfo.getAppInfos());
-                } else if (isStarted) {
-                    // 已启动，则点击会触发暂停
-//                    if (TaskExecutor.getInstance().isForcePause()) {
-//                        TaskExecutor.getInstance().setForcePause(false);
-//                        BusManager.getBus().post(new BusEvent<>(unpause_byhand));
-//                    } else {
-//                        LogUtils.d(TAG,"setForcePause()");
-//                        TaskExecutor.getInstance().setForcePause(true);
-//                        BusManager.getBus().post(new BusEvent<>(pause_byhand));
-//                    }
-                } else {
-                    // 未启动状态，单击会打开捡豆子app
-                    PackageUtils.startSelf();
-                }
+                PackageUtils.startSelf();
+//                TaskInfo taskInfo = SPService.get(SPService.SP_HIS_TASK_LIST, TaskInfo.class);
+//                if (taskInfo != null && taskInfo.getAppInfos() != null && taskInfo.getAppInfos().size() > 0 &&
+//                        isFirstConnectAccessbilityService) {
+//                    // 服务岗连接上，可以点击快速启动，不需要跳转到捡豆子app去启动
+//                    isFirstConnectAccessbilityService = false;
+//                    startTask(taskInfo.getAppInfos().get(0));
+//                } else if (isStarted) {
+//                    // 已启动，则点击会触发暂停
+////                    if (TaskExecutor.getInstance().isForcePause()) {
+////                        TaskExecutor.getInstance().setForcePause(false);
+////                        BusManager.getBus().post(new BusEvent<>(unpause_byhand));
+////                    } else {
+////                        LogUtils.d(TAG,"setForcePause()");
+////                        TaskExecutor.getInstance().setForcePause(true);
+////                        BusManager.getBus().post(new BusEvent<>(pause_byhand));
+////                    }
+//                } else {
+//                    // 未启动状态，单击会打开捡豆子app
+//                    PackageUtils.startSelf();
+//                }
             }
         });
 
@@ -395,10 +369,8 @@ public class MyApplication extends Application {
     /**
      * 开始执行任务
      */
-    public void startTask(List<AppInfo> appInfos) {
-        TaskInfo taskInfo = new TaskInfo();
-        taskInfo.setAppInfos(appInfos);
-        TaskExecutor.getInstance().startTask(taskInfo);
+    public void startTask(AppInfo appInfo) {
+        TaskExecutor.getInstance().startTask(appInfo);
     }
 
 

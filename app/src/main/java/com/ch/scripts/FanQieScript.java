@@ -169,6 +169,7 @@ public class FanQieScript extends BaseScript {
             scrollDown();
         }
         if(samePageCount > 4){
+            setTodayDone(true);
             NodeInfo nodeInfo = findByText("首页");
             clickXY(MyApplication.getScreenWidth()/2,nodeInfo.getRect().centerY());
             return;

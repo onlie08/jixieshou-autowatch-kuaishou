@@ -45,12 +45,14 @@ import com.ch.scripts.WeiXinScript;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -75,9 +77,11 @@ public class MainPageFragment extends Fragment {
     private TaskListAdapter1 taskListAdapter1;
     private MaterialButton startBtn;
     private List<AppInfo> appInfos = new ArrayList<>();
-    private List<AppInfo> currentAppInfos = new ArrayList<>();
+//    private List<AppInfo> currentAppInfos = new ArrayList<>();
+    private AppInfo currentAppInfo;
     private boolean accessEnable = false;
     private boolean tasking = false;
+    private int currentPos = 0;
 
     public static MainPageFragment newInstance() {
         Bundle args = new Bundle();
@@ -196,15 +200,17 @@ public class MainPageFragment extends Fragment {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentAppInfos.clear();
-                currentAppInfos.addAll(appInfos);
-
-                if(!currentAppInfos.isEmpty()){
-                    TaskInfo taskInfo = new TaskInfo();
-                    taskInfo.setAppInfos(currentAppInfos);
-                    SPService.put(SPService.SP_HIS_TASK_LIST, taskInfo);
+                if(appInfos.isEmpty()){
+                    Toast.makeText(getActivity(), "请选择一个任务", Toast.LENGTH_LONG).show();
+                    return;
                 }
 
+                TaskInfo taskInfo = new TaskInfo();
+                taskInfo.setAppInfos(appInfos);
+                SPService.put(SPService.SP_HIS_TASK_LIST, taskInfo);
+
+                currentPos = 0;
+                currentAppInfo = appInfos.get(currentPos);
                 startTask();
             }
         });
@@ -234,10 +240,6 @@ public class MainPageFragment extends Fragment {
     }
 
     private void startTask() {
-        if (appInfos.isEmpty()) {
-            Toast.makeText(getActivity(), "请选择一个任务", Toast.LENGTH_LONG).show();
-            return;
-        }
 
         boolean isAppExit = DownLoadAppManage.getSingleton().checkIsAppExit(getActivity(), appInfos);
         if (!isAppExit) {
@@ -262,7 +264,7 @@ public class MainPageFragment extends Fragment {
         }
         tasking = true;
         getActivity().startService(new Intent(getActivity(), MyAccessbilityService.class));
-        MyApplication.getAppInstance().startTask(appInfos);
+        MyApplication.getAppInstance().startTask(currentAppInfo);
     }
 
     private void gotoAccessSetting(){
@@ -279,7 +281,7 @@ public class MainPageFragment extends Fragment {
         if (taskInfo == null || taskInfo.getAppInfos() == null || taskInfo.getAppInfos().isEmpty()) {
             newTaskCardView.setVisibility(View.VISIBLE);
             listCardView.setVisibility(View.GONE);
-            } else {
+        } else {
             newTaskCardView.setVisibility(View.GONE);
             listCardView.setVisibility(View.VISIBLE);
             appInfos.addAll(taskInfo.getAppInfos());
@@ -297,29 +299,14 @@ public class MainPageFragment extends Fragment {
     }
 
 
-    private void setData() {
-        if(!currentAppInfos.isEmpty()){
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.setAppInfos(currentAppInfos);
-            SPService.put(SPService.SP_TASK_LIST, taskInfo);
-            return;
-        }
-//
-//        List<AppInfo> appInfos = new ArrayList<>();
-//
-//        AppInfo appInfo;
-//        appInfo = new AppInfo();
-//        appInfo.setAppName("淘特");
-//        appInfo.setName("淘特");
-//        appInfo.setFree(true);
-//        appInfo.setPeriod(4l);
-//        appInfo.setPkgName(Constant.PN_TAO_TE);
-//        appInfos.add(appInfo);
-//
-//        TaskInfo taskInfo = new TaskInfo();
-//        taskInfo.setAppInfos(appInfos);
-//        SPService.put(SPService.SP_TASK_LIST, taskInfo);
-    }
+//    private void setData() {
+//        if(!appInfos.isEmpty()){
+//            TaskInfo taskInfo = new TaskInfo();
+//            taskInfo.setAppInfos(appInfos);
+//            SPService.put(SPService.SP_TASK_LIST, taskInfo);
+//            return;
+//        }
+//    }
 
     private void gotoAddNewTaskActivity() {
         Intent intent = new Intent();
@@ -386,7 +373,7 @@ public class MainPageFragment extends Fragment {
     }
 
     /**
-     * 删除某个任务
+     *
      *
      * @param uuid    替换某任务
      * @param appInfo
@@ -412,7 +399,7 @@ public class MainPageFragment extends Fragment {
     private void saveTaskList() {
         TaskInfo taskInfo = new TaskInfo();
         taskInfo.setAppInfos(appInfos);
-        SPService.put(SPService.SP_TASK_LIST, taskInfo);
+//        SPService.put(SPService.SP_TASK_LIST, taskInfo);
     }
 
     @Override
@@ -506,46 +493,72 @@ public class MainPageFragment extends Fragment {
         switch (event.getType()) {
             case task_finish:
                 Log.d(TAG, "当前任务完成");
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        AppInfo appInfo = (AppInfo) event.getData();
-                        TaskInfo taskInfo1 = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
-                        List<AppInfo> appInfoList = taskInfo1.getAppInfos();
-                        for(int i=0;i<appInfoList.size();i++){
-                            if(appInfoList.get(i).getPkgName().equals(appInfo.getPkgName())){
-                                appInfoList.remove(i);
-                                Log.d(TAG, "移除当前任务");
-                                break;
-                            }
-                        }
-                        SPService.put(SPService.SP_TASK_LIST, taskInfo1);
+                new Handler().postDelayed(() -> {
+//                        AppInfo appInfo = (AppInfo) event.getData();
+                    LogUtils.d(TAG, "当前任务："+new Gson().toJson(currentAppInfo));
 
-                        if (taskInfo1 == null || taskInfo1.getAppInfos() == null || taskInfo1.getAppInfos().isEmpty()) {
+                    checkIfAllTaskDone();
 
-//                            listCardView.setVisibility(View.GONE);
-//                            newTaskCardView.setVisibility(View.VISIBLE);
-                            setData();
-                            TaskInfo taskInfo = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
-                            appInfos.clear();
-                            appInfos.addAll(taskInfo.getAppInfos());
-                            taskListAdapter1.notifyDataSetChanged();
-                        } else {
-                            listCardView.setVisibility(View.VISIBLE);
-                            newTaskCardView.setVisibility(View.GONE);
-                            appInfos.clear();
-                            appInfos.addAll(taskInfo1.getAppInfos());
-                            taskListAdapter1.notifyDataSetChanged();
+//                        TaskInfo taskInfo1 = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
+//                        List<AppInfo> appInfoList = taskInfo1.getAppInfos();
+
+//                        if(appInfo.isTodayDone()){
+//                            for(int i=0;i<appInfos.size();i++){
+//                                if(appInfos.get(i).getPkgName().equals(appInfo.getPkgName())){
+//                                    appInfos.get(i).setTodayDone(true);
+//                                    break;
+//                                }
+//                            }
+//                        }
+
+                    currentAppInfo = getNextUnDoneTask();
+
+                    LogUtils.d(TAG, "下一个任务："+new Gson().toJson(currentAppInfo));
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            startTask();
                         }
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                startTask();
-                            }
-                        }, 2000);
-                    }
+                    }, 2000);
                 }, 2000);
                 break;
         }
+    }
+
+    /**
+     * 如果今天所有任务都已完成 重置状态接着做
+     */
+    private void checkIfAllTaskDone() {
+        boolean allTaskDone = true;
+        for(AppInfo appInfo : appInfos){
+            if(!appInfo.isTodayDone()){
+                allTaskDone = false;
+            }
+        }
+
+        if(allTaskDone){
+            for(AppInfo appInfo : appInfos){
+                appInfo.setTodayDone(false);
+            }
+        }
+    }
+
+    /*
+    查找下一个未完成的任务
+     */
+    private AppInfo getNextUnDoneTask() {
+        AppInfo info;
+        if(currentPos == (appInfos.size()-1)){
+            currentPos = -1;
+            info = getNextUnDoneTask();
+        }else {
+            currentPos++;
+            if(appInfos.get(currentPos).isTodayDone()){
+                info = getNextUnDoneTask();
+            }else {
+                info = appInfos.get(currentPos);
+            }
+        }
+        return info;
     }
 }
