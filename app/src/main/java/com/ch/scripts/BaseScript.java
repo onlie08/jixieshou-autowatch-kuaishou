@@ -351,27 +351,9 @@ public abstract class BaseScript implements IScript {
         if (clickTotalMatchContent("关闭")) return true;
         if (clickContent("重试")) return true;
         if (clickTotalMatchContent("取消")) return true;
+        if (clickTotalMatchContent("确定")) return true;
         if (clickContent("知道")) return true;
         return false;
     }
 
-//    /**
-//     * 处理返回解决不了的弹出框，但是能找到资源的
-//     *
-//     * @return
-//     */
-//    public boolean dealNoResponse2() {
-//        LogUtils.d(BASETAG,"dealNoResponse2()");
-//        if (clickContent("知道")) return true;
-//        if (clickContent("继续赚金币")) return true;
-//        if (clickContent("去赚钱")) return true;
-//        if (clickContent("禁止")) return true;
-//        if (clickContent("不允许")) return true;
-//        if (clickContent("允许")) return true;
-//        if (clickContent("立即添加")) return true;
-//        if (clickContent("关闭")) return true;
-//        if (clickContent("重试")) return true;
-//        if (clickContent("取消")) return true;
-//        return false;
-//    }
 }

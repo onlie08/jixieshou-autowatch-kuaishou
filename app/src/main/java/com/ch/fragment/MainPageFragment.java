@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
+import android.util.TimeUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.ch.activity.EditTaskActivity;
 import com.ch.activity.MainActivity2;
@@ -26,6 +28,7 @@ import com.ch.adapter.TaskListAdapter;
 import com.ch.adapter.TaskListAdapter1;
 import com.ch.application.MyApplication;
 import com.ch.common.CommonDialogManage;
+import com.ch.common.DeviceUtils;
 import com.ch.common.DownLoadAppManage;
 import com.ch.common.PackageUtils;
 import com.ch.common.SPService;
@@ -52,6 +55,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -177,7 +181,7 @@ public class MainPageFragment extends Fragment {
         view.findViewById(R.id.f_view4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ToastUtils.showLong("程序员在薅头发加速开发中。。。");
+                ToastUtils.showLong("程序员加速开发中。。。");
             }
         });
         tv_wx_statue = view.findViewById(R.id.tv_wx_statue);
@@ -212,6 +216,7 @@ public class MainPageFragment extends Fragment {
                 currentPos = 0;
                 currentAppInfo = appInfos.get(currentPos);
                 startTask();
+
             }
         });
     }
@@ -297,16 +302,6 @@ public class MainPageFragment extends Fragment {
         taskListView.setAdapter(taskListAdapter1);
         checkAccessEnable();
     }
-
-
-//    private void setData() {
-//        if(!appInfos.isEmpty()){
-//            TaskInfo taskInfo = new TaskInfo();
-//            taskInfo.setAppInfos(appInfos);
-//            SPService.put(SPService.SP_TASK_LIST, taskInfo);
-//            return;
-//        }
-//    }
 
     private void gotoAddNewTaskActivity() {
         Intent intent = new Intent();
@@ -494,22 +489,12 @@ public class MainPageFragment extends Fragment {
             case task_finish:
                 Log.d(TAG, "当前任务完成");
                 new Handler().postDelayed(() -> {
-//                        AppInfo appInfo = (AppInfo) event.getData();
+
                     LogUtils.d(TAG, "当前任务："+new Gson().toJson(currentAppInfo));
 
+                    checkIfNewDay();
+
                     checkIfAllTaskDone();
-
-//                        TaskInfo taskInfo1 = SPService.get(SPService.SP_TASK_LIST, TaskInfo.class);
-//                        List<AppInfo> appInfoList = taskInfo1.getAppInfos();
-
-//                        if(appInfo.isTodayDone()){
-//                            for(int i=0;i<appInfos.size();i++){
-//                                if(appInfos.get(i).getPkgName().equals(appInfo.getPkgName())){
-//                                    appInfos.get(i).setTodayDone(true);
-//                                    break;
-//                                }
-//                            }
-//                        }
 
                     currentAppInfo = getNextUnDoneTask();
 
@@ -541,6 +526,22 @@ public class MainPageFragment extends Fragment {
                 appInfo.setTodayDone(false);
             }
         }
+    }
+
+
+    /**
+     * 是否转点的一天
+     */
+    private void checkIfNewDay() {
+        boolean isNewDayDone = SPUtils.getInstance().getBoolean(DeviceUtils.getToday());
+
+        if(!isNewDayDone){
+            for(AppInfo appInfo : appInfos){
+                appInfo.setTodayDone(false);
+            }
+            SPUtils.getInstance().put(DeviceUtils.getToday(),true);
+        }
+
     }
 
     /*

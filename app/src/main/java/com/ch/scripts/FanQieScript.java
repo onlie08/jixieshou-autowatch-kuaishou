@@ -189,6 +189,15 @@ public class FanQieScript extends BaseScript {
         LogUtils.d(TAG, "doPageId2Things");
 
         if(clickContent("继续观看"))return;
+
+        if(samePageCount >= 10){
+            NodeInfo nodeInfo = findByText("反馈");
+            if(null != nodeInfo){
+                clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(40),nodeInfo.getRect().centerY());
+                Utils.sleep(1500);
+            }
+        }
+
     }
 
     private void doPageId3Things() {

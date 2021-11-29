@@ -167,11 +167,11 @@ public class EditTaskActivity extends AppCompatActivity {
 
 //        AVObject testObject = new AVObject("task_list");
 //        AppInfo appInfo = new AppInfo();
-//        appInfo.setName("番茄畅听");
-//        appInfo.setAppName("番茄畅听");
+//        appInfo.setName("淘特");
+//        appInfo.setAppName("淘特");
 //        appInfo.setFree(true);
-//        appInfo.setPeriod(4l);
-//        appInfo.setPkgName(Constant.PN_FAN_QIE);
+//        appInfo.setPeriod(5l);
+//        appInfo.setPkgName(Constant.PN_TAO_TE);
 //        testObject.put("name", appInfo.getName());
 //        testObject.put("isFree", appInfo.isFree());
 //        testObject.put("period", appInfo.getPeriod());

@@ -28,9 +28,6 @@ public class JingDongAdvertScript extends BaseScript {
 
     private String TAG = this.getClass().getSimpleName();
     private Point point_ZhuanJinBi;
-    private Point point_RenWu;
-    private Point point_TianXieYaoQingMa3;
-    private Point point_ZhanTie;
 
     private volatile static JingDongAdvertScript instance; //声明成 volatile
 
@@ -164,18 +161,6 @@ public class JingDongAdvertScript extends BaseScript {
         }
        scrollUp();
 
-    }
-
-    private void doPageId4Things() {
-        LogUtils.d(TAG, "doPageId4Things");
-
-    }
-
-    private void doPageId5Things() {
-        LogUtils.d(TAG, "doPageId5Things");
-        if(autoInvite()){
-            clickBack();
-        }
     }
 
     /**
@@ -347,46 +332,6 @@ public class JingDongAdvertScript extends BaseScript {
         return false;
     }
 
-
-    private boolean autoInvite() {
-        if(true){
-            return true;
-        }
-        //[50,718][1150,838]
-        getRecognitionResult();
-
-//        if(null == point_TianXieYaoQingMa1){
-//            SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA2, "");
-//            SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA3, "");
-//            SPUtils.getInstance().put(Constant.BAIDU_ZHANTIE, "");
-//        }
-
-        if(null != point_ZhanTie){
-            clickXY(point_ZhanTie.x, point_ZhanTie.y);
-            Utils.sleep(1000);
-            clickXY(point_TianXieYaoQingMa3.x, point_TianXieYaoQingMa3.y);
-            Utils.sleep(2000);
-            CrashReport.postCatchedException(new Throwable("京东自动填写邀请码成功"));
-        }
-
-//        if(null == point_TianXieYaoQingMa1){
-//            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_JING_DONG,Constant.PAGE_INVITE));
-//            return false;
-//        }
-//
-//        if(null != point_TianXieYaoQingMa1 && point_TianXieYaoQingMa2 == null){
-//            clickXY(point_TianXieYaoQingMa1.x, point_TianXieYaoQingMa1.y);
-//            Utils.sleep(1000);
-//            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_JING_DONG,Constant.PAGE_INVITE));
-//        }
-//
-//        if(null != point_TianXieYaoQingMa2 && point_TianXieYaoQingMa3 != null){
-//            ActionUtils.longPress(point_TianXieYaoQingMa2.x, (point_TianXieYaoQingMa3.y + point_TianXieYaoQingMa2.y)/2);
-//            Utils.sleep(1500);
-//            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_JING_DONG,Constant.PAGE_INVITE));
-//        }
-        return false;
-    }
 
     @Override
     protected void doSamePageDeal() {

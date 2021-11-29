@@ -175,6 +175,18 @@ public class DianTaoFastScript extends BaseScript {
     }
 
     private void doPageId7Things() {
+        NodeInfo nodeInfo1 = findByText("体力+");
+        if(null != nodeInfo1){
+            clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(80),nodeInfo1.getRect().centerY());
+            Utils.sleep(2000);
+            if(findContent("开始打工")){
+                clickContent("打工时长: 120分钟");
+                Utils.sleep(2000);
+                clickTotalMatchContent("开始打工");
+                Utils.sleep(2000);
+                return;
+            }
+        }
 
         if(clickContent("去观看")){
             return;
@@ -200,9 +212,6 @@ public class DianTaoFastScript extends BaseScript {
             Utils.sleep(2000);
         }
 
-
-        NodeInfo nodeInfo = findByText("体力+");
-//        clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(80),nodeInfo.getRect().centerY());
     }
 
     private void doPageId1Things() {
@@ -227,36 +236,11 @@ public class DianTaoFastScript extends BaseScript {
                 return;
             }
         }
+        if(clickContent("打工赚元宝"))return;
 
         if (clickContent("走路赚元宝")){
             return;
         }
-
-//        if (!findContent("去走路")) {
-//            scrollUpSlow();
-//            Utils.sleep(2000);
-////            return;
-//        }
-//        if(!walkingDone){
-//            if(!tempDone){
-//                if (clickContent("走路赚元宝")){
-//                    return;
-//                }
-//            }else{
-//                tempDone = false;
-//            }
-//        }
-
-//        if(clickContent("打工赚元宝")){
-//            return;
-//        }
-//        if (!findContent("去抽奖")) {
-//            scrollUpSlow();
-//            Utils.sleep(2000);
-//            return;
-//        }
-//        if(clickContent("去抽奖")) return;
-//        if (clickContent("看直播，赚元宝")) return;
 
         scrollDown();
     }
@@ -315,35 +299,29 @@ public class DianTaoFastScript extends BaseScript {
 
     }
 
-    boolean tempDone = false;
-    boolean walkingDone = false;
 
     /**
      * 去走路逻辑
      */
     private void doPageId4Things() {
-        tempDone = true;
         if(samePageCount >3 ){
             if(clickContent("我知道了"))return;
         }
-        if(findContent("今日20000步已完成")){
-            clickBack();
-            Utils.sleep(2000);
-            if(clickContent("打工赚元宝"))return;
-            return;
-        }
-//        if(findContent("做任务赚步数") && !findContent("去观看")){
-//            clickBack();
-//            Utils.sleep(1000);
-//            clickBack();
-//            return;
-//        }
+
+
         if(clickContent("去观看"))return;
         if(clickContent("去领步数"))return;
 
         NodeInfo nodeInfo = findTotalMatchByText("领取");
         if (nodeInfo != null) {
             ActionUtils.click(nodeInfo.getRect().centerX(), nodeInfo.getRect().centerY()-SizeUtils.dp2px(20));
+            return;
+        }
+
+        if(findContent("今日20000步已完成")){
+            clickBack();
+            Utils.sleep(2000);
+            if(clickContent("打工赚元宝"))return;
             return;
         }
 
@@ -359,24 +337,6 @@ public class DianTaoFastScript extends BaseScript {
 
     }
 
-//    boolean tempWorkDone = false;
-//    private void doPageId5Things() {
-//        if(clickContent("领取体力"))return;
-//        if(clickContent("去打工赚钱")){
-//            Utils.sleep(1000);
-//            if(clickContent("开始打工")){
-//                Utils.sleep(1000);
-//                clickBack();
-//                return;
-//            }
-//            return;
-//        }
-//
-//        if(clickContent("赚体力")){
-//            Utils.sleep(1000);
-//            if(clickContent("去观看"))return;
-//        }
-//    }
 
     private void doPageId6Things() {
         scrollDown();
