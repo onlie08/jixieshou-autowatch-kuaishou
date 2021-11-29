@@ -134,15 +134,11 @@ public class HuoShanAdvertScript extends BaseScript {
             }
         }
         if(samePageCount >= 4){
-            setTodayDone(true);
-//            if(findContent("今日")){
 //
+//            if(findContent("今日已达上限")){
+//setTodayDone(true);
 //            }
             clickBack();
-            return;
-        }
-
-        if(clickTotalMatchContent("开宝箱得火苗")){
             return;
         }
 
@@ -151,6 +147,10 @@ public class HuoShanAdvertScript extends BaseScript {
             clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(60),nodeInfo.getRect().centerY());
             Utils.sleep(2000);
 
+        }
+
+        if(clickTotalMatchContent("开宝箱得火苗")){
+            return;
         }
 
         if(!SPUtils.getInstance().getBoolean("invite_huoshan",false)){

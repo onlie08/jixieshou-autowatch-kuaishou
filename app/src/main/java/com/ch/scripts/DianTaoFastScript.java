@@ -135,6 +135,11 @@ public class DianTaoFastScript extends BaseScript {
 
         } else if (pageId == 1) {
             if (point_RenWu == null) {
+                NodeInfo nodeInfo = findByText("兑红包");
+                if(null != nodeInfo){
+                    point_RenWu = new Point(MyApplication.getScreenWidth()-SizeUtils.dp2px(50),nodeInfo.getRect().centerY());
+                    return;
+                }
                 getRecognitionResult();
                 if (point_RenWu == null) {
                     EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_DIAN_TAO,Constant.PAGE_TASK));
@@ -226,6 +231,7 @@ public class DianTaoFastScript extends BaseScript {
         if (clickContent("走路赚元宝")){
             return;
         }
+
 //        if (!findContent("去走路")) {
 //            scrollUpSlow();
 //            Utils.sleep(2000);
@@ -320,11 +326,12 @@ public class DianTaoFastScript extends BaseScript {
         if(samePageCount >3 ){
             if(clickContent("我知道了"))return;
         }
-//        if(findContent("今日20000步已完成")){
-//            walkingDone = true;
-//            clickBack();
-//            return;
-//        }
+        if(findContent("今日20000步已完成")){
+            clickBack();
+            Utils.sleep(2000);
+            if(clickContent("打工赚元宝"))return;
+            return;
+        }
 //        if(findContent("做任务赚步数") && !findContent("去观看")){
 //            clickBack();
 //            Utils.sleep(1000);

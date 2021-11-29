@@ -110,7 +110,6 @@ public class FanQieScript extends BaseScript {
                     clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(40),nodeInfo.getRect().centerY());
                     Utils.sleep(1500);
                 }
-
             }
             Utils.sleep(1500);
             clickBack();
@@ -169,7 +168,7 @@ public class FanQieScript extends BaseScript {
             scrollDown();
         }
         if(samePageCount > 4){
-            setTodayDone(true);
+//            setTodayDone(true);
             NodeInfo nodeInfo = findByText("首页");
             clickXY(MyApplication.getScreenWidth()/2,nodeInfo.getRect().centerY());
             return;
@@ -219,7 +218,7 @@ public class FanQieScript extends BaseScript {
      */
     private boolean clickAdvert() {
         if (clickContent("视频再")) return true;
-        if (clickContent("再看一个")) return true;
+        if (clickContent("再看一个")) return false;
         if (clickContent("看广告再得")) return true;
         return false;
     }
@@ -238,6 +237,10 @@ public class FanQieScript extends BaseScript {
         }
 
         if (findContent("后可领取奖励")) {
+            return 2;
+        }
+
+        if (!findTotalMatchContent("0s") &&!findTotalMatchContent("1s") && findContent("反馈") && findContent("跳过")) {
             return 2;
         }
 
@@ -319,6 +322,7 @@ public class FanQieScript extends BaseScript {
                 CrashReport.postCatchedException(new Throwable("自动恢复到抖音火山版"));
                 startApp();
                 Utils.sleep(2000);
+                samePageCount = 0;
             }
             if (resumeCount > 10) {
                 if (BuildConfig.DEBUG) {
@@ -358,6 +362,8 @@ public class FanQieScript extends BaseScript {
      * @return
      */
     private boolean dealNoResponse2() {
+        if (clickTotalMatchContent("优先体验")) return true;
+        if (clickTotalMatchContent("以后再说")) return true;
         if (clickContent("重新加载")) return true;
         if (clickContent("知道")) return true;
         if (clickContent("继续赚金币")) return true;

@@ -137,11 +137,16 @@ public class JingDongAdvertScript extends BaseScript {
 
     private void doPageId2Things() {
         LogUtils.d(TAG, "doPageId2Things");
+        if(samePageCount > 3){
+            setTodayDone(true);
+        }
 
       if(clickContent("逛商品赚金币"))Utils.sleep(3000);
-
       if(clickContent("逛活动赚金币"))Utils.sleep(3000);
-      if(clickContent("看视频赚金币"))return;
+      if(clickContent("看视频赚金币"))Utils.sleep(3000);
+
+//      if(clickContent("邀好友赚金币"))Utils.sleep(5000);
+//      if(clickContent("东东爱消除"))Utils.sleep(5000);
     }
 
     private void doPageId3Things() {

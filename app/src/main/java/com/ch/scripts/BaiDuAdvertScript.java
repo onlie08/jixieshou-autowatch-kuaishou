@@ -130,8 +130,10 @@ public class BaiDuAdvertScript extends BaseScript {
         } else {
 //            if(clickContent("重新加载"))return;
             if(samePageCount >= 2){
+                if(clickContent("立即收下"))return;
                 if(clickContent("我知道了"))return;
                 if(clickContent("开心收下"))return;
+
             }
             Utils.sleep(1500);
             clickBack();
@@ -164,7 +166,7 @@ public class BaiDuAdvertScript extends BaseScript {
         }
 
         gotoPersonCount++;
-        if (gotoPersonCount > 10) {
+        if (gotoPersonCount > 5) {
             gotoPersonCount = 0;
             clickXY(point_RenWu.x,point_RenWu.y);
             return;
@@ -295,7 +297,11 @@ public class BaiDuAdvertScript extends BaseScript {
             return 0;
         }
 
-        if (findContent("做任务赚现金") || findContent("看广告赚钱")) {
+        if (findContent("看文章赚金币")) {
+            return 6;
+        }
+
+        if (findContent("现金收益") ||findContent("做任务赚现金") || findContent("看广告赚钱")) {
             return 1;
         }
 
@@ -314,9 +320,7 @@ public class BaiDuAdvertScript extends BaseScript {
         if (findContent("预估总收益")) {
             return 5;
         }
-        if (findContent("看文章赚金币")) {
-            return 6;
-        }
+
 
         return -1;
     }
