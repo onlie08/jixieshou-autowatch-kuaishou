@@ -194,7 +194,10 @@ public class TaoTeScript extends BaseScript {
                 return;
             }
         }
-        checkDone();
+        if(checkDone()){
+            setTodayDone(true);
+            return;
+        }
         scrollUpSlow();
     }
 
@@ -376,6 +379,13 @@ public class TaoTeScript extends BaseScript {
             Utils.sleep(100);
             clickBack();
             Utils.sleep(1000);
+        }
+        if(isTodayDone()){
+            task1 = false;
+            task2 = false;
+            task3 = false;
+            task4 = false;
+            task5 = false;
         }
         pressHome();
         stop = true;
