@@ -359,6 +359,7 @@ public class HuoShanAdvertScript extends BaseScript {
         if (clickContent("继续赚金币")) return true;
         if (clickContent("去赚钱")) return true;
         if (clickTotalMatchContent("允许")) return true;
+        if (clickTotalMatchContent("以后再说")) return true;
         if (clickContent("立即添加")) return true;
         if (clickContent("关闭")) return true;
         if (clickContent("重试")) return true;

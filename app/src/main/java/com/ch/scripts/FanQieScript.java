@@ -103,6 +103,8 @@ public class FanQieScript extends BaseScript {
             doPageId4Things();
 
         }  else {
+            if(clickContent("看小视频免费听"))return;
+
             if(samePageCount >= 4){
                 if(clickContent("继续观看"))return;
                 NodeInfo nodeInfo = findByText("反馈");
@@ -166,6 +168,7 @@ public class FanQieScript extends BaseScript {
             if(clickContent("立即签到"))return;
 //            clickContent("立即签到");
             scrollDown();
+            Utils.sleep(1000);
         }
         if(samePageCount > 4){
 //            setTodayDone(true);
@@ -181,6 +184,12 @@ public class FanQieScript extends BaseScript {
         if(!SPUtils.getInstance().getBoolean("invite_fanqie",false)){
             if(clickContent("填写邀请码"))return;
         }
+//        if(clickTotalMatchContent("听书赚金币")){
+//            Utils.sleep(500);
+//            if(findContent("今日任务完成了，去看看")){
+//                setTodayDone(true);
+//            }
+//        }
         scrollUpSlow();
         return;
     }
@@ -203,6 +212,8 @@ public class FanQieScript extends BaseScript {
     private void doPageId3Things() {
         LogUtils.d(TAG, "doPageId3Things");
         if(clickContent("看小视频免费听"))return;
+
+        if(clickContent("立即领取"))return;
         if(samePageCount >5){
             clickBack();
         }
@@ -226,6 +237,7 @@ public class FanQieScript extends BaseScript {
      * 弹出框里点击看广告
      */
     private boolean clickAdvert() {
+        if(clickTotalMatchContent("领红包"))return true;
         if (clickContent("视频再")) return true;
         if (clickContent("再看一个")) return false;
         if (clickContent("看广告再得")) return true;
@@ -377,6 +389,7 @@ public class FanQieScript extends BaseScript {
         if (clickContent("知道")) return true;
         if (clickContent("继续赚金币")) return true;
         if (clickContent("去赚钱")) return true;
+        if (clickTotalMatchContent("以后再说")) return true;
         if (clickTotalMatchContent("允许")) return true;
         if (clickContent("立即添加")) return true;
         if (clickContent("关闭")) return true;

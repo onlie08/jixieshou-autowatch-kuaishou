@@ -138,6 +138,7 @@ public class DouyinFastAdvertScript extends BaseScript {
         if (clickContent("暂时不要")) return true;
         if (clickContent("知道")) return true;
         if (clickContent("立即签到")) return true;
+        if (clickTotalMatchContent("以后再说")) return true;
         if (clickContent("允许")) return true;
         if (clickContent("立即添加")) return true;
         if (clickContent("关闭")) return true;
@@ -189,6 +190,9 @@ public class DouyinFastAdvertScript extends BaseScript {
 
         if (clickContent("开宝箱得金币")) return;
 
+        if(findContent("明日再来")){
+            setTodayDone(true);
+        }
 //        if (!findContent("去逛街")) {
 //            scrollUpSlow();
 //            Utils.sleep(2000);
@@ -232,7 +236,7 @@ public class DouyinFastAdvertScript extends BaseScript {
         }else if (pageId == -1) {
             return 1000;
         }else if (pageId == 0) {
-            return 4000;
+            return 2000;
         }
         return 2000;
     }
@@ -244,7 +248,7 @@ public class DouyinFastAdvertScript extends BaseScript {
         }else if (pageId == -1) {
             return 1000;
         }else if (pageId == 0) {
-            return 6000;
+            return 4000;
         }
         return 2000;
     }
@@ -341,7 +345,7 @@ public class DouyinFastAdvertScript extends BaseScript {
             return 1;
         }
 
-        if ((findContent("首页") && findContent("分享，按钮"))  || findContent("点击进直播间开宝箱")) {
+        if ((findContent("首页") && findContent("，按钮"))  || findContent("点击进直播间开宝箱")) {
             return 0;
         }
 

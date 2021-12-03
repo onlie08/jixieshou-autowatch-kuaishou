@@ -481,6 +481,7 @@ public class TouTiaoAdvertScript extends BaseScript {
         if (clickContent("立即添加")) return true;
         if (clickContent("关闭")) return true;
         if (clickContent("重试")) return true;
+        if (clickTotalMatchContent("以后再说")) return true;
         if (clickContent("取消")) return true;
         if (clickContent("开心收下")) return true;
         if (clickContent("不允许")) return true;

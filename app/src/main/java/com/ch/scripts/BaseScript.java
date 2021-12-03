@@ -33,6 +33,7 @@ public abstract class BaseScript implements IScript {
     }
 
     public void setTodayDone(boolean todayDone) {
+        LogUtils.d(BASETAG,"setTodayDone"+todayDone);
         this.todayDone = todayDone;
         this.appInfo.setTodayDone(todayDone);
     }

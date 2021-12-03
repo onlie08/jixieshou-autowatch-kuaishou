@@ -10,6 +10,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
+import com.ch.common.DeviceUtils;
 import com.ch.core.search.node.NodeInfo;
 import com.ch.core.service.MyAccessbilityService;
 import com.ch.core.utils.ActionUtils;
@@ -56,6 +57,9 @@ public class DianTaoFastScript extends BaseScript {
     private int samePageCount = 0; //同一个页面停留次数
 
     private Point point_DianTao;
+    private Point point_LingTiLi;
+    private Point point_DaGong;
+    private Point point_ZhuanTiLi;
     private Point point_RenWu;
     private Point point_ShuruYaoQingMa;
     private Point point_ZhanTie;
@@ -175,18 +179,32 @@ public class DianTaoFastScript extends BaseScript {
     }
 
     private void doPageId7Things() {
-        NodeInfo nodeInfo1 = findByText("体力+");
-        if(null != nodeInfo1){
-            clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(80),nodeInfo1.getRect().centerY());
-            Utils.sleep(2000);
-            if(findContent("开始打工")){
-                clickContent("打工时长: 120分钟");
-                Utils.sleep(2000);
-                clickTotalMatchContent("开始打工");
-                Utils.sleep(2000);
-                return;
-            }
+        if(null == point_LingTiLi){
+            point_LingTiLi = new Point(SizeUtils.dp2px(80),1863);
+            point_DaGong = new Point(MyApplication.getScreenWidth()-SizeUtils.dp2px(80),point_LingTiLi.y);
+            point_ZhuanTiLi = new Point(point_LingTiLi.x + SizeUtils.dp2px(80),point_LingTiLi.y);
+
+
+//            NodeInfo nodeInfo1 = findByText("体力+");
+//            if(null != nodeInfo1){
+//                point_LingTiLi = new Point(nodeInfo1.getRect().centerX(),nodeInfo1.getRect().centerY()-SizeUtils.dp2px(20));
+//                point_DaGong = new Point(MyApplication.getScreenWidth()-SizeUtils.dp2px(80),point_LingTiLi.y);
+//                point_ZhuanTiLi = new Point(point_LingTiLi.x + SizeUtils.dp2px(100),point_LingTiLi.y);
+//            }else {
+//                clickBack();
+//                Utils.sleep(2000);
+//                clickContent("走路赚元宝");
+//                return;
+//            }
         }
+
+        clickXY(point_DaGong.x,point_DaGong.y);
+        Utils.sleep(2000);
+        if(clickTotalMatchContent("开始打工")){
+            Utils.sleep(2000);
+            return;
+        }
+
 
         if(clickContent("去观看")){
             return;
@@ -197,20 +215,18 @@ public class DianTaoFastScript extends BaseScript {
         if(clickContent("查看更多任务")){
             return;
         }
-        if(clickContent("体力+")){
-            Utils.sleep(2000);
-            if(clickContent("查看更多任务")){
-                return;
-            }else {
-                NodeInfo nodeInfo = findByText("体力+");
-                clickXY(nodeInfo.getRect().centerX()+SizeUtils.dp2px(50),nodeInfo.getRect().centerY());
-                Utils.sleep(2000);
-            }
+
+        clickXY(point_LingTiLi.x,point_LingTiLi.y);
+        Utils.sleep(2000);
+        if(clickContent("查看更多任务")){
+            return;
         }
 
         if(clickId("sign-panel-btn")){
-            Utils.sleep(2000);
+            Utils.sleep(1000);
         }
+
+        clickXY(point_ZhuanTiLi.x,point_ZhuanTiLi.y);
 
     }
 
@@ -236,6 +252,16 @@ public class DianTaoFastScript extends BaseScript {
                 return;
             }
         }
+
+        if(!SPUtils.getInstance().getBoolean(DeviceUtils.getToday()+"dt",false)){
+            if(clickContent("今日签到")){
+                Utils.sleep(1500);
+                clickBack();
+                SPUtils.getInstance().put(DeviceUtils.getToday()+"dt",true);
+                return;
+            }
+        }
+
         if(clickContent("打工赚元宝"))return;
 
         if (clickContent("走路赚元宝")){
@@ -512,6 +538,7 @@ public class DianTaoFastScript extends BaseScript {
         if (clickContent("继续赚金币")) return true;
         if (clickContent("去赚钱")) return true;
         if (clickTotalMatchContent("禁止")) return true;
+        if (clickTotalMatchContent("以后再说")) return true;
         if (clickContent("不允许")) return true;
         if (clickTotalMatchContent("允许")) return true;
         if (clickContent("立即添加")) return true;

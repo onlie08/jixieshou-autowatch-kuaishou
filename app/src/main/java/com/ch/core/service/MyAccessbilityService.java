@@ -60,7 +60,7 @@ public class MyAccessbilityService extends AccessibilityService {
                 }
             }
         }
-        Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
+//        Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
     }
 
     @Override

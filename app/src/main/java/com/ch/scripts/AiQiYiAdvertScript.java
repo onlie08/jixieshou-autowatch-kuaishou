@@ -165,25 +165,27 @@ public class AiQiYiAdvertScript extends BaseScript {
 
     private void doPageId0Things() {
         if (clickContent("领金币")) return;
-        if (!advertDone4) {
+//        if (!advertDone4) {
             if (clickContent("赚金币")) {
                 Utils.sleep(1500);
                 if (findContent("明天可再来领取哦")) {
-                    advertDone4 = true;
-                    if(clickContent("人最高赚"))return;
+//                    advertDone4 = true;
+                    if(clickContent("人最高赚")){
+                        Utils.sleep(1500);
+                        clickBack();
+                        Utils.sleep(1500);
+                        clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
+                        return;
+                    }
                 }
-                return;
+                Utils.sleep(1500);
             }
-        }
+//        }
 
 //        if (clickContent("开宝箱")) return;
 
         clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
     }
-
-    boolean advertDone1 = false;
-    boolean advertDone3 = false;
-    boolean advertDone4 = false;
 
     private void doPageId1Things() {
 
@@ -258,12 +260,10 @@ public class AiQiYiAdvertScript extends BaseScript {
 
     private void doPageId3Things() {
         if (findContent("第二天再来")) {
-            advertDone3 = true;
             clickBack();
             return;
         }
         if (findContent("后再来")) {
-            advertDone3 = true;
             clickBack();
             return;
         }
@@ -453,6 +453,7 @@ public class AiQiYiAdvertScript extends BaseScript {
         if (clickContent("继续赚金币")) return true;
         if (clickContent("去赚钱")) return true;
         if (clickContent("仅在使用中允许")) return true;
+        if (clickTotalMatchContent("以后再说")) return true;
         if (clickContent("立即添加")) return true;
         if (clickContent("关闭")) return true;
         if (clickContent("重试")) return true;
@@ -510,7 +511,6 @@ public class AiQiYiAdvertScript extends BaseScript {
         }
 
         if (samePageCount > 12 && samePageCount < 16) {
-            advertDone3 = false;
             dealNoResponse2();
         }
 

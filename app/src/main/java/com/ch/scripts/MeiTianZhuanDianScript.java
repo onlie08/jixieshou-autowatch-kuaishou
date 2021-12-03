@@ -880,6 +880,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
         if (clickContent("重新加载")) return true;
         if (clickContent("知道")) return true;
         if (clickContent("继续赚金币")) return true;
+        if (clickTotalMatchContent("以后再说")) return true;
         if (clickContent("去赚钱")) return true;
         if (clickContent("允许")) return true;
         if (clickContent("立即添加")) return true;

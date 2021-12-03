@@ -129,6 +129,7 @@ public class KuaishouFastScript extends BaseScript {
         if (clickContent("知道")) return true;
         if (clickContent("立即签到")) return true;
         if (clickContent("签到立得")) return true;
+        if (clickTotalMatchContent("以后再说")) return true;
         if (clickContent("补签再得")) return true;
         if (clickContent("允许")) return true;
         if (clickContent("立即添加")) return true;
@@ -179,8 +180,12 @@ public class KuaishouFastScript extends BaseScript {
 
         if (clickContent("观看广告单日最高")) return;
 
-        if (clickContent("立即签到")) return;
+        if (clickTotalMatchContent("立即签到")) return;
+        if(findContent("明天再来")&& findContent("明日再来")){
+            setTodayDone(true);
+        }
         clickBack();
+
     }
 
     private void doPageId2Things() {
