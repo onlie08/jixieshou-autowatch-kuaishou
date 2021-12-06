@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.LogUtils;
-//import com.ch.activity.MainActivity;
 import com.ch.activity.EditTaskActivity;
 import com.ch.activity.MainActivity;
 import com.ch.activity.TaskTypeListActivity;
@@ -50,9 +49,6 @@ import static com.ch.core.bus.EventType.roots_ready;
 import static com.ch.core.bus.EventType.set_accessiblity;
 import static com.ch.core.bus.EventType.start_task;
 import static com.ch.core.bus.EventType.unpause_byhand;
-
-//import com.umeng.analytics.MobclickAgent;
-//import com.umeng.commonsdk.UMConfigure;
 
 public class MyApplication extends Application {
 
@@ -118,9 +114,7 @@ public class MyApplication extends Application {
                 break;
             case start_task:
                 this.isStarted = true;
-//                long time = (long) event.getData();
                 setFloatText("任务执行中");
-//                setFloatText("总执行时间：" + Utils.getTimeDescription(time));
                 break;
             case pause_byhand:
                 if (isStarted) {

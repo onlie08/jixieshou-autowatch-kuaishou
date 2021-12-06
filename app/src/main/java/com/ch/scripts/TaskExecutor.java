@@ -50,12 +50,13 @@ public class TaskExecutor {
 
     public void startTask(final AppInfo appInfo) {
         LogUtils.d(TAG, "startTask:" + new Gson().toJson(appInfo));
-        currentTaskApp = appInfo;
-        allTime = appInfo.getPeriod() * 60 * 1000;
-//        allTime = 1 * 60 * 1000;
 
         this.initStartFlags();
         if (scriptThread == null) {
+            currentTaskApp = appInfo;
+            allTime = appInfo.getPeriod() * 60 * 1000;
+            //        allTime = 1 * 60 * 1000;
+
             LogUtils.d(TAG, "scriptThread == null");
             scriptThread = new Thread(new Runnable() {
                 @Override

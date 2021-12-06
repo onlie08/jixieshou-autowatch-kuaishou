@@ -1,6 +1,7 @@
 package com.ch.fragment;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -151,8 +152,11 @@ public class MainPageFragment extends Fragment {
                     return;
                 }
                 if(tv_wx_statue.getText().equals("未开启")){
-                    tv_wx_statue.setText("已开启");
-                    startWeiXinTask();
+                    CommonDialogManage.getSingleton().showWeiXinTipDialog(getActivity(), (dialog, which) -> {
+                        tv_wx_statue.setText("已开启");
+                        startWeiXinTask();
+                    });
+
                 }else {
                     tv_wx_statue.setText("未开启");
                     stopWeiXinTask();
@@ -163,7 +167,7 @@ public class MainPageFragment extends Fragment {
         view.findViewById(R.id.f_view4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ToastUtils.showLong("程序员加速开发中。。。");
+                ToastUtils.showLong("程序员开发中。。。");
             }
         });
         tv_wx_statue = view.findViewById(R.id.tv_wx_statue);

@@ -13,8 +13,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.PermissionUtils;
+import com.ch.core.utils.Constant;
 import com.ch.jixieshou.R;
 
+import com.ch.model.AppInfo;
+import com.ch.scripts.WeiXinScript;
 import com.google.android.material.button.MaterialButton;
 
 import androidx.fragment.app.FragmentActivity;
@@ -158,5 +161,26 @@ public class CommonDialogManage {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+    public void showWeiXinTipDialog(Activity context, DialogInterface.OnClickListener clickListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("是否开启微信红包助手");
+        builder.setMessage("点击开启后，微信收到红包消息时会自动跳转并领取，可与金币任务同时执行");
+        builder.setPositiveButton("确定开启", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                clickListener.onClick(dialog,which);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 
 }

@@ -188,7 +188,7 @@ public class DianTaoFastScript extends BaseScript {
 
             NodeInfo nodeInfo1 = findByText("体力+");
             if(null != nodeInfo1){
-                point_LingTiLi = new Point(nodeInfo1.getRect().centerX(),nodeInfo1.getRect().centerY()-SizeUtils.dp2px(20));
+                point_LingTiLi = new Point(nodeInfo1.getRect().centerX(),nodeInfo1.getRect().centerY()+SizeUtils.dp2px(20));
                 point_DaGong = new Point(MyApplication.getScreenWidth()-SizeUtils.dp2px(80),point_LingTiLi.y);
                 point_ZhuanTiLi = new Point(point_LingTiLi.x + SizeUtils.dp2px(100),point_LingTiLi.y);
             }else {
@@ -416,7 +416,11 @@ public class DianTaoFastScript extends BaseScript {
     }
 
     private void closeDialog(){
-        if(clickContent("邀请好友 再赚")) return;
+        if(clickContent("邀请好友 再赚")){
+            Utils.sleep(1000);
+            clickBack();
+            return;
+        }
         if(clickContent("走路赚元宝 每日"))return;
         if(clickContent("立即签到"))return;
         if(clickContent("残忍退出"))return;
