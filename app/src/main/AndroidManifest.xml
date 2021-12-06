@@ -30,7 +30,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name="com.ch.activity.MainActivity2"
+            android:name="com.ch.activity.MainActivity"
             android:label="@string/title_activity_main"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -112,10 +112,6 @@
                 android:resource="@xml/accessibility" />
         </service>
 
-        <activity
-            android:name="com.ch.activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_main2"></activity>
         <activity android:name="com.ch.activity.HelpDocumentActivity" />
         <activity android:name="com.ch.activity.SetRecommendCodeActivity" />
     </application>

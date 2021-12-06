@@ -19,9 +19,7 @@ import com.ch.fragment.CouponFragment;
 import com.ch.fragment.MainPageFragment;
 import com.ch.fragment.SettingFragment;
 import com.ch.jixieshou.R;
-import com.ch.model.RecommendBean;
 import com.ch.model.ScreenShootEvet;
-import com.ch.model.SearchAuthorBean;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -42,7 +40,7 @@ import java.util.List;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 
-public class MainActivity2 extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
     private String TAG = this.getClass().getSimpleName();
 
     private BottomNavigationView navigation;
@@ -74,7 +72,7 @@ public class MainActivity2 extends AppCompatActivity {
         EventBus.getDefault().register(this);
         SFUpdaterUtils.checkVersion(this);
         MyApplication.getAppInstance().setMainActivity(this);
-        permission = PerMissionManage.getSingleton().requestPermission(MainActivity2.this);
+        permission = PerMissionManage.getSingleton().requestPermission(MainActivity.this);
 
         initView();
         initData();
@@ -104,7 +102,7 @@ public class MainActivity2 extends AppCompatActivity {
         findViewById(R.id.img_share).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CommonDialogManage.getSingleton().showShareAppDilaog(MainActivity2.this);
+                CommonDialogManage.getSingleton().showShareAppDilaog(MainActivity.this);
             }
         });
     }
@@ -115,7 +113,7 @@ public class MainActivity2 extends AppCompatActivity {
 
 
     private void setCurrentTab(int position) {
-        mNavigator.showFragment(position, false, true, MainActivity2.this);
+        mNavigator.showFragment(position, false, true, MainActivity.this);
         for (int i = 0; i < fragments.size(); i++) {
             if (i == position) {
                 fragments.get(i).setUserVisibleHint(true);
@@ -158,7 +156,7 @@ public class MainActivity2 extends AppCompatActivity {
                 ToastUtils.showLong("再按一次退出程序");
                 mExitTime = System.currentTimeMillis();
             } else {
-                CommonDialogManage.getSingleton().showExitDialog(MainActivity2.this);
+                CommonDialogManage.getSingleton().showExitDialog(MainActivity.this);
             }
             return true;
         }
@@ -175,13 +173,17 @@ public class MainActivity2 extends AppCompatActivity {
                     permission = true;
                 } else {
                     Toast.makeText(this, "软件退出，运行权限被禁止", Toast.LENGTH_SHORT).show();
-                    Log.i("=======================", "权限" + permissions[i] + "申请失败");
                     permission = false;
-                    System.exit(0);
+                    showPermissionFailDialog();
+                    Log.i("=======================", "权限" + permissions[i] + "申请失败");
+//                    System.exit(0);
                 }
             }
         }
     }
 
+    private void showPermissionFailDialog(){
+        CommonDialogManage.getSingleton().showPermissionFailDialog(MainActivity.this);
+    }
 
 }

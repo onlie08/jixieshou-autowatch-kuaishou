@@ -1,5 +1,6 @@
 package com.ch.fragment;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -7,36 +8,33 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
-import android.util.TimeUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.ch.activity.EditTaskActivity;
-import com.ch.activity.MainActivity2;
 import com.ch.activity.TaskTypeListActivity;
-import com.ch.adapter.TaskListAdapter;
 import com.ch.adapter.TaskListAdapter1;
 import com.ch.application.MyApplication;
 import com.ch.common.CommonDialogManage;
 import com.ch.common.DeviceUtils;
 import com.ch.common.DownLoadAppManage;
 import com.ch.common.PackageUtils;
+import com.ch.common.PerMissionManage;
 import com.ch.common.SPService;
 import com.ch.core.bus.BusEvent;
 import com.ch.core.bus.BusManager;
 import com.ch.core.service.MyAccessbilityService;
 import com.ch.core.utils.AccessibilityUtils;
 import com.ch.core.utils.Constant;
+import com.ch.event.AddAllTaskEvent;
 import com.ch.event.AddTaskEvent;
 import com.ch.event.DelectTaskEvent;
 import com.ch.event.RefreshTaskEvent;
@@ -47,7 +45,6 @@ import com.ch.model.TaskInfo;
 import com.ch.scripts.WeiXinScript;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
 
@@ -55,8 +52,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -81,7 +76,6 @@ public class MainPageFragment extends Fragment {
     private TaskListAdapter1 taskListAdapter1;
     private MaterialButton startBtn;
     private List<AppInfo> appInfos = new ArrayList<>();
-//    private List<AppInfo> currentAppInfos = new ArrayList<>();
     private AppInfo currentAppInfo;
     private boolean accessEnable = false;
     private boolean tasking = false;
@@ -149,18 +143,6 @@ public class MainPageFragment extends Fragment {
             }
         });
 
-//        view.findViewById(R.id.f_view1).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                playInfo(6);
-//            }
-//        });
-//        view.findViewById(R.id.f_view2).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                playInfo(7);
-//            }
-//        });
         view.findViewById(R.id.f_view3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -209,6 +191,11 @@ public class MainPageFragment extends Fragment {
                     return;
                 }
 
+                if(!PermissionUtils.isGranted(PERMISSIONS_REQUEST)){
+                    CommonDialogManage.getSingleton().showPermissionFailDialog(getActivity());
+                    return;
+                }
+
                 TaskInfo taskInfo = new TaskInfo();
                 taskInfo.setAppInfos(appInfos);
                 SPService.put(SPService.SP_HIS_TASK_LIST, taskInfo);
@@ -220,6 +207,11 @@ public class MainPageFragment extends Fragment {
             }
         });
     }
+
+    private static String[] PERMISSIONS_REQUEST = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+    };
 
     private void startWeiXinTask(){
         new Thread(() -> {
@@ -335,6 +327,20 @@ public class MainPageFragment extends Fragment {
         // 2是编辑
         AppInfo editedAppInfo = event.getEditedAppInfo();
         updateAppInfo(editedAppInfo.getUuid(), appInfo);
+        saveTaskList();
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(AddAllTaskEvent event) {
+        LogUtils.d(TAG, "onMessageEvent");
+        newTaskCardView.setVisibility(View.GONE);
+        listCardView.setVisibility(View.VISIBLE);
+        List<AppInfo> appInfo = event.getAppInfo();
+        appInfos.clear();
+        appInfos.addAll(appInfo);
+        if(null != taskListAdapter1){
+            taskListAdapter1.notifyDataSetChanged();
+        }
         saveTaskList();
     }
 

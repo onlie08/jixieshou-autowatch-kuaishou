@@ -180,22 +180,23 @@ public class DianTaoFastScript extends BaseScript {
 
     private void doPageId7Things() {
         if(null == point_LingTiLi){
-            point_LingTiLi = new Point(SizeUtils.dp2px(80),1863);
-            point_DaGong = new Point(MyApplication.getScreenWidth()-SizeUtils.dp2px(80),point_LingTiLi.y);
-            point_ZhuanTiLi = new Point(point_LingTiLi.x + SizeUtils.dp2px(80),point_LingTiLi.y);
+            //todo 是否要加个本地存储
+//            point_LingTiLi = new Point(SizeUtils.dp2px(80),1863);
+//            point_DaGong = new Point(MyApplication.getScreenWidth()-SizeUtils.dp2px(80),point_LingTiLi.y);
+//            point_ZhuanTiLi = new Point(point_LingTiLi.x + SizeUtils.dp2px(80),point_LingTiLi.y);
 
 
-//            NodeInfo nodeInfo1 = findByText("体力+");
-//            if(null != nodeInfo1){
-//                point_LingTiLi = new Point(nodeInfo1.getRect().centerX(),nodeInfo1.getRect().centerY()-SizeUtils.dp2px(20));
-//                point_DaGong = new Point(MyApplication.getScreenWidth()-SizeUtils.dp2px(80),point_LingTiLi.y);
-//                point_ZhuanTiLi = new Point(point_LingTiLi.x + SizeUtils.dp2px(100),point_LingTiLi.y);
-//            }else {
-//                clickBack();
-//                Utils.sleep(2000);
-//                clickContent("走路赚元宝");
-//                return;
-//            }
+            NodeInfo nodeInfo1 = findByText("体力+");
+            if(null != nodeInfo1){
+                point_LingTiLi = new Point(nodeInfo1.getRect().centerX(),nodeInfo1.getRect().centerY()-SizeUtils.dp2px(20));
+                point_DaGong = new Point(MyApplication.getScreenWidth()-SizeUtils.dp2px(80),point_LingTiLi.y);
+                point_ZhuanTiLi = new Point(point_LingTiLi.x + SizeUtils.dp2px(100),point_LingTiLi.y);
+            }else {
+                clickBack();
+                Utils.sleep(2000);
+                clickContent("走路赚元宝");
+                return;
+            }
         }
 
         clickXY(point_DaGong.x,point_DaGong.y);

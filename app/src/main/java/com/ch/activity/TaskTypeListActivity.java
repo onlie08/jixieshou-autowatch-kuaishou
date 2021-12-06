@@ -8,9 +8,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.ch.adapter.AppListAdapter;
 import com.ch.application.MyApplication;
 import com.ch.common.leancloud.GetTaskListTask;
+import com.ch.event.AddAllTaskEvent;
 import com.ch.event.AddTaskEvent;
 import com.ch.event.EditTaskEvent;
 import com.ch.jixieshou.R;
@@ -86,6 +89,24 @@ public class TaskTypeListActivity extends AppCompatActivity {
                 }
             }
         });
+
+        findViewById(R.id.tv_add_all).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<AppInfo> appInfoList = new ArrayList<>();
+                for(AppInfo appInfo: appInfos){
+                    if(getAppInstall(appInfo.getPkgName()).equals("已安装")){
+                        appInfoList.add(appInfo);
+                    }
+                }
+                if(appInfoList.isEmpty()){
+                    ToastUtils.showLong("所有任务app都未安装，请单独添加任务");
+                    return;
+                }
+                EventBus.getDefault().post(new AddAllTaskEvent(appInfoList));
+                finish();
+            }
+        });
     }
 
     public void updateList(List<AppInfo> list) {
@@ -125,5 +146,12 @@ public class TaskTypeListActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    private String getAppInstall(String pkgName) {
+        if( AppUtils.isAppInstalled(pkgName)){
+            return "已安装";
+        }
+        return "未安装";
     }
 }

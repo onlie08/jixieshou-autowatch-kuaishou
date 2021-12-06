@@ -56,14 +56,14 @@ public class AppListAdapter extends BaseAdapter {
             holder = (AppListViewHolder) convertView.getTag();
         }
         AppInfo info = getItem(position);
-        holder.name.setText(info.getName());
-        holder.free.setText(getAppInstall(info.getPkgName()));
+        holder.name.setText(info.getName()+getAppInstall(info.getPkgName()));
+        holder.free.setText("添加");
 
 //        if (info.isFree()) {
 //        } else {
 //            holder.free.setText("VIP");
 //        }
-        holder.name.setText(info.getName());
+//        holder.name.setText(info.getName());
         if (info.getPkgName().equals(Constant.PN_DOU_YIN)) {
             holder.icon.setImageResource(R.drawable.dy_fast);
         } else if (info.getPkgName().equals(Constant.PN_KUAI_SHOU)) {
@@ -104,9 +104,9 @@ public class AppListAdapter extends BaseAdapter {
 
     private String getAppInstall(String pkgName) {
         if( AppUtils.isAppInstalled(pkgName)){
-            return "已安装";
+            return "（已安装）";
         }
-        return "未安装";
+        return "（未安装）";
     }
 
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F4F4F4"
-    tools:context="com.ch.activity.MainActivity2">
+    tools:context="com.ch.activity.MainActivity">
 
     <include
         android:id="@+id/include_bar"

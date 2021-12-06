@@ -2,7 +2,6 @@ package com.ch.application;
 
 import android.app.Application;
 import android.content.Context;
-import android.graphics.Point;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -15,42 +14,33 @@ import android.widget.Toast;
 import com.blankj.utilcode.util.LogUtils;
 //import com.ch.activity.MainActivity;
 import com.ch.activity.EditTaskActivity;
-import com.ch.activity.MainActivity2;
+import com.ch.activity.MainActivity;
 import com.ch.activity.TaskTypeListActivity;
 import com.ch.common.PackageUtils;
 import com.ch.common.SPService;
 import com.ch.core.bus.BusEvent;
 import com.ch.core.bus.BusManager;
 import com.ch.core.service.MyAccessbilityService;
-import com.ch.core.utils.Constant;
 import com.ch.core.utils.Logger;
 import com.ch.core.utils.SFUpdaterUtils;
 import com.ch.core.utils.Utils;
-import com.ch.event.StartTaskEvent;
 import com.ch.floatwindow.FloatWindow;
 import com.ch.floatwindow.MoveType;
 import com.ch.floatwindow.PermissionListener;
 import com.ch.floatwindow.ViewStateListener;
-import com.ch.fragment.MainPageFragment;
 import com.ch.jixieshou.BuildConfig;
 import com.ch.jixieshou.R;
 import com.ch.model.AppInfo;
 import com.ch.model.RecommendBean;
-import com.ch.model.TaskInfo;
 import com.ch.scripts.TaskExecutor;
 import com.sf.appupdater.log.LogInfo;
 import com.sf.appupdater.log.LogWriter;
 import com.squareup.otto.Subscribe;
 import com.tencent.bugly.crashreport.CrashReport;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
-
 import cn.leancloud.AVOSCloud;
 
 import static com.ch.core.bus.EventType.accessiblity_connected;
-import static com.ch.core.bus.EventType.goto_target_app;
 import static com.ch.core.bus.EventType.no_roots_alert;
 import static com.ch.core.bus.EventType.pause_becauseof_not_destination_page;
 import static com.ch.core.bus.EventType.pause_byhand;
@@ -73,7 +63,7 @@ public class MyApplication extends Application {
     private static int screenHeight;
     private boolean isVip = false;
     private View floatView;
-    private MainActivity2 mainActivity;
+    private MainActivity mainActivity;
     private boolean isFirstConnectAccessbilityService = false;
     private boolean isStarted = false;
 
@@ -239,11 +229,11 @@ public class MyApplication extends Application {
         isVip = vip;
     }
 
-    public MainActivity2 getMainActivity() {
+    public MainActivity getMainActivity() {
         return mainActivity;
     }
 
-    public void setMainActivity(MainActivity2 mainActivity) {
+    public void setMainActivity(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
 
@@ -256,7 +246,7 @@ public class MyApplication extends Application {
                 .setView(floatView)
                 .setY(150)
                 .setX(0)
-                .setFilter(false, MainActivity2.class, EditTaskActivity.class, TaskTypeListActivity.class)
+                .setFilter(false, MainActivity.class, EditTaskActivity.class, TaskTypeListActivity.class)
                 .setMoveType(MoveType.slide)
                 .setMoveStyle(500, new BounceInterpolator())
                 .setViewStateListener(mViewStateListener)

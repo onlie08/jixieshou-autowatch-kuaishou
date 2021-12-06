@@ -1,5 +1,6 @@
 package com.ch.common;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.PermissionUtils;
 import com.ch.jixieshou.R;
 
 import com.google.android.material.button.MaterialButton;
@@ -139,4 +141,22 @@ public class CommonDialogManage {
             RecommendCodeManage.getSingleton().getRecommendBean(edit_input.getText().toString());
         });
     }
+
+    public void showPermissionFailDialog(Activity context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("退出软件");
+        builder.setMessage("软件读写权限被禁止，无法执行任务，重启软件或在设置中打开应用读写权限");
+        builder.setCancelable(false);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                context.finish();
+                System.exit(0);
+                Toast.makeText(context, "退出捡豆子", Toast.LENGTH_LONG).show();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 }
