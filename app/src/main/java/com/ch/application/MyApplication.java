@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.BounceInterpolator;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +65,6 @@ public class MyApplication extends Application {
     private boolean isVip = false;
     private View floatView;
     private MainActivity mainActivity;
-    private boolean isFirstConnectAccessbilityService = false;
     private boolean isStarted = false;
 
     @Override
@@ -118,8 +118,9 @@ public class MyApplication extends Application {
                 break;
             case start_task:
                 this.isStarted = true;
-                long time = (long) event.getData();
-                setFloatText("总执行时间：" + Utils.getTimeDescription(time));
+//                long time = (long) event.getData();
+                setFloatText("任务执行中");
+//                setFloatText("总执行时间：" + Utils.getTimeDescription(time));
                 break;
             case pause_byhand:
                 if (isStarted) {
@@ -133,22 +134,13 @@ public class MyApplication extends Application {
                 break;
             case pause_becauseof_not_destination_page:
                 if (isStarted) {
-                    // String reason = (String) event.getData();
-                    setFloatText("已暂停(非任务页面)");
-//                    if(null != FloatWindow.get()){
-//                        if(FloatWindow.get().isShowing()){
-//                            FloatWindow.get().hide();
-//                            LogUtils.d(TAG,"FloatWindow.get().hide()");
-//                        }
-//                    }
+                    setFloatText("非任务页面");
                 }
                 break;
-//            case goto_target_app:
-//                EventBus.getDefault().post(new StartTaskEvent());
-//                break;
             case refresh_time:
                 if (!TaskExecutor.getInstance().isForcePause()) {
-                    setFloatText("已执行：" + event.getData());
+//                    setFloatText("已执行：" + event.getData());
+                    setFloatText("任务执行中");
                     if(!FloatWindow.get().isShowing()){
                         FloatWindow.get().show();
                     }
@@ -163,8 +155,7 @@ public class MyApplication extends Application {
                 setFloatText("重新准备就绪");
                 break;
             case accessiblity_connected:
-                this.isFirstConnectAccessbilityService = true;
-                setFloatText("准备就绪，点我启动");
+                setFloatText("准备就绪，点我去启动");
                 break;
         }
     }
@@ -241,6 +232,7 @@ public class MyApplication extends Application {
         floatView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.floatview, null);
         TextView tv_close = floatView.findViewById(R.id.tv_close);
         TextView tv_option = floatView.findViewById(R.id.tv_option);
+        ImageView icon = floatView.findViewById(R.id.icon);
         FloatWindow
                 .with(getApplicationContext())
                 .setView(floatView)
@@ -276,38 +268,27 @@ public class MyApplication extends Application {
         tv_option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PackageUtils.startSelf();
-//                TaskInfo taskInfo = SPService.get(SPService.SP_HIS_TASK_LIST, TaskInfo.class);
-//                if (taskInfo != null && taskInfo.getAppInfos() != null && taskInfo.getAppInfos().size() > 0 &&
-//                        isFirstConnectAccessbilityService) {
-//                    // 服务岗连接上，可以点击快速启动，不需要跳转到捡豆子app去启动
-//                    isFirstConnectAccessbilityService = false;
-//                    startTask(taskInfo.getAppInfos().get(0));
-//                } else if (isStarted) {
-//                    // 已启动，则点击会触发暂停
-////                    if (TaskExecutor.getInstance().isForcePause()) {
-////                        TaskExecutor.getInstance().setForcePause(false);
-////                        BusManager.getBus().post(new BusEvent<>(unpause_byhand));
-////                    } else {
-////                        LogUtils.d(TAG,"setForcePause()");
-////                        TaskExecutor.getInstance().setForcePause(true);
-////                        BusManager.getBus().post(new BusEvent<>(pause_byhand));
-////                    }
-//                } else {
-//                    // 未启动状态，单击会打开捡豆子app
-//                    PackageUtils.startSelf();
-//                }
+
+                if(isStarted){
+                    if (TaskExecutor.getInstance().isForcePause()) {
+                        TaskExecutor.getInstance().setForcePause(false);
+                        BusManager.getBus().post(new BusEvent<>(unpause_byhand));
+                    } else {
+                        LogUtils.d(TAG,"setForcePause()");
+                        TaskExecutor.getInstance().setForcePause(true);
+                        BusManager.getBus().post(new BusEvent<>(pause_byhand));
+                    }
+                }else {
+                    PackageUtils.startSelf();
+                }
             }
         });
 
-        tv_option.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                TaskExecutor.getInstance().stop(true);
+        icon.setOnClickListener(v -> {
+                TaskExecutor.getInstance().setForcePause(true);
+                BusManager.getBus().post(new BusEvent<>(pause_byhand));
                 Toast.makeText(getApplicationContext(), "捡豆子已暂停", Toast.LENGTH_LONG).show();
                 PackageUtils.startSelf();
-                return false;
-            }
         });
     }
 
