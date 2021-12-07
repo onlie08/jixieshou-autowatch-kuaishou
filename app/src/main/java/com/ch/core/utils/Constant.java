@@ -88,6 +88,10 @@ public class Constant {
     public static final String DIANTAO_ZHANTIE = "DIANTAO_ZHANTIE";
     public static final String DIANTAO_LIJICHOUJIANG = "DIANTAO_LIJICHOUJIANG";
 
+    public static final String DIANTAO_LINGTILI = "DIANTAO_LINGTILI";
+    public static final String DIANTAO_ZHUANTILI = "DIANTAO_ZHUANTILI";
+    public static final String DIANTAO_DAGONG = "DIANTAO_DAGONG";
+
     /**
      * 爱奇艺图像识别内容
      */

@@ -184,17 +184,17 @@ public class DianTaoFastScript extends BaseScript {
             if(clickContent("去看直播"))return;
         }
         if(null == point_LingTiLi){
-            //todo 是否要加个本地存储
-//            point_LingTiLi = new Point(SizeUtils.dp2px(80),1863);
-//            point_DaGong = new Point(MyApplication.getScreenWidth()-SizeUtils.dp2px(80),point_LingTiLi.y);
-//            point_ZhuanTiLi = new Point(point_LingTiLi.x + SizeUtils.dp2px(80),point_LingTiLi.y);
-
 
             NodeInfo nodeInfo1 = findByText("体力+");
             if(null != nodeInfo1){
                 point_LingTiLi = new Point(nodeInfo1.getRect().centerX(),nodeInfo1.getRect().centerY()+SizeUtils.dp2px(20));
-                point_DaGong = new Point(MyApplication.getScreenWidth()-SizeUtils.dp2px(80),point_LingTiLi.y);
+                SPUtils.getInstance().put(Constant.DIANTAO_LINGTILI,new Gson().toJson(point_LingTiLi));
+
                 point_ZhuanTiLi = new Point(point_LingTiLi.x + SizeUtils.dp2px(100),point_LingTiLi.y);
+                SPUtils.getInstance().put(Constant.DIANTAO_ZHUANTILI,new Gson().toJson(point_ZhuanTiLi));
+
+                point_DaGong = new Point(MyApplication.getScreenWidth()-SizeUtils.dp2px(80),point_LingTiLi.y);
+                SPUtils.getInstance().put(Constant.DIANTAO_DAGONG,new Gson().toJson(point_DaGong));
             }else {
                 clickBack();
                 Utils.sleep(2000);
@@ -613,6 +613,21 @@ public class DianTaoFastScript extends BaseScript {
         String sp_lijichoujiang = SPUtils.getInstance().getString(Constant.DIANTAO_LIJICHOUJIANG,"");
         if(!TextUtils.isEmpty(sp_lijichoujiang)){
             point_LiJiChouJiang = new Gson().fromJson(sp_lijichoujiang,Point.class);
+        }
+
+        String sp_lingtili = SPUtils.getInstance().getString(Constant.DIANTAO_LINGTILI,"");
+        if(!TextUtils.isEmpty(sp_lingtili)){
+            point_LingTiLi = new Gson().fromJson(sp_lingtili,Point.class);
+        }
+
+        String sp_zhuantili = SPUtils.getInstance().getString(Constant.DIANTAO_ZHUANTILI,"");
+        if(!TextUtils.isEmpty(sp_zhuantili)){
+            point_ZhuanTiLi = new Gson().fromJson(sp_zhuantili,Point.class);
+        }
+
+        String sp_dagong = SPUtils.getInstance().getString(Constant.DIANTAO_DAGONG,"");
+        if(!TextUtils.isEmpty(sp_dagong)){
+            point_DaGong = new Gson().fromJson(sp_dagong,Point.class);
         }
     }
 
