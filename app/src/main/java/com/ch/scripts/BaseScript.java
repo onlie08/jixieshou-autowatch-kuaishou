@@ -127,6 +127,9 @@ public abstract class BaseScript implements IScript {
     protected AccessibilityNodeInfo findAccessibilityNodeById(String id) {
         return FindById.findAccessibilityNode(id);
     }
+    protected AccessibilityNodeInfo findAccessibilityNodeByText(String text) {
+        return FindById.findAccessibilityNodeByText(text);
+    }
 //
     protected List<AccessibilityNodeInfo> findAccessibilityNodeListById(String id) {
         return FindById.findAccessibilityNodeList(id);

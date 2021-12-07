@@ -133,6 +133,7 @@ public class TaoTeScript extends BaseScript {
             clickBack();
             return;
         }
+        if(clickContent("点击继续"))return;
         if(clickContent("立即重试"))return;
         if(clickContent("放弃膨胀 领取"))return;
 
@@ -151,7 +152,7 @@ public class TaoTeScript extends BaseScript {
         LogUtils.d(TAG, "doPageId2Things");
 
         if(!task1){
-            if(clickContent("看直播福利最高赚")){
+            if(clickContent("看直播福利最高赚") || clickContent("看视频福利最高赚")){
                 doScan(35);
                 Utils.sleep(3000);
                 task1 = true;

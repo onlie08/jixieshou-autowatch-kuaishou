@@ -41,7 +41,6 @@ public class DownLoadAppManage {
     private boolean isInstallFanQie = false;
     private boolean isInstallMeiTianZhuanDian = false;
     private boolean isInstallXiaoHongShu = false;
-    private boolean isInstallTaoBao = false;
 
     private volatile static DownLoadAppManage instance; //声明成 volatile
 
@@ -71,7 +70,6 @@ public class DownLoadAppManage {
         isInstallFanQie = BaseUtil.isInstallPackage(PN_FAN_QIE);
         isInstallMeiTianZhuanDian = BaseUtil.isInstallPackage(PN_MEI_TIAN_ZHUAN_DIAN);
         isInstallXiaoHongShu = BaseUtil.isInstallPackage(PN_XIAO_HONG_SHU);
-        isInstallTaoBao = BaseUtil.isInstallPackage(PN_TAO_BAO);
     }
     
     public boolean checkIsAppExit(Context context, List<AppInfo> appInfos){
@@ -101,9 +99,9 @@ public class DownLoadAppManage {
                     ToastUtils.showLong("每天赚点App会自动做小红书关注任务，需要下载登录小红书App");
                     return false;
                 }
-                if (!isInstallTaoBao) {
-                    BaseUtil.showDownLoadDialog(PN_TAO_BAO, context);
-                    ToastUtils.showLong("每天赚点App会自动做淘宝糖喵和浏览任务，需要下载登录淘宝App");
+                if (!isInstallTaoTe) {
+                    BaseUtil.showDownLoadDialog(PN_TAO_TE, context);
+                    ToastUtils.showLong("每天赚点App每天自动做淘特任务，需要下载登录淘特App");
                     return false;
                 }
 

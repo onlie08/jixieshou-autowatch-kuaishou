@@ -27,6 +27,16 @@ public class FindById {
         return null;
     }
 
+    public static AccessibilityNodeInfo findAccessibilityNodeByText(String text){
+        AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
+        if(root == null) return null;
+        final List<AccessibilityNodeInfo> list = root.findAccessibilityNodeInfosByText(text);
+        if(list != null && !list.isEmpty()){
+            return list.get(0);
+        }
+        return null;
+    }
+
     public static List<AccessibilityNodeInfo> findAccessibilityNodeList(String id){
         AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
         if(root == null) return null;

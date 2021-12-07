@@ -179,6 +179,10 @@ public class DianTaoFastScript extends BaseScript {
     }
 
     private void doPageId7Things() {
+        if(samePageCount >2){
+            if(clickContent("我知道了"))return;
+            if(clickContent("去看直播"))return;
+        }
         if(null == point_LingTiLi){
             //todo 是否要加个本地存储
 //            point_LingTiLi = new Point(SizeUtils.dp2px(80),1863);

@@ -29,9 +29,9 @@
     <string name="baidu_detail">百度极速版任务攻略:\n1.任务推荐指数：四颗星，过新手期后预计每天稳定收入0.5到1元。\n2.推荐码可填写:%1$s</string>
     <string name="huoshan_detail">抖音火山极速版任务攻略:\n1.任务推荐指数：三颗星，过新手期后预计每天稳定收入0.5到1元。\n2.推荐码可填写:%1$s</string>
     <string name="fanqie_detail">番茄畅听任务攻略:\n1.任务推荐指数：四颗星，过新手期后预计每天稳定收入0.5到1元。\n2.推荐码可填写:%1$s</string>
-    <string name="jingdong_detail">京东极速版任务攻略:\n1.任务推荐指数：三颗星，预计每天稳定收入0.5到1元。\n2.推荐码可填写:%1$s</string>
-    <string name="taote_detail">淘特金币任务攻略:\n1.任务推荐指数：三颗星，预计每天稳定收入0.5到1元。\n2.推荐码可填写:%1$s</string>
-    <string name="meitianzhuandian_detail">每天赚点任务攻略:\n1.任务推荐指数：四颗星，预计每天预计收入0.5到1元。\n2.该脚本还需要同时下载和登录小红书和淘宝APP。\n3.推荐码可填写:%1$s</string>
+    <string name="jingdong_detail">京东极速版任务攻略:\n1.任务推荐指数：三颗星，预计每天稳定收入0.5到1元。\n2.特别注意：京东金币只能兑换红包用于购物</string>
+    <string name="taote_detail">淘特金币任务攻略:\n1.任务推荐指数：三颗星，预计每天稳定收入0.5到1元。\n2.特别注意：淘币只能兑换红包用于购物</string>
+    <string name="meitianzhuandian_detail">每天赚点任务攻略:\n1.任务推荐指数：四颗星，预计每天预计收入0.5到1元。\n2.该脚本还需要同时下载和登录小红书和淘特APP。\n3.推荐码可填写:%1$s</string>
     <string name="title_activity_main2">MainActivity2</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>

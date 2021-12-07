@@ -16,6 +16,7 @@ public class Constant {
     public static final String PN_HUO_SHAN = "com.ss.android.ugc.live";// 抖音火山
     public static final String PN_FAN_QIE = "com.xs.fm";// 番茄畅听
     public static final String PN_TAO_TE = "com.taobao.litetao";// 淘特
+    public static final String PN_BI_LI_BI_LI = "tv.danmaku.bili";// 哔哩哔哩
 
     public static final String PN_WEI_XIN = "com.tencent.mm";// 微信
     public static final String PN_QQ = "com.tencent.mm";// QQ

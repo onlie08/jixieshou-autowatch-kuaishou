@@ -224,6 +224,12 @@ public class BaiDuAdvertScript extends BaseScript {
             NodeInfo nodeInfo = findByText("看广告赚钱");
             clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(70),nodeInfo.getRect().centerY());
             Utils.sleep(2000);
+            if(findContent("今日任务已完成，明天再来吧~")){
+                clickBack();
+                Utils.sleep(2000);
+                clickXY(point_ShouYe.x,point_ShouYe.y);
+                return;
+            }
             if(findContent("后得金币")){
                 return;
             }
@@ -246,7 +252,7 @@ public class BaiDuAdvertScript extends BaseScript {
 //            }
             clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()+ SizeUtils.dp2px(100));
             Utils.sleep(3000);
-            if(checkPageId() == -1){
+            if(checkPageId() == -1 || checkPageId() == 2){
                 clickBack();
                 Utils.sleep(2000);
                 clickBack();

@@ -165,7 +165,7 @@ public class FanQieScript extends BaseScript {
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
         if(samePageCount > 2){
-            if(clickContent("立即签到"))return;
+            if(clickContent("立即签到 +"))return;
 //            clickContent("立即签到");
             scrollDown();
             Utils.sleep(1000);
