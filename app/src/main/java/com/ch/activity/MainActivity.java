@@ -4,14 +4,19 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.EncryptUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.ch.adapter.FragmentAdapter;
 import com.ch.application.MyApplication;
 import com.ch.common.CommonDialogManage;
+import com.ch.common.DeviceUtils;
 import com.ch.common.PerMissionManage;
 import com.ch.common.RecognitionManage;
 import com.ch.common.RecommendCodeManage;
+import com.ch.common.leancloud.InitTask;
+import com.ch.core.utils.Constant;
 import com.ch.core.utils.FragmentNavigator;
 import com.ch.core.utils.SFUpdaterUtils;
 import com.ch.core.utils.Utils;
@@ -25,9 +30,12 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import cn.leancloud.AVObject;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -91,6 +99,20 @@ public class MainActivity extends AppCompatActivity {
         mNavigator.onCreate(savedInstanceState);
 
         setCurrentTab(0);
+
+        String userName = SPUtils.getInstance().getString("userName");
+        if(TextUtils.isEmpty(userName)){
+            String mac = com.blankj.utilcode.util.DeviceUtils.getMacAddress();
+            String mac1 = mac.replaceAll(":","");
+            String mac2 = mac1.substring(mac1.length()-8);
+            SPUtils.getInstance().put("userName",mac2);
+            Constant.user = mac2;
+        }else {
+            Constant.user = userName;
+        }
+        CrashReport.setUserId(Constant.user);
+        new InitTask().execute();
+
     }
 
     @Override

@@ -177,17 +177,16 @@ public class MeiTianZhuanDianScript extends BaseScript {
 
     }
 
-
     /**
      * 任务列表页面逻辑 查找小红书关注、抖音点赞、哔哩哔哩关注等任务
      */
     int curTaskType = -1;
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
-        if(samePageCount == 2){
+        if(samePageCount == 3){
             if(clickTotalMatchContent("关注"))return;
         }
-        if(samePageCount > 2){
+        if(samePageCount > 4){
             clickBack();
             return;
         }
@@ -214,12 +213,12 @@ public class MeiTianZhuanDianScript extends BaseScript {
             }
         }
 
-        if(PackageUtils.checkApkExist(MyApplication.getAppInstance(),Constant.PN_TAO_TE)){
-            if(clickTotalMatchContent("+0.68元") ){
-                curTaskType = EVENT_TT_HELP;
-                return;
-            }
-        }
+//        if(PackageUtils.checkApkExist(MyApplication.getAppInstance(),Constant.PN_TAO_TE)){
+//            if(clickTotalMatchContent("+0.68元") ){
+//                curTaskType = EVENT_TT_HELP;
+//                return;
+//            }
+//        }
 
         if(PackageUtils.checkApkExist(MyApplication.getAppInstance(),Constant.PN_BI_LI_BI_LI)){
             if(clickContent("哔哩哔哩关注") ){
@@ -270,12 +269,11 @@ public class MeiTianZhuanDianScript extends BaseScript {
     }
 
 
-
     /**
      * 做任务页面逻辑
      */
     private void doPageId2Things() {
-        LogUtils.d(TAG, "doPageId2Things");
+        LogUtils.d(TAG, "doPageId2Things："+curTaskType);
         if(findContent("任务太火爆，已经结束")){
             clickBack();
             Utils.sleep(1000);
@@ -339,21 +337,18 @@ public class MeiTianZhuanDianScript extends BaseScript {
         if (findContent("输入好友邀请码")) {
             return 4;
         }
-        if(findContent("截图任务") && findContent("游戏任务")){
+        if(findContent("截图任务") ){
             return 0;
         }
-        if (findContent("我的任务")&& findContent("推荐")) {
+        if (findContent("我的任务")) {
             return 1;
         }
         if (findTotalMatchContent("做任务赚钱") ) {
-//        if (findTotalMatchContent("做任务赚钱") || (findContent("立即赚钱") || findContent("提交审核"))) {
             return 2;
         }
         if (findContent("商户详情") || findContent("剩余数量：")) {
             return 3;
         }
-
-
         return -1;
     }
 
@@ -420,7 +415,6 @@ public class MeiTianZhuanDianScript extends BaseScript {
     @Override
     public boolean isDestinationPage() {
         // 检查当前包名是否有本年应用
-//        LogUtils.d(TAG,"isDestinationPage()");
         if (!isTargetPkg() && isCurrentScipte()) {
             if (!NetworkUtils.isAvailable()) {
                 return false;
@@ -432,7 +426,6 @@ public class MeiTianZhuanDianScript extends BaseScript {
             resumeCount++;
             if (resumeCount > 36) {
                 LogUtils.d(TAG, "自动恢复到每天赚点");
-                CrashReport.postCatchedException(new Throwable("自动恢复到每天赚点"));
                 startApp();
             }
             if (resumeCount > 40) {
@@ -444,6 +437,8 @@ public class MeiTianZhuanDianScript extends BaseScript {
                 Utils.sleep(1000);
                 clickBack();
                 resumeCount = 0;
+                CrashReport.postCatchedException(new Throwable("每天赚点无响应"));
+
             }
             return false;
         }
@@ -520,6 +515,13 @@ public class MeiTianZhuanDianScript extends BaseScript {
                 clickBack();
                 return true;
             }
+            if(findContent("该任务申请次数过多，不能再次申请！")){
+                clickBack();
+                Utils.sleep(2000);
+                clickBack();
+                return true;
+            }
+
             if(clickTotalMatchContent("确认领取")){
                 return true;
             }
@@ -552,6 +554,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
                         if(clickContent("提交审核")){
                             Utils.sleep(5000);
                             clickBack();
+                            curTaskType = -1;
                             return true;
                         }
                     }
@@ -593,6 +596,13 @@ public class MeiTianZhuanDianScript extends BaseScript {
         if(clickTotalMatchContent("打开")){
             Utils.sleep(2000);
         }
+        if(findTotalMatchContent("打开方式")){
+            if(clickTotalMatchContent("小红书")) Utils.sleep(2000);
+            if(clickTotalMatchContent("抖音极速版")) Utils.sleep(2000);
+            if(clickTotalMatchContent("哔哩哔哩")) Utils.sleep(2000);
+            if(clickTotalMatchContent("总是")) Utils.sleep(2000);
+            if(clickTotalMatchContent("确定")) Utils.sleep(2000);
+        }
     }
 
     /**
@@ -602,12 +612,6 @@ public class MeiTianZhuanDianScript extends BaseScript {
         if(clickTotalMatchContent("打开链接")){
             Utils.sleep(5000);
             requestOpenApp();
-            if(findContent("打开方式")){
-                if(clickTotalMatchContent("小红书")){
-                    Utils.sleep(5000);
-                }
-
-            }
             openXiaoHongShu();
             return;
         }else if(findTotalMatchContent("点击保存二维码")){
@@ -627,7 +631,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
         if(clickTotalMatchContent("识别二维码")){
             Utils.sleep(5000);
             if(findTotalMatchContent("识别二维码")){
-                clickBack();
+                clickXY(500,500);
                 Utils.sleep(2000);
                 cancelTask();
                 return;

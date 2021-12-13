@@ -110,6 +110,15 @@ public class RecommendCodeManage {
         if(TextUtils.isEmpty(recommendBean.getCode_toutiao())){
             recommendBean.setCode_toutiao("Q38842766");
         }
+        if(TextUtils.isEmpty(recommendBean.getCode_meitianzhuandian())){
+            recommendBean.setCode_meitianzhuandian("17619698");
+        }
+        if(TextUtils.isEmpty(recommendBean.getCode_huoshan())){
+            recommendBean.setCode_huoshan("F5QE9E");
+        }
+        if(TextUtils.isEmpty(recommendBean.getCode_fanqie())){
+            recommendBean.setCode_fanqie("452019513");
+        }
         if(TextUtils.isEmpty(recommendBean.getCode_eleme())){
             recommendBean.setCode_eleme("https://h5.ele.me/ant/qrcode2?open_type=miniapp&url_id=35&inviterId=3b72f5fa&actId=1&_ltracker_f=hjb_app_jgwzfb&chInfo=ch_share__chsub_CopyLink&apshareid=7816ec01-60af-46db-8640-4f8ccf3b4b7d");
         }

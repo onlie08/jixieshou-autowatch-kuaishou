@@ -2,6 +2,7 @@ package com.ch.core.utils;
 
 public class Constant {
 
+    public static String user;
 
     public static final String PN_KUAI_SHOU = "com.kuaishou.nebula";// 快手极速版
     public static final String PN_DOU_YIN = "com.ss.android.ugc.aweme.lite";// 抖音极速版

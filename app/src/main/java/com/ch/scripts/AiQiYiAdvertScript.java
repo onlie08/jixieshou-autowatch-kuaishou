@@ -407,7 +407,6 @@ public class AiQiYiAdvertScript extends BaseScript {
             resumeCount++;
             if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到爱奇艺极速版");
-                CrashReport.postCatchedException(new Throwable("自动恢复到爱奇艺极速版"));
                 startApp();
                 Utils.sleep(2000);
             }
@@ -424,6 +423,8 @@ public class AiQiYiAdvertScript extends BaseScript {
                 dealNoResponse();
                 Utils.sleep(2000);
                 resumeCount = 0;
+                CrashReport.postCatchedException(new Throwable("爱奇艺极速版无响应"));
+
             }
             return false;
         }

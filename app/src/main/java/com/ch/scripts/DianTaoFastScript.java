@@ -182,6 +182,7 @@ public class DianTaoFastScript extends BaseScript {
         if(samePageCount >2){
             if(clickContent("我知道了"))return;
             if(clickContent("去看直播"))return;
+            if(clickContent("体力不足，去获得体力"))return;
         }
         if(null == point_LingTiLi){
 
@@ -498,7 +499,6 @@ public class DianTaoFastScript extends BaseScript {
             resumeCount++;
             if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到点淘");
-                CrashReport.postCatchedException(new Throwable("自动恢复到点淘"));
                 startApp();
                 Utils.sleep(2000);
             }
@@ -511,10 +511,11 @@ public class DianTaoFastScript extends BaseScript {
                 Utils.sleep(2000);
                 clickBack();
                 Utils.sleep(2000);
-                LogUtils.d(TAG, "爱奇艺极速版是不是anr了?");
                 dealNoResponse();
                 Utils.sleep(2000);
                 resumeCount = 0;
+                CrashReport.postCatchedException(new Throwable("点淘无响应"));
+
             }
             return false;
         }

@@ -192,6 +192,7 @@ public class DouyinFastAdvertScript extends BaseScript {
 
         if(findContent("明日再来")){
             setTodayDone(true);
+            CrashReport.postCatchedException(new Exception("抖音极速版今日任务完成"));
         }
 //        if (!findContent("去逛街")) {
 //            scrollUpSlow();
@@ -284,7 +285,6 @@ public class DouyinFastAdvertScript extends BaseScript {
             resumeCount++;
             if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到抖音极速版");
-                CrashReport.postCatchedException(new Throwable("自动恢复到抖音极速版"));
                 startApp();
                 Utils.sleep(2000);
             }
@@ -297,10 +297,10 @@ public class DouyinFastAdvertScript extends BaseScript {
                 Utils.sleep(2000);
                 clickBack();
                 Utils.sleep(2000);
-                LogUtils.d(TAG, "爱奇艺极速版是不是anr了?");
                 dealNoResponse();
                 Utils.sleep(2000);
                 resumeCount = 0;
+                CrashReport.postCatchedException(new Throwable("抖音极速版无响应"));
             }
             return false;
         }

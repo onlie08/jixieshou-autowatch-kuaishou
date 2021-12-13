@@ -339,8 +339,6 @@ public class FanQieScript extends BaseScript {
 
             resumeCount++;
             if (resumeCount > 5) {
-                LogUtils.d(TAG, "自动恢复到抖音火山版");
-                CrashReport.postCatchedException(new Throwable("自动恢复到抖音火山版"));
                 startApp();
                 Utils.sleep(2000);
                 samePageCount = 0;
@@ -354,10 +352,11 @@ public class FanQieScript extends BaseScript {
                 Utils.sleep(2000);
                 clickBack();
                 Utils.sleep(2000);
-                LogUtils.d(TAG, "爱奇艺极速版是不是anr了?");
                 dealNoResponse();
                 Utils.sleep(2000);
                 resumeCount = 0;
+                CrashReport.postCatchedException(new Throwable("番茄畅听无响应"));
+
             }
             return false;
         }

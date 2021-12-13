@@ -35,6 +35,7 @@ import com.ch.model.RecommendBean;
 import com.ch.scripts.TaskExecutor;
 import com.sf.appupdater.log.LogInfo;
 import com.sf.appupdater.log.LogWriter;
+import com.squareup.leakcanary.LeakCanary;
 import com.squareup.otto.Subscribe;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -82,6 +83,13 @@ public class MyApplication extends Application {
         Logger.setDebug(true);
 //        XUI.init(this); //初始化UI框架
 //        XUI.debug(true);  //开启UI框架调试日志
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
+
         CrashReport.initCrashReport(getApplicationContext(), "8aa7474c90", BuildConfig.DEBUG);
         initUmeng();
         initLeancloud();

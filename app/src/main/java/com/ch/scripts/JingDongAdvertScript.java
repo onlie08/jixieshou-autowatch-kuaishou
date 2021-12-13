@@ -136,6 +136,7 @@ public class JingDongAdvertScript extends BaseScript {
         LogUtils.d(TAG, "doPageId2Things");
         if(samePageCount > 3){
             setTodayDone(true);
+            CrashReport.postCatchedException(new Exception("京东今日任务完成"));
         }
 
       if(clickContent("逛商品赚金币"))Utils.sleep(3000);
@@ -278,7 +279,6 @@ public class JingDongAdvertScript extends BaseScript {
             resumeCount++;
             if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到头条极速版");
-                CrashReport.postCatchedException(new Throwable("自动恢复到头条极速版"));
                 startApp();
                 Utils.sleep(2000);
             }
@@ -291,10 +291,11 @@ public class JingDongAdvertScript extends BaseScript {
                 Utils.sleep(2000);
                 clickBack();
                 Utils.sleep(2000);
-                LogUtils.d(TAG, "爱奇艺极速版是不是anr了?");
                 dealNoResponse();
                 Utils.sleep(2000);
                 resumeCount = 0;
+                CrashReport.postCatchedException(new Throwable("京东极速版无响应"));
+
             }
             return false;
         }

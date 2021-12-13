@@ -183,6 +183,7 @@ public class KuaishouFastScript extends BaseScript {
         if (clickTotalMatchContent("立即签到")) return;
         if(findContent("明天再来")&& findContent("明日再来")){
             setTodayDone(true);
+            CrashReport.postCatchedException(new Exception("快手极速版今日任务完成"));
         }
         clickBack();
 
@@ -237,7 +238,6 @@ public class KuaishouFastScript extends BaseScript {
             resumeCount++;
             if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到快手极速版");
-                CrashReport.postCatchedException(new Throwable("自动恢复到快手极速版"));
                 startApp();
                 Utils.sleep(2000);
             }
@@ -254,6 +254,8 @@ public class KuaishouFastScript extends BaseScript {
                 dealNoResponse();
                 Utils.sleep(2000);
                 resumeCount = 0;
+                CrashReport.postCatchedException(new Throwable("快手极速版无响应"));
+
             }
             return false;
         }

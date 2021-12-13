@@ -5,10 +5,12 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.widget.EditText;
 
+import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.ch.common.RecommendCodeManage;
+import com.ch.core.utils.Constant;
 import com.ch.jixieshou.R;
 import com.ch.model.RecommendBean;
 import com.google.gson.Gson;
@@ -54,6 +56,7 @@ public class SetRecommendCodeActivity extends AppCompatActivity {
     private void initView() {
         findViewById(R.id.tv_back).setOnClickListener(view -> finish());
         findViewById(R.id.tv_upload).setOnClickListener(view -> upload());
+        findViewById(R.id.tv_copy).setOnClickListener(view -> upload());
 
         edit_input_yaoqingma = findViewById(R.id.edit_input_yaoqingma);
         edit_input_meitianzhuandian = findViewById(R.id.edit_input_meitianzhuandian);
@@ -68,6 +71,10 @@ public class SetRecommendCodeActivity extends AppCompatActivity {
 
 
     private void initData() {
+
+        LogUtils.d(TAG,"mac"+Constant.user);
+        edit_input_yaoqingma.setText(Constant.user);
+
         try {
             ObjectId = RecommendCodeManage.getSingleton().getMyRecommendCode();
         } catch (IOException e) {
@@ -118,7 +125,7 @@ public class SetRecommendCodeActivity extends AppCompatActivity {
 
     private void upload() {
         if(TextUtils.isEmpty(edit_input_yaoqingma.getText().toString().trim())){
-            ToastUtils.showLong("请输入您的手机号生成个人邀请码");
+            ToastUtils.showLong("个人邀请码生产失败，请联系管理员");
             return;
         }
         recommendBean = new RecommendBean();

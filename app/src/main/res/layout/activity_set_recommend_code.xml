@@ -78,7 +78,7 @@
                 android:layout_marginStart="8dp"
                 android:drawableLeft="@drawable/icon_need"
                 android:gravity="center_vertical"
-                android:text="生成邀请码："
+                android:text="您的捡豆子App邀请码："
                 android:textColor="@color/color_text"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -92,16 +92,26 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:ems="10"
                 android:gravity="center_vertical"
-                android:hint="输入手机号生成您的邀请码"
+                android:hint=""
+                android:enabled="false"
                 android:inputType="textPersonName"
-                android:paddingLeft="16dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView25"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_copy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="复制"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_input_yaoqingma"
+                app:layout_constraintStart_toEndOf="@+id/edit_input_yaoqingma"
+                app:layout_constraintTop_toTopOf="@+id/edit_input_yaoqingma" />
 
             <TextView
                 android:id="@+id/textView23"

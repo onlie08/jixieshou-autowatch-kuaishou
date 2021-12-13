@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import com.ch.activity.TaskTypeListActivity;
 import com.ch.common.DeviceUtils;
+import com.ch.core.utils.Constant;
 import com.ch.core.utils.Logger;
 
 import cn.leancloud.AVObject;
@@ -25,7 +26,7 @@ public class PayTask extends AsyncTask<Boolean, Integer, Boolean> {
     @Override
     protected Boolean doInBackground(Boolean... params) {
         try {
-            String serial = DeviceUtils.getDeviceSN();
+            String serial = Constant.user;
             AVQuery<AVObject> query = new AVQuery<>(tb_pay);
             query.whereEqualTo("serial", serial);
             AVObject obj = query.getFirst();

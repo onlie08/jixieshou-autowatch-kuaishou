@@ -137,6 +137,7 @@ public class HuoShanAdvertScript extends BaseScript {
 //
             if(findContent("今日已达上限")){
                 setTodayDone(true);
+                CrashReport.postCatchedException(new Exception("火山今日任务完成"));
             }
             clickBack();
             return;
@@ -312,7 +313,6 @@ public class HuoShanAdvertScript extends BaseScript {
             resumeCount++;
             if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到抖音火山版");
-                CrashReport.postCatchedException(new Throwable("自动恢复到抖音火山版"));
                 startApp();
                 Utils.sleep(2000);
             }
@@ -329,6 +329,7 @@ public class HuoShanAdvertScript extends BaseScript {
                 dealNoResponse();
                 Utils.sleep(2000);
                 resumeCount = 0;
+                CrashReport.postCatchedException(new Throwable("抖音火山版无响应"));
             }
             return false;
         }

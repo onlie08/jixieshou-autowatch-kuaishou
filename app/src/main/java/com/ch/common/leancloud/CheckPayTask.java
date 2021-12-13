@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import com.ch.activity.TaskTypeListActivity;
 import com.ch.application.MyApplication;
 import com.ch.common.DeviceUtils;
+import com.ch.core.utils.Constant;
 import com.ch.core.utils.Logger;
 
 import cn.leancloud.AVObject;
@@ -22,7 +23,7 @@ public class CheckPayTask extends AsyncTask<Void, Integer, Integer> {
     protected Integer doInBackground(Void... voids) {
         try {
             AVQuery<AVObject> query = new AVQuery<>(AVUtils.tb_pay);
-            query.whereEqualTo("serial", DeviceUtils.getDeviceSN());
+            query.whereEqualTo("serial", Constant.user);
             AVObject obj = query.getFirst();
             if (obj != null) {
                 boolean vip = obj.getBoolean("payed");

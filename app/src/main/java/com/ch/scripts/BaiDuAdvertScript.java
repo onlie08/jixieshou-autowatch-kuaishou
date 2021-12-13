@@ -428,7 +428,6 @@ public class BaiDuAdvertScript extends BaseScript {
             resumeCount++;
             if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到头条极速版");
-                CrashReport.postCatchedException(new Throwable("自动恢复到头条极速版"));
                 startApp();
                 Utils.sleep(2000);
             }
@@ -441,10 +440,11 @@ public class BaiDuAdvertScript extends BaseScript {
                 Utils.sleep(2000);
                 clickBack();
                 Utils.sleep(2000);
-                LogUtils.d(TAG, "爱奇艺极速版是不是anr了?");
                 dealNoResponse();
                 Utils.sleep(2000);
                 resumeCount = 0;
+                CrashReport.postCatchedException(new Throwable("百度极速版无响应"));
+
             }
             return false;
         }
