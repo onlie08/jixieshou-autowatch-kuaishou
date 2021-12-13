@@ -12,11 +12,8 @@ import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
 import com.ch.jixieshou.BuildConfig;
 import com.ch.model.AppInfo;
-import com.ch.model.ScreenShootEvet;
 import com.google.gson.Gson;
 import com.tencent.bugly.crashreport.CrashReport;
-
-import org.greenrobot.eventbus.EventBus;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 import static com.ch.core.utils.ActionUtils.pressHome;
@@ -90,25 +87,21 @@ public class TaoTeScript extends BaseScript {
 
             doPageId0Things();
 
-        }
-        else if (pageId == 1) {
+        } else if (pageId == 1) {
 
             doPageId1Things();
 
-        }
-        else if (pageId == 2) {
+        } else if (pageId == 2) {
 
             doPageId2Things();
 
-        }
-        else if (pageId == 3) {
+        } else if (pageId == 3) {
 
             doPageId3Things();
 
-        }
-        else {
-            if(samePageCount > 5){
-                if(clickTotalMatchContent("推荐")) Utils.sleep(3000);
+        } else {
+            if (samePageCount > 5) {
+                if (clickTotalMatchContent("推荐")) Utils.sleep(3000);
             }
             Utils.sleep(1500);
             clickBack();
@@ -118,7 +111,7 @@ public class TaoTeScript extends BaseScript {
 
     private void doPageId0Things() {
         LogUtils.d(TAG, "doPageId0Things");
-        if(clickContent("天天赚特币"))return;
+        if (clickContent("天天赚特币")) return;
 
     }
 
@@ -127,32 +120,33 @@ public class TaoTeScript extends BaseScript {
     boolean task3 = false;
     boolean task4 = false;
     boolean task5 = false;
+
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
-        if(samePageCount > 2){
+        if (samePageCount > 2) {
             clickBack();
             return;
         }
-        if(clickContent("点击继续"))return;
-        if(clickContent("立即重试"))return;
-        if(clickContent("放弃膨胀 领取"))return;
+        if (clickContent("点击继续")) return;
+        if (clickContent("立即重试")) return;
+        if (clickContent("放弃膨胀 领取")) return;
 
-        if(clickTotalMatchContent("可开红包")){
+        if (clickTotalMatchContent("可开红包")) {
             Utils.sleep(3000);
             clickTotalMatchContent("立即抽奖");
             Utils.sleep(5000);
             return;
         }
-        if(clickContent("立即领币"))return;
-        if(clickContent("继续赚币"))return;
+        if (clickContent("立即领币")) return;
+        if (clickContent("继续赚币")) return;
         return;
     }
 
     private void doPageId2Things() {
         LogUtils.d(TAG, "doPageId2Things");
 
-        if(!task1){
-            if(clickContent("看直播福利最高赚") || clickContent("看视频福利最高赚")){
+        if (!task1) {
+            if (clickContent("看直播福利最高赚") || clickContent("看视频福利最高赚")) {
                 doScan(35);
                 Utils.sleep(3000);
                 task1 = true;
@@ -160,8 +154,8 @@ public class TaoTeScript extends BaseScript {
             }
         }
 
-        if(!task2){
-            if(clickContent("逛1元秒杀最高赚")){
+        if (!task2) {
+            if (clickContent("逛1元秒杀最高赚")) {
                 doScan(16);
                 Utils.sleep(3000);
                 task2 = true;
@@ -169,8 +163,8 @@ public class TaoTeScript extends BaseScript {
             }
         }
 
-        if(!task3){
-            if(clickContent("逛品质好物最高赚")){
+        if (!task3) {
+            if (clickContent("逛品质好物最高赚")) {
                 doScan(16);
                 Utils.sleep(3000);
                 task3 = true;
@@ -178,8 +172,8 @@ public class TaoTeScript extends BaseScript {
             }
         }
 
-        if(!task4){
-            if(clickContent("逛超值抵扣最高赚")){
+        if (!task4) {
+            if (clickContent("逛超值抵扣最高赚")) {
                 doScan(35);
                 Utils.sleep(3000);
                 task4 = true;
@@ -187,15 +181,15 @@ public class TaoTeScript extends BaseScript {
             }
         }
 
-        if(!task5){
-            if(clickContent("逛30%抵扣最高")){
+        if (!task5) {
+            if (clickContent("逛30%抵扣最高")) {
                 doScan(16);
                 Utils.sleep(3000);
                 task5 = true;
                 return;
             }
         }
-        if(checkDone()){
+        if (checkDone()) {
             setTodayDone(true);
             CrashReport.postCatchedException(new Exception("淘特今日任务完成"));
             return;
@@ -204,15 +198,15 @@ public class TaoTeScript extends BaseScript {
     }
 
     private boolean checkDone() {
-        if(task1 && task2 && task3 && task4 && task5){
+        if (task1 && task2 && task3 && task4 && task5) {
             return true;
         }
         return false;
     }
 
-    private void doScan(int second){
-        for(int i = 0;i<second;i++){
-            if(isCurrentScipte()){
+    private void doScan(int second) {
+        for (int i = 0; i < second; i++) {
+            if (isCurrentScipte()) {
                 Utils.sleep(1000);
                 scrollUp();
             }
@@ -222,18 +216,18 @@ public class TaoTeScript extends BaseScript {
 
     private void doPageId3Things() {
         LogUtils.d(TAG, "doPageId3Things");
-        if(findContent("今日已完成")){
-            while (checkPageId() != 2 && isTargetPkg()){
+        if (findContent("今日已完成")) {
+            while (checkPageId() != 2 && isTargetPkg()) {
                 clickBack();
                 Utils.sleep(1500);
             }
             return;
         }
-        if(clickContent("点击逛下一个")){
+        if (clickContent("点击逛下一个")) {
             samePageCount = 0;
             return;
         }
-       scrollUp();
+        scrollUp();
 
     }
 
@@ -244,7 +238,7 @@ public class TaoTeScript extends BaseScript {
 
     private void doPageId5Things() {
         LogUtils.d(TAG, "doPageId5Things");
-        if(autoInvite()){
+        if (autoInvite()) {
             clickBack();
         }
     }
@@ -267,13 +261,13 @@ public class TaoTeScript extends BaseScript {
      * @return //0:首页 1:个人中心  2:阅读页  3:广告页
      */
     private int checkPageId() {
-        if(findContent("搜索") && findContent("天天赚特币")){
+        if (findContent("搜索") && findContent("天天赚特币")) {
             return 0;
         }
-        if(findContent("今日已完成任务")){
+        if (findContent("今日已完成任务")) {
             return 2;
         }
-        if(findContent("我的特币") || findContent("特币超值兑")){
+        if (findContent("我的特币") || findContent("特币超值兑")) {
             return 1;
         }
 
@@ -311,9 +305,9 @@ public class TaoTeScript extends BaseScript {
             return 2000;
         } else if (pageId == 4) {
             return 2000;
-        }else if (pageId == 0) {
+        } else if (pageId == 0) {
             return 2000;
-        }else if (pageId == -1) {
+        } else if (pageId == -1) {
             return 1000;
         } else {
             return 3000;
@@ -322,9 +316,9 @@ public class TaoTeScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
-        String sp_zhuanjinbi = SPUtils.getInstance().getString(Constant.JINGDONG_ZHUANJINBI,"");
-        if(!TextUtils.isEmpty(sp_zhuanjinbi)){
-            point_ZhuanJinBi = new Gson().fromJson(sp_zhuanjinbi,Point.class);
+        String sp_zhuanjinbi = SPUtils.getInstance().getString(Constant.JINGDONG_ZHUANJINBI, "");
+        if (!TextUtils.isEmpty(sp_zhuanjinbi)) {
+            point_ZhuanJinBi = new Gson().fromJson(sp_zhuanjinbi, Point.class);
         }
 
     }
@@ -383,7 +377,7 @@ public class TaoTeScript extends BaseScript {
             clickBack();
             Utils.sleep(1000);
         }
-        if(isTodayDone()){
+        if (isTodayDone()) {
             task1 = false;
             task2 = false;
             task3 = false;
@@ -415,7 +409,7 @@ public class TaoTeScript extends BaseScript {
 
 
     private boolean autoInvite() {
-        if(true){
+        if (true) {
             return true;
         }
         //[50,718][1150,838]
@@ -427,7 +421,7 @@ public class TaoTeScript extends BaseScript {
 //            SPUtils.getInstance().put(Constant.BAIDU_ZHANTIE, "");
 //        }
 
-        if(null != point_ZhanTie){
+        if (null != point_ZhanTie) {
             clickXY(point_ZhanTie.x, point_ZhanTie.y);
             Utils.sleep(1000);
             clickXY(point_TianXieYaoQingMa3.x, point_TianXieYaoQingMa3.y);

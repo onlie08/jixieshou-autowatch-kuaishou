@@ -9,7 +9,7 @@ import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
 import com.ch.model.AppInfo;
 
-public class WeiXinScript extends BaseTimingScript{
+public class WeiXinScript extends BaseTimingScript {
     private String TAG = this.getClass().getSimpleName();
 
     private int pageId = -1;
@@ -49,18 +49,18 @@ public class WeiXinScript extends BaseTimingScript{
         }
 
         pageId = checkPageId();
-        LogUtils.d(TAG,"pageId:"+pageId);
-        switch (pageId){
+        LogUtils.d(TAG, "pageId:" + pageId);
+        switch (pageId) {
             case 1:
-                if(clickContent("[微信红包]"))return;
+                if (clickContent("[微信红包]")) return;
                 break;
             case 2:
-                if(clickContent("微信红包"))return;
+                if (clickContent("微信红包")) return;
                 break;
             case 3:
-                if(clickId("f4f"))return;
+                if (clickId("f4f")) return;
                 //[404,1376][674,1646]
-                clickXY(MyApplication.getAppInstance().getScreenWidth() / 2,1500);
+                clickXY(MyApplication.getAppInstance().getScreenWidth() / 2, 1500);
                 break;
             case 4:
                 clickBack();
@@ -75,16 +75,16 @@ public class WeiXinScript extends BaseTimingScript{
     }
 
     private int checkPageId() {
-        if(findContent("已存入零钱，可")){
-        return 4;
+        if (findContent("已存入零钱，可")) {
+            return 4;
         }
-        if(findContent("微信(") && findContent("更多功能按钮")){
+        if (findContent("微信(") && findContent("更多功能按钮")) {
             return 1;
         }
-        if(findContent("更多功能按钮，已折叠") && findContent("切换到按住说话") && !findContent("已领取")){
+        if (findContent("更多功能按钮，已折叠") && findContent("切换到按住说话") && !findContent("已领取")) {
             return 2;
         }
-        if(findContent("的红包") && findContent("开")&& findContent("关闭")){
+        if (findContent("的红包") && findContent("开") && findContent("关闭")) {
             return 3;
         }
 

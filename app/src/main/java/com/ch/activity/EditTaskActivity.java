@@ -17,7 +17,6 @@ import com.ch.event.EditTaskEvent;
 import com.ch.event.RefreshTaskEvent;
 import com.ch.jixieshou.R;
 import com.ch.model.AppInfo;
-import com.ch.model.RecommendBean;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -26,7 +25,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import cn.leancloud.AVObject;
 
 /**
  * 新建或编辑任务界面
@@ -249,35 +247,35 @@ public class EditTaskActivity extends AppCompatActivity {
         this.periodEdit.setText(String.valueOf(appInfo.getPeriod()));
         this.periodEdit.setSelection(this.periodEdit.getText().length());
 
-        switch (appInfo.getPkgName()){
+        switch (appInfo.getPkgName()) {
             case Constant.PN_TOU_TIAO:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.toutiao_detail)),MyApplication.recommendBean.getCode_toutiao()));
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.toutiao_detail)), MyApplication.recommendBean.getCode_toutiao()));
                 break;
             case Constant.PN_DOU_YIN:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.douyin_detail)),MyApplication.recommendBean.getCode_douyin()));
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.douyin_detail)), MyApplication.recommendBean.getCode_douyin()));
 
                 break;
             case Constant.PN_KUAI_SHOU:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.kuaishou_detail)),MyApplication.recommendBean.getCode_kuaishou()));
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.kuaishou_detail)), MyApplication.recommendBean.getCode_kuaishou()));
 
                 break;
             case Constant.PN_DIAN_TAO:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.diantao_detail)),MyApplication.recommendBean.getCode_diantao()));
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.diantao_detail)), MyApplication.recommendBean.getCode_diantao()));
 
                 break;
             case Constant.PN_AI_QI_YI:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.aiqiyi_detail)),MyApplication.recommendBean.getCode_aiqiyi()));
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.aiqiyi_detail)), MyApplication.recommendBean.getCode_aiqiyi()));
 
                 break;
             case Constant.PN_BAI_DU:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.baidu_detail)),MyApplication.recommendBean.getCode_baidu()));
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.baidu_detail)), MyApplication.recommendBean.getCode_baidu()));
 
                 break;
             case Constant.PN_HUO_SHAN:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.huoshan_detail)),MyApplication.recommendBean.getCode_huoshan()));
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.huoshan_detail)), MyApplication.recommendBean.getCode_huoshan()));
                 break;
             case Constant.PN_FAN_QIE:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.fanqie_detail)),MyApplication.recommendBean.getCode_fanqie()));
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.fanqie_detail)), MyApplication.recommendBean.getCode_fanqie()));
                 break;
             case Constant.PN_JING_DONG:
                 tv_detail.setText(getResources().getText(R.string.jingdong_detail));
@@ -286,7 +284,7 @@ public class EditTaskActivity extends AppCompatActivity {
                 tv_detail.setText(getResources().getText(R.string.taote_detail));
                 break;
             case Constant.PN_MEI_TIAN_ZHUAN_DIAN:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.meitianzhuandian_detail)),MyApplication.recommendBean.getCode_meitianzhuandian()));
+                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.meitianzhuandian_detail)), MyApplication.recommendBean.getCode_meitianzhuandian()));
 
                 break;
         }
@@ -306,7 +304,7 @@ public class EditTaskActivity extends AppCompatActivity {
     }
 
     private String getAppInstall(String pkgName) {
-        if( AppUtils.isAppInstalled(pkgName)){
+        if (AppUtils.isAppInstalled(pkgName)) {
             return "已安装";
         }
         return "未安装";

@@ -19,8 +19,6 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.Random;
-
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 import static com.ch.core.utils.ActionUtils.pressHome;
 
@@ -74,18 +72,18 @@ public class KuaishouFastScript extends BaseScript {
         if (!isTargetPkg()) {
             return;
         }
-        if(!NetworkUtils.isAvailable()){
+        if (!NetworkUtils.isAvailable()) {
             return;
         }
-        if(ScreenUtils.isScreenLock()){
+        if (ScreenUtils.isScreenLock()) {
             return;
         }
 
         pageId = checkPageId();
 
-        if(pageId == lastPageId){
-            samePageCount ++;
-        }else {
+        if (pageId == lastPageId) {
+            samePageCount++;
+        } else {
             samePageCount = 0;
         }
         lastPageId = pageId;
@@ -111,7 +109,7 @@ public class KuaishouFastScript extends BaseScript {
 
             doPageId3Things();
 
-        }else {
+        } else {
             Utils.sleep(1500);
             clickBack();
         }
@@ -120,6 +118,7 @@ public class KuaishouFastScript extends BaseScript {
 
     /**
      * 处理返回解决不了的弹出框，但是能找到资源的
+     *
      * @return
      */
     private boolean dealNoResponse2() {
@@ -150,7 +149,7 @@ public class KuaishouFastScript extends BaseScript {
     }
 
     private void doPageId0Things() {
-        if (samePageCount > 3 ) {
+        if (samePageCount > 3) {
             if (clickId("red_packet_anim")) return;
         }
 
@@ -159,15 +158,15 @@ public class KuaishouFastScript extends BaseScript {
 
 
     private void doPageId1Things() {
-        if(samePageCount >2){
+        if (samePageCount > 2) {
 //            if(clickContent(""))return;
-            if(clickContent("明天继续领现金"))return;
-            if(clickContent("立即领取今日现金"))return;
-            if(clickContent("都领完了，继续赚钱"))return;
+            if (clickContent("明天继续领现金")) return;
+            if (clickContent("立即领取今日现金")) return;
+            if (clickContent("都领完了，继续赚钱")) return;
 //            if (clickContent("立即签到")) return;
         }
 
-        if(clickContent("填邀请码必得1元")){
+        if (clickContent("填邀请码必得1元")) {
             return;
         }
 
@@ -181,7 +180,7 @@ public class KuaishouFastScript extends BaseScript {
         if (clickContent("观看广告单日最高")) return;
 
         if (clickTotalMatchContent("立即签到")) return;
-        if(findContent("明天再来")&& findContent("明日再来")){
+        if (findContent("明天再来") && findContent("明日再来")) {
             setTodayDone(true);
             CrashReport.postCatchedException(new Exception("快手极速版今日任务完成"));
         }
@@ -195,11 +194,11 @@ public class KuaishouFastScript extends BaseScript {
 
     @Override
     protected int getMinSleepTime() {
-        if(pageId == -1){
+        if (pageId == -1) {
             return 1000;
-        }else if(pageId == 0){
+        } else if (pageId == 0) {
             return 2000;
-        }else if(pageId == 1){
+        } else if (pageId == 1) {
             return 2000;
         }
         return 3000;
@@ -207,16 +206,15 @@ public class KuaishouFastScript extends BaseScript {
 
     @Override
     protected int getMaxSleepTime() {
-        if(pageId == -1){
+        if (pageId == -1) {
             return 1000;
-        }else if(pageId == 0){
+        } else if (pageId == 0) {
             return 4000;
-        }else if(pageId == 1){
+        } else if (pageId == 1) {
             return 2000;
         }
         return 3000;
     }
-
 
 
     public boolean isCurrentScipte() {
@@ -302,7 +300,7 @@ public class KuaishouFastScript extends BaseScript {
             return 1;
         }
 
-        if (findId("left_btn")  && findContent("直播广场")) {
+        if (findId("left_btn") && findContent("直播广场")) {
             return 0;
         }
 
@@ -320,16 +318,16 @@ public class KuaishouFastScript extends BaseScript {
 
     private boolean autoInvite() {
 
-        if(true){
+        if (true) {
             return true;
         }
         getRecognitionResult();
 //        ClipboardUtils.copyText("446859698");
-        if(null == point_XiangHaoYouXunWenYaoQingMa){
+        if (null == point_XiangHaoYouXunWenYaoQingMa) {
             SPUtils.getInstance().put(Constant.KUAISHOU_ZHANTIE, "");
         }
 
-        if(null != point_ZhanTie){
+        if (null != point_ZhanTie) {
             clickXY(point_ZhanTie.x, point_ZhanTie.y);
             Utils.sleep(1000);
 
@@ -339,12 +337,12 @@ public class KuaishouFastScript extends BaseScript {
             return true;
         }
 
-        if(null != point_XiangHaoYouXunWenYaoQingMa){
+        if (null != point_XiangHaoYouXunWenYaoQingMa) {
             ActionUtils.longPress(point_XiangHaoYouXunWenYaoQingMa.x, point_XiangHaoYouXunWenYaoQingMa.y);
             Utils.sleep(1500);
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_KUAI_SHOU,Constant.PAGE_INVITE));
-        }else {
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_KUAI_SHOU,Constant.PAGE_INVITE));
+            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_KUAI_SHOU, Constant.PAGE_INVITE));
+        } else {
+            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_KUAI_SHOU, Constant.PAGE_INVITE));
             return false;
         }
         return false;
@@ -352,36 +350,36 @@ public class KuaishouFastScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
-        String sp_xianghaoyouxunwenyaoqingma = SPUtils.getInstance().getString(Constant.KUAISHOU_XIANGHAOYOUXUNWENYAOQINGMA,"");
-        if(!TextUtils.isEmpty(sp_xianghaoyouxunwenyaoqingma)){
-            point_XiangHaoYouXunWenYaoQingMa = new Gson().fromJson(sp_xianghaoyouxunwenyaoqingma,Point.class);
+        String sp_xianghaoyouxunwenyaoqingma = SPUtils.getInstance().getString(Constant.KUAISHOU_XIANGHAOYOUXUNWENYAOQINGMA, "");
+        if (!TextUtils.isEmpty(sp_xianghaoyouxunwenyaoqingma)) {
+            point_XiangHaoYouXunWenYaoQingMa = new Gson().fromJson(sp_xianghaoyouxunwenyaoqingma, Point.class);
         }
 
-        String sp_zhantie = SPUtils.getInstance().getString(Constant.KUAISHOU_ZHANTIE,"");
-        if(!TextUtils.isEmpty(sp_zhantie)){
-            point_ZhanTie = new Gson().fromJson(sp_zhantie,Point.class);
+        String sp_zhantie = SPUtils.getInstance().getString(Constant.KUAISHOU_ZHANTIE, "");
+        if (!TextUtils.isEmpty(sp_zhantie)) {
+            point_ZhanTie = new Gson().fromJson(sp_zhantie, Point.class);
         }
     }
 
     @Override
     protected void doSamePageDeal() {
-        if(samePageCount > 10 && samePageCount < 13){
+        if (samePageCount > 10 && samePageCount < 13) {
             Utils.sleep(1500);
             dealNoResponse2();
         }
 
-        if(samePageCount > 12){
+        if (samePageCount > 12) {
             Utils.sleep(1000);
             clickBack();
         }
-        if(samePageCount > 14){
+        if (samePageCount > 14) {
             if (BuildConfig.DEBUG) {
                 MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 Utils.sleep(1500);
             }
             doRandomClick();
         }
-        if(samePageCount > 30){
+        if (samePageCount > 30) {
             if (BuildConfig.DEBUG) {
 //                MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
 //                Utils.sleep(1500);

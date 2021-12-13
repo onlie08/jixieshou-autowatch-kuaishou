@@ -34,7 +34,7 @@ public class PerMissionManage {
         if (Build.VERSION.SDK_INT >= 23) {
             if (context.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Process.myPid(), Process.myUid())
                     != PackageManager.PERMISSION_GRANTED) {
-                ((Activity)context).requestPermissions(PERMISSIONS_REQUEST, 1);
+                ((Activity) context).requestPermissions(PERMISSIONS_REQUEST, 1);
             } else {
                 return true;
             }

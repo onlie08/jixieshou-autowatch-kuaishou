@@ -130,41 +130,41 @@
 
 
                 <!--<androidx.cardview.widget.CardView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginStart="20dp"-->
-                    <!--android:layout_marginEnd="20dp"-->
-                    <!--android:layout_marginTop="20dp"-->
-                    <!--app:cardCornerRadius="8dp"-->
-                    <!--app:cardElevation="2dp"-->
-                    <!--android:background="#fff">-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="20dp"-->
+                <!--android:layout_marginEnd="20dp"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--app:cardCornerRadius="8dp"-->
+                <!--app:cardElevation="2dp"-->
+                <!--android:background="#fff">-->
 
-                    <!--<LinearLayout-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:padding="10dp"-->
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="10dp"-->
 
-                        <!--android:orientation="vertical">-->
+                <!--android:orientation="vertical">-->
 
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textColor="@color/color_393939"-->
-                            <!--android:text="任务说明及攻略"-->
-                            <!--android:textSize="16sp"-->
-                            <!--android:textStyle="bold"-->
-                            <!--/>-->
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="@color/color_393939"-->
+                <!--android:text="任务说明及攻略"-->
+                <!--android:textSize="16sp"-->
+                <!--android:textStyle="bold"-->
+                <!--/>-->
 
-                        <!--<TextView-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textSize="14sp"-->
-                            <!--android:layout_marginTop="4dp"-->
-                            <!--android:textColor="@color/color_393939"-->
-                            <!--android:text="@string/aiqiyi_describe"-->
-                            <!--/>-->
+                <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="14sp"-->
+                <!--android:layout_marginTop="4dp"-->
+                <!--android:textColor="@color/color_393939"-->
+                <!--android:text="@string/aiqiyi_describe"-->
+                <!--/>-->
 
-                    <!--</LinearLayout>-->
+                <!--</LinearLayout>-->
                 <!--</androidx.cardview.widget.CardView>-->
 
 

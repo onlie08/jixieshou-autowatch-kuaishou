@@ -20,7 +20,6 @@ public class FragmentNavigator {
     private int mDefaultPosition;
 
 
-
     public FragmentNavigator(FragmentManager fragmentManager, FragmentNavigatorAdapter adapter, @IdRes int containerViewId) {
         this.mFragmentManager = fragmentManager;
         this.mAdapter = adapter;
@@ -122,12 +121,13 @@ public class FragmentNavigator {
         String tag = this.mAdapter.getTag(position);
         return this.mFragmentManager.findFragmentByTag(tag);
     }
-    private void show( int tagPage, FragmentTransaction ft) {
+
+    private void show(int tagPage, FragmentTransaction ft) {
         String tag = this.mAdapter.getTag(tagPage);
         Fragment f = this.mFragmentManager.findFragmentByTag(tag);
         if (f == null) {
             f = this.mAdapter.onCreateFragment(tagPage);
-            ft.add(this.mContainerViewId, f,  tag);
+            ft.add(this.mContainerViewId, f, tag);
         } else {
             if (!f.isAdded() && null != mFragmentManager.findFragmentByTag(tag)) {
                 ft.remove(f).commit();

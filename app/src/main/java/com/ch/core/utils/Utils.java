@@ -22,8 +22,8 @@ public class Utils {
      * 正则标志
      */
     public final static String REGULAR = "/";
-    
-    
+
+
     public static void sleep(long sleeptime) {
         try {
             Thread.sleep(sleeptime);
@@ -69,7 +69,7 @@ public class Utils {
 
 
     public static String getRootPackageName(AccessibilityNodeInfo root) {
-        if(root == null){
+        if (root == null) {
             return "";
         }
         return root.getPackageName() != null ? root.getPackageName().toString() : "";
@@ -148,9 +148,10 @@ public class Utils {
     }
 
     private static String TAG = "Utils";
+
     public static boolean textMatch(String patternStr, String text) {
-        Log.d(TAG,"patternStr:"+patternStr + " text:"+text);
-        if(text.contains(patternStr)){
+        Log.d(TAG, "patternStr:" + patternStr + " text:" + text);
+        if (text.contains(patternStr)) {
             return true;
         }
         if (!"".equals(patternStr) && patternStr.startsWith(Utils.REGULAR)
@@ -164,7 +165,7 @@ public class Utils {
     }
 
     public static boolean textTotalMatch(String patternStr, String text) {
-        Log.d(TAG,"patternStr:"+patternStr + " text:"+text);
+        Log.d(TAG, "patternStr:" + patternStr + " text:" + text);
         if (!"".equals(patternStr) && patternStr.startsWith(Utils.REGULAR)
                 && patternStr.endsWith(Utils.REGULAR)
                 && patternStr.length() >= 2) {
@@ -206,41 +207,43 @@ public class Utils {
         }
         return false;
     }
-    
-    public static String getCompatibleText(boolean isNeedFilter,String viewText){
-    	if(!isNeedFilter){
-    		return viewText;
-    	}
+
+    public static String getCompatibleText(boolean isNeedFilter, String viewText) {
+        if (!isNeedFilter) {
+            return viewText;
+        }
         return unicodeFilter(viewText);
     }
 
-    
+
     /**
      * 判断是否包含被过滤掉的字符
+     *
      * @param patternStr 用于对比查询的字符串，也就是itestin客户端传过来的
      * @return
      */
-    public static boolean hasCompatibleChar(String patternStr){
-    	if(patternStr == null){
-    		return false;
-    	}
+    public static boolean hasCompatibleChar(String patternStr) {
+        if (patternStr == null) {
+            return false;
+        }
         for (int i = 0; i < patternStr.length(); i++) {
             char c = patternStr.charAt(i);
             if ((int) c >= 55357) {
                 return true;
             }
         }
-        return false;  
+        return false;
     }
 
-    
+
     /**
      * 去除换行符和空格
+     *
      * @param string
      * @return
      */
-    private static String removeLineSeparatorAndSpace(String string){
-        if (Utils.isEmpty(string)){
+    private static String removeLineSeparatorAndSpace(String string) {
+        if (Utils.isEmpty(string)) {
             return "";
         }
         return string.replaceAll("[\r\n\\t\\s]", "");
@@ -455,7 +458,7 @@ public class Utils {
     public static boolean isEmpty(String str2test) {
         return (str2test == null || str2test.equals(""));
     }
-    
+
     /**
      * Test if the given text is a number
      *
@@ -463,7 +466,7 @@ public class Utils {
      * @return true/false
      */
     public static boolean isNumber(String text) {
-        if(Utils.isEmpty(text)){
+        if (Utils.isEmpty(text)) {
             return false;
         }
         Pattern p = Pattern.compile("[\\d]+[\\.]?[\\d]*");

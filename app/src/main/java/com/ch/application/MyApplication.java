@@ -23,7 +23,6 @@ import com.ch.core.bus.BusManager;
 import com.ch.core.service.MyAccessbilityService;
 import com.ch.core.utils.Logger;
 import com.ch.core.utils.SFUpdaterUtils;
-import com.ch.core.utils.Utils;
 import com.ch.floatwindow.FloatWindow;
 import com.ch.floatwindow.MoveType;
 import com.ch.floatwindow.PermissionListener;
@@ -65,13 +64,13 @@ public class MyApplication extends Application {
     private boolean isStarted = false;
 
     @Override
-    public void onTerminate(){
+    public void onTerminate() {
         super.onTerminate();
-        LogUtils.d(TAG,"onTerminate()");
-        if(null != FloatWindow.get()){
-            if(FloatWindow.get().isShowing()){
+        LogUtils.d(TAG, "onTerminate()");
+        if (null != FloatWindow.get()) {
+            if (FloatWindow.get().isShowing()) {
                 FloatWindow.get().hide();
-                LogUtils.d(TAG,"FloatWindow.get().hide()");
+                LogUtils.d(TAG, "FloatWindow.get().hide()");
             }
         }
 //        stopService(new Intent(getApplicationContext(), MyAccessbilityService.class));
@@ -143,7 +142,7 @@ public class MyApplication extends Application {
                 if (!TaskExecutor.getInstance().isForcePause()) {
 //                    setFloatText("已执行：" + event.getData());
                     setFloatText("任务执行中");
-                    if(!FloatWindow.get().isShowing()){
+                    if (!FloatWindow.get().isShowing()) {
                         FloatWindow.get().show();
                     }
                 }
@@ -271,26 +270,26 @@ public class MyApplication extends Application {
             @Override
             public void onClick(View v) {
 
-                if(isStarted){
+                if (isStarted) {
                     if (TaskExecutor.getInstance().isForcePause()) {
                         TaskExecutor.getInstance().setForcePause(false);
                         BusManager.getBus().post(new BusEvent<>(unpause_byhand));
                     } else {
-                        LogUtils.d(TAG,"setForcePause()");
+                        LogUtils.d(TAG, "setForcePause()");
                         TaskExecutor.getInstance().setForcePause(true);
                         BusManager.getBus().post(new BusEvent<>(pause_byhand));
                     }
-                }else {
+                } else {
                     PackageUtils.startSelf();
                 }
             }
         });
 
         icon.setOnClickListener(v -> {
-                TaskExecutor.getInstance().setForcePause(true);
-                BusManager.getBus().post(new BusEvent<>(pause_byhand));
-                Toast.makeText(getApplicationContext(), "捡豆子已暂停", Toast.LENGTH_LONG).show();
-                PackageUtils.startSelf();
+            TaskExecutor.getInstance().setForcePause(true);
+            BusManager.getBus().post(new BusEvent<>(pause_byhand));
+            Toast.makeText(getApplicationContext(), "捡豆子已暂停", Toast.LENGTH_LONG).show();
+            PackageUtils.startSelf();
         });
     }
 

@@ -2,7 +2,6 @@ package com.ch.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.AppUtils;
@@ -20,7 +19,7 @@ public class HelpDocumentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help_document);
         tv_version = findViewById(R.id.tv_version);
-        tv_version.setText("捡豆子助手V"+AppUtils.getAppVersionName());
+        tv_version.setText("捡豆子助手V" + AppUtils.getAppVersionName());
         findViewById(R.id.img_share).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -28,10 +28,10 @@ public class Constant {
     public static final String PN_YING_KE = "com.ingkee.lite";// 映客直播极速版
 
 
-    public static String KUAISHOU_SWICH  = "KS_AutoScan";
-    public static int AUTO_TYPE_SCAN  = 1;//自动浏览
-    public static int AUTO_TYPE_SIGN  = 2;//自动签到
-    public static int AUTO_TYPE_ADVERT  = 3;//自动看广告
+    public static String KUAISHOU_SWICH = "KS_AutoScan";
+    public static int AUTO_TYPE_SCAN = 1;//自动浏览
+    public static int AUTO_TYPE_SIGN = 2;//自动签到
+    public static int AUTO_TYPE_ADVERT = 3;//自动看广告
 
     /**
      * APP首页
@@ -39,22 +39,22 @@ public class Constant {
     public static final int PAGE_MAIN = 1;
 
     /**
-     *任务页
+     * 任务页
      */
     public static final int PAGE_TASK = 2;
 
     /**
-     *看广告页
+     * 看广告页
      */
     public static final int PAGE_ADVERT = 3;
 
     /**
-     *邀请码页
+     * 邀请码页
      */
     public static final int PAGE_INVITE = 4;
 
     /**
-     *活动页
+     * 活动页
      */
     public static final int PAGE_ACTIVE = 5;
 

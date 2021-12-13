@@ -10,12 +10,13 @@ public class FengShengUtil {
     private static boolean isKuaiShouInstalled() {
         return isInstallPackage(Constant.PN_FENG_SHENG);
     }
+
     public static boolean isInstallPackage(String packageName) {
         return new File("/data/data/" + packageName).exists();
     }
 
     public static void openKuaiShou(Context context) {
-        if(!isKuaiShouInstalled()){
+        if (!isKuaiShouInstalled()) {
             showDownLoadDialog(context);
             return;
         }

@@ -13,8 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class LogcatFileManager
-{
+public class LogcatFileManager {
     private static LogcatFileManager INSTANCE = null;
     private static String PATH_LOGCAT;
     private LogDumper mLogDumper = null;
@@ -23,81 +22,65 @@ public class LogcatFileManager
     private SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 
-    public static LogcatFileManager getInstance()
-    {
-        if (INSTANCE == null)
-        {
+    public static LogcatFileManager getInstance() {
+        if (INSTANCE == null) {
             INSTANCE = new LogcatFileManager();
         }
         return INSTANCE;
     }
 
 
-    private LogcatFileManager()
-    {
+    private LogcatFileManager() {
         mPId = android.os.Process.myPid();
     }
 
 
-    public void startLogcatManager(Context context)
-    {
+    public void startLogcatManager(Context context) {
         String folderPath = null;
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
-        {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             folderPath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "MMF-Logcat";
-        }
-        else
-        {
+        } else {
             folderPath = context.getFilesDir().getAbsolutePath() + File.separator + "MMF-Logcat";
         }
         LogcatFileManager.getInstance().start(folderPath);
     }
 
 
-    public void stopLogcatManager()
-    {
+    public void stopLogcatManager() {
         LogcatFileManager.getInstance().stop();
     }
 
 
-    private void setFolderPath(String folderPath)
-    {
+    private void setFolderPath(String folderPath) {
         File folder = new File(folderPath);
-        if (!folder.exists())
-        {
+        if (!folder.exists()) {
             folder.mkdirs();
         }
-        if (!folder.isDirectory())
-        {
+        if (!folder.isDirectory()) {
             throw new IllegalArgumentException("The logcat folder path is not a directory: " + folderPath);
         }
         PATH_LOGCAT = folderPath.endsWith("/") ? folderPath : folderPath + "/";
     }
 
 
-    public void start(String saveDirectoy)
-    {
+    public void start(String saveDirectoy) {
         setFolderPath(saveDirectoy);
-        if (mLogDumper == null)
-        {
+        if (mLogDumper == null) {
             mLogDumper = new LogDumper(String.valueOf(mPId), PATH_LOGCAT);
         }
         mLogDumper.start();
     }
 
 
-    public void stop()
-    {
-        if (mLogDumper != null)
-        {
+    public void stop() {
+        if (mLogDumper != null) {
             mLogDumper.stopLogs();
             mLogDumper = null;
         }
     }
 
 
-    private class LogDumper extends Thread
-    {
+    private class LogDumper extends Thread {
         private Process logcatProc;
         private BufferedReader mReader = null;
         private boolean mRunning = true;
@@ -106,15 +89,11 @@ public class LogcatFileManager
         private FileOutputStream out = null;
 
 
-        public LogDumper(String pid, String dir)
-        {
+        public LogDumper(String pid, String dir) {
             mPID = pid;
-            try
-            {
+            try {
                 out = new FileOutputStream(new File(dir, "logcat-" + simpleDateFormat1.format(new Date()) + ".log"), true);
-            }
-            catch (FileNotFoundException e)
-            {
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
 
@@ -128,67 +107,47 @@ public class LogcatFileManager
         }
 
 
-        public void stopLogs()
-        {
+        public void stopLogs() {
             mRunning = false;
         }
 
 
         @Override
-        public void run()
-        {
-            try
-            {
+        public void run() {
+            try {
                 logcatProc = Runtime.getRuntime().exec(cmds);
                 mReader = new BufferedReader(new InputStreamReader(logcatProc.getInputStream()), 1024);
                 String line = null;
-                while (mRunning && (line = mReader.readLine()) != null)
-                {
-                    if (!mRunning)
-                    {
+                while (mRunning && (line = mReader.readLine()) != null) {
+                    if (!mRunning) {
                         break;
                     }
-                    if (line.length() == 0)
-                    {
+                    if (line.length() == 0) {
                         continue;
                     }
-                    if (out != null && line.contains(mPID))
-                    {
+                    if (out != null && line.contains(mPID)) {
                         out.write((simpleDateFormat2.format(new Date()) + "  " + line + "\n").getBytes());
                     }
                 }
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 e.printStackTrace();
-            }
-            finally
-            {
-                if (logcatProc != null)
-                {
+            } finally {
+                if (logcatProc != null) {
                     logcatProc.destroy();
                     logcatProc = null;
                 }
-                if (mReader != null)
-                {
-                    try
-                    {
+                if (mReader != null) {
+                    try {
                         mReader.close();
                         mReader = null;
-                    }
-                    catch (IOException e)
-                    {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-                if (out != null)
-                {
-                    try
-                    {
+                if (out != null) {
+                    try {
                         out.close();
-                    }
-                    catch (IOException e)
-                    {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     out = null;

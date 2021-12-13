@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.ch.core.utils.Logger;
-import com.ch.jixieshou.R;
 
 public class PointView extends View {
     private Paint paint;
@@ -34,10 +33,10 @@ public class PointView extends View {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        if(isDownInPoint(event.getRawX(), event.getY(), start, startPointRadius)) {
+                        if (isDownInPoint(event.getRawX(), event.getY(), start, startPointRadius)) {
                             isInStartPoint = true;
                             isInEndPoint = false;
-                        } else if(isDownInPoint(event.getRawX(), event.getRawY(), end, endPointRadius)) {
+                        } else if (isDownInPoint(event.getRawX(), event.getRawY(), end, endPointRadius)) {
                             isInEndPoint = true;
                             isInStartPoint = false;
                         } else {
@@ -47,11 +46,11 @@ public class PointView extends View {
                         invalidate();
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        if(isInStartPoint) {
+                        if (isInStartPoint) {
                             start.x = (int) event.getRawX();
                             start.y = (int) event.getRawY();
                             invalidate();
-                        } else if(isInEndPoint) {
+                        } else if (isInEndPoint) {
                             end.x = (int) event.getRawX();
                             end.y = (int) event.getRawY();
                             invalidate();
@@ -83,7 +82,7 @@ public class PointView extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);
 
-        if(isInStartPoint) {
+        if (isInStartPoint) {
             paint.setColor(Color.parseColor("#ff0000"));
         }
         canvas.drawCircle(start.x, start.y, startPointRadius, paint);
@@ -93,7 +92,7 @@ public class PointView extends View {
         linePath.lineTo(end.x, end.y);
         canvas.drawPath(linePath, paint);
 
-        if(isInEndPoint) {
+        if (isInEndPoint) {
             paint.setColor(Color.parseColor("#ff0000"));
         }
         canvas.drawCircle(end.x, end.y, endPointRadius, paint);

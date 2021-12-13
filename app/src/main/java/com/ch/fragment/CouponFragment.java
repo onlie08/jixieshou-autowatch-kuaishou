@@ -31,7 +31,7 @@ public class CouponFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_coupon,null);
+        return inflater.inflate(R.layout.fragment_coupon, null);
     }
 
     @Override
@@ -65,9 +65,10 @@ public class CouponFragment extends Fragment {
 
     private void initData() {
     }
-    private void playInfo(int type){
+
+    private void playInfo(int type) {
         Uri uri = null;
-        switch (type){
+        switch (type) {
             case 6:
                 uri = Uri.parse("http://dpurl.cn/AsqYbGSz");
                 break;
@@ -79,7 +80,7 @@ public class CouponFragment extends Fragment {
                 break;
         }
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData (uri);
+        intent.setData(uri);
         startActivity(intent);
 
 //        Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("weixin://dl/businessWebview/link/?appid=wx10520854a4f9c525&url=baidu.com"));

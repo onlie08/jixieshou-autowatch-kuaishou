@@ -34,8 +34,8 @@ public class DouyinFastShopingScript extends BaseScript {
 
     @Override
     protected boolean isTargetPkg() {
-        if(MyApplication.getAppInstance().getAccessbilityService().isWrokFine()) {
-            if(!MyApplication.getAppInstance().getAccessbilityService().containsPkg(Constant.PN_DOU_YIN)) {
+        if (MyApplication.getAppInstance().getAccessbilityService().isWrokFine()) {
+            if (!MyApplication.getAppInstance().getAccessbilityService().containsPkg(Constant.PN_DOU_YIN)) {
                 return false;
             }
         }
@@ -54,31 +54,31 @@ public class DouyinFastShopingScript extends BaseScript {
         }
 
         if (autoType == Constant.AUTO_TYPE_ADVERT) {
-            if(!showMarker){
+            if (!showMarker) {
                 LogUtils.dTag(TAG, "点击购物车");
                 ActionUtils.click(650, 2300);
                 showMarker = true;
                 return;
             }
 
-            if(clickBaby){
-                NodeInfo node1= findByText("带货口碑");
-                if(node1 != null){
+            if (clickBaby) {
+                NodeInfo node1 = findByText("带货口碑");
+                if (node1 != null) {
                     LogUtils.dTag(TAG, "点击返回");
                     ActionUtils.pressBack();
                     showMarker = false;
                     clickBaby = false;
-                }else {
-                    NodeInfo node2= findByText("返回，按钮");
-                    if(node2 != null){
+                } else {
+                    NodeInfo node2 = findByText("返回，按钮");
+                    if (node2 != null) {
                         LogUtils.dTag(TAG, "点击提交订单");
                         //todo 提交订单
                         ActionUtils.click(1000, 2300);
                         return;
                     }
 
-                    NodeInfo node3= findByText("商品详情");
-                    if(node3 != null){
+                    NodeInfo node3 = findByText("商品详情");
+                    if (node3 != null) {
                         LogUtils.dTag(TAG, "选规格");
                         //todo 选规格
                         ActionUtils.click(1000, 2300);
@@ -151,8 +151,8 @@ public class DouyinFastShopingScript extends BaseScript {
 //        Canvas canvas = new Canvas(screenshot);
 //        canvas.translate(-v.getScrollX(), -v.getScrollY());//我们在用滑动View获得它的Bitmap时候，获得的是整个View的区域（包括隐藏的），如果想得到当前区域，需要重新定位到当前可显示的区域
 //        v.draw(canvas);// 将 view 画到画布上
-        int color = screenshot.getPixel(x,y);
-        LogUtils.dTag(TAG,"color:"+color);
+        int color = screenshot.getPixel(x, y);
+        LogUtils.dTag(TAG, "color:" + color);
         screenshot.recycle();
         return screenshot;
     }

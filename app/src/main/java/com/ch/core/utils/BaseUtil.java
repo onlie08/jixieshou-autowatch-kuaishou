@@ -37,15 +37,15 @@ public class BaseUtil {
         return new File("/data/data/" + packageName).exists();
     }
 
-    public static void showDownLoadDialog(String packageName ,final Context context) {
+    public static void showDownLoadDialog(String packageName, final Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(getAppName(packageName)+"未安装");
-        builder.setMessage("点击确定前往应用商店下载"+getAppName(packageName));
+        builder.setTitle(getAppName(packageName) + "未安装");
+        builder.setMessage("点击确定前往应用商店下载" + getAppName(packageName));
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                goToAppMarket(context,packageName);
-                showRecommendDialog(packageName,context);
+                goToAppMarket(context, packageName);
+                showRecommendDialog(packageName, context);
             }
         });
         AlertDialog dialog = builder.create();
@@ -55,55 +55,55 @@ public class BaseUtil {
 
     private static boolean needRecommend(String packageName) {
         boolean needRecommend = false;
-        if(packageName.equals(Constant.PN_DIAN_TAO)){
+        if (packageName.equals(Constant.PN_DIAN_TAO)) {
             needRecommend = true;
-        }else if(packageName.equals(Constant.PN_KUAI_SHOU)){
+        } else if (packageName.equals(Constant.PN_KUAI_SHOU)) {
             needRecommend = true;
-        }else if(packageName.equals(Constant.PN_DOU_YIN)){
+        } else if (packageName.equals(Constant.PN_DOU_YIN)) {
             needRecommend = true;
-        }else if(packageName.equals(Constant.PN_AI_QI_YI)){
+        } else if (packageName.equals(Constant.PN_AI_QI_YI)) {
             needRecommend = true;
-        }else if(packageName.equals(Constant.PN_BAI_DU)){
+        } else if (packageName.equals(Constant.PN_BAI_DU)) {
             needRecommend = true;
-        }else if(packageName.equals(Constant.PN_TOU_TIAO)){
+        } else if (packageName.equals(Constant.PN_TOU_TIAO)) {
             needRecommend = true;
-        }else if(packageName.equals(Constant.PN_JING_DONG)){
+        } else if (packageName.equals(Constant.PN_JING_DONG)) {
             needRecommend = true;
-        }else if(packageName.equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
+        } else if (packageName.equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)) {
             needRecommend = true;
-        }else if(packageName.equals(Constant.PN_HUO_SHAN)){
+        } else if (packageName.equals(Constant.PN_HUO_SHAN)) {
             needRecommend = true;
-        }else if(packageName.equals(Constant.PN_FAN_QIE)){
+        } else if (packageName.equals(Constant.PN_FAN_QIE)) {
             needRecommend = true;
-        }else if(packageName.equals(Constant.PN_TAO_TE)){
+        } else if (packageName.equals(Constant.PN_TAO_TE)) {
             needRecommend = true;
         }
         return needRecommend;
     }
 
-    private static String getDescribeText(Context context,String packageName) {
+    private static String getDescribeText(Context context, String packageName) {
         String describeText = "";
-        if(packageName.equals(Constant.PN_DIAN_TAO)){
+        if (packageName.equals(Constant.PN_DIAN_TAO)) {
             describeText = context.getResources().getString(R.string.diantao_describe);
-        }else if(packageName.equals(Constant.PN_KUAI_SHOU)){
+        } else if (packageName.equals(Constant.PN_KUAI_SHOU)) {
             describeText = context.getResources().getString(R.string.kuaishou_describe);
-        }else if(packageName.equals(Constant.PN_DOU_YIN)){
+        } else if (packageName.equals(Constant.PN_DOU_YIN)) {
             describeText = context.getResources().getString(R.string.douyin_describe);
-        }else if(packageName.equals(Constant.PN_TOU_TIAO)){
+        } else if (packageName.equals(Constant.PN_TOU_TIAO)) {
             describeText = context.getResources().getString(R.string.toutiao_describe);
-        }else if(packageName.equals(Constant.PN_AI_QI_YI)){
+        } else if (packageName.equals(Constant.PN_AI_QI_YI)) {
             describeText = context.getResources().getString(R.string.aiqiyi_describe);
-        }else if(packageName.equals(Constant.PN_BAI_DU)){
+        } else if (packageName.equals(Constant.PN_BAI_DU)) {
             describeText = context.getResources().getString(R.string.baidu_describe);
-        }else if(packageName.equals(Constant.PN_JING_DONG)){
+        } else if (packageName.equals(Constant.PN_JING_DONG)) {
             describeText = context.getResources().getString(R.string.jingdong_describe);
-        }else if(packageName.equals(Constant.PN_TAO_TE)){
+        } else if (packageName.equals(Constant.PN_TAO_TE)) {
             describeText = context.getResources().getString(R.string.taote_describe);
-        }else if(packageName.equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
+        } else if (packageName.equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)) {
             describeText = context.getResources().getString(R.string.meitianzhuandian_describe);
-        }else if(packageName.equals(Constant.PN_HUO_SHAN)){
+        } else if (packageName.equals(Constant.PN_HUO_SHAN)) {
             describeText = context.getResources().getString(R.string.huoshan_describe);
-        }else if(packageName.equals(Constant.PN_FAN_QIE)){
+        } else if (packageName.equals(Constant.PN_FAN_QIE)) {
             describeText = context.getResources().getString(R.string.fanqie_describe);
         }
         return describeText;
@@ -111,27 +111,27 @@ public class BaseUtil {
 
     private static String getRecommendCode(String packageName) {
         String recommendCode = "";
-        if(packageName.equals(Constant.PN_DIAN_TAO)){
+        if (packageName.equals(Constant.PN_DIAN_TAO)) {
             recommendCode = MyApplication.recommendBean.getCode_diantao();
-        }else if(packageName.equals(Constant.PN_KUAI_SHOU)){
+        } else if (packageName.equals(Constant.PN_KUAI_SHOU)) {
             recommendCode = MyApplication.recommendBean.getCode_kuaishou();
-        }else if(packageName.equals(Constant.PN_DOU_YIN)){
+        } else if (packageName.equals(Constant.PN_DOU_YIN)) {
             recommendCode = MyApplication.recommendBean.getCode_douyin();
-        }else if(packageName.equals(Constant.PN_AI_QI_YI)){
+        } else if (packageName.equals(Constant.PN_AI_QI_YI)) {
             recommendCode = MyApplication.recommendBean.getCode_aiqiyi();
-        }else if(packageName.equals(Constant.PN_BAI_DU)){
+        } else if (packageName.equals(Constant.PN_BAI_DU)) {
             recommendCode = MyApplication.recommendBean.getCode_baidu();
-        }else if(packageName.equals(Constant.PN_TOU_TIAO)){
+        } else if (packageName.equals(Constant.PN_TOU_TIAO)) {
             recommendCode = MyApplication.recommendBean.getCode_toutiao();
-        }else if(packageName.equals(Constant.PN_JING_DONG)){
+        } else if (packageName.equals(Constant.PN_JING_DONG)) {
             recommendCode = MyApplication.recommendBean.getCode_jingdong();
-        }else if(packageName.equals(Constant.PN_TAO_TE)){
+        } else if (packageName.equals(Constant.PN_TAO_TE)) {
             recommendCode = MyApplication.recommendBean.getCode_taote();
-        }else if(packageName.equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
+        } else if (packageName.equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)) {
             recommendCode = MyApplication.recommendBean.getCode_meitianzhuandian();
-        }else if(packageName.equals(Constant.PN_HUO_SHAN)){
+        } else if (packageName.equals(Constant.PN_HUO_SHAN)) {
             recommendCode = MyApplication.recommendBean.getCode_huoshan();
-        }else if(packageName.equals(Constant.PN_FAN_QIE)){
+        } else if (packageName.equals(Constant.PN_FAN_QIE)) {
             recommendCode = MyApplication.recommendBean.getCode_fanqie();
         }
 //        else if(packageName.equals(Constant.PN_YING_KE)){
@@ -142,46 +142,46 @@ public class BaseUtil {
 
     private static String getAppName(String packageName) {
         String recommendCode = "";
-        if(packageName.equals(Constant.PN_DIAN_TAO)){
+        if (packageName.equals(Constant.PN_DIAN_TAO)) {
             recommendCode = "点淘App";
-        }else if(packageName.equals(Constant.PN_KUAI_SHOU)){
+        } else if (packageName.equals(Constant.PN_KUAI_SHOU)) {
             recommendCode = "快手极速版";
-        }else if(packageName.equals(Constant.PN_DOU_YIN)){
+        } else if (packageName.equals(Constant.PN_DOU_YIN)) {
             recommendCode = "抖音极速版";
-        }else if(packageName.equals(Constant.PN_YING_KE)){
+        } else if (packageName.equals(Constant.PN_YING_KE)) {
             recommendCode = "映客直播极速版";
-        }else if(packageName.equals(Constant.PN_AI_QI_YI)){
+        } else if (packageName.equals(Constant.PN_AI_QI_YI)) {
             recommendCode = "爱奇艺极速版";
-        }else if(packageName.equals(Constant.PN_BAI_DU)){
+        } else if (packageName.equals(Constant.PN_BAI_DU)) {
             recommendCode = "百度极速版";
-        }else if(packageName.equals(Constant.PN_JING_DONG)){
+        } else if (packageName.equals(Constant.PN_JING_DONG)) {
             recommendCode = "京东极速版";
-        }else if(packageName.equals(Constant.PN_TAO_TE)){
+        } else if (packageName.equals(Constant.PN_TAO_TE)) {
             recommendCode = "淘特";
-        }else if(packageName.equals(Constant.PN_TOU_TIAO)){
+        } else if (packageName.equals(Constant.PN_TOU_TIAO)) {
             recommendCode = "今日头条极速版";
-        }else if(packageName.equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
+        } else if (packageName.equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)) {
             recommendCode = "每天赚点";
-        }else if(packageName.equals(Constant.PN_XIAO_HONG_SHU)){
+        } else if (packageName.equals(Constant.PN_XIAO_HONG_SHU)) {
             recommendCode = "小红书";
-        }else if(packageName.equals(Constant.PN_TAO_BAO)){
+        } else if (packageName.equals(Constant.PN_TAO_BAO)) {
             recommendCode = "淘宝";
-        }else if(packageName.equals(Constant.PN_HUO_SHAN)){
+        } else if (packageName.equals(Constant.PN_HUO_SHAN)) {
             recommendCode = "抖音火山极速版";
-        }else if(packageName.equals(Constant.PN_FAN_QIE)){
+        } else if (packageName.equals(Constant.PN_FAN_QIE)) {
             recommendCode = "番茄畅听";
         }
         return recommendCode;
     }
 
 
-    public static void showRecommendDialog(String packageName ,final Context context){
-        if(needRecommend(packageName)){
-            showRecommendDilaog(packageName,getDescribeText(context,packageName),getRecommendCode(packageName),context);
+    public static void showRecommendDialog(String packageName, final Context context) {
+        if (needRecommend(packageName)) {
+            showRecommendDilaog(packageName, getDescribeText(context, packageName), getRecommendCode(packageName), context);
         }
     }
 
-    public static void showRecommendDilaog(String packageName ,String describe,String recommendCode, Context context) {
+    public static void showRecommendDilaog(String packageName, String describe, String recommendCode, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View inflate = LayoutInflater.from(context).inflate(R.layout.dialog_recommend, null);
         builder.setView(inflate);
@@ -192,7 +192,7 @@ public class BaseUtil {
         TextView tv_copy = inflate.findViewById(R.id.tv_copy);
         TextView tv_describe = inflate.findViewById(R.id.tv_describe);
         MaterialButton btn_recommend_code = inflate.findViewById(R.id.btn_recommend_code);
-        btn_recommend_code.setText(getAppName(packageName)+"已安装并登录");
+        btn_recommend_code.setText(getAppName(packageName) + "已安装并登录");
         tv_describe.setText(describe);
         tv_copy.setOnClickListener(v -> {
             //获取剪贴板管理器：
@@ -217,12 +217,13 @@ public class BaseUtil {
 
     /**
      * 跳转到渠道对应的市场，如果没有该市场，就跳转到应用宝（App或者网页版）
+     *
      * @param context
      */
-    public static void goToAppMarket(Context context,String pkg) {
+    public static void goToAppMarket(Context context, String pkg) {
         try {
-            if(Constant.PN_MEI_TIAN_ZHUAN_DIAN.equals(pkg)){
-                goToYingYongDownload(context,pkg);
+            if (Constant.PN_MEI_TIAN_ZHUAN_DIAN.equals(pkg)) {
+                goToYingYongDownload(context, pkg);
                 return;
             }
 //            goToYingYongDownload(context,pkg);
@@ -289,10 +290,10 @@ public class BaseUtil {
     /**
      * 跳转到应用下载页
      */
-    public static void goToYingYongDownload(Context context , String packageName) {
+    public static void goToYingYongDownload(Context context, String packageName) {
         try {
             String url = "";
-            switch (packageName){
+            switch (packageName) {
                 case Constant.PN_TOU_TIAO:
                     url = "https://marm-core.sf-express.com/app-download/767bb729984c42198a0fac862e3e17a3";
                     break;

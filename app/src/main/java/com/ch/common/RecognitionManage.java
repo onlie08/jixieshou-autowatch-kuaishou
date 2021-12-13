@@ -62,9 +62,10 @@ public class RecognitionManage {
 
     /**
      * 推荐码复制到剪切板
+     *
      * @param packageName
      */
-    public void copyText(String packageName){
+    public void copyText(String packageName) {
         switch (packageName) {
             case Constant.PN_TOU_TIAO:
                 ClipboardUtils.copyText(MyApplication.recommendBean.getCode_toutiao());
@@ -103,7 +104,7 @@ public class RecognitionManage {
     }
 
 
-    public void getScreemPicFile(String packageName,int pageId) {
+    public void getScreemPicFile(String packageName, int pageId) {
         copyText(packageName);
 
         File finalFile = null;
@@ -112,7 +113,7 @@ public class RecognitionManage {
         Iterator<File> iterator1 = fileList1.iterator();
         while (iterator1.hasNext()) {
             File file = iterator1.next();
-            if(!file.getName().contains(packageName)){
+            if (!file.getName().contains(packageName)) {
                 iterator1.remove();
             }
         }
@@ -121,7 +122,7 @@ public class RecognitionManage {
         //第一步找dicm/screemshoot目录下的截图文件
         if (fileList1 != null && fileList1.size() > 0) {
 
-            Collections.sort(fileList1, new Comparator< File>() {
+            Collections.sort(fileList1, new Comparator<File>() {
                 @Override
                 public int compare(File o1, File o2) {
                     if (o1.isDirectory() && o2.isFile())
@@ -133,24 +134,24 @@ public class RecognitionManage {
             });
 
 
-            if(fileList1.get(fileList1.size() - 1).getName().contains(packageName)){
+            if (fileList1.get(fileList1.size() - 1).getName().contains(packageName)) {
                 finalFile = fileList1.get(fileList1.size() - 1);
-            }else if(fileList1.get(0).getName().contains(packageName)){
+            } else if (fileList1.get(0).getName().contains(packageName)) {
                 finalFile = fileList1.get(0);
             }
         }
 
-        if(finalFile == null){
+        if (finalFile == null) {
             String dicmPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + File.separator + "Screenshots";
             List<File> fileList = FileUtils.listFilesInDir(dicmPath);
             Iterator<File> iterator = fileList.iterator();
             while (iterator.hasNext()) {
                 File file = iterator.next();
-                if(!file.getName().contains(packageName)){
+                if (!file.getName().contains(packageName)) {
                     iterator.remove();
                 }
             }
-            Collections.sort(fileList, new Comparator< File>() {
+            Collections.sort(fileList, new Comparator<File>() {
                 @Override
                 public int compare(File o1, File o2) {
                     if (o1.isDirectory() && o2.isFile())
@@ -163,19 +164,19 @@ public class RecognitionManage {
 
             //第一步找不到截图文件时去找pictrue/screemshoot目录下的截图文件
             if (fileList != null && fileList.size() > 0) {
-                if(fileList.get(fileList.size() - 1).getName().contains(packageName)){
+                if (fileList.get(fileList.size() - 1).getName().contains(packageName)) {
                     finalFile = fileList.get(fileList.size() - 1);
-                }else if(fileList.get(0).getName().contains(packageName)){
+                } else if (fileList.get(0).getName().contains(packageName)) {
                     finalFile = fileList.get(0);
                 }
             }
         }
 
-        if(finalFile == null){
+        if (finalFile == null) {
             String dicmPath2 = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + File.separator + "Screenshots";
             List<File> fileList2 = FileUtils.listFilesInDir(dicmPath2);
-            if(!fileList2.isEmpty()){
-                Collections.sort(fileList2, new Comparator< File>() {
+            if (!fileList2.isEmpty()) {
+                Collections.sort(fileList2, new Comparator<File>() {
                     @Override
                     public int compare(File o1, File o2) {
                         if (o1.isDirectory() && o2.isFile())
@@ -186,23 +187,23 @@ public class RecognitionManage {
                     }
                 });
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-                String timeURL = TimeUtils.getNowString(formatter).substring(0,8);
+                String timeURL = TimeUtils.getNowString(formatter).substring(0, 8);
                 String fileName = fileList2.get(fileList2.size() - 1).getName();
-                String fileName1 = fileName.replace("-","");
-                String fileName2 = fileName1.replace("_","");
-                if(fileName2.contains(timeURL)){
+                String fileName1 = fileName.replace("-", "");
+                String fileName2 = fileName1.replace("_", "");
+                if (fileName2.contains(timeURL)) {
                     finalFile = fileList2.get(fileList2.size() - 1);
-                    startRecognition(finalFile.getPath(),packageName,pageId);
+                    startRecognition(finalFile.getPath(), packageName, pageId);
                     return;
                 }
             }
 //            CrashReport.postCatchedException(new Throwable("找不到截图文件"));
         }
-        if(finalFile == null){
+        if (finalFile == null) {
             String dicmPath3 = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + File.separator + "Screenshots";
             List<File> fileList3 = FileUtils.listFilesInDir(dicmPath3);
-            if(!fileList3.isEmpty()){
-                Collections.sort(fileList3, new Comparator< File>() {
+            if (!fileList3.isEmpty()) {
+                Collections.sort(fileList3, new Comparator<File>() {
                     @Override
                     public int compare(File o1, File o2) {
                         if (o1.isDirectory() && o2.isFile())
@@ -213,26 +214,26 @@ public class RecognitionManage {
                     }
                 });
                 SimpleDateFormat formatter1 = new SimpleDateFormat("yyyyMMddHHmmss");
-                String timeURL1 = TimeUtils.getNowString(formatter1).substring(0,8);
+                String timeURL1 = TimeUtils.getNowString(formatter1).substring(0, 8);
                 String fileName3 = fileList3.get(fileList3.size() - 1).getName();
-                String fileName4 = fileName3.replace("-","");
-                String fileName5 = fileName4.replace("_","");
-                if(fileName5.contains(timeURL1)){
+                String fileName4 = fileName3.replace("-", "");
+                String fileName5 = fileName4.replace("_", "");
+                if (fileName5.contains(timeURL1)) {
                     finalFile = fileList3.get(fileList3.size() - 1);
-                    startRecognition(finalFile.getPath(),packageName,pageId);
+                    startRecognition(finalFile.getPath(), packageName, pageId);
                     return;
                 }
             }
         }
 
-        startRecognition(finalFile.getPath(),packageName,pageId);
+        startRecognition(finalFile.getPath(), packageName, pageId);
     }
 
-    public void startRecognition(String photoPath,String packageName, int pageId) {
+    public void startRecognition(String photoPath, String packageName, int pageId) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                doRequest(photoPath,packageName,pageId);
+                doRequest(photoPath, packageName, pageId);
             }
         }).start();
     }
@@ -319,7 +320,7 @@ public class RecognitionManage {
                                 recognitionBeans.add(recognitionBean);
 
                             }
-                            dealWithRecogintionResult(recognitionBeans,packageName,pageId);
+                            dealWithRecogintionResult(recognitionBeans, packageName, pageId);
 
                         } catch (Exception e) {
                             Log.d(TAG, "Exception: " + e.getMessage());
@@ -332,41 +333,41 @@ public class RecognitionManage {
         });
     }
 
-    private void dealWithRecogintionResult(List<RecognitionBean> recognitionBeans, String packageName, int pageId){
-        if(null == recognitionBeans || recognitionBeans.isEmpty()){
+    private void dealWithRecogintionResult(List<RecognitionBean> recognitionBeans, String packageName, int pageId) {
+        if (null == recognitionBeans || recognitionBeans.isEmpty()) {
             return;
         }
-        switch (packageName){
+        switch (packageName) {
             case Constant.PN_TOU_TIAO:
-                switch (pageId){
+                switch (pageId) {
                     case PAGE_MAIN:
-                        Point point1 = getPoint(getRecognitionBean(recognitionBeans,"首页"));
-                        if(null != point1){
+                        Point point1 = getPoint(getRecognitionBean(recognitionBeans, "首页"));
+                        if (null != point1) {
                             SPUtils.getInstance().put(Constant.TOUTIAO_SHOUYE, new Gson().toJson(point1));
                         }
 
-                        Point point2 = getPoint(getRecognitionBean(recognitionBeans,"任务"));
-                        if(null != point2){
+                        Point point2 = getPoint(getRecognitionBean(recognitionBeans, "任务"));
+                        if (null != point2) {
                             SPUtils.getInstance().put(Constant.TOUTIAO_RENWU, new Gson().toJson(point2));
                         }
 
                         break;
                     case PAGE_TASK:
-                        Point point3 = getPoint(getRecognitionBean(recognitionBeans,"开宝箱得金币"));
-                        if(null != point3){
+                        Point point3 = getPoint(getRecognitionBean(recognitionBeans, "开宝箱得金币"));
+                        if (null != point3) {
                             SPUtils.getInstance().put(Constant.TOUTIAO_KAIBAOXIANGDEJINBI, new Gson().toJson(point3));
-                        }else {
-                            point3 = new Point(MyApplication.getScreenWidth()- SizeUtils.dp2px(60),MyApplication.getScreenHeight()-SizeUtils.dp2px(80));
+                        } else {
+                            point3 = new Point(MyApplication.getScreenWidth() - SizeUtils.dp2px(60), MyApplication.getScreenHeight() - SizeUtils.dp2px(80));
                         }
                         break;
                     case PAGE_INVITE:
-                        Point point4 = getPoint(getRecognitionBean(recognitionBeans,"输入好友的邀请码"));
-                        if(null != point4){
+                        Point point4 = getPoint(getRecognitionBean(recognitionBeans, "输入好友的邀请码"));
+                        if (null != point4) {
                             SPUtils.getInstance().put(Constant.TOUTIAO_SHURUHAOYOUYAOQINGMA, new Gson().toJson(point4));
                         }
 
-                        Point point5 = getPoint(getRecognitionBean(recognitionBeans,"粘贴"));
-                        if(null != point5){
+                        Point point5 = getPoint(getRecognitionBean(recognitionBeans, "粘贴"));
+                        if (null != point5) {
                             SPUtils.getInstance().put(Constant.TOUTIAO_ZHANTIE, new Gson().toJson(point5));
                         }
                         break;
@@ -375,13 +376,13 @@ public class RecognitionManage {
 
                 break;
             case Constant.PN_KUAI_SHOU:
-                Point point1 = getPoint(getRecognitionBean(recognitionBeans,"向好友询问邀请码"));
-                if(null != point1){
+                Point point1 = getPoint(getRecognitionBean(recognitionBeans, "向好友询问邀请码"));
+                if (null != point1) {
                     SPUtils.getInstance().put(Constant.KUAISHOU_XIANGHAOYOUXUNWENYAOQINGMA, new Gson().toJson(point1));
                 }
 
-                Point point2 = getPoint(getRecognitionBean(recognitionBeans,"粘贴"));
-                if(null != point2){
+                Point point2 = getPoint(getRecognitionBean(recognitionBeans, "粘贴"));
+                if (null != point2) {
                     SPUtils.getInstance().put(Constant.KUAISHOU_ZHANTIE, new Gson().toJson(point2));
                 }
 
@@ -389,16 +390,16 @@ public class RecognitionManage {
             case Constant.PN_DOU_YIN:
                 switch (pageId) {
                     case PAGE_MAIN:
-                        Point p_shouye = getPoint(getRecognitionBean(recognitionBeans,"首页"));
-                        if(null != p_shouye){
+                        Point p_shouye = getPoint(getRecognitionBean(recognitionBeans, "首页"));
+                        if (null != p_shouye) {
                             SPUtils.getInstance().put(Constant.DOUYIN_SHOUYE, new Gson().toJson(p_shouye));
                         }
 
-                        Point p_laizhuanqian = getPoint(getRecognitionBean(recognitionBeans,"来赚钱"));
-                        if(null != p_laizhuanqian){
+                        Point p_laizhuanqian = getPoint(getRecognitionBean(recognitionBeans, "来赚钱"));
+                        if (null != p_laizhuanqian) {
                             SPUtils.getInstance().put(Constant.DOUYIN_LAIZHUANQIAN, new Gson().toJson(p_laizhuanqian));
-                        }else {
-                            p_laizhuanqian = new Point(MyApplication.getScreenWidth()/2,p_shouye.y);
+                        } else {
+                            p_laizhuanqian = new Point(MyApplication.getScreenWidth() / 2, p_shouye.y);
                             SPUtils.getInstance().put(Constant.DOUYIN_LAIZHUANQIAN, new Gson().toJson(p_laizhuanqian));
                         }
                         break;
@@ -412,31 +413,31 @@ public class RecognitionManage {
             case Constant.PN_DIAN_TAO:
                 switch (pageId) {
                     case PAGE_MAIN:
-                        Point p_diantao = getPoint(getRecognitionBean(recognitionBeans,"点淘"));
-                        if(null != p_diantao){
+                        Point p_diantao = getPoint(getRecognitionBean(recognitionBeans, "点淘"));
+                        if (null != p_diantao) {
                             SPUtils.getInstance().put(Constant.DIANTAO_DIANTAO, new Gson().toJson(p_diantao));
                         }
                         break;
                     case PAGE_TASK:
-                        Point p0 = getPoint(getRecognitionBean(recognitionBeans,"领取"));
-                        if(null != p0){
+                        Point p0 = getPoint(getRecognitionBean(recognitionBeans, "领取"));
+                        if (null != p0) {
                             SPUtils.getInstance().put(Constant.DIANTAO_RENWU, new Gson().toJson(p0));
                         }
                         break;
                     case PAGE_INVITE:
-                        Point p1 = getPoint(getRecognitionBean(recognitionBeans,"输入邀请码"));
-                        if(null != p1){
+                        Point p1 = getPoint(getRecognitionBean(recognitionBeans, "输入邀请码"));
+                        if (null != p1) {
                             SPUtils.getInstance().put(Constant.DIANTAO_SHURUYAOQINGMA, new Gson().toJson(p1));
                         }
 
-                        Point p2 = getPoint(getRecognitionBean(recognitionBeans,"粘贴"));
-                        if(null != p2){
+                        Point p2 = getPoint(getRecognitionBean(recognitionBeans, "粘贴"));
+                        if (null != p2) {
                             SPUtils.getInstance().put(Constant.DIANTAO_ZHANTIE, new Gson().toJson(p2));
                         }
                         break;
                     case PAGE_ACTIVE:
-                        Point p_lijichoujiagn = getPoint(getRecognitionBean(recognitionBeans,"立即抽奖"));
-                        if(null != p_lijichoujiagn){
+                        Point p_lijichoujiagn = getPoint(getRecognitionBean(recognitionBeans, "立即抽奖"));
+                        if (null != p_lijichoujiagn) {
                             SPUtils.getInstance().put(Constant.DIANTAO_LIJICHOUJIANG, new Gson().toJson(p_lijichoujiagn));
                         }
                         break;
@@ -445,13 +446,13 @@ public class RecognitionManage {
             case Constant.PN_AI_QI_YI:
                 switch (pageId) {
                     case PAGE_MAIN:
-                        Point p_shouye = getPoint(getRecognitionBean(recognitionBeans,"首页"));
-                        if(null != p_shouye){
+                        Point p_shouye = getPoint(getRecognitionBean(recognitionBeans, "首页"));
+                        if (null != p_shouye) {
                             SPUtils.getInstance().put(Constant.AIQIYI_SHOUYE, new Gson().toJson(p_shouye));
                         }
 
-                        Point p_zhuanqian = getPoint(getRecognitionBean(recognitionBeans,"赚钱"));
-                        if(null != p_zhuanqian){
+                        Point p_zhuanqian = getPoint(getRecognitionBean(recognitionBeans, "赚钱"));
+                        if (null != p_zhuanqian) {
                             SPUtils.getInstance().put(Constant.AIQIYI_ZHUANQIAN, new Gson().toJson(p_zhuanqian));
                         }
 
@@ -459,19 +460,19 @@ public class RecognitionManage {
                     case PAGE_TASK:
                         break;
                     case PAGE_INVITE:
-                        Point p1 = getPoint(getRecognitionBean(recognitionBeans,"填写好友邀请码"));
-                        if(null != p1){
+                        Point p1 = getPoint(getRecognitionBean(recognitionBeans, "填写好友邀请码"));
+                        if (null != p1) {
                             SPUtils.getInstance().put(Constant.AIQIYI_TIANXIEHAOYOUYAOQINGMA, new Gson().toJson(p1));
                         }
 
-                        Point p2 = getPoint(getRecognitionBean(recognitionBeans,"粘贴"));
-                        if(null != p2){
+                        Point p2 = getPoint(getRecognitionBean(recognitionBeans, "粘贴"));
+                        if (null != p2) {
                             SPUtils.getInstance().put(Constant.AIQIYI_ZHANTIE, new Gson().toJson(p2));
                         }
                         break;
                     case PAGE_ADVERT:
-                        Point p0 = getPoint(getRecognitionBean(recognitionBeans,"立即开运"));
-                        if(null != p0){
+                        Point p0 = getPoint(getRecognitionBean(recognitionBeans, "立即开运"));
+                        if (null != p0) {
                             SPUtils.getInstance().put(Constant.AIQIYI_LIJIKAIYUN, new Gson().toJson(p0));
                         }
                         break;
@@ -479,74 +480,74 @@ public class RecognitionManage {
                 break;
             case Constant.PN_BAI_DU:
                 switch (pageId) {
-                case PAGE_MAIN:
-                    Point p1 = getPoint(getRecognitionBean(recognitionBeans,"百度"));
-                    if(null != p1){
-                        SPUtils.getInstance().put(Constant.BAIDU_SHOUYE, new Gson().toJson(p1));
-                    }
+                    case PAGE_MAIN:
+                        Point p1 = getPoint(getRecognitionBean(recognitionBeans, "百度"));
+                        if (null != p1) {
+                            SPUtils.getInstance().put(Constant.BAIDU_SHOUYE, new Gson().toJson(p1));
+                        }
 
-                    Point p2 = getPoint(getRecognitionBean(recognitionBeans,"我的"));
-                    if(null != p2){
-                        Point p3 = new Point((p1.x+p2.x)/2,p1.y);
-                        SPUtils.getInstance().put(Constant.BAIDU_RENWU, new Gson().toJson(p3));
-                    }
+                        Point p2 = getPoint(getRecognitionBean(recognitionBeans, "我的"));
+                        if (null != p2) {
+                            Point p3 = new Point((p1.x + p2.x) / 2, p1.y);
+                            SPUtils.getInstance().put(Constant.BAIDU_RENWU, new Gson().toJson(p3));
+                        }
 
-                    break;
-                case PAGE_TASK:
-                    break;
-                case PAGE_INVITE:
-                    Point inviteP1 = getPoint(getRecognitionBean(recognitionBeans,"填写邀请码"));
-                    if(null != inviteP1){
-                        SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA1, new Gson().toJson(inviteP1));
-                    }
+                        break;
+                    case PAGE_TASK:
+                        break;
+                    case PAGE_INVITE:
+                        Point inviteP1 = getPoint(getRecognitionBean(recognitionBeans, "填写邀请码"));
+                        if (null != inviteP1) {
+                            SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA1, new Gson().toJson(inviteP1));
+                        }
 
-                    Point inviteP2 = getPoint(getRecognitionBean(recognitionBeans,"好友邀请码"));
-                    if(null != inviteP2){
-                        SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA2, new Gson().toJson(inviteP2));
-                    }
+                        Point inviteP2 = getPoint(getRecognitionBean(recognitionBeans, "好友邀请码"));
+                        if (null != inviteP2) {
+                            SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA2, new Gson().toJson(inviteP2));
+                        }
 
-                    Point inviteP3 = getPoint(getRecognitionBean(recognitionBeans,"立即提交"));
-                    if(null != inviteP3){
-                        SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA3, new Gson().toJson(inviteP3));
-                    }
+                        Point inviteP3 = getPoint(getRecognitionBean(recognitionBeans, "立即提交"));
+                        if (null != inviteP3) {
+                            SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA3, new Gson().toJson(inviteP3));
+                        }
 
-                    Point inviteP4 = getPoint(getRecognitionBean(recognitionBeans,"粘贴"));
-                    if(null != inviteP4){
-                        SPUtils.getInstance().put(Constant.BAIDU_ZHANTIE, new Gson().toJson(inviteP4));
-                    }
-                    break;
-                case PAGE_ADVERT:
-                    break;
-            }
+                        Point inviteP4 = getPoint(getRecognitionBean(recognitionBeans, "粘贴"));
+                        if (null != inviteP4) {
+                            SPUtils.getInstance().put(Constant.BAIDU_ZHANTIE, new Gson().toJson(inviteP4));
+                        }
+                        break;
+                    case PAGE_ADVERT:
+                        break;
+                }
             case Constant.PN_JING_DONG:
                 switch (pageId) {
-                case PAGE_MAIN:
-                    break;
-                case PAGE_TASK:
-                    Point p_zhuanjinbi = getPoint(getRecognitionBean(recognitionBeans,"赚金币"));
-                    if(null != p_zhuanjinbi){
-                        SPUtils.getInstance().put(Constant.JINGDONG_ZHUANJINBI, new Gson().toJson(p_zhuanjinbi));
-                    }
-                    break;
-                case PAGE_INVITE:
+                    case PAGE_MAIN:
+                        break;
+                    case PAGE_TASK:
+                        Point p_zhuanjinbi = getPoint(getRecognitionBean(recognitionBeans, "赚金币"));
+                        if (null != p_zhuanjinbi) {
+                            SPUtils.getInstance().put(Constant.JINGDONG_ZHUANJINBI, new Gson().toJson(p_zhuanjinbi));
+                        }
+                        break;
+                    case PAGE_INVITE:
 
-                    break;
-                case PAGE_ADVERT:
-                    break;
-            }
+                        break;
+                    case PAGE_ADVERT:
+                        break;
+                }
             case Constant.PN_MEI_TIAN_ZHUAN_DIAN:
                 switch (pageId) {
-                case PAGE_MAIN:
-                    Point p_shouye = getPoint(getRecognitionBean(recognitionBeans,"首页"));
-                    if(null != p_shouye){
-                        SPUtils.getInstance().put(Constant.MEITIANZHUANDIAN_SHOUYE, new Gson().toJson(p_shouye));
-                    }
-                    Point p_wode = getPoint(getRecognitionBean(recognitionBeans,"我的"));
-                    if(null != p_wode){
-                        SPUtils.getInstance().put(Constant.MEITIANZHUANDIAN_WODE, new Gson().toJson(p_wode));
-                    }
-                    break;
-            }
+                    case PAGE_MAIN:
+                        Point p_shouye = getPoint(getRecognitionBean(recognitionBeans, "首页"));
+                        if (null != p_shouye) {
+                            SPUtils.getInstance().put(Constant.MEITIANZHUANDIAN_SHOUYE, new Gson().toJson(p_shouye));
+                        }
+                        Point p_wode = getPoint(getRecognitionBean(recognitionBeans, "我的"));
+                        if (null != p_wode) {
+                            SPUtils.getInstance().put(Constant.MEITIANZHUANDIAN_WODE, new Gson().toJson(p_wode));
+                        }
+                        break;
+                }
 
                 break;
         }
@@ -564,9 +565,9 @@ public class RecognitionManage {
         return null;
     }
 
-    private RecognitionBean getRecognitionBean(List<RecognitionBean> recognitionBeans,String target){
-        for(int i = recognitionBeans.size()-1; i>=0;i--){
-            if(recognitionBeans.get(i).getRes().contains(target)){
+    private RecognitionBean getRecognitionBean(List<RecognitionBean> recognitionBeans, String target) {
+        for (int i = recognitionBeans.size() - 1; i >= 0; i--) {
+            if (recognitionBeans.get(i).getRes().contains(target)) {
                 return recognitionBeans.get(i);
             }
         }

@@ -47,6 +47,7 @@ public class StringUtil {
 
     /**
      * 字符串是否为空
+     *
      * @param origin
      * @return
      */
@@ -59,6 +60,7 @@ public class StringUtil {
 
     /**
      * 是否为数字字符串
+     *
      * @param origin
      * @return
      */
@@ -72,6 +74,7 @@ public class StringUtil {
 
     /**
      * 是否为数字字符串
+     *
      * @param origin
      * @return
      */
@@ -85,6 +88,7 @@ public class StringUtil {
 
     /**
      * 获取非空字符串
+     *
      * @param origin
      * @return
      */
@@ -102,6 +106,7 @@ public class StringUtil {
 
     /**
      * 查找是否包含
+     *
      * @param origin
      * @param subString
      * @return
@@ -115,6 +120,7 @@ public class StringUtil {
 
     /**
      * 查找顺序
+     *
      * @param origin
      * @param subString
      * @return
@@ -129,6 +135,7 @@ public class StringUtil {
 
     /**
      * 查找顺序
+     *
      * @param origin
      * @param subString
      * @return
@@ -143,6 +150,7 @@ public class StringUtil {
 
     /**
      * 拆分字符串
+     *
      * @param origin
      * @param subString
      * @return
@@ -153,9 +161,10 @@ public class StringUtil {
 
     /**
      * 拆分字符串
+     *
      * @param origin
      * @param subString
-     * @param maxCount 最大拆分次数
+     * @param maxCount  最大拆分次数
      * @return
      */
     public static String[] split(CharSequence origin, CharSequence subString, int maxCount) {
@@ -168,6 +177,7 @@ public class StringUtil {
 
     /**
      * 强制toString
+     *
      * @param item
      * @return
      */
@@ -189,17 +199,19 @@ public class StringUtil {
 
     /**
      * 去除前后不可见符号
+     *
      * @param origin
      * @return
      */
     public static String trim(CharSequence origin) {
-        return origin == null? null: origin.toString().trim();
+        return origin == null ? null : origin.toString().trim();
     }
 
     /**
      * 判断origin是否以sub开始
+     *
      * @param origin 目标字段
-     * @param sub 查找字段
+     * @param sub    查找字段
      * @return
      */
     public static boolean startWith(CharSequence origin, CharSequence sub) {
@@ -221,6 +233,7 @@ public class StringUtil {
 
     /**
      * 比较字符串是否相等
+     *
      * @param a
      * @param b
      * @return
@@ -242,6 +255,7 @@ public class StringUtil {
 
     /**
      * 比较字符串是否相等，忽略大小写
+     *
      * @param a
      * @param b
      * @return
@@ -263,6 +277,7 @@ public class StringUtil {
 
     /**
      * 获取定义常量
+     *
      * @param res
      * @return
      */
@@ -272,6 +287,7 @@ public class StringUtil {
 
     /**
      * 获取特定Context定义常量
+     *
      * @param res
      * @return
      */
@@ -285,6 +301,7 @@ public class StringUtil {
 
     /**
      * 获取Format过的字符串
+     *
      * @param res
      * @return
      */
@@ -294,6 +311,7 @@ public class StringUtil {
 
     /**
      * 获取Format过的字符串
+     *
      * @param context
      * @param res
      * @param args
@@ -309,6 +327,7 @@ public class StringUtil {
 
     /**
      * 连接字符串
+     *
      * @param joiner
      * @param contents
      * @return
@@ -327,6 +346,7 @@ public class StringUtil {
 
     /**
      * 连接字符串
+     *
      * @param joiner
      * @param contents
      * @return
@@ -345,6 +365,7 @@ public class StringUtil {
 
     /**
      * 比较字符串是否相等或者左侧为空
+     *
      * @param a
      * @param b
      * @return
@@ -361,6 +382,7 @@ public class StringUtil {
 
     /**
      * 正则替换
+     *
      * @param origin
      * @param reg
      * @param to
@@ -384,7 +406,8 @@ public class StringUtil {
 
     /**
      * 正则替换
-     * @param origin 原始字段
+     *
+     * @param origin  原始字段
      * @param pattern 正则模板
      * @param replace 替换方法
      * @return
@@ -430,6 +453,7 @@ public class StringUtil {
 
     /**
      * 生成长度为<tt>length</tt>的随机字符串
+     *
      * @param length 生成长度
      * @return 随机字符串
      */
@@ -449,15 +473,16 @@ public class StringUtil {
 
     /**
      * 判断是否包含中文
+     *
      * @param checkStr
      * @return
      */
-    public static boolean containsChinese(CharSequence checkStr){
-        if(!isEmpty(checkStr)){
+    public static boolean containsChinese(CharSequence checkStr) {
+        if (!isEmpty(checkStr)) {
             String checkChars = checkStr.toString();
-            for(int i = 0; i < checkChars.length(); i++){
+            for (int i = 0; i < checkChars.length(); i++) {
                 char checkChar = checkChars.charAt(i);
-                if(checkCharContainChinese(checkChar)){
+                if (checkCharContainChinese(checkChar)) {
                     return true;
                 }
             }
@@ -465,14 +490,14 @@ public class StringUtil {
         return false;
     }
 
-    private static boolean checkCharContainChinese(char checkChar){
+    private static boolean checkCharContainChinese(char checkChar) {
         UnicodeBlock ub = UnicodeBlock.of(checkChar);
-        if(UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS == ub ||
+        if (UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS == ub ||
                 UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS == ub ||
                 UnicodeBlock.CJK_COMPATIBILITY_FORMS == ub ||
                 UnicodeBlock.CJK_RADICALS_SUPPLEMENT == ub ||
                 UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A == ub ||
-                UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B == ub){
+                UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B == ub) {
             return true;
         }
         return false;

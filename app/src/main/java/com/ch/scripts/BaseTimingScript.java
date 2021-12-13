@@ -22,6 +22,7 @@ public abstract class BaseTimingScript implements IScript {
 
     private AppInfo appInfo;
     public boolean stop = false;
+
     public BaseTimingScript(AppInfo appInfo) {
         this.appInfo = appInfo;
     }
@@ -39,10 +40,10 @@ public abstract class BaseTimingScript implements IScript {
             } catch (Exception e) {
                 Logger.e("执行异常，脚本: " + appInfo.getName(), e);
             } finally {
-                if(findContent("启动应用")){
+                if (findContent("启动应用")) {
                     clickId("button1");
                 }
-                int t = getRandomSleepTime(100,100);
+                int t = getRandomSleepTime(100, 100);
                 Logger.i("休眠：" + t);
                 Utils.sleep(t);
             }
@@ -102,33 +103,35 @@ public abstract class BaseTimingScript implements IScript {
     protected abstract void getRecognitionResult();
 
 
-
     /**
      * 执行脚本
      */
     protected abstract void executeScript();
 
     protected abstract boolean isTargetPkg();
+
     protected abstract void doSamePageDeal();
 
     /**
      * 点击 x,y
+     *
      * @return
      */
     public boolean clickXY(int x, int y) {
         ActionUtils.click(x, y);
-        LogUtils.dTag(BASETAG, "click x: "+x + " y:"  + y);
+        LogUtils.dTag(BASETAG, "click x: " + x + " y:" + y);
         return false;
     }
 
     /**
      * 点击 content
+     *
      * @return
      */
     public boolean clickContent(String content) {
         NodeInfo nodeInfo = findByText(content);
         if (nodeInfo != null) {
-            LogUtils.dTag(BASETAG, "clickContent: "+content + " x:"+nodeInfo.getRect().centerX() + " y:"+nodeInfo.getRect().centerY());
+            LogUtils.dTag(BASETAG, "clickContent: " + content + " x:" + nodeInfo.getRect().centerX() + " y:" + nodeInfo.getRect().centerY());
             ActionUtils.click(nodeInfo);
             return true;
         }
@@ -137,37 +140,42 @@ public abstract class BaseTimingScript implements IScript {
 
     /**
      * findContent
+     *
      * @return
      */
     public boolean findContent(String content) {
         NodeInfo nodeInfo = findByText(content);
         if (nodeInfo != null) {
-            LogUtils.dTag(BASETAG, "findContent: "+content);
+            LogUtils.dTag(BASETAG, "findContent: " + content);
             return true;
         }
         return false;
     }
+
     /**
      * 点击 content
+     *
      * @return
      */
     public boolean clickId(String id) {
         NodeInfo nodeInfo = findById(id);
         if (nodeInfo != null) {
-            LogUtils.dTag(BASETAG, "clickId: "+id);
+            LogUtils.dTag(BASETAG, "clickId: " + id);
             ActionUtils.click(nodeInfo);
             return true;
         }
         return false;
     }
+
     /**
      * 点击 content
+     *
      * @return
      */
     public boolean findId(String id) {
         NodeInfo nodeInfo = findById(id);
         if (nodeInfo != null) {
-            LogUtils.dTag(BASETAG, "findId: "+id);
+            LogUtils.dTag(BASETAG, "findId: " + id);
             return true;
         }
         return false;
@@ -179,37 +187,37 @@ public abstract class BaseTimingScript implements IScript {
         ActionUtils.pressBack();
     }
 
-    public void scrollUpSlow(){
+    public void scrollUpSlow() {
         LogUtils.dTag(BASETAG, "scrollUpSlow");
-        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int)(Math.random()*100);
-        int margin = 600+ (int)(Math.random()*100);
+        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int) (Math.random() * 100);
+        int margin = 600 + (int) (Math.random() * 100);
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
         int toY = margin;
         new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
     }
 
-    public void scrollUp(){
+    public void scrollUp() {
         LogUtils.dTag(BASETAG, "scrollUp");
-        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int)(Math.random()*100);
-        int margin = 200+ (int)(Math.random()*100);
+        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int) (Math.random() * 100);
+        int margin = 200 + (int) (Math.random() * 100);
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
         int toY = margin;
         new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
     }
 
-    public void scrollDown(){
+    public void scrollDown() {
         LogUtils.dTag(BASETAG, "scrollDown");
-        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int)(Math.random()*100);
-        int margin = 200+ (int)(Math.random()*100);
+        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int) (Math.random() * 100);
+        int margin = 200 + (int) (Math.random() * 100);
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
         int toY = margin;
         new SwipStepBuilder().setPoints(new Point(x, toY), new Point(x, fromY)).get().execute();
     }
 
-    public void scrollUpNormal(){
+    public void scrollUpNormal() {
         LogUtils.dTag(BASETAG, "scrollUpNormal");
-        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int)(Math.random()*100);
-        int margin = 400+ (int)(Math.random()*100);
+        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int) (Math.random() * 100);
+        int margin = 400 + (int) (Math.random() * 100);
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
         int toY = margin;
         new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();

@@ -36,27 +36,27 @@ public class RecommendCodeManage {
         return instance;
     }
 
-    public void saveMyRecommendCode(String code){
+    public void saveMyRecommendCode(String code) {
         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
                 + File.separator + "01JianDouZi" + File.separator + "code.data");
-        if(file.exists()){
+        if (file.exists()) {
             file.delete();
         }
         try {
-            FileUtils.write(file,code);
+            FileUtils.write(file, code);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void saveRecommendBean(String code){
+    public void saveRecommendBean(String code) {
         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
                 + File.separator + "01JianDouZi" + File.separator + "code1.data");
-        if(file.exists()){
+        if (file.exists()) {
             file.delete();
         }
         try {
-            FileUtils.write(file,code);
+            FileUtils.write(file, code);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,7 +65,7 @@ public class RecommendCodeManage {
     public String getMyRecommendCode() throws IOException {
         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
                 + File.separator + "01JianDouZi" + File.separator + "code.data");
-        if(null == file || !file.exists()){
+        if (null == file || !file.exists()) {
             return "";
         }
         return FileUtils.readFileToString(file);
@@ -74,14 +74,14 @@ public class RecommendCodeManage {
     public RecommendBean getRecommendBean() {
         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
                 + File.separator + "01JianDouZi" + File.separator + "code1.data");
-        if(null == file || !file.exists()){
+        if (null == file || !file.exists()) {
             return initRecommendBean();
         }
         String result = "";
         RecommendBean recommendBean = null;
         try {
             result = FileUtils.readFileToString(file);
-            recommendBean = new Gson().fromJson(result,RecommendBean.class);
+            recommendBean = new Gson().fromJson(result, RecommendBean.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -89,46 +89,46 @@ public class RecommendCodeManage {
     }
 
     private RecommendBean dealData(RecommendBean recommendBean) {
-        if(TextUtils.isEmpty(recommendBean.getCode_aiqiyi())){
+        if (TextUtils.isEmpty(recommendBean.getCode_aiqiyi())) {
             recommendBean.setCode_aiqiyi("2883663620");
         }
-        if(TextUtils.isEmpty(recommendBean.getCode_baidu())){
+        if (TextUtils.isEmpty(recommendBean.getCode_baidu())) {
             recommendBean.setCode_baidu("151156827638");
         }
-        if(TextUtils.isEmpty(recommendBean.getCode_diantao())){
+        if (TextUtils.isEmpty(recommendBean.getCode_diantao())) {
             recommendBean.setCode_diantao("LRHN7T5O");
         }
-        if(TextUtils.isEmpty(recommendBean.getCode_douyin())){
+        if (TextUtils.isEmpty(recommendBean.getCode_douyin())) {
             recommendBean.setCode_douyin("8161779848");
         }
-        if(TextUtils.isEmpty(recommendBean.getCode_kuaishou())){
+        if (TextUtils.isEmpty(recommendBean.getCode_kuaishou())) {
             recommendBean.setCode_kuaishou("446859698");
         }
-        if(TextUtils.isEmpty(recommendBean.getCode_meitianzhuandian())){
+        if (TextUtils.isEmpty(recommendBean.getCode_meitianzhuandian())) {
             recommendBean.setCode_meitianzhuandian("17619698");
         }
-        if(TextUtils.isEmpty(recommendBean.getCode_toutiao())){
+        if (TextUtils.isEmpty(recommendBean.getCode_toutiao())) {
             recommendBean.setCode_toutiao("Q38842766");
         }
-        if(TextUtils.isEmpty(recommendBean.getCode_meitianzhuandian())){
+        if (TextUtils.isEmpty(recommendBean.getCode_meitianzhuandian())) {
             recommendBean.setCode_meitianzhuandian("17619698");
         }
-        if(TextUtils.isEmpty(recommendBean.getCode_huoshan())){
+        if (TextUtils.isEmpty(recommendBean.getCode_huoshan())) {
             recommendBean.setCode_huoshan("F5QE9E");
         }
-        if(TextUtils.isEmpty(recommendBean.getCode_fanqie())){
+        if (TextUtils.isEmpty(recommendBean.getCode_fanqie())) {
             recommendBean.setCode_fanqie("452019513");
         }
-        if(TextUtils.isEmpty(recommendBean.getCode_eleme())){
+        if (TextUtils.isEmpty(recommendBean.getCode_eleme())) {
             recommendBean.setCode_eleme("https://h5.ele.me/ant/qrcode2?open_type=miniapp&url_id=35&inviterId=3b72f5fa&actId=1&_ltracker_f=hjb_app_jgwzfb&chInfo=ch_share__chsub_CopyLink&apshareid=7816ec01-60af-46db-8640-4f8ccf3b4b7d");
         }
-        if(TextUtils.isEmpty(recommendBean.getCode_meituan())){
+        if (TextUtils.isEmpty(recommendBean.getCode_meituan())) {
             recommendBean.setCode_meituan("http://dpurl.cn/AsqYbGSz");
         }
         return recommendBean;
     }
 
-    private RecommendBean initRecommendBean(){
+    private RecommendBean initRecommendBean() {
         RecommendBean recommendBean = new RecommendBean();
         recommendBean.setCode_toutiao("Q38842766");
         recommendBean.setCode_douyin("8161779848");
@@ -148,7 +148,7 @@ public class RecommendCodeManage {
 
 
     public void getRecommendBean(String objectId) {
-        if(TextUtils.isEmpty(objectId)){
+        if (TextUtils.isEmpty(objectId)) {
             return;
         }
         AVQuery<AVObject> query = new AVQuery<>("recommend_list");
@@ -156,21 +156,25 @@ public class RecommendCodeManage {
                 .subscribeOn(Schedulers.io())//这里指定在io线程执行
                 .observeOn(AndroidSchedulers.mainThread())//返回结果在主线程执行
                 .subscribe(new Observer<AVObject>() {
-                    public void onSubscribe(Disposable disposable) {}
+                    public void onSubscribe(Disposable disposable) {
+                    }
+
                     public void onNext(AVObject todo) {
-                        LogUtils.d(TAG,"onNext");
+                        LogUtils.d(TAG, "onNext");
                         // todo 就是 objectId 为 582570f38ac247004f39c24b 的 Todo 实例
-                        String code    = todo.getString("code");
+                        String code = todo.getString("code");
                         String apps = todo.getString("apps");
-                        RecommendBean recommendBean = new Gson().fromJson(apps,RecommendBean.class);
+                        RecommendBean recommendBean = new Gson().fromJson(apps, RecommendBean.class);
                         saveRecommendBean(new Gson().toJson(recommendBean));
 
                     }
+
                     public void onError(Throwable throwable) {
-                        LogUtils.d(TAG,throwable.getMessage());
+                        LogUtils.d(TAG, throwable.getMessage());
                         ToastUtils.showLong("未找到邀请码");
 
                     }
+
                     public void onComplete() {
                         ToastUtils.showLong("绑定成功");
                     }

@@ -4,18 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.ch.activity.TaskTypeListActivity;
-import com.ch.core.utils.Logger;
-import com.ch.model.AppInfo;
 import com.ch.model.RecommendBean;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import cn.leancloud.AVObject;
-import cn.leancloud.AVQuery;
 
 public class GetRecommendCodeTask extends AsyncTask<Void, Integer, RecommendBean> {
 
@@ -55,7 +44,7 @@ public class GetRecommendCodeTask extends AsyncTask<Void, Integer, RecommendBean
 //            return list;
 //        } catch (Exception e) {
 //            Logger.e("获取任务里边异常:" + e.getMessage(), e);
-            return null;
+        return null;
 //        }
     }
 

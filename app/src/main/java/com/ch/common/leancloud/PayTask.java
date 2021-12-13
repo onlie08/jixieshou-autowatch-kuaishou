@@ -3,7 +3,6 @@ package com.ch.common.leancloud;
 import android.os.AsyncTask;
 
 import com.ch.activity.TaskTypeListActivity;
-import com.ch.common.DeviceUtils;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Logger;
 

@@ -54,7 +54,7 @@ public class TaskListAdapter extends BaseAdapter {
         }
 
         AppInfo appInfo = getItem(i);
-        if(null ==appInfo.getPkgName())return view;
+        if (null == appInfo.getPkgName()) return view;
         holder.name.setText(appInfo.getName());
         if (appInfo.getPkgName().equals(Constant.PN_DOU_YIN)) {
             holder.icon.setImageResource(R.drawable.dy_fast);
@@ -62,27 +62,27 @@ public class TaskListAdapter extends BaseAdapter {
             holder.icon.setImageResource(R.drawable.ks_fast);
         } else if (appInfo.getPkgName().equals(Constant.PN_DOU_YIN)) {
             holder.icon.setImageResource(R.drawable.dy);
-        }else if (appInfo.getPkgName().equals(Constant.PN_TOU_TIAO)) {
+        } else if (appInfo.getPkgName().equals(Constant.PN_TOU_TIAO)) {
             holder.icon.setImageResource(R.drawable.icon_toutiao);
-        }else if (appInfo.getPkgName().equals(Constant.PN_FENG_SHENG)) {
+        } else if (appInfo.getPkgName().equals(Constant.PN_FENG_SHENG)) {
             holder.icon.setImageResource(R.drawable.icon_fengsheng);
-        }else if (appInfo.getPkgName().equals(Constant.PN_DIAN_TAO)) {
+        } else if (appInfo.getPkgName().equals(Constant.PN_DIAN_TAO)) {
             holder.icon.setImageResource(R.drawable.icon_diantao);
-        }else if (appInfo.getPkgName().equals(Constant.PN_YING_KE)) {
+        } else if (appInfo.getPkgName().equals(Constant.PN_YING_KE)) {
             holder.icon.setImageResource(R.drawable.icon_yingke);
-        }else if (appInfo.getPkgName().equals(Constant.PN_AI_QI_YI)) {
+        } else if (appInfo.getPkgName().equals(Constant.PN_AI_QI_YI)) {
             holder.icon.setImageResource(R.drawable.icon_aiqiyi);
-        }else if (appInfo.getPkgName().equals(Constant.PN_BAI_DU)) {
+        } else if (appInfo.getPkgName().equals(Constant.PN_BAI_DU)) {
             holder.icon.setImageResource(R.drawable.icon_baidu);
-        }else if (appInfo.getPkgName().equals(Constant.PN_JING_DONG)) {
+        } else if (appInfo.getPkgName().equals(Constant.PN_JING_DONG)) {
             holder.icon.setImageResource(R.drawable.icon_jingdong);
-        }else if (appInfo.getPkgName().equals(Constant.PN_TAO_TE)) {
+        } else if (appInfo.getPkgName().equals(Constant.PN_TAO_TE)) {
             holder.icon.setImageResource(R.drawable.icon_taote);
-        }else if (appInfo.getPkgName().equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)) {
+        } else if (appInfo.getPkgName().equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)) {
             holder.icon.setImageResource(R.drawable.icon_meitianzhuandian);
-        }else if (appInfo.getPkgName().equals(Constant.PN_HUO_SHAN)) {
+        } else if (appInfo.getPkgName().equals(Constant.PN_HUO_SHAN)) {
             holder.icon.setImageResource(R.drawable.icon_huoshan);
-        }else if (appInfo.getPkgName().equals(Constant.PN_FAN_QIE)) {
+        } else if (appInfo.getPkgName().equals(Constant.PN_FAN_QIE)) {
             holder.icon.setImageResource(R.drawable.icon_fanqie);
         }
         holder.time.setText(String.format("%d小时", appInfo.getPeriod()));

@@ -96,11 +96,11 @@ public class HuoShanAdvertScript extends BaseScript {
 
             doPageId3Things();
 
-        }  else {
-            if(samePageCount >= 2){
-                if(clickContent("我知道了"))return;
-                if(clickContent("开心收下"))return;
-                if(clickContent("精选"))return;
+        } else {
+            if (samePageCount >= 2) {
+                if (clickContent("我知道了")) return;
+                if (clickContent("开心收下")) return;
+                if (clickContent("精选")) return;
             }
             Utils.sleep(1500);
             clickBack();
@@ -109,13 +109,14 @@ public class HuoShanAdvertScript extends BaseScript {
     }
 
     private int gotoPersonCount = 0;
+
     private void doPageId0Things() {
         LogUtils.d(TAG, "doPageId0Things");
 
         gotoPersonCount++;
         if (gotoPersonCount > 4) {
             gotoPersonCount = 0;
-            if(clickContent("火苗管理，按钮"))return;
+            if (clickContent("火苗管理，按钮")) return;
             return;
         }
 
@@ -126,16 +127,16 @@ public class HuoShanAdvertScript extends BaseScript {
 
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
-        if(samePageCount >= 2){
-            if(clickContent("立即签到")){
+        if (samePageCount >= 2) {
+            if (clickContent("立即签到")) {
                 Utils.sleep(1000);
                 clickBack();
                 return;
             }
         }
-        if(samePageCount >= 4){
+        if (samePageCount >= 4) {
 //
-            if(findContent("今日已达上限")){
+            if (findContent("今日已达上限")) {
                 setTodayDone(true);
                 CrashReport.postCatchedException(new Exception("火山今日任务完成"));
             }
@@ -144,20 +145,20 @@ public class HuoShanAdvertScript extends BaseScript {
         }
 
         NodeInfo nodeInfo = findByText("限时任务赚火苗");
-        if(null != nodeInfo){
-            clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(60),nodeInfo.getRect().centerY());
+        if (null != nodeInfo) {
+            clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(60), nodeInfo.getRect().centerY());
             Utils.sleep(2000);
 
         }
 
-        if(clickTotalMatchContent("开宝箱得火苗")){
+        if (clickTotalMatchContent("开宝箱得火苗")) {
             return;
         }
 
-        if(!SPUtils.getInstance().getBoolean("invite_huoshan",false)){
-            if(clickTotalMatchContent("去填写")){
+        if (!SPUtils.getInstance().getBoolean("invite_huoshan", false)) {
+            if (clickTotalMatchContent("去填写")) {
                 return;
-            }else {
+            } else {
                 scrollDown();
                 Utils.sleep(2000);
             }
@@ -177,19 +178,19 @@ public class HuoShanAdvertScript extends BaseScript {
     private void doPageId2Things() {
         LogUtils.d(TAG, "doPageId2Things");
 
-        if(clickContent("继续观看"))return;
+        if (clickContent("继续观看")) return;
     }
 
     private void doPageId3Things() {
         LogUtils.d(TAG, "doPageId3Things");
-        if(samePageCount >5){
-            SPUtils.getInstance().put("invite_huoshan",true);
+        if (samePageCount > 5) {
+            SPUtils.getInstance().put("invite_huoshan", true);
             clickBack();
         }
         NodeInfo nodeInfo = findById("shareCode");
 
-        if(null != nodeInfo){
-            clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY());
+        if (null != nodeInfo) {
+            clickXY(nodeInfo.getRect().centerX(), nodeInfo.getRect().centerY());
         }
         Utils.sleep(2000);
         AccessibilityNodeInfo textInfo = findAccessibilityNode();
@@ -200,24 +201,25 @@ public class HuoShanAdvertScript extends BaseScript {
             Utils.sleep(2000);
             clickBack();
             Utils.sleep(2000);
-            SPUtils.getInstance().put("invite_huoshan",true);
-            if(clickContent("提交"))return;
+            SPUtils.getInstance().put("invite_huoshan", true);
+            if (clickContent("提交")) return;
         }
     }
 
-    public AccessibilityNodeInfo findAccessibilityNode(){
+    public AccessibilityNodeInfo findAccessibilityNode() {
         AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
-        if(root == null) return null;
+        if (root == null) return null;
         AccessibilityNodeInfo root1 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
         AccessibilityNodeInfo root2 = root1.getChild(0);
         AccessibilityNodeInfo root3 = root2.getChild(0);
         AccessibilityNodeInfo root4 = root3.getChild(1);
         AccessibilityNodeInfo root5 = root4.getChild(3);
-        if(null != root5){
+        if (null != root5) {
             return root5;
         }
         return null;
     }
+
     /**
      * 弹出框里点击看广告
      */
@@ -261,7 +263,7 @@ public class HuoShanAdvertScript extends BaseScript {
             return 2000;
         } else if (pageId == 3) {
             return 3000;
-        }  else if (pageId == 0) {
+        } else if (pageId == 0) {
             return 4000;
         } else if (pageId == -1) {
             return 1000;
@@ -281,7 +283,7 @@ public class HuoShanAdvertScript extends BaseScript {
             return 3000;
         } else if (pageId == 0) {
             return 8000;
-        }else if (pageId == -1) {
+        } else if (pageId == -1) {
             return 1000;
         } else {
             return 3000;

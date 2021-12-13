@@ -116,7 +116,6 @@
             app:layout_constraintTop_toBottomOf="@+id/deviceNo" />
 
 
-
         <View
             android:id="@+id/view_bottom"
             android:layout_width="0dp"
@@ -207,7 +206,6 @@
                     android:layout_height="wrap_content" />
 
             </androidx.cardview.widget.CardView>
-
 
 
         </LinearLayout>

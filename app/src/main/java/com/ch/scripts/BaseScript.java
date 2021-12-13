@@ -33,7 +33,7 @@ public abstract class BaseScript implements IScript {
     }
 
     public void setTodayDone(boolean todayDone) {
-        LogUtils.d(BASETAG,"setTodayDone"+todayDone);
+        LogUtils.d(BASETAG, "setTodayDone" + todayDone);
         this.todayDone = todayDone;
         this.appInfo.setTodayDone(todayDone);
     }
@@ -72,7 +72,7 @@ public abstract class BaseScript implements IScript {
             } catch (Exception e) {
                 Logger.e("执行异常，脚本: " + appInfo.getName(), e);
             } finally {
-                if(findContent("启动应用")){
+                if (findContent("启动应用")) {
                     clickId("button1");
                 }
                 int t = getRandomSleepTime(getMinSleepTime(), getMaxSleepTime());
@@ -123,14 +123,17 @@ public abstract class BaseScript implements IScript {
     protected NodeInfo findById(String id) {
         return FindById.find(id);
     }
-//
+
+    //
     protected AccessibilityNodeInfo findAccessibilityNodeById(String id) {
         return FindById.findAccessibilityNode(id);
     }
+
     protected AccessibilityNodeInfo findAccessibilityNodeByText(String text) {
         return FindById.findAccessibilityNodeByText(text);
     }
-//
+
+    //
     protected List<AccessibilityNodeInfo> findAccessibilityNodeListById(String id) {
         return FindById.findAccessibilityNodeList(id);
     }
@@ -141,13 +144,14 @@ public abstract class BaseScript implements IScript {
      * @param
      * @return
      */
-    protected boolean setViewText(String viewIds,String text) {
-        return FindById.setViewText(viewIds,text);
+    protected boolean setViewText(String viewIds, String text) {
+        return FindById.setViewText(viewIds, text);
     }
 
     protected NodeInfo findByText(String text) {
         return FindByText.find(text);
     }
+
     protected NodeInfo findTotalMatchByText(String text) {
         return FindByText.findTotalMatch(text);
     }
@@ -183,24 +187,28 @@ public abstract class BaseScript implements IScript {
     protected abstract void executeScript();
 
     protected abstract boolean isTargetPkg();
+
     protected abstract void doSamePageDeal();
 
     /**
      * 点击 x,y
+     *
      * @return
      */
     public boolean clickXY(int x, int y) {
         ActionUtils.click(x, y);
-        LogUtils.dTag(BASETAG, "click x: "+x + " y:"  + y);
+        LogUtils.dTag(BASETAG, "click x: " + x + " y:" + y);
         return false;
     }
+
     /**
      * 点击 x,y
+     *
      * @return
      */
     public boolean longPressXY(int x, int y) {
         ActionUtils.longPress(x, y);
-        LogUtils.dTag(BASETAG, "click x: "+x + " y:"  + y);
+        LogUtils.dTag(BASETAG, "click x: " + x + " y:" + y);
         return false;
     }
 
@@ -211,12 +219,13 @@ public abstract class BaseScript implements IScript {
 
     /**
      * 点击 content
+     *
      * @return
      */
     public boolean clickContent(String content) {
         NodeInfo nodeInfo = findByText(content);
         if (nodeInfo != null) {
-            LogUtils.dTag(BASETAG, "clickContent: "+content + " x:"+nodeInfo.getRect().centerX() + " y:"+nodeInfo.getRect().centerY());
+            LogUtils.dTag(BASETAG, "clickContent: " + content + " x:" + nodeInfo.getRect().centerX() + " y:" + nodeInfo.getRect().centerY());
             ActionUtils.click(nodeInfo);
             return true;
         }
@@ -226,7 +235,7 @@ public abstract class BaseScript implements IScript {
     public boolean clickTotalMatchContent(String content) {
         NodeInfo nodeInfo = findTotalMatchByText(content);
         if (nodeInfo != null) {
-            LogUtils.dTag(BASETAG, "clickContent: "+content + " x:"+nodeInfo.getRect().centerX() + " y:"+nodeInfo.getRect().centerY());
+            LogUtils.dTag(BASETAG, "clickContent: " + content + " x:" + nodeInfo.getRect().centerX() + " y:" + nodeInfo.getRect().centerY());
             ActionUtils.click(nodeInfo);
             return true;
         }
@@ -243,37 +252,42 @@ public abstract class BaseScript implements IScript {
 
     /**
      * findContent
+     *
      * @return
      */
     public boolean findContent(String content) {
         NodeInfo nodeInfo = findByText(content);
         if (nodeInfo != null) {
-            LogUtils.dTag(BASETAG, "findContent: "+content);
+            LogUtils.dTag(BASETAG, "findContent: " + content);
             return true;
         }
         return false;
     }
+
     /**
      * 点击 content
+     *
      * @return
      */
     public boolean clickId(String id) {
         NodeInfo nodeInfo = findById(id);
         if (nodeInfo != null) {
-            LogUtils.dTag(BASETAG, "clickId: "+id);
+            LogUtils.dTag(BASETAG, "clickId: " + id);
             ActionUtils.click(nodeInfo);
             return true;
         }
         return false;
     }
+
     /**
      * 点击 content
+     *
      * @return
      */
     public boolean findId(String id) {
         NodeInfo nodeInfo = findById(id);
         if (nodeInfo != null) {
-            LogUtils.dTag(BASETAG, "findId: "+id);
+            LogUtils.dTag(BASETAG, "findId: " + id);
             return true;
         }
         return false;
@@ -285,37 +299,37 @@ public abstract class BaseScript implements IScript {
         ActionUtils.pressBack();
     }
 
-    public void scrollUpSlow(){
+    public void scrollUpSlow() {
         LogUtils.dTag(BASETAG, "scrollUpSlow");
-        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int)(Math.random()*100);
-        int margin = 600+ (int)(Math.random()*100);
+        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int) (Math.random() * 100);
+        int margin = 600 + (int) (Math.random() * 100);
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
         int toY = margin;
         new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
     }
 
-    public void scrollUp(){
+    public void scrollUp() {
         LogUtils.dTag(BASETAG, "scrollUp");
-        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int)(Math.random()*100);
-        int margin = 200+ (int)(Math.random()*100);
+        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int) (Math.random() * 100);
+        int margin = 200 + (int) (Math.random() * 100);
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
         int toY = margin;
         new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
     }
 
-    public void scrollDown(){
+    public void scrollDown() {
         LogUtils.dTag(BASETAG, "scrollDown");
-        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int)(Math.random()*100);
-        int margin = 200+ (int)(Math.random()*100);
+        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int) (Math.random() * 100);
+        int margin = 200 + (int) (Math.random() * 100);
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
         int toY = margin;
         new SwipStepBuilder().setPoints(new Point(x, toY), new Point(x, fromY)).get().execute();
     }
 
-    public void scrollUpNormal(){
+    public void scrollUpNormal() {
         LogUtils.dTag(BASETAG, "scrollUpNormal");
-        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int)(Math.random()*100);
-        int margin = 400+ (int)(Math.random()*100);
+        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int) (Math.random() * 100);
+        int margin = 400 + (int) (Math.random() * 100);
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
         int toY = margin;
         new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
@@ -344,7 +358,7 @@ public abstract class BaseScript implements IScript {
      * @return
      */
     public boolean dealNoResponse() {
-        LogUtils.d(BASETAG,"dealNoResponse()");
+        LogUtils.d(BASETAG, "dealNoResponse()");
         if (clickTotalMatchContent("禁止且不再询问")) return true;
         if (clickTotalMatchContent("本次运行允许")) return true;
         if (clickTotalMatchContent("仅在使用中允许")) return true;

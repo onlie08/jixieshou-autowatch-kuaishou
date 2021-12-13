@@ -4,12 +4,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.search.node.Dumper;
 import com.ch.core.search.node.NodeInfo;
 import com.ch.core.search.node.TreeInfo;
-import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
 
 import java.util.List;
@@ -17,31 +15,31 @@ import java.util.List;
 public class FindById {
     static String TAG = "FindById";
 
-    public static AccessibilityNodeInfo findAccessibilityNode(String id){
+    public static AccessibilityNodeInfo findAccessibilityNode(String id) {
         AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
-        if(root == null) return null;
+        if (root == null) return null;
         final List<AccessibilityNodeInfo> list = root.findAccessibilityNodeInfosByViewId(id);
-        if(list != null && !list.isEmpty()){
+        if (list != null && !list.isEmpty()) {
             return list.get(0);
         }
         return null;
     }
 
-    public static AccessibilityNodeInfo findAccessibilityNodeByText(String text){
+    public static AccessibilityNodeInfo findAccessibilityNodeByText(String text) {
         AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
-        if(root == null) return null;
+        if (root == null) return null;
         final List<AccessibilityNodeInfo> list = root.findAccessibilityNodeInfosByText(text);
-        if(list != null && !list.isEmpty()){
+        if (list != null && !list.isEmpty()) {
             return list.get(0);
         }
         return null;
     }
 
-    public static List<AccessibilityNodeInfo> findAccessibilityNodeList(String id){
+    public static List<AccessibilityNodeInfo> findAccessibilityNodeList(String id) {
         AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
-        if(root == null) return null;
+        if (root == null) return null;
         final List<AccessibilityNodeInfo> list = root.findAccessibilityNodeInfosByViewId(id);
-        if(list != null && !list.isEmpty()){
+        if (list != null && !list.isEmpty()) {
             return list;
         }
         return null;
@@ -75,7 +73,7 @@ public class FindById {
         return null;
     }
 
-    public static boolean setViewText(String viewIds,String text) {
+    public static boolean setViewText(String viewIds, String text) {
         AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getRoots();
         if (roots == null) {
             Log.i(Utils.tag, "roots is null.");
@@ -101,14 +99,14 @@ public class FindById {
                 }
             }
         }
-        if(hasId){
-            for(int i=0;i<roots.length;i++){
+        if (hasId) {
+            for (int i = 0; i < roots.length; i++) {
 //                if(roots[i].getPackageName().toString().equals(Constant.PN_AI_QI_YI)){
-                    Bundle arguments = new Bundle();
-                    arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, text);
-                    roots[i].performAction(AccessibilityNodeInfo.ACTION_FOCUS);
-                    roots[i].performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
-                    return true;
+                Bundle arguments = new Bundle();
+                arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, text);
+                roots[i].performAction(AccessibilityNodeInfo.ACTION_FOCUS);
+                roots[i].performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+                return true;
 //                }
             }
         }
@@ -120,7 +118,7 @@ public class FindById {
             return false;
         }
         String rid = nodeInfo.getId();
-        Log.d(TAG,"isMatch:"+rid);
+        Log.d(TAG, "isMatch:" + rid);
         return Utils.textMatch(id, rid);
     }
 

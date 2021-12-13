@@ -43,6 +43,7 @@ public class SPService {
 
     /**
      * 存储String
+     *
      * @param key
      * @param content
      */
@@ -54,6 +55,7 @@ public class SPService {
 
     /**
      * 获取String，默认为空字符
+     *
      * @param key
      * @return
      */
@@ -63,6 +65,7 @@ public class SPService {
 
     /**
      * 获取String
+     *
      * @param key
      * @param defaultValue
      * @return
@@ -78,6 +81,7 @@ public class SPService {
 
     /**
      * 存储Boolean值
+     *
      * @param key
      * @param content
      */
@@ -89,6 +93,7 @@ public class SPService {
 
     /**
      * 获取Boolean值
+     *
      * @param key
      * @param defaultValue
      * @return
@@ -105,6 +110,7 @@ public class SPService {
 
     /**
      * 存储long值
+     *
      * @param key
      * @param value
      */
@@ -116,6 +122,7 @@ public class SPService {
 
     /**
      * 获取long值
+     *
      * @param key
      * @param defValue
      * @return
@@ -133,6 +140,7 @@ public class SPService {
 
     /**
      * 存储int值
+     *
      * @param key
      * @param value
      */
@@ -144,6 +152,7 @@ public class SPService {
 
     /**
      * 获取int值
+     *
      * @param key
      * @param defValue
      * @return
@@ -162,6 +171,7 @@ public class SPService {
 
     /**
      * 获取JSON对象
+     *
      * @param key
      * @param tClass
      * @param <T>
@@ -180,6 +190,7 @@ public class SPService {
 
     /**
      * 存储对象
+     *
      * @param key
      * @param obj
      */

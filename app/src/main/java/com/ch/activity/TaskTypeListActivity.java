@@ -1,13 +1,11 @@
 package com.ch.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.ch.adapter.AppListAdapter;
@@ -43,7 +41,7 @@ public class TaskTypeListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_type_list);
-        type = getIntent().getIntExtra("type",1);
+        type = getIntent().getIntExtra("type", 1);
         initView();
 
         new GetTaskListTask(this).execute();
@@ -94,12 +92,12 @@ public class TaskTypeListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 List<AppInfo> appInfoList = new ArrayList<>();
-                for(AppInfo appInfo: appInfos){
-                    if(getAppInstall(appInfo.getPkgName()).equals("已安装")){
+                for (AppInfo appInfo : appInfos) {
+                    if (getAppInstall(appInfo.getPkgName()).equals("已安装")) {
                         appInfoList.add(appInfo);
                     }
                 }
-                if(appInfoList.isEmpty()){
+                if (appInfoList.isEmpty()) {
                     ToastUtils.showLong("所有任务app都未安装，请单独添加任务");
                     return;
                 }
@@ -116,9 +114,9 @@ public class TaskTypeListActivity extends AppCompatActivity {
     }
 
     private void choose(AppInfo info) {
-        if(type == 1){
+        if (type == 1) {
             EventBus.getDefault().post(new AddTaskEvent(info));
-        }else if(type == 2){
+        } else if (type == 2) {
             EventBus.getDefault().post(new EditTaskEvent(info));
         }
         finish();
@@ -149,7 +147,7 @@ public class TaskTypeListActivity extends AppCompatActivity {
     }
 
     private String getAppInstall(String pkgName) {
-        if( AppUtils.isAppInstalled(pkgName)){
+        if (AppUtils.isAppInstalled(pkgName)) {
             return "已安装";
         }
         return "未安装";

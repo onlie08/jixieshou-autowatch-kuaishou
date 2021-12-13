@@ -36,13 +36,13 @@ public class Logger {
     }
 
     public static void d(String message) {
-        if(IS_DEBUG) {
+        if (IS_DEBUG) {
             Log.i(TAG, message);
         }
     }
 
     public static void d(String message, Throwable e) {
-        if(IS_DEBUG) {
+        if (IS_DEBUG) {
             Log.i(TAG, message, e);
         }
     }

@@ -26,7 +26,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
-import static android.content.Context.NOTIFICATION_SERVICE;
 import static com.ch.core.utils.ActionUtils.pressHome;
 
 public class TouTiaoAdvertScript extends BaseScript {
@@ -87,7 +86,6 @@ public class TouTiaoAdvertScript extends BaseScript {
         }
 
 
-
         pageId = checkPageId();
         if (pageId == lastPageId) {
             samePageCount++;
@@ -140,8 +138,8 @@ public class TouTiaoAdvertScript extends BaseScript {
             doPageId3Things();
 
         } else {
-            if(samePageCount > 5){
-                if(clickContent("坚持退出"))return;
+            if (samePageCount > 5) {
+                if (clickContent("坚持退出")) return;
             }
             if (clickContent("看视频得金币")) Utils.sleep(1500);
             if (clickContent("视频再领")) return;
@@ -194,20 +192,20 @@ public class TouTiaoAdvertScript extends BaseScript {
 
         Utils.sleep(3000);
         List<AccessibilityNodeInfo> accessibilityNodeInfos = findAccessibilityNodeListById("com.ss.android.article.lite:id/agp");
-        if(null == accessibilityNodeInfos){
+        if (null == accessibilityNodeInfos) {
             accessibilityNodeInfos = findAccessibilityNodeListById("com.ss.android.article.lite:id/afk");
         }
 
-        if(null != accessibilityNodeInfos){
-            for(int i=0;i<accessibilityNodeInfos.size();i++){
-                LogUtils.d(TAG,"nodeInfo.getChildCount():"+accessibilityNodeInfos.get(i).getChildCount() + " postion:"+i);
-                if(accessibilityNodeInfos.get(i).getChildCount()>2){
+        if (null != accessibilityNodeInfos) {
+            for (int i = 0; i < accessibilityNodeInfos.size(); i++) {
+                LogUtils.d(TAG, "nodeInfo.getChildCount():" + accessibilityNodeInfos.get(i).getChildCount() + " postion:" + i);
+                if (accessibilityNodeInfos.get(i).getChildCount() > 2) {
                     continue;
-                }else {
+                } else {
                     AccessibilityNodeInfo accessibilityNodeInfo = accessibilityNodeInfos.get(i);
                     Rect nodeRect = new Rect();
                     accessibilityNodeInfo.getBoundsInScreen(nodeRect);
-                    clickXY(nodeRect.centerX(),nodeRect.centerY());
+                    clickXY(nodeRect.centerX(), nodeRect.centerY());
 
 //                    accessibilityNodeInfos.get(i).performAction(AccessibilityNodeInfo.ACTION_CLICK);
 //                    Utils.sleep(2000);
@@ -242,14 +240,14 @@ public class TouTiaoAdvertScript extends BaseScript {
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
 
-        if(clickContent("点击翻倍"))return;
-        if(samePageCount >= 2){
+        if (clickContent("点击翻倍")) return;
+        if (samePageCount >= 2) {
             if (clickContent("视频再领")) Utils.sleep(1500);
             if (clickContent("我知道了")) return;
-            if (clickContent("打开签到提醒"))return;
+            if (clickContent("打开签到提醒")) return;
         }
-        if(samePageCount >= 3){
-            clickXY(point_ShouYe.x,point_ShouYe.y);
+        if (samePageCount >= 3) {
+            clickXY(point_ShouYe.x, point_ShouYe.y);
         }
 
         clickXY(point_KaiBaoXiangDeJinBi.x, point_KaiBaoXiangDeJinBi.y);
@@ -257,7 +255,7 @@ public class TouTiaoAdvertScript extends BaseScript {
 
         if (!findContent("看广告赚金币")) {
             scrollUpSlow();
-           return;
+            return;
         }
         if (!findContent("已完成 10/10 次")) {
             if (findContent("领福利")) {
@@ -285,12 +283,12 @@ public class TouTiaoAdvertScript extends BaseScript {
 
         scrollUp();
         NodeInfo nodeInfo = findById("mc-footer");
-        if(null != nodeInfo){
-            LogUtils.d(TAG,"nodeInfo.getChildCount():"+nodeInfo.getChildCount());
-            if(nodeInfo.getChildCount() >3){
-                clickXY(MyApplication.getScreenWidth()- SizeUtils.dp2px(80),nodeInfo.getRect().top+SizeUtils.dp2px(100));
+        if (null != nodeInfo) {
+            LogUtils.d(TAG, "nodeInfo.getChildCount():" + nodeInfo.getChildCount());
+            if (nodeInfo.getChildCount() > 3) {
+                clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(80), nodeInfo.getRect().top + SizeUtils.dp2px(100));
                 return;
-            }else {
+            } else {
                 clickBack();
                 return;
             }
@@ -357,7 +355,7 @@ public class TouTiaoAdvertScript extends BaseScript {
             return 2000;
         } else if (pageId == -1) {
             return 1000;
-        }else if (pageId == 0) {
+        } else if (pageId == 0) {
             return 2500;
         } else {
             return 4000;
@@ -373,7 +371,7 @@ public class TouTiaoAdvertScript extends BaseScript {
             return 2000;
         } else if (pageId == -1) {
             return 1000;
-        }else if (pageId == 0) {
+        } else if (pageId == 0) {
             return 2500;
         } else {
             return 4000;
@@ -491,7 +489,7 @@ public class TouTiaoAdvertScript extends BaseScript {
 
 
     private boolean autoInvite() {
-        if(true){
+        if (true) {
             return true;
         }
         getRecognitionResult();

@@ -40,6 +40,7 @@ public class ActionUtils {
         }
         return false;
     }
+
     public static boolean longPress(int x, int y) {
         if (Build.VERSION.SDK_INT >= 24) {
             GestureDescription.Builder builder = new GestureDescription.Builder();
@@ -70,6 +71,7 @@ public class ActionUtils {
     public static boolean click(NodeInfo rect) {
         return click(rect.getRect().centerX(), rect.getRect().centerY());
     }
+
     public static boolean longPress(NodeInfo rect) {
         return longPress(rect.getRect().centerX(), rect.getRect().centerY());
     }
@@ -111,31 +113,32 @@ public class ActionUtils {
         return MyApplication.getAppInstance().getAccessbilityService()
                 .performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK);
     }
+
     public static boolean pressHome() {
         return MyApplication.getAppInstance().getAccessbilityService()
                 .performGlobalAction(AccessibilityService.GLOBAL_ACTION_HOME);
     }
 
-    public static void shanghua(){
-        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int)(Math.random()*100);
-        int margin = 100+ (int)(Math.random()*100);
+    public static void shanghua() {
+        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int) (Math.random() * 100);
+        int margin = 100 + (int) (Math.random() * 100);
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
         int toY = margin;
         new SwipStepBuilder().setPoints(new Point(x, toY), new Point(x, fromY)).get().execute();
     }
 
-    public static void xiahua(){
-        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int)(Math.random()*100);
-        int margin = 100+ (int)(Math.random()*100);
+    public static void xiahua() {
+        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int) (Math.random() * 100);
+        int margin = 100 + (int) (Math.random() * 100);
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
         int toY = margin;
         new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
     }
 
-    public static void zuohua(){
-        int x = MyApplication.getAppInstance().getScreenWidth()  - 150;
-        int margin = 100+ (int)(Math.random()*100);
-        int fromY = MyApplication.getAppInstance().getScreenHeight()/2;
+    public static void zuohua() {
+        int x = MyApplication.getAppInstance().getScreenWidth() - 150;
+        int margin = 100 + (int) (Math.random() * 100);
+        int fromY = MyApplication.getAppInstance().getScreenHeight() / 2;
         int toX = 200;
         new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(toX, fromY)).get().execute();
     }

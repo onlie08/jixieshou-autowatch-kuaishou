@@ -9,18 +9,17 @@ import com.ch.model.AppInfo;
 
 import java.util.List;
 
-import static com.ch.core.utils.Constant.PN_MEI_TIAN_ZHUAN_DIAN;
 import static com.ch.core.utils.Constant.PN_AI_QI_YI;
 import static com.ch.core.utils.Constant.PN_BAI_DU;
 import static com.ch.core.utils.Constant.PN_DIAN_TAO;
 import static com.ch.core.utils.Constant.PN_DOU_YIN;
-import static com.ch.core.utils.Constant.PN_FENG_SHENG;
-import static com.ch.core.utils.Constant.PN_JING_DONG;
-import static com.ch.core.utils.Constant.PN_TAO_TE;
-import static com.ch.core.utils.Constant.PN_HUO_SHAN;
 import static com.ch.core.utils.Constant.PN_FAN_QIE;
+import static com.ch.core.utils.Constant.PN_FENG_SHENG;
+import static com.ch.core.utils.Constant.PN_HUO_SHAN;
+import static com.ch.core.utils.Constant.PN_JING_DONG;
 import static com.ch.core.utils.Constant.PN_KUAI_SHOU;
-import static com.ch.core.utils.Constant.PN_TAO_BAO;
+import static com.ch.core.utils.Constant.PN_MEI_TIAN_ZHUAN_DIAN;
+import static com.ch.core.utils.Constant.PN_TAO_TE;
 import static com.ch.core.utils.Constant.PN_TOU_TIAO;
 import static com.ch.core.utils.Constant.PN_XIAO_HONG_SHU;
 import static com.ch.core.utils.Constant.PN_YING_KE;
@@ -54,8 +53,8 @@ public class DownLoadAppManage {
         }
         return instance;
     }
-    
-    public void checkAppExit(){
+
+    public void checkAppExit() {
         isInstallFengSheng = BaseUtil.isInstallPackage(PN_FENG_SHENG);
         isInstallKuaiShou = BaseUtil.isInstallPackage(PN_KUAI_SHOU);
         isInstallAiQiYi = BaseUtil.isInstallPackage(PN_AI_QI_YI);
@@ -71,8 +70,8 @@ public class DownLoadAppManage {
         isInstallMeiTianZhuanDian = BaseUtil.isInstallPackage(PN_MEI_TIAN_ZHUAN_DIAN);
         isInstallXiaoHongShu = BaseUtil.isInstallPackage(PN_XIAO_HONG_SHU);
     }
-    
-    public boolean checkIsAppExit(Context context, List<AppInfo> appInfos){
+
+    public boolean checkIsAppExit(Context context, List<AppInfo> appInfos) {
         checkAppExit();
         for (AppInfo appInfo : appInfos) {
             if (appInfo.getPkgName().equals(Constant.PN_KUAI_SHOU)) {

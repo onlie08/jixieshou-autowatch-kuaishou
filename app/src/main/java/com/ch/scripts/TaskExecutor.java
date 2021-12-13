@@ -11,12 +11,8 @@ import com.ch.core.bus.EventType;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
 import com.ch.model.AppInfo;
-import com.ch.model.TaskInfo;
 import com.google.gson.Gson;
 import com.tencent.bugly.crashreport.CrashReport;
-
-import java.util.Calendar;
-import java.util.List;
 
 import static com.ch.core.bus.EventType.pause_becauseof_not_destination_page;
 

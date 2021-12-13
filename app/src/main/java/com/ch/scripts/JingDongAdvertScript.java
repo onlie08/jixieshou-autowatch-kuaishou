@@ -7,10 +7,7 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
-import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
-import com.ch.core.search.node.NodeInfo;
-import com.ch.core.utils.ActionUtils;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
 import com.ch.jixieshou.BuildConfig;
@@ -90,23 +87,19 @@ public class JingDongAdvertScript extends BaseScript {
 
             doPageId0Things();
 
-        }
-        else if (pageId == 1) {
+        } else if (pageId == 1) {
 
             doPageId1Things();
 
-        }
-        else if (pageId == 2) {
+        } else if (pageId == 2) {
 
             doPageId2Things();
 
-        }
-        else if (pageId == 3) {
+        } else if (pageId == 3) {
 
             doPageId3Things();
 
-        }
-        else {
+        } else {
             Utils.sleep(1500);
             clickBack();
         }
@@ -115,33 +108,33 @@ public class JingDongAdvertScript extends BaseScript {
 
     private void doPageId0Things() {
         LogUtils.d(TAG, "doPageId0Things");
-        if(clickContent("赚钱"))return;
+        if (clickContent("赚钱")) return;
 
     }
 
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
-        if(null == point_ZhuanJinBi){
+        if (null == point_ZhuanJinBi) {
             getRecognitionResult();
-            if(null == point_ZhuanJinBi){
-                EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_JING_DONG,Constant.PAGE_TASK));
+            if (null == point_ZhuanJinBi) {
+                EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_JING_DONG, Constant.PAGE_TASK));
                 return;
             }
         }
-        clickXY(point_ZhuanJinBi.x,point_ZhuanJinBi.y);
+        clickXY(point_ZhuanJinBi.x, point_ZhuanJinBi.y);
 
     }
 
     private void doPageId2Things() {
         LogUtils.d(TAG, "doPageId2Things");
-        if(samePageCount > 3){
+        if (samePageCount > 3) {
             setTodayDone(true);
             CrashReport.postCatchedException(new Exception("京东今日任务完成"));
         }
 
-      if(clickContent("逛商品赚金币"))Utils.sleep(3000);
-      if(clickContent("逛活动赚金币"))Utils.sleep(3000);
-      if(clickContent("看视频赚金币"))Utils.sleep(3000);
+        if (clickContent("逛商品赚金币")) Utils.sleep(3000);
+        if (clickContent("逛活动赚金币")) Utils.sleep(3000);
+        if (clickContent("看视频赚金币")) Utils.sleep(3000);
 
 //      if(clickContent("邀好友赚金币"))Utils.sleep(5000);
 //      if(clickContent("东东爱消除"))Utils.sleep(5000);
@@ -149,18 +142,18 @@ public class JingDongAdvertScript extends BaseScript {
 
     private void doPageId3Things() {
         LogUtils.d(TAG, "doPageId3Things");
-        if(findContent("今日已完成")){
-            while (checkPageId() != 2 && isTargetPkg()){
+        if (findContent("今日已完成")) {
+            while (checkPageId() != 2 && isTargetPkg()) {
                 clickBack();
                 Utils.sleep(1500);
             }
             return;
         }
-        if(clickContent("点击逛下一个")){
+        if (clickContent("点击逛下一个")) {
             samePageCount = 0;
             return;
         }
-       scrollUp();
+        scrollUp();
 
     }
 
@@ -182,10 +175,10 @@ public class JingDongAdvertScript extends BaseScript {
      * @return //0:首页 1:个人中心  2:阅读页  3:广告页
      */
     private int checkPageId() {
-        if(findContent("金币大宝箱")){
+        if (findContent("金币大宝箱")) {
             return 3;
         }
-        if (findContent("商品")&& findContent("评价")&& findContent("详情")&& findContent("推荐")) {
+        if (findContent("商品") && findContent("评价") && findContent("详情") && findContent("推荐")) {
             return 3;
         }
         if (findContent("搜索框") && findContent("更多")) {
@@ -199,10 +192,10 @@ public class JingDongAdvertScript extends BaseScript {
         if (findContent("逛商品赚金币") && findContent("逛活动赚金币")) {
             return 2;
         }
-        if (findContent("返回")  && findContent("更多菜单") ) {
+        if (findContent("返回") && findContent("更多菜单")) {
             return 3;
         }
-        if ((findContent("分享")  && findContent("/5"))) {
+        if ((findContent("分享") && findContent("/5"))) {
             return 3;
         }
 
@@ -240,9 +233,9 @@ public class JingDongAdvertScript extends BaseScript {
             return 2000;
         } else if (pageId == 4) {
             return 2000;
-        }else if (pageId == 0) {
+        } else if (pageId == 0) {
             return 2000;
-        }else if (pageId == -1) {
+        } else if (pageId == -1) {
             return 1000;
         } else {
             return 3000;
@@ -251,9 +244,9 @@ public class JingDongAdvertScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
-        String sp_zhuanjinbi = SPUtils.getInstance().getString(Constant.JINGDONG_ZHUANJINBI,"");
-        if(!TextUtils.isEmpty(sp_zhuanjinbi)){
-            point_ZhuanJinBi = new Gson().fromJson(sp_zhuanjinbi,Point.class);
+        String sp_zhuanjinbi = SPUtils.getInstance().getString(Constant.JINGDONG_ZHUANJINBI, "");
+        if (!TextUtils.isEmpty(sp_zhuanjinbi)) {
+            point_ZhuanJinBi = new Gson().fromJson(sp_zhuanjinbi, Point.class);
         }
 
     }

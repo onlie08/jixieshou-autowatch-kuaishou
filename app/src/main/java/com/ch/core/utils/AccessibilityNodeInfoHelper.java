@@ -26,21 +26,21 @@ import com.ch.core.search.node.NodeInfo;
  * {@link AccessibilityNodeInfo}
  */
 public class AccessibilityNodeInfoHelper {
-	public static Rect getVisibleBoundsInScreen(AccessibilityNodeInfo node,
-												int screenW, int screenH, NodeInfo myrect) {
-		if (node == null) {
-			return null;
-		}
-		Rect nodeRect = new Rect();
-		node.getBoundsInScreen(nodeRect);
-		Rect displayRect = new Rect();	
-		displayRect.top = 0;
-		displayRect.left = 0;
-		displayRect.right = screenW;
-		displayRect.bottom = screenH;		
-		nodeRect.intersect(displayRect);
-		myrect.setRect(nodeRect);
-		myrect.setVisiableRect(nodeRect);
-		return nodeRect;
-	}
+    public static Rect getVisibleBoundsInScreen(AccessibilityNodeInfo node,
+                                                int screenW, int screenH, NodeInfo myrect) {
+        if (node == null) {
+            return null;
+        }
+        Rect nodeRect = new Rect();
+        node.getBoundsInScreen(nodeRect);
+        Rect displayRect = new Rect();
+        displayRect.top = 0;
+        displayRect.left = 0;
+        displayRect.right = screenW;
+        displayRect.bottom = screenH;
+        nodeRect.intersect(displayRect);
+        myrect.setRect(nodeRect);
+        myrect.setVisiableRect(nodeRect);
+        return nodeRect;
+    }
 }

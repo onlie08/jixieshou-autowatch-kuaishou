@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.AppUtils;
-import com.ch.common.PackageUtils;
 import com.ch.core.utils.Constant;
 import com.ch.jixieshou.R;
 import com.ch.model.AppInfo;
@@ -56,7 +55,7 @@ public class AppListAdapter extends BaseAdapter {
             holder = (AppListViewHolder) convertView.getTag();
         }
         AppInfo info = getItem(position);
-        holder.name.setText(info.getName()+getAppInstall(info.getPkgName()));
+        holder.name.setText(info.getName() + getAppInstall(info.getPkgName()));
         holder.free.setText("添加");
 
 //        if (info.isFree()) {
@@ -70,27 +69,27 @@ public class AppListAdapter extends BaseAdapter {
             holder.icon.setImageResource(R.drawable.ks_fast);
         } else if (info.getPkgName().equals(Constant.PN_DOU_YIN)) {
             holder.icon.setImageResource(R.drawable.dy);
-        }else if (info.getPkgName().equals(Constant.PN_TOU_TIAO)) {
+        } else if (info.getPkgName().equals(Constant.PN_TOU_TIAO)) {
             holder.icon.setImageResource(R.drawable.icon_toutiao);
-        }else if (info.getPkgName().equals(Constant.PN_FENG_SHENG)) {
+        } else if (info.getPkgName().equals(Constant.PN_FENG_SHENG)) {
             holder.icon.setImageResource(R.drawable.icon_fengsheng);
-        }else if (info.getPkgName().equals(Constant.PN_DIAN_TAO)) {
+        } else if (info.getPkgName().equals(Constant.PN_DIAN_TAO)) {
             holder.icon.setImageResource(R.drawable.icon_diantao);
-        }else if (info.getPkgName().equals(Constant.PN_YING_KE)) {
+        } else if (info.getPkgName().equals(Constant.PN_YING_KE)) {
             holder.icon.setImageResource(R.drawable.icon_yingke);
-        }else if (info.getPkgName().equals(Constant.PN_AI_QI_YI)) {
+        } else if (info.getPkgName().equals(Constant.PN_AI_QI_YI)) {
             holder.icon.setImageResource(R.drawable.icon_aiqiyi);
-        }else if (info.getPkgName().equals(Constant.PN_BAI_DU)) {
+        } else if (info.getPkgName().equals(Constant.PN_BAI_DU)) {
             holder.icon.setImageResource(R.drawable.icon_baidu);
-        }else if (info.getPkgName().equals(Constant.PN_JING_DONG)) {
+        } else if (info.getPkgName().equals(Constant.PN_JING_DONG)) {
             holder.icon.setImageResource(R.drawable.icon_jingdong);
-        }else if (info.getPkgName().equals(Constant.PN_TAO_TE)) {
+        } else if (info.getPkgName().equals(Constant.PN_TAO_TE)) {
             holder.icon.setImageResource(R.drawable.icon_taote);
-        }else if (info.getPkgName().equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)) {
+        } else if (info.getPkgName().equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)) {
             holder.icon.setImageResource(R.drawable.icon_meitianzhuandian);
-        }else if (info.getPkgName().equals(Constant.PN_HUO_SHAN)) {
+        } else if (info.getPkgName().equals(Constant.PN_HUO_SHAN)) {
             holder.icon.setImageResource(R.drawable.icon_huoshan);
-        }else if (info.getPkgName().equals(Constant.PN_FAN_QIE)) {
+        } else if (info.getPkgName().equals(Constant.PN_FAN_QIE)) {
             holder.icon.setImageResource(R.drawable.icon_fanqie);
         }
         return convertView;
@@ -103,7 +102,7 @@ public class AppListAdapter extends BaseAdapter {
     }
 
     private String getAppInstall(String pkgName) {
-        if( AppUtils.isAppInstalled(pkgName)){
+        if (AppUtils.isAppInstalled(pkgName)) {
             return "（已安装）";
         }
         return "（未安装）";

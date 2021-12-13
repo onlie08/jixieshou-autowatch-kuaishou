@@ -2,16 +2,20 @@ package com.ch.activity;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.EncryptUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.ch.adapter.FragmentAdapter;
 import com.ch.application.MyApplication;
 import com.ch.common.CommonDialogManage;
-import com.ch.common.DeviceUtils;
 import com.ch.common.PerMissionManage;
 import com.ch.common.RecognitionManage;
 import com.ch.common.RecommendCodeManage;
@@ -28,23 +32,14 @@ import com.ch.model.ScreenShootEvet;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.tencent.bugly.crashreport.CrashReport;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import cn.leancloud.AVObject;
-
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.TextureView;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 
@@ -59,19 +54,19 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
-                switch (item.getItemId()) {
-                    case R.id.navigation_home:
-                        setCurrentTab(0);
-                        return true;
-                    case R.id.navigation_coupon:
-                        setCurrentTab(1);
-                        return true;
-                    case R.id.navigation_dashboard:
-                        setCurrentTab(2);
-                        return true;
-                }
-                return false;
-            };
+        switch (item.getItemId()) {
+            case R.id.navigation_home:
+                setCurrentTab(0);
+                return true;
+            case R.id.navigation_coupon:
+                setCurrentTab(1);
+                return true;
+            case R.id.navigation_dashboard:
+                setCurrentTab(2);
+                return true;
+        }
+        return false;
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(SettingFragment.newInstance());
 
         tv_version = findViewById(R.id.tv_version);
-        tv_version.setText("捡豆子助手V"+AppUtils.getAppVersionName());
+        tv_version.setText("捡豆子助手V" + AppUtils.getAppVersionName());
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -101,13 +96,13 @@ public class MainActivity extends AppCompatActivity {
         setCurrentTab(0);
 
         String userName = SPUtils.getInstance().getString("userName");
-        if(TextUtils.isEmpty(userName)){
+        if (TextUtils.isEmpty(userName)) {
             String mac = com.blankj.utilcode.util.DeviceUtils.getMacAddress();
-            String mac1 = mac.replaceAll(":","");
-            String mac2 = mac1.substring(mac1.length()-8);
-            SPUtils.getInstance().put("userName",mac2);
+            String mac1 = mac.replaceAll(":", "");
+            String mac2 = mac1.substring(mac1.length() - 8);
+            SPUtils.getInstance().put("userName", mac2);
             Constant.user = mac2;
-        }else {
+        } else {
             Constant.user = userName;
         }
         CrashReport.setUserId(Constant.user);
@@ -204,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void showPermissionFailDialog(){
+    private void showPermissionFailDialog() {
         CommonDialogManage.getSingleton().showPermissionFailDialog(MainActivity.this);
     }
 

@@ -1,9 +1,7 @@
 package com.ch.scripts;
 
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.text.TextUtils;
-import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
@@ -12,24 +10,18 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.search.node.NodeInfo;
-import com.ch.core.service.MyAccessbilityService;
 import com.ch.core.utils.ActionUtils;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
 import com.ch.jixieshou.BuildConfig;
 import com.ch.model.AppInfo;
-import com.ch.model.RecognitionBean;
 import com.ch.model.ScreenShootEvet;
 import com.google.gson.Gson;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.List;
-import java.util.Random;
-
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
-import static com.ch.core.utils.ActionUtils.click;
 import static com.ch.core.utils.ActionUtils.pressHome;
 
 public class BaiDuAdvertScript extends BaseScript {
@@ -93,7 +85,7 @@ public class BaiDuAdvertScript extends BaseScript {
             samePageCount = 0;
         }
         lastPageId = pageId;
-        LogUtils.d(TAG, "pageId:" + pageId + " samePageCount:" + samePageCount+ " gotoPersonCount:" + gotoPersonCount);
+        LogUtils.d(TAG, "pageId:" + pageId + " samePageCount:" + samePageCount + " gotoPersonCount:" + gotoPersonCount);
 
         doSamePageDeal();
 
@@ -129,10 +121,10 @@ public class BaiDuAdvertScript extends BaseScript {
 
         } else {
 //            if(clickContent("重新加载"))return;
-            if(samePageCount >= 2){
-                if(clickContent("立即收下"))return;
-                if(clickContent("我知道了"))return;
-                if(clickContent("开心收下"))return;
+            if (samePageCount >= 2) {
+                if (clickContent("立即收下")) return;
+                if (clickContent("我知道了")) return;
+                if (clickContent("开心收下")) return;
 
             }
             Utils.sleep(1500);
@@ -146,13 +138,14 @@ public class BaiDuAdvertScript extends BaseScript {
     }
 
     private int gotoPersonCount = 0;
+
     private void doPageId0Things() {
         LogUtils.d(TAG, "doPageId0Things");
 
         if (point_ShouYe == null) {
             getRecognitionResult();
             if (point_ShouYe == null) {
-                EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU,Constant.PAGE_MAIN));
+                EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU, Constant.PAGE_MAIN));
             }
             return;
         }
@@ -160,7 +153,7 @@ public class BaiDuAdvertScript extends BaseScript {
         if (point_RenWu == null) {
             getRecognitionResult();
             if (point_RenWu == null) {
-                EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU,Constant.PAGE_MAIN));
+                EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU, Constant.PAGE_MAIN));
             }
             return;
         }
@@ -168,11 +161,11 @@ public class BaiDuAdvertScript extends BaseScript {
         gotoPersonCount++;
         if (gotoPersonCount > 5) {
             gotoPersonCount = 0;
-            clickXY(point_RenWu.x,point_RenWu.y);
+            clickXY(point_RenWu.x, point_RenWu.y);
             return;
         }
 
-        if(clickTotalMatchContent("新闻")){
+        if (clickTotalMatchContent("新闻")) {
             Utils.sleep(2000);
         }
 
@@ -195,18 +188,18 @@ public class BaiDuAdvertScript extends BaseScript {
 //            }
 //        }
 
-        clickXY(500,500);
+        clickXY(500, 500);
 //        if (clickContent("0评论")) return;
 
     }
 
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
-        if(samePageCount >= 2){
-            if(clickContent("我知道了"))return;
-            if(clickContent("残忍退出"))return;
-            if(clickContent("开心收下"))return;
-            if(clickContent("立即签到")){
+        if (samePageCount >= 2) {
+            if (clickContent("我知道了")) return;
+            if (clickContent("残忍退出")) return;
+            if (clickContent("开心收下")) return;
+            if (clickContent("立即签到")) {
                 Utils.sleep(1000);
                 clickBack();
                 return;
@@ -214,30 +207,30 @@ public class BaiDuAdvertScript extends BaseScript {
             }
         }
 
-        if(clickContent("立即收下"))return;
-        if(clickContent("开宝箱得金币"))return;
+        if (clickContent("立即收下")) return;
+        if (clickContent("开宝箱得金币")) return;
 
-        if(!findContent("看广告赚钱")){
+        if (!findContent("看广告赚钱")) {
             scrollUpSlow();
             return;
-        }else {
+        } else {
             NodeInfo nodeInfo = findByText("看广告赚钱");
-            clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(70),nodeInfo.getRect().centerY());
+            clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(70), nodeInfo.getRect().centerY());
             Utils.sleep(2000);
-            if(findContent("今日任务已完成，明天再来吧~")){
+            if (findContent("今日任务已完成，明天再来吧~")) {
                 clickBack();
                 Utils.sleep(2000);
-                clickXY(point_ShouYe.x,point_ShouYe.y);
+                clickXY(point_ShouYe.x, point_ShouYe.y);
                 return;
             }
-            if(findContent("后得金币")){
+            if (findContent("后得金币")) {
                 return;
             }
         }
 
-        if(clickContent("去签到"))return;
+        if (clickContent("去签到")) return;
 
-        clickXY(point_ShouYe.x,point_ShouYe.y);
+        clickXY(point_ShouYe.x, point_ShouYe.y);
         return;
 
     }
@@ -250,9 +243,9 @@ public class BaiDuAdvertScript extends BaseScript {
 //            if(samePageCount > 3){
 //                scrollUp();
 //            }
-            clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()+ SizeUtils.dp2px(100));
+            clickXY(nodeInfo.getRect().centerX(), nodeInfo.getRect().centerY() + SizeUtils.dp2px(100));
             Utils.sleep(3000);
-            if(checkPageId() == -1 || checkPageId() == 2){
+            if (checkPageId() == -1 || checkPageId() == 2) {
                 clickBack();
                 Utils.sleep(2000);
                 clickBack();
@@ -266,7 +259,7 @@ public class BaiDuAdvertScript extends BaseScript {
 
     private void doPageId3Things() {
         LogUtils.d(TAG, "doPageId3Things");
-        if(samePageCount >5){
+        if (samePageCount > 5) {
             clickBack();
         }
 
@@ -279,7 +272,7 @@ public class BaiDuAdvertScript extends BaseScript {
 
     private void doPageId5Things() {
         LogUtils.d(TAG, "doPageId5Things");
-        if(autoInvite()){
+        if (autoInvite()) {
             clickBack();
         }
     }
@@ -310,11 +303,11 @@ public class BaiDuAdvertScript extends BaseScript {
             return 6;
         }
 
-        if (findContent("现金收益") ||findContent("做任务赚现金") || findContent("看广告赚钱")) {
+        if (findContent("现金收益") || findContent("做任务赚现金") || findContent("看广告赚钱")) {
             return 1;
         }
 
-        if (findContent("分享") && findContent("收藏")&& findContent("返回")) {
+        if (findContent("分享") && findContent("收藏") && findContent("返回")) {
             return 2;
         }
 
@@ -365,9 +358,9 @@ public class BaiDuAdvertScript extends BaseScript {
             return 3000;
         } else if (pageId == 4) {
             return 2000;
-        }else if (pageId == 0) {
+        } else if (pageId == 0) {
             return 2000;
-        }else if (pageId == -1) {
+        } else if (pageId == -1) {
             return 1000;
         } else {
             return 3000;
@@ -376,34 +369,34 @@ public class BaiDuAdvertScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
-        String sp_shouye = SPUtils.getInstance().getString(Constant.BAIDU_SHOUYE,"");
-        if(!TextUtils.isEmpty(sp_shouye)){
-            point_ShouYe = new Gson().fromJson(sp_shouye,Point.class);
+        String sp_shouye = SPUtils.getInstance().getString(Constant.BAIDU_SHOUYE, "");
+        if (!TextUtils.isEmpty(sp_shouye)) {
+            point_ShouYe = new Gson().fromJson(sp_shouye, Point.class);
         }
 
-        String sp_renwu = SPUtils.getInstance().getString(Constant.BAIDU_RENWU,"");
-        if(!TextUtils.isEmpty(sp_renwu)){
-            point_RenWu = new Gson().fromJson(sp_renwu,Point.class);
+        String sp_renwu = SPUtils.getInstance().getString(Constant.BAIDU_RENWU, "");
+        if (!TextUtils.isEmpty(sp_renwu)) {
+            point_RenWu = new Gson().fromJson(sp_renwu, Point.class);
         }
 
-        String sp_tianxieyaoqingma1 = SPUtils.getInstance().getString(Constant.BAIDU_TIANXIEYAOQINGMA1,"");
-        if(!TextUtils.isEmpty(sp_tianxieyaoqingma1)){
-            point_TianXieYaoQingMa1 = new Gson().fromJson(sp_tianxieyaoqingma1,Point.class);
+        String sp_tianxieyaoqingma1 = SPUtils.getInstance().getString(Constant.BAIDU_TIANXIEYAOQINGMA1, "");
+        if (!TextUtils.isEmpty(sp_tianxieyaoqingma1)) {
+            point_TianXieYaoQingMa1 = new Gson().fromJson(sp_tianxieyaoqingma1, Point.class);
         }
 
-        String sp_tianxieyaoqingma2 = SPUtils.getInstance().getString(Constant.BAIDU_TIANXIEYAOQINGMA2,"");
-        if(!TextUtils.isEmpty(sp_tianxieyaoqingma2)){
-            point_TianXieYaoQingMa2 = new Gson().fromJson(sp_tianxieyaoqingma2,Point.class);
+        String sp_tianxieyaoqingma2 = SPUtils.getInstance().getString(Constant.BAIDU_TIANXIEYAOQINGMA2, "");
+        if (!TextUtils.isEmpty(sp_tianxieyaoqingma2)) {
+            point_TianXieYaoQingMa2 = new Gson().fromJson(sp_tianxieyaoqingma2, Point.class);
         }
 
-        String sp_tianxieyaoqingma3 = SPUtils.getInstance().getString(Constant.BAIDU_TIANXIEYAOQINGMA3,"");
-        if(!TextUtils.isEmpty(sp_tianxieyaoqingma3)){
-            point_TianXieYaoQingMa3 = new Gson().fromJson(sp_tianxieyaoqingma3,Point.class);
+        String sp_tianxieyaoqingma3 = SPUtils.getInstance().getString(Constant.BAIDU_TIANXIEYAOQINGMA3, "");
+        if (!TextUtils.isEmpty(sp_tianxieyaoqingma3)) {
+            point_TianXieYaoQingMa3 = new Gson().fromJson(sp_tianxieyaoqingma3, Point.class);
         }
 
-        String sp_zhantie = SPUtils.getInstance().getString(Constant.BAIDU_ZHANTIE,"");
-        if(!TextUtils.isEmpty(sp_zhantie)){
-            point_ZhanTie = new Gson().fromJson(sp_zhantie,Point.class);
+        String sp_zhantie = SPUtils.getInstance().getString(Constant.BAIDU_ZHANTIE, "");
+        if (!TextUtils.isEmpty(sp_zhantie)) {
+            point_ZhanTie = new Gson().fromJson(sp_zhantie, Point.class);
         }
     }
 
@@ -484,19 +477,19 @@ public class BaiDuAdvertScript extends BaseScript {
     }
 
     private boolean autoInvite() {
-        if(true){
+        if (true) {
             return true;
         }
         //[50,718][1150,838]
         getRecognitionResult();
 
-        if(null == point_TianXieYaoQingMa1){
+        if (null == point_TianXieYaoQingMa1) {
             SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA2, "");
             SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA3, "");
             SPUtils.getInstance().put(Constant.BAIDU_ZHANTIE, "");
         }
 
-        if(null != point_ZhanTie){
+        if (null != point_ZhanTie) {
             clickXY(point_ZhanTie.x, point_ZhanTie.y);
             Utils.sleep(1000);
             clickXY(point_TianXieYaoQingMa3.x, point_TianXieYaoQingMa3.y);
@@ -504,21 +497,21 @@ public class BaiDuAdvertScript extends BaseScript {
             CrashReport.postCatchedException(new Throwable("百度自动填写邀请码成功"));
         }
 
-        if(null == point_TianXieYaoQingMa1){
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU,Constant.PAGE_INVITE));
+        if (null == point_TianXieYaoQingMa1) {
+            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU, Constant.PAGE_INVITE));
             return false;
         }
 
-        if(null != point_TianXieYaoQingMa1 && point_TianXieYaoQingMa2 == null){
+        if (null != point_TianXieYaoQingMa1 && point_TianXieYaoQingMa2 == null) {
             clickXY(point_TianXieYaoQingMa1.x, point_TianXieYaoQingMa1.y);
             Utils.sleep(1000);
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU,Constant.PAGE_INVITE));
+            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU, Constant.PAGE_INVITE));
         }
 
-        if(null != point_TianXieYaoQingMa2 && point_TianXieYaoQingMa3 != null){
-            ActionUtils.longPress(point_TianXieYaoQingMa2.x, (point_TianXieYaoQingMa3.y + point_TianXieYaoQingMa2.y)/2);
+        if (null != point_TianXieYaoQingMa2 && point_TianXieYaoQingMa3 != null) {
+            ActionUtils.longPress(point_TianXieYaoQingMa2.x, (point_TianXieYaoQingMa3.y + point_TianXieYaoQingMa2.y) / 2);
             Utils.sleep(1500);
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU,Constant.PAGE_INVITE));
+            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU, Constant.PAGE_INVITE));
         }
         return false;
     }

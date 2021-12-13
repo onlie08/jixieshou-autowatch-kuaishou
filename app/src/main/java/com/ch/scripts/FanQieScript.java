@@ -16,8 +16,6 @@ import com.ch.jixieshou.BuildConfig;
 import com.ch.model.AppInfo;
 import com.tencent.bugly.crashreport.CrashReport;
 
-import java.util.List;
-
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 import static com.ch.core.utils.ActionUtils.pressHome;
 
@@ -98,18 +96,18 @@ public class FanQieScript extends BaseScript {
 
             doPageId3Things();
 
-        }else if (pageId == 4) {
+        } else if (pageId == 4) {
 
             doPageId4Things();
 
-        }  else {
-            if(clickContent("看小视频免费听"))return;
+        } else {
+            if (clickContent("看小视频免费听")) return;
 
-            if(samePageCount >= 4){
-                if(clickContent("继续观看"))return;
+            if (samePageCount >= 4) {
+                if (clickContent("继续观看")) return;
                 NodeInfo nodeInfo = findByText("反馈");
-                if(null != nodeInfo){
-                    clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(40),nodeInfo.getRect().centerY());
+                if (null != nodeInfo) {
+                    clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(40), nodeInfo.getRect().centerY());
                     Utils.sleep(1500);
                 }
             }
@@ -120,8 +118,8 @@ public class FanQieScript extends BaseScript {
     }
 
     private void doPageId4Things() {
-        if(samePageCount > 2){
-            SPUtils.getInstance().put("invite_fanqie",true);
+        if (samePageCount > 2) {
+            SPUtils.getInstance().put("invite_fanqie", true);
             return;
         }
         clickId("input");
@@ -136,9 +134,9 @@ public class FanQieScript extends BaseScript {
             Utils.sleep(2000);
             clickBack();
             Utils.sleep(2000);
-            if(clickContent("马上提交")){
+            if (clickContent("马上提交")) {
                 Utils.sleep(2000);
-                SPUtils.getInstance().put("invite_fanqie",true);
+                SPUtils.getInstance().put("invite_fanqie", true);
                 return;
             }
         }
@@ -148,7 +146,7 @@ public class FanQieScript extends BaseScript {
     private void doPageId0Things() {
         LogUtils.d(TAG, "doPageId0Things");
         NodeInfo nodeInfo = findByText("听过");
-        clickXY(MyApplication.getScreenWidth() - nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY());
+        clickXY(MyApplication.getScreenWidth() - nodeInfo.getRect().centerX(), nodeInfo.getRect().centerY());
 //        clickContent("")
 //        gotoPersonCount++;
 //        if (gotoPersonCount > 4) {
@@ -164,25 +162,25 @@ public class FanQieScript extends BaseScript {
 
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
-        if(samePageCount > 2){
-            if(clickContent("立即签到 +"))return;
+        if (samePageCount > 2) {
+            if (clickContent("立即签到 +")) return;
 //            clickContent("立即签到");
             scrollDown();
             Utils.sleep(1000);
         }
-        if(samePageCount > 4){
+        if (samePageCount > 4) {
 //            setTodayDone(true);
             NodeInfo nodeInfo = findByText("首页");
-            clickXY(MyApplication.getScreenWidth()/2,nodeInfo.getRect().centerY());
+            clickXY(MyApplication.getScreenWidth() / 2, nodeInfo.getRect().centerY());
             return;
         }
-        if(clickContent("开宝箱得金币"))return;
+        if (clickContent("开宝箱得金币")) return;
 
-        if(clickContent("点击领取"))return;
-        if(clickContent("立即领取"))return;
-        if(clickContent("立即观看"))return;
-        if(!SPUtils.getInstance().getBoolean("invite_fanqie",false)){
-            if(clickContent("填写邀请码"))return;
+        if (clickContent("点击领取")) return;
+        if (clickContent("立即领取")) return;
+        if (clickContent("立即观看")) return;
+        if (!SPUtils.getInstance().getBoolean("invite_fanqie", false)) {
+            if (clickContent("填写邀请码")) return;
         }
 //        if(clickTotalMatchContent("听书赚金币")){
 //            Utils.sleep(500);
@@ -197,12 +195,12 @@ public class FanQieScript extends BaseScript {
     private void doPageId2Things() {
         LogUtils.d(TAG, "doPageId2Things");
 
-        if(clickContent("继续观看"))return;
+        if (clickContent("继续观看")) return;
 
-        if(samePageCount >= 10){
+        if (samePageCount >= 10) {
             NodeInfo nodeInfo = findByText("反馈");
-            if(null != nodeInfo){
-                clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(40),nodeInfo.getRect().centerY());
+            if (null != nodeInfo) {
+                clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(40), nodeInfo.getRect().centerY());
                 Utils.sleep(1500);
             }
         }
@@ -211,33 +209,34 @@ public class FanQieScript extends BaseScript {
 
     private void doPageId3Things() {
         LogUtils.d(TAG, "doPageId3Things");
-        if(clickContent("看小视频免费听"))return;
+        if (clickContent("看小视频免费听")) return;
 
-        if(clickContent("立即领取"))return;
-        if(samePageCount >5){
+        if (clickContent("立即领取")) return;
+        if (samePageCount > 5) {
             clickBack();
         }
 
     }
 
-    public AccessibilityNodeInfo findAccessibilityNode(){
+    public AccessibilityNodeInfo findAccessibilityNode() {
         AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
-        if(root == null) return null;
+        if (root == null) return null;
         AccessibilityNodeInfo root1 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
         AccessibilityNodeInfo root2 = root1.getChild(0);
         AccessibilityNodeInfo root3 = root2.getChild(0);
         AccessibilityNodeInfo root4 = root3.getChild(0);
         AccessibilityNodeInfo root5 = root4.getChild(2);
-        if(null != root5){
+        if (null != root5) {
             return root5;
         }
         return null;
     }
+
     /**
      * 弹出框里点击看广告
      */
     private boolean clickAdvert() {
-        if(clickTotalMatchContent("领红包"))return true;
+        if (clickTotalMatchContent("领红包")) return true;
         if (clickContent("视频再")) return true;
         if (clickContent("再看一个")) return false;
         if (clickContent("看广告再得")) return true;
@@ -253,7 +252,7 @@ public class FanQieScript extends BaseScript {
         if (findContent("分类") && findContent("搜索")) {
             return 0;
         }
-        if (findContent("日常任务") || findContent("金币收益")|| findContent("睡觉赚金币")|| findContent("听歌赚钱")) {
+        if (findContent("日常任务") || findContent("金币收益") || findContent("睡觉赚金币") || findContent("听歌赚钱")) {
             return 1;
         }
 
@@ -261,11 +260,11 @@ public class FanQieScript extends BaseScript {
             return 2;
         }
 
-        if (!findTotalMatchContent("0s") &&!findTotalMatchContent("1s") && findContent("反馈") && findContent("跳过")) {
+        if (!findTotalMatchContent("0s") && !findTotalMatchContent("1s") && findContent("反馈") && findContent("跳过")) {
             return 2;
         }
 
-        if (findContent("定时")&& findContent("语速")) {
+        if (findContent("定时") && findContent("语速")) {
             return 3;
         }
 //        if (findContent("反馈")&& findContent("跳过")) {
@@ -288,7 +287,7 @@ public class FanQieScript extends BaseScript {
             return 2000;
         } else if (pageId == 3) {
             return 3000;
-        }  else if (pageId == 0) {
+        } else if (pageId == 0) {
             return 4000;
         } else if (pageId == -1) {
             return 1000;
@@ -308,7 +307,7 @@ public class FanQieScript extends BaseScript {
             return 3000;
         } else if (pageId == 0) {
             return 8000;
-        }else if (pageId == -1) {
+        } else if (pageId == -1) {
             return 1000;
         } else {
             return 3000;

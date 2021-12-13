@@ -1,13 +1,10 @@
 package com.ch.activity;
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.TextUtils;
 import android.widget.EditText;
 
-import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.ch.common.RecommendCodeManage;
 import com.ch.core.utils.Constant;
@@ -15,9 +12,6 @@ import com.ch.jixieshou.R;
 import com.ch.model.RecommendBean;
 import com.google.gson.Gson;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
 import java.io.IOException;
 
 import androidx.annotation.Nullable;
@@ -42,7 +36,6 @@ public class SetRecommendCodeActivity extends AppCompatActivity {
     private EditText edit_input_jingdong;
     private RecommendBean recommendBean;
     private String ObjectId;
-
 
 
     @Override
@@ -72,7 +65,7 @@ public class SetRecommendCodeActivity extends AppCompatActivity {
 
     private void initData() {
 
-        LogUtils.d(TAG,"mac"+Constant.user);
+        LogUtils.d(TAG, "mac" + Constant.user);
         edit_input_yaoqingma.setText(Constant.user);
 
         try {
@@ -81,7 +74,7 @@ public class SetRecommendCodeActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 //        ObjectId = SPUtils.getInstance().getString("recommendCode","");
-        if(TextUtils.isEmpty(ObjectId)){
+        if (TextUtils.isEmpty(ObjectId)) {
             return;
         }
         AVQuery<AVObject> query = new AVQuery<>("recommend_list");
@@ -89,28 +82,32 @@ public class SetRecommendCodeActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())//这里指定在io线程执行
                 .observeOn(AndroidSchedulers.mainThread())//返回结果在主线程执行
                 .subscribe(new Observer<AVObject>() {
-                    public void onSubscribe(Disposable disposable) {}
+                    public void onSubscribe(Disposable disposable) {
+                    }
+
                     public void onNext(AVObject todo) {
-                        LogUtils.d(TAG,"onNext");
+                        LogUtils.d(TAG, "onNext");
                         // todo 就是 objectId 为 582570f38ac247004f39c24b 的 Todo 实例
-                        String code    = todo.getString("code");
+                        String code = todo.getString("code");
                         String apps = todo.getString("apps");
 
-                        recommendBean = new Gson().fromJson(apps,RecommendBean.class);
+                        recommendBean = new Gson().fromJson(apps, RecommendBean.class);
 
                     }
+
                     public void onError(Throwable throwable) {
-                        LogUtils.d(TAG,throwable.getMessage());
+                        LogUtils.d(TAG, throwable.getMessage());
 
                     }
+
                     public void onComplete() {
                         refreshData();
                     }
                 });
     }
 
-    private void refreshData(){
-        if(null == recommendBean)return;
+    private void refreshData() {
+        if (null == recommendBean) return;
         edit_input_yaoqingma.setText(recommendBean.getRecommendCode());
         edit_input_jinritoutiao.setText(recommendBean.getCode_toutiao());
         edit_input_douyin.setText(recommendBean.getCode_douyin());
@@ -122,9 +119,8 @@ public class SetRecommendCodeActivity extends AppCompatActivity {
     }
 
 
-
     private void upload() {
-        if(TextUtils.isEmpty(edit_input_yaoqingma.getText().toString().trim())){
+        if (TextUtils.isEmpty(edit_input_yaoqingma.getText().toString().trim())) {
             ToastUtils.showLong("个人邀请码生产失败，请联系管理员");
             return;
         }
@@ -141,10 +137,10 @@ public class SetRecommendCodeActivity extends AppCompatActivity {
         recommendBean.setRecommendCode(edit_input_yaoqingma.getText().toString().trim());
 
         AVObject todo;
-        if(TextUtils.isEmpty(ObjectId)){
+        if (TextUtils.isEmpty(ObjectId)) {
             todo = new AVObject("recommend_list");
-        }else {
-            todo = AVObject.createWithoutData("recommend_list",ObjectId);
+        } else {
+            todo = AVObject.createWithoutData("recommend_list", ObjectId);
         }
         // 为属性赋值
 //        todo.put("objectId", recommendBean.getRecommendCode());
@@ -153,14 +149,18 @@ public class SetRecommendCodeActivity extends AppCompatActivity {
 
         // 将对象保存到云端
         todo.saveInBackground().subscribe(new Observer<AVObject>() {
-            public void onSubscribe(Disposable disposable) {}
+            public void onSubscribe(Disposable disposable) {
+            }
+
             public void onNext(AVObject todo) {
                 RecommendCodeManage.getSingleton().saveMyRecommendCode(todo.getObjectId());
 //                SPUtils.getInstance().put("recommendCode",todo.getObjectId());
             }
+
             public void onError(Throwable throwable) {
                 // 异常处理
             }
+
             public void onComplete() {
                 finish();
             }

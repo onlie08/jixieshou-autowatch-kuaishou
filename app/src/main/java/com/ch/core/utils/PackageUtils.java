@@ -12,27 +12,28 @@ public class PackageUtils {
      *
      * @param pkg
      */
-    public static void startApp(Context context,String pkg) {
+    public static void startApp(Context context, String pkg) {
         PackageManager manager = context.getPackageManager();
         Intent LaunchIntent = manager.getLaunchIntentForPackage(pkg);
         context.startActivity(LaunchIntent);
     }
 
-    public static void restartApp(Context context,String pkg) {
+    public static void restartApp(Context context, String pkg) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         am.restartPackage(pkg);
     }
 
     /**
      * 获取当前应用的版本号
+     *
      * @return
      */
-    public static int getVersionCode(Context context){
+    public static int getVersionCode(Context context) {
         int versionCode = 0;
         try {
             versionCode = context.getPackageManager()//拿到package管理者
-                    .getPackageInfo(context.getPackageName(),0).versionCode;
-        }catch (Exception e){
+                    .getPackageInfo(context.getPackageName(), 0).versionCode;
+        } catch (Exception e) {
         }
         return versionCode;
     }
@@ -60,17 +61,17 @@ public class PackageUtils {
      * 启动快手app
      */
     public static void startKuaishou(Context context) {
-        startApp(context,"com.kuaishou.nebula");
+        startApp(context, "com.kuaishou.nebula");
     }
 
     /**
      * 启动快手app
      */
     public static void startDouyin(Context context) {
-        startApp(context,"com.ss.android.ugc.aweme.lite");
+        startApp(context, "com.ss.android.ugc.aweme.lite");
     }
 
     public static void startSelf(Context context) {
-        startApp(context,context.getPackageName());
+        startApp(context, context.getPackageName());
     }
 }

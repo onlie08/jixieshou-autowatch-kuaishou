@@ -1,7 +1,6 @@
 package com.ch.fragment;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -28,7 +27,6 @@ import com.ch.common.CommonDialogManage;
 import com.ch.common.DeviceUtils;
 import com.ch.common.DownLoadAppManage;
 import com.ch.common.PackageUtils;
-import com.ch.common.PerMissionManage;
 import com.ch.common.SPService;
 import com.ch.core.bus.BusEvent;
 import com.ch.core.bus.BusManager;
@@ -92,7 +90,7 @@ public class MainPageFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_mainpage,null);
+        return inflater.inflate(R.layout.fragment_mainpage, null);
     }
 
     @Override
@@ -101,6 +99,7 @@ public class MainPageFragment extends Fragment {
         initData();
         super.onViewCreated(view, savedInstanceState);
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,17 +146,17 @@ public class MainPageFragment extends Fragment {
         view.findViewById(R.id.f_view3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(f_view.getVisibility() == View.VISIBLE){
+                if (f_view.getVisibility() == View.VISIBLE) {
                     gotoAccessSetting();
                     return;
                 }
-                if(tv_wx_statue.getText().equals("未开启")){
+                if (tv_wx_statue.getText().equals("未开启")) {
                     CommonDialogManage.getSingleton().showWeiXinTipDialog(getActivity(), (dialog, which) -> {
                         tv_wx_statue.setText("已开启");
                         startWeiXinTask();
                     });
 
-                }else {
+                } else {
                     tv_wx_statue.setText("未开启");
                     stopWeiXinTask();
                 }
@@ -190,12 +189,12 @@ public class MainPageFragment extends Fragment {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(appInfos.isEmpty()){
+                if (appInfos.isEmpty()) {
                     Toast.makeText(getActivity(), "请选择一个任务", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                if(!PermissionUtils.isGranted(PERMISSIONS_REQUEST)){
+                if (!PermissionUtils.isGranted(PERMISSIONS_REQUEST)) {
                     CommonDialogManage.getSingleton().showPermissionFailDialog(getActivity());
                     return;
                 }
@@ -217,7 +216,7 @@ public class MainPageFragment extends Fragment {
             Manifest.permission.READ_EXTERNAL_STORAGE,
     };
 
-    private void startWeiXinTask(){
+    private void startWeiXinTask() {
         new Thread(() -> {
             AppInfo appInfo = new AppInfo();
             appInfo.setPkgName(Constant.PN_WEI_XIN);
@@ -229,13 +228,13 @@ public class MainPageFragment extends Fragment {
 
     }
 
-    private void stopWeiXinTask(){
+    private void stopWeiXinTask() {
 //        new Thread(() -> {
-            AppInfo appInfo = new AppInfo();
-            appInfo.setPkgName(Constant.PN_WEI_XIN);
-            appInfo.setAppName("微信抢红包");
-            appInfo.setName("微信抢红包");
-            WeiXinScript.getSingleton(appInfo).stop = true;
+        AppInfo appInfo = new AppInfo();
+        appInfo.setPkgName(Constant.PN_WEI_XIN);
+        appInfo.setAppName("微信抢红包");
+        appInfo.setName("微信抢红包");
+        WeiXinScript.getSingleton(appInfo).stop = true;
 //        }).start();
 
     }
@@ -259,7 +258,7 @@ public class MainPageFragment extends Fragment {
             return;
         }
 
-        if(!accessEnable) {
+        if (!accessEnable) {
             gotoAccessSetting();
             return;
         }
@@ -268,11 +267,11 @@ public class MainPageFragment extends Fragment {
         MyApplication.getAppInstance().startTask(currentAppInfo);
     }
 
-    private void gotoAccessSetting(){
+    private void gotoAccessSetting() {
 
-            Toast.makeText(getActivity(), "请打开「捡豆子」的辅助服务", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-            startActivity(intent);
+        Toast.makeText(getActivity(), "请打开「捡豆子」的辅助服务", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+        startActivity(intent);
 
     }
 
@@ -288,7 +287,7 @@ public class MainPageFragment extends Fragment {
             appInfos.addAll(taskInfo.getAppInfos());
         }
 
-        taskListAdapter1 = new TaskListAdapter1(getActivity(),appInfos);
+        taskListAdapter1 = new TaskListAdapter1(getActivity(), appInfos);
         taskListAdapter1.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -342,7 +341,7 @@ public class MainPageFragment extends Fragment {
         List<AppInfo> appInfo = event.getAppInfo();
         appInfos.clear();
         appInfos.addAll(appInfo);
-        if(null != taskListAdapter1){
+        if (null != taskListAdapter1) {
             taskListAdapter1.notifyDataSetChanged();
         }
         saveTaskList();
@@ -378,8 +377,6 @@ public class MainPageFragment extends Fragment {
     }
 
     /**
-     *
-     *
      * @param uuid    替换某任务
      * @param appInfo
      */
@@ -410,28 +407,28 @@ public class MainPageFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(!tasking){
+        if (!tasking) {
             checkAccessEnable();
         }
-        if(null != taskListAdapter1){
+        if (null != taskListAdapter1) {
             taskListAdapter1.notifyDataSetChanged();
         }
     }
 
-    private void checkAccessEnable(){
+    private void checkAccessEnable() {
         accessEnable = AccessibilityUtils.isServiceEnabled(getActivity());
-        if(accessEnable){
+        if (accessEnable) {
             tv_acceess_enable.setText("捡豆子无障碍权限已开启");
             f_view.setVisibility(View.GONE);
-            Drawable drawable= getResources().getDrawable(R.drawable.done);
+            Drawable drawable = getResources().getDrawable(R.drawable.done);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tv_acceess_enable.setCompoundDrawables(drawable,null,null,null);
-        }else {
+            tv_acceess_enable.setCompoundDrawables(drawable, null, null, null);
+        } else {
             tv_acceess_enable.setText("请先点击此处，去激活无障碍权限");
             f_view.setVisibility(View.VISIBLE);
-            Drawable drawable= getResources().getDrawable(R.drawable.warming);
+            Drawable drawable = getResources().getDrawable(R.drawable.warming);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tv_acceess_enable.setCompoundDrawables(drawable,null,null,null);
+            tv_acceess_enable.setCompoundDrawables(drawable, null, null, null);
         }
     }
 
@@ -462,9 +459,9 @@ public class MainPageFragment extends Fragment {
         super.onDetach();
     }
 
-    private void playInfo(int type){
+    private void playInfo(int type) {
         Uri uri = null;
-        switch (type){
+        switch (type) {
             case 1:
                 uri = Uri.parse("https://v.kuaishouapp.com/s/ofnbLIJT");
                 break;
@@ -488,7 +485,7 @@ public class MainPageFragment extends Fragment {
                 break;
         }
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData (uri);
+        intent.setData(uri);
         startActivity(intent);
 
     }
@@ -500,7 +497,7 @@ public class MainPageFragment extends Fragment {
                 Log.d(TAG, "当前任务完成");
                 new Handler().postDelayed(() -> {
 
-                    LogUtils.d(TAG, "当前任务："+new Gson().toJson(currentAppInfo));
+                    LogUtils.d(TAG, "当前任务：" + new Gson().toJson(currentAppInfo));
 
                     checkIfNewDay();
 
@@ -508,7 +505,7 @@ public class MainPageFragment extends Fragment {
 
                     currentAppInfo = getNextUnDoneTask();
 
-                    LogUtils.d(TAG, "下一个任务："+new Gson().toJson(currentAppInfo));
+                    LogUtils.d(TAG, "下一个任务：" + new Gson().toJson(currentAppInfo));
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -525,14 +522,14 @@ public class MainPageFragment extends Fragment {
      */
     private void checkIfAllTaskDone() {
         boolean allTaskDone = true;
-        for(AppInfo appInfo : appInfos){
-            if(!appInfo.isTodayDone()){
+        for (AppInfo appInfo : appInfos) {
+            if (!appInfo.isTodayDone()) {
                 allTaskDone = false;
             }
         }
 
-        if(allTaskDone){
-            for(AppInfo appInfo : appInfos){
+        if (allTaskDone) {
+            for (AppInfo appInfo : appInfos) {
                 appInfo.setTodayDone(false);
             }
         }
@@ -545,11 +542,11 @@ public class MainPageFragment extends Fragment {
     private void checkIfNewDay() {
         boolean isNewDayDone = SPUtils.getInstance().getBoolean(DeviceUtils.getToday());
 
-        if(!isNewDayDone){
-            for(AppInfo appInfo : appInfos){
+        if (!isNewDayDone) {
+            for (AppInfo appInfo : appInfos) {
                 appInfo.setTodayDone(false);
             }
-            SPUtils.getInstance().put(DeviceUtils.getToday(),true);
+            SPUtils.getInstance().put(DeviceUtils.getToday(), true);
         }
 
     }
@@ -559,14 +556,14 @@ public class MainPageFragment extends Fragment {
      */
     private AppInfo getNextUnDoneTask() {
         AppInfo info;
-        if(currentPos == (appInfos.size()-1)){
+        if (currentPos == (appInfos.size() - 1)) {
             currentPos = -1;
             info = getNextUnDoneTask();
-        }else {
+        } else {
             currentPos++;
-            if(appInfos.get(currentPos).isTodayDone()){
+            if (appInfos.get(currentPos).isTodayDone()) {
                 info = getNextUnDoneTask();
-            }else {
+            } else {
                 info = appInfos.get(currentPos);
             }
         }

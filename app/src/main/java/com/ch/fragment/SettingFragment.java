@@ -1,10 +1,6 @@
 package com.ch.fragment;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +38,7 @@ public class SettingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_setting,null);
+        return inflater.inflate(R.layout.fragment_setting, null);
     }
 
     @Override
@@ -68,7 +64,7 @@ public class SettingFragment extends Fragment {
         view.findViewById(R.id.btn_update).setOnClickListener(view17 -> SFUpdaterUtils.setOnVersionCheckListener(getActivity()));
         view.findViewById(R.id.btn_help).setOnClickListener(view18 -> {
             Intent intent = new Intent();
-            intent.setClass(getContext(),HelpDocumentActivity.class);
+            intent.setClass(getContext(), HelpDocumentActivity.class);
             getActivity().startActivity(intent);
         });
         view.findViewById(R.id.btn_recommend).setOnClickListener(view16 -> {
@@ -76,12 +72,13 @@ public class SettingFragment extends Fragment {
         });
         view.findViewById(R.id.btn_set_code).setOnClickListener(view16 -> {
             Intent intent = new Intent();
-            intent.setClass(getActivity(),SetRecommendCodeActivity.class);
+            intent.setClass(getActivity(), SetRecommendCodeActivity.class);
             startActivity(intent);
         });
 
 
     }
+
     private void initData() {
     }
 
@@ -114,8 +111,6 @@ public class SettingFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
-
-
 
 
 }

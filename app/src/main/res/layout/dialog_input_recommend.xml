@@ -54,7 +54,7 @@
         app:cornerRadius="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/edit_input"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_input"/>
+        app:layout_constraintBottom_toBottomOf="@+id/edit_input" />
 
     <TextView
         android:id="@+id/textView6"

@@ -15,17 +15,13 @@ import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
 import com.ch.jixieshou.BuildConfig;
 import com.ch.model.AppInfo;
-import com.ch.model.RecognitionBean;
 import com.ch.model.ScreenShootEvet;
 import com.google.gson.Gson;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.Random;
-
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
-import static com.ch.core.utils.ActionUtils.click;
 import static com.ch.core.utils.ActionUtils.pressHome;
 
 public class AiQiYiAdvertScript extends BaseScript {
@@ -81,7 +77,6 @@ public class AiQiYiAdvertScript extends BaseScript {
         if (ScreenUtils.isScreenLock()) {
             return;
         }
-
 
 
         pageId = checkPageId();
@@ -141,15 +136,14 @@ public class AiQiYiAdvertScript extends BaseScript {
             if (samePageCount >= 2) {
                 scrollDown();
                 Utils.sleep(2000);
-                if(clickContent("刷新页面"))return;
-                if(clickContent("人最高赚"))return;
+                if (clickContent("刷新页面")) return;
+                if (clickContent("人最高赚")) return;
 
             }
 
         }
 
     }
-
 
 
     private void doPageId5Things() {
@@ -166,20 +160,20 @@ public class AiQiYiAdvertScript extends BaseScript {
     private void doPageId0Things() {
         if (clickContent("领金币")) return;
 //        if (!advertDone4) {
-            if (clickContent("赚金币")) {
-                Utils.sleep(1500);
-                if (findContent("明天可再来领取哦")) {
+        if (clickContent("赚金币")) {
+            Utils.sleep(1500);
+            if (findContent("明天可再来领取哦")) {
 //                    advertDone4 = true;
-                    if(clickContent("人最高赚")){
-                        Utils.sleep(1500);
-                        clickBack();
-                        Utils.sleep(1500);
-                        clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
-                        return;
-                    }
+                if (clickContent("人最高赚")) {
+                    Utils.sleep(1500);
+                    clickBack();
+                    Utils.sleep(1500);
+                    clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
+                    return;
                 }
-                Utils.sleep(1500);
             }
+            Utils.sleep(1500);
+        }
 //        }
 
 //        if (clickContent("开宝箱")) return;
@@ -198,7 +192,7 @@ public class AiQiYiAdvertScript extends BaseScript {
 
         if (clickContent("开宝箱领金币")) return;
 
-        if(clickContent("领1000金币")){
+        if (clickContent("领1000金币")) {
             return;
         }
 
@@ -211,11 +205,11 @@ public class AiQiYiAdvertScript extends BaseScript {
             }
         }
 
-        if(clickContent("看视频赚钱")){
+        if (clickContent("看视频赚钱")) {
             Utils.sleep(1500);
             scrollUp();
             Utils.sleep(3000);
-            clickXY(500,500);
+            clickXY(500, 500);
             return;
         }
 
@@ -228,24 +222,24 @@ public class AiQiYiAdvertScript extends BaseScript {
 
         if (clickContent("看视频每天赚")) {
             Utils.sleep(1500);
-            if(clickContent("点击开始赚钱")){
+            if (clickContent("点击开始赚钱")) {
                 Utils.sleep(2000);
-                clickXY(500,500);
-            }else {
+                clickXY(500, 500);
+            } else {
                 Utils.sleep(2000);
-                clickXY(500,500);
+                clickXY(500, 500);
             }
             return;
         }
 
         if (clickContent("看电视剧广告赚")) {
             Utils.sleep(1500);
-            if(clickContent("点击开始赚钱")){
+            if (clickContent("点击开始赚钱")) {
                 Utils.sleep(2000);
-                clickXY(500,500);
-            }else {
+                clickXY(500, 500);
+            } else {
                 Utils.sleep(2000);
-                clickXY(500,500);
+                clickXY(500, 500);
             }
             return;
         }
@@ -275,9 +269,9 @@ public class AiQiYiAdvertScript extends BaseScript {
         }
         clickXY(point_LiJiKaiYun.x, point_LiJiKaiYun.y);
         Utils.sleep(1500);
-        if(findContent("恭喜到账")){
+        if (findContent("恭喜到账")) {
             NodeInfo nodeInfo = findByText("恭喜到账");
-            clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()+SizeUtils.dp2px(120));
+            clickXY(nodeInfo.getRect().centerX(), nodeInfo.getRect().centerY() + SizeUtils.dp2px(120));
         }
 //        dealNoResponse3();
     }
@@ -303,14 +297,13 @@ public class AiQiYiAdvertScript extends BaseScript {
         }
 
 
-
         if (findContent("s后可领取奖励")) {
             return 2;
         }
 //        if (findContent("幸运大转盘") && findContent("恭喜")) {
 //            return 3;
 //        }
-        if (findContent("明日可领") || (findContent("活动规则") && findContent("金币") )) {
+        if (findContent("明日可领") || (findContent("活动规则") && findContent("金币"))) {
             return 1;
         }
 
@@ -337,7 +330,7 @@ public class AiQiYiAdvertScript extends BaseScript {
             return 20000;
         } else if (pageId == -1) {
             return 1000;
-        }else {
+        } else {
             return 2000;
         }
 
@@ -353,7 +346,7 @@ public class AiQiYiAdvertScript extends BaseScript {
             return 3000;
         } else if (pageId == 4) {
             return 20000;
-        }else if (pageId == -1) {
+        } else if (pageId == -1) {
             return 1000;
         } else {
             return 2000;
@@ -465,7 +458,7 @@ public class AiQiYiAdvertScript extends BaseScript {
 
 
     private boolean autoInvite() {
-        if(true){
+        if (true) {
             return true;
         }
         //[50,718][1150,838]

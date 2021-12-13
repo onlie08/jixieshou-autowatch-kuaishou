@@ -147,7 +147,7 @@ public class Dumper {
 //            LogUtils.d(TAG,"dump window tree cost: " + (System.currentTimeMillis() - st));
             return treeInfo;
         } catch (Exception e) {
-            LogUtils.d(TAG,e.getMessage(), e);
+            LogUtils.d(TAG, e.getMessage(), e);
         }
         return null;
     }
@@ -277,7 +277,7 @@ public class Dumper {
         serializer.attribute("", "scrollable", Boolean.toString(nodeInfo.isScrollable()));
         serializer.attribute("", "isTextFromDes", Boolean.toString(nodeInfo.isTextFromDes()));
         serializer.attribute("", "apptype", nodeInfo.getApptype());
-        serializer.attribute("", "childCount",  Integer.toString(nodeInfo.getChildCount()));
+        serializer.attribute("", "childCount", Integer.toString(nodeInfo.getChildCount()));
     }
 
     /**

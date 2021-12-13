@@ -2,7 +2,6 @@ package com.ch.common;
 
 import android.os.Build;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.ch.core.utils.Logger;
 import com.ch.core.utils.StringUtil;
 
@@ -25,11 +24,11 @@ public class DeviceUtils {
         return serial;
     }
 
-    public static String getToday(){
-        Calendar calendar= Calendar.getInstance();
+    public static String getToday() {
+        Calendar calendar = Calendar.getInstance();
         String year = String.valueOf(calendar.get(Calendar.YEAR));
         String month = String.valueOf(calendar.get(Calendar.MONTH));
         String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-        return year+month+day;
+        return year + month + day;
     }
 }
