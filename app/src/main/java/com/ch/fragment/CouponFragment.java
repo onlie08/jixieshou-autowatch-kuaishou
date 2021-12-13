@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ch.common.CommonDialogManage;
 import com.ch.jixieshou.R;
 
 import androidx.annotation.NonNull;
@@ -53,6 +54,13 @@ public class CouponFragment extends Fragment {
                 playInfo(7);
             }
         });
+        view.findViewById(R.id.img_chongzhi).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CommonDialogManage.getSingleton().showChongzhiAppDilaog(getActivity());
+//                playInfo(8);
+            }
+        });
     }
 
     private void initData() {
@@ -66,10 +74,16 @@ public class CouponFragment extends Fragment {
             case 7:
                 uri = Uri.parse("https://h5.ele.me/ant/qrcode2?open_type=miniapp&url_id=35&inviterId=3b72f5fa&actId=1&_ltracker_f=hjb_app_jgwzfb&chInfo=ch_share__chsub_CopyLink&apshareid=7816ec01-60af-46db-8640-4f8ccf3b4b7d");
                 break;
+            case 8:
+                uri = Uri.parse("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx10520854a4f9c525&redirect_uri=http%3a%2f%2fwx.magic-unique.com%2fweixin%2fofficialloginSilentCallback.aspx%3freturl%3dhttp%253a%252f%252fwww.qld02.com%252ft%252fblackcard%252fcallFee%252fwxIndex.aspx%253fhideQuickTab%253d1%2526isQmmShare%253d1%2526channel%253dQ90172195%2526usertype%253d11&response_type=code&scope=snsapi_base&state=be912e39d5174a6096d1e98d0efc3336&connect_redirect=1#wechat_redirect");
+                break;
         }
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData (uri);
         startActivity(intent);
+
+//        Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("weixin://dl/businessWebview/link/?appid=wx10520854a4f9c525&url=baidu.com"));
+//        startActivity(intent);
 
     }
 }

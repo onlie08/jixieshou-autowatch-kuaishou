@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg">
 
@@ -14,7 +15,7 @@
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
@@ -22,7 +23,7 @@
                 app:cardElevation="1dp"
                 app:layout_constraintEnd_toStartOf="@+id/f_view2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/img_chongzhi">
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -61,7 +62,7 @@
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="12dp"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
@@ -69,7 +70,7 @@
                 app:cardElevation="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/f_view1"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/img_chongzhi">
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -196,6 +197,19 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:id="@+id/img_chongzhi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/img_chongzhi"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <!--<androidx.cardview.widget.CardView-->
             <!--android:layout_width="0dp"-->
             <!--android:layout_height="wrap_content"-->

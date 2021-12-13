@@ -7,12 +7,17 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.PermissionUtils;
+import com.blankj.utilcode.util.ScreenUtils;
+import com.ch.application.MyApplication;
 import com.ch.core.utils.Constant;
 import com.ch.jixieshou.R;
 
@@ -20,7 +25,11 @@ import com.ch.model.AppInfo;
 import com.ch.scripts.WeiXinScript;
 import com.google.android.material.button.MaterialButton;
 
+import java.io.FileOutputStream;
+
 import androidx.fragment.app.FragmentActivity;
+
+import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 
 public class CommonDialogManage {
     private String TAG = this.getClass().getSimpleName();
@@ -180,6 +189,29 @@ public class CommonDialogManage {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    /**
+     * 充值扫码跳转弹出框
+     * @param context
+     */
+    public void showChongzhiAppDilaog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View inflate = LayoutInflater.from(context).inflate(R.layout.dialog_chongzhi_app, null);
+        builder.setView(inflate);
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().getDecorView().setDrawingCacheEnabled(true);
+        dialog.getWindow().getDecorView().buildDrawingCache();
+
+        dialog.show();
+        MaterialButton btn_save = inflate.findViewById(R.id.btn_save);
+        btn_save.setOnClickListener(v -> {
+            View dialogView = dialog.getWindow().getDecorView();
+            Bitmap dialogBitmap=dialogView.getDrawingCache();
+            ImageUtils.save2Album(dialogBitmap,Bitmap.CompressFormat.JPEG);
+            Toast.makeText(context, "二维码已保存本地相册", Toast.LENGTH_LONG).show();
+            dialog.dismiss();
+        });
     }
 
 
