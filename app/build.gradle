@@ -7,8 +7,8 @@ android {
         applicationId "com.ch.jiandou"
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 40
-        versionName "4.0"
+        versionCode 42
+        versionName "4.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -104,4 +104,9 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44'
 //    implementation 'com.github.lecho:hellocharts-android:v1.5.8'
 //    compile 'com.github.lecho:hellocharts-android:v1.5.8'
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+    // Optional, if you use support library fragments:
+    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
 }

@@ -37,6 +37,14 @@ public class TaskExecutor {
         private static TaskExecutor instance = new TaskExecutor();
     }
 
+    public long getAllTime() {
+        return allTime;
+    }
+
+    public void setAllTime(long allTime) {
+        this.allTime = allTime;
+    }
+
     public TaskExecutor() {
     }
 

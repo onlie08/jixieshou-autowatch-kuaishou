@@ -25,6 +25,9 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 import static com.ch.core.utils.ActionUtils.pressHome;
 
@@ -178,7 +181,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
      * 任务列表页面逻辑 查找小红书关注、抖音点赞、哔哩哔哩关注等任务
      */
     int curTaskType = -1;
-
+    List<String> wrongTaskList = new ArrayList<>();//记录执行不了的任务
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
         if (samePageCount == 3) {
@@ -186,8 +189,10 @@ public class MeiTianZhuanDianScript extends BaseScript {
         }
         if (samePageCount > 4) {
             clickBack();
+            skipTask();
             return;
         }
+
 
         if (PackageUtils.checkApkExist(MyApplication.getAppInstance(), Constant.PN_XIAO_HONG_SHU)) {
             if (clickContent("小红书关注") || clickContent("小红书简单关注") || clickContent("小红书点关注") || clickContent("小红书粉丝")) {
@@ -198,18 +203,18 @@ public class MeiTianZhuanDianScript extends BaseScript {
                 curTaskType = EVENT_XHS_FOLLOW;
                 return;
             }
-            if (clickContent("小红书点赞")) {
-                curTaskType = EVENT_XHS_THUMB;
-                return;
-            }
+//            if (clickContent("小红书点赞")) {
+//                curTaskType = EVENT_XHS_THUMB;
+//                return;
+//            }
         }
 
-        if (PackageUtils.checkApkExist(MyApplication.getAppInstance(), Constant.PN_DOU_YIN)) {
-            if (clickContent("抖音点赞")) {
-                curTaskType = EVENT_DY_THUMB;
-                return;
-            }
-        }
+//        if (PackageUtils.checkApkExist(MyApplication.getAppInstance(), Constant.PN_DOU_YIN)) {
+//            if (clickContent("抖音点赞")) {
+//                curTaskType = EVENT_DY_THUMB;
+//                return;
+//            }
+//        }
 
 //        if(PackageUtils.checkApkExist(MyApplication.getAppInstance(),Constant.PN_TAO_TE)){
 //            if(clickTotalMatchContent("+0.68元") ){
@@ -218,28 +223,30 @@ public class MeiTianZhuanDianScript extends BaseScript {
 //            }
 //        }
 
-        if (PackageUtils.checkApkExist(MyApplication.getAppInstance(), Constant.PN_BI_LI_BI_LI)) {
-            if (clickContent("哔哩哔哩关注")) {
-                curTaskType = EVENT_BLBL_FOLLOW;
-                return;
-            }
-        }
+//        if (PackageUtils.checkApkExist(MyApplication.getAppInstance(), Constant.PN_BI_LI_BI_LI)) {
+//            if (clickContent("哔哩哔哩关注")) {
+//                curTaskType = EVENT_BLBL_FOLLOW;
+//                return;
+//            }
+//        }
 
-        if (PackageUtils.checkApkExist(MyApplication.getAppInstance(), Constant.PN_TAO_BAO)) {
-            if (clickContent("淘宝产品浏览") || clickContent("淘宝浏览产品")) {
-                curTaskType = EVENT_TB_SCAN;
-                return;
-            }
-            if (clickContent("淘宝农场助力")) {
-                curTaskType = EVENT_TB_FARM_HELP;
-                return;
-            }
-        }
+//        if (PackageUtils.checkApkExist(MyApplication.getAppInstance(), Constant.PN_TAO_BAO)) {
+//            if (clickContent("淘宝产品浏览") || clickContent("淘宝浏览产品")) {
+//                curTaskType = EVENT_TB_SCAN;
+//                return;
+//            }
+//            if (clickContent("淘宝农场助力")) {
+//                curTaskType = EVENT_TB_FARM_HELP;
+//                return;
+//            }
+//        }
 
         scrollUpSlow();
         return;
 
     }
+
+
 
     /**
      * 邀请码填写页
@@ -422,11 +429,11 @@ public class MeiTianZhuanDianScript extends BaseScript {
             }
 
             resumeCount++;
-            if (resumeCount > 36) {
+            if (resumeCount > 10) {
                 LogUtils.d(TAG, "自动恢复到每天赚点");
                 startApp();
             }
-            if (resumeCount > 40) {
+            if (resumeCount > 12) {
                 if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 }
@@ -515,6 +522,18 @@ public class MeiTianZhuanDianScript extends BaseScript {
                 return true;
             }
             if (findContent("该任务申请次数过多，不能再次申请！")) {
+                String text = getContent("小红书关注");
+                if(!wrongTaskList.contains(text)){
+                    wrongTaskList.add(text);
+                }
+                LogUtils.d(TAG,"该任务申请次数过多，不能再次申请！: "+text);
+                clickBack();
+                Utils.sleep(2000);
+                clickBack();
+                return true;
+            }
+            if (findContent("操作频繁，")) {
+//                wrongTaskList.add();
                 clickBack();
                 Utils.sleep(2000);
                 clickBack();
@@ -575,6 +594,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
                 if (clickContent("狠心取消")) {
                     Utils.sleep(2000);
                     clickBack();
+//                    wrongTaskList.add();
                 }
             }
         }
@@ -595,12 +615,13 @@ public class MeiTianZhuanDianScript extends BaseScript {
         if (clickTotalMatchContent("打开")) {
             Utils.sleep(2000);
         }
-        if (findTotalMatchContent("打开方式")) {
+        if (findContent("打开方式") || findContent("方式打开")) {
             if (clickTotalMatchContent("小红书")) Utils.sleep(2000);
             if (clickTotalMatchContent("抖音极速版")) Utils.sleep(2000);
             if (clickTotalMatchContent("哔哩哔哩")) Utils.sleep(2000);
             if (clickTotalMatchContent("总是")) Utils.sleep(2000);
             if (clickTotalMatchContent("确定")) Utils.sleep(2000);
+            if (clickTotalMatchContent("始终")) Utils.sleep(2000);
         }
     }
 

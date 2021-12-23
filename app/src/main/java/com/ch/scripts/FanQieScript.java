@@ -16,6 +16,8 @@ import com.ch.jixieshou.BuildConfig;
 import com.ch.model.AppInfo;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import org.w3c.dom.Node;
+
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 import static com.ch.core.utils.ActionUtils.pressHome;
 
@@ -174,7 +176,12 @@ public class FanQieScript extends BaseScript {
             clickXY(MyApplication.getScreenWidth() / 2, nodeInfo.getRect().centerY());
             return;
         }
-        if (clickContent("开宝箱得金币")) return;
+        NodeInfo nodeInfo = findByText("开宝箱得金币");
+        if(null != nodeInfo){
+            clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()-SizeUtils.dp2px(20));
+            return;
+        }
+//        if (clickContent("开宝箱得金币")) return;
 
         if (clickContent("点击领取")) return;
         if (clickContent("立即领取")) return;

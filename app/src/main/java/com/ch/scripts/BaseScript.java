@@ -82,6 +82,14 @@ public abstract class BaseScript implements IScript {
         }
     }
 
+    /**
+     * 本次任务做完了，暂停并且跳到下一个app
+     */
+    public void skipTask() {
+        stop = true;
+        TaskExecutor.getInstance().setAllTime(0);
+    }
+
     private boolean isPause() {
         return TaskExecutor.getInstance().isForcePause() ||
                 TaskExecutor.getInstance().isPause();
@@ -373,5 +381,6 @@ public abstract class BaseScript implements IScript {
         if (clickContent("知道")) return true;
         return false;
     }
+
 
 }

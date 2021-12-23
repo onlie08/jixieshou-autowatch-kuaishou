@@ -34,7 +34,7 @@ public class TouTiaoAdvertScript extends BaseScript {
     private String TAG = this.getClass().getSimpleName();
     private Point point_ShouYe;
     private Point point_RenWu;
-//    private Point point_KaiBaoXiangDeJinBi;
+    private Point point_KaiBaoXiangDeJinBi;
 //    private Point point_ShuRuHaoYouYaoQingMa;
 //    private Point point_ZhanTie;
 
@@ -119,6 +119,14 @@ public class TouTiaoAdvertScript extends BaseScript {
 
         } else if (pageId == 1) {
 
+            if (point_KaiBaoXiangDeJinBi == null) {
+                getRecognitionResult();
+                if (point_KaiBaoXiangDeJinBi == null) {
+                    EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_TOU_TIAO, Constant.PAGE_TASK));
+                }
+                return;
+            }
+
             doPageId1Things();
 
         } else if (pageId == 2) {
@@ -172,7 +180,7 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     private void doPageId0Things() {
         gotoPersonCount++;
-        if (gotoPersonCount > 1) {
+        if (gotoPersonCount > 5) {
             gotoPersonCount = 0;
             clickXY(point_RenWu.x, point_RenWu.y);
             return;
@@ -440,10 +448,10 @@ public class TouTiaoAdvertScript extends BaseScript {
             point_RenWu = new Gson().fromJson(sp_renwu, Point.class);
         }
 
-//        String sp_kaibaoxiangdejinbi = SPUtils.getInstance().getString(Constant.TOUTIAO_KAIBAOXIANGDEJINBI, "");
-//        if (!TextUtils.isEmpty(sp_kaibaoxiangdejinbi)) {
-//            point_KaiBaoXiangDeJinBi = new Gson().fromJson(sp_kaibaoxiangdejinbi, Point.class);
-//        }
+        String sp_kaibaoxiangdejinbi = SPUtils.getInstance().getString(Constant.TOUTIAO_KAIBAOXIANGDEJINBI, "");
+        if (!TextUtils.isEmpty(sp_kaibaoxiangdejinbi)) {
+            point_KaiBaoXiangDeJinBi = new Gson().fromJson(sp_kaibaoxiangdejinbi, Point.class);
+        }
 //
 //        String sp_shuruhaoyouyaoqingma = SPUtils.getInstance().getString(Constant.TOUTIAO_SHURUHAOYOUYAOQINGMA, "");
 //        if (!TextUtils.isEmpty(sp_shuruhaoyouyaoqingma)) {
