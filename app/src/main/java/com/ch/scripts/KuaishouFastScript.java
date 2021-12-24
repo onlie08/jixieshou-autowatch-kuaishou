@@ -1,13 +1,17 @@
 package com.ch.scripts;
 
 import android.graphics.Point;
+import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
+import com.ch.core.search.node.NodeInfo;
 import com.ch.core.utils.ActionUtils;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
@@ -27,10 +31,6 @@ import static com.ch.core.utils.ActionUtils.pressHome;
  */
 public class KuaishouFastScript extends BaseScript {
     private String TAG = this.getClass().getSimpleName();
-
-    private Point point_XiangHaoYouXunWenYaoQingMa;
-    private Point point_ZhanTie;
-
 
     private volatile static KuaishouFastScript instance; //声明成 volatile
 
@@ -126,30 +126,69 @@ public class KuaishouFastScript extends BaseScript {
         if (clickId("close")) return true;
         if (clickContent("查看收益")) return true;
         if (clickContent("知道")) return true;
-        if (clickContent("立即签到")) return true;
+        if (clickTotalMatchContent("立即签到")) return true;
         if (clickContent("签到立得")) return true;
         if (clickTotalMatchContent("以后再说")) return true;
         if (clickContent("补签再得")) return true;
-        if (clickContent("允许")) return true;
+        if (clickTotalMatchContent("允许")) return true;
         if (clickContent("立即添加")) return true;
-        if (clickContent("关闭")) return true;
+        if (clickTotalMatchContent("关闭")) return true;
         if (clickContent("重试")) return true;
-        if (clickContent("取消")) return true;
-        if (clickContent("确认")) return true;
+        if (clickTotalMatchContent("取消")) return true;
+        if (clickTotalMatchContent("确认")) return true;
         if (clickContent("邀请好友赚更多")) return true;
         return false;
     }
 
 
+    public AccessibilityNodeInfo findEditText() {
+        AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
+        if (root == null) return null;
+        AccessibilityNodeInfo root0 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
+        AccessibilityNodeInfo root1 = root0.getChild(0);
+        AccessibilityNodeInfo root2 = root1.getChild(1);
+        AccessibilityNodeInfo root3 = root2.getChild(1);
+        if (null != root3) {
+            return root3;
+        }
+        return null;
+    }
+
     private void doPageId3Things() {
-        if (autoInvite()) {
-            clickBack();
-            clickBack();
+//        if(findContent("已成功填写好友")){
+//            SPUtils.getInstance().put("invite_kuaishou", true);
+//            clickBack();
+//            Utils.sleep(2000);
+//            clickBack();
+//            return;
+//        }
+        NodeInfo nodeInfo = findByText("提交领现金");
+        if(null != nodeInfo){
+            clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()-SizeUtils.sp2px(80));
+            Utils.sleep(2000);
+        }
+
+        AccessibilityNodeInfo textInfo = findEditText();
+        if (textInfo != null) {
+            Bundle arguments = new Bundle();
+            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, MyApplication.recommendBean.getCode_kuaishou());
+            textInfo.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+            Utils.sleep(2000);
+            if (clickContent("提交领现金")) {
+                Utils.sleep(2000);
+                SPUtils.getInstance().put("invite_kuaishou", true);
+                CrashReport.postCatchedException(new Exception("快手邀请码自动填写成功"));
+                clickBack();
+                Utils.sleep(2000);
+                clickBack();
+                return;
+            }
         }
     }
 
     private void doPageId0Things() {
         if (samePageCount > 3) {
+            if (clickTotalMatchContent("我知道了")) return;
             if (clickId("red_packet_anim")) return;
         }
 
@@ -163,8 +202,18 @@ public class KuaishouFastScript extends BaseScript {
             if (clickContent("明天继续领现金")) return;
             if (clickContent("立即领取今日现金")) return;
             if (clickContent("都领完了，继续赚钱")) return;
+            if (clickContent("立即预约")) return;
+            if (clickContent("点击开启")) return;
 //            if (clickContent("立即签到")) return;
         }
+
+        if(findContent("限时福利14天领")){
+            if(clickTotalMatchContent("立即领取")){
+                Utils.sleep(2000);
+            }
+        }
+
+        if (clickContent("开宝箱得金币")) return;
 
         if (clickContent("填邀请码必得1元")) {
             return;
@@ -175,7 +224,6 @@ public class KuaishouFastScript extends BaseScript {
             return;
         }
 
-        if (clickContent("开宝箱得金币")) return;
 
         if (clickContent("观看广告单日最高")) return;
 
@@ -315,50 +363,9 @@ public class KuaishouFastScript extends BaseScript {
         return -1;
     }
 
-
-    private boolean autoInvite() {
-
-        if (true) {
-            return true;
-        }
-        getRecognitionResult();
-//        ClipboardUtils.copyText("446859698");
-        if (null == point_XiangHaoYouXunWenYaoQingMa) {
-            SPUtils.getInstance().put(Constant.KUAISHOU_ZHANTIE, "");
-        }
-
-        if (null != point_ZhanTie) {
-            clickXY(point_ZhanTie.x, point_ZhanTie.y);
-            Utils.sleep(1000);
-
-            clickContent("提交领现金");
-            Utils.sleep(2000);
-            CrashReport.postCatchedException(new Throwable("快手自动填写邀请码成功"));
-            return true;
-        }
-
-        if (null != point_XiangHaoYouXunWenYaoQingMa) {
-            ActionUtils.longPress(point_XiangHaoYouXunWenYaoQingMa.x, point_XiangHaoYouXunWenYaoQingMa.y);
-            Utils.sleep(1500);
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_KUAI_SHOU, Constant.PAGE_INVITE));
-        } else {
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_KUAI_SHOU, Constant.PAGE_INVITE));
-            return false;
-        }
-        return false;
-    }
-
     @Override
     protected void getRecognitionResult() {
-        String sp_xianghaoyouxunwenyaoqingma = SPUtils.getInstance().getString(Constant.KUAISHOU_XIANGHAOYOUXUNWENYAOQINGMA, "");
-        if (!TextUtils.isEmpty(sp_xianghaoyouxunwenyaoqingma)) {
-            point_XiangHaoYouXunWenYaoQingMa = new Gson().fromJson(sp_xianghaoyouxunwenyaoqingma, Point.class);
-        }
 
-        String sp_zhantie = SPUtils.getInstance().getString(Constant.KUAISHOU_ZHANTIE, "");
-        if (!TextUtils.isEmpty(sp_zhantie)) {
-            point_ZhanTie = new Gson().fromJson(sp_zhantie, Point.class);
-        }
     }
 
     @Override

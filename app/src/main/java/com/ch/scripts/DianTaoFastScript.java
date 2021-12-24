@@ -1,7 +1,9 @@
 package com.ch.scripts;
 
 import android.graphics.Point;
+import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
@@ -97,6 +99,10 @@ public class DianTaoFastScript extends BaseScript {
         if (findContent("打工赚元宝")) {
             return 7;
         }
+
+        if (findContent("新人任务 元宝换现金")) {
+            return 8;
+        }
         return -1;
     }
 
@@ -160,6 +166,8 @@ public class DianTaoFastScript extends BaseScript {
             doPageId6Things();
         } else if (pageId == 7) {
             doPageId7Things();
+        } else if (pageId == 8) {
+            doPageId8Things();
         } else {
             if (samePageCount >= 2) {
                 clickXY(point_DianTao.x, point_DianTao.y);
@@ -167,6 +175,31 @@ public class DianTaoFastScript extends BaseScript {
             Utils.sleep(1500);
             clickBack();
         }
+    }
+
+    /**
+     * 新人三天任务
+     */
+    private void doPageId8Things() {
+        if (samePageCount > 3) {
+            SPUtils.getInstance().put("dt_" + DeviceUtils.getToday(), true);
+            clickBack();
+        }
+        if (clickContent("去签到")) {
+            Utils.sleep(2000);
+            //todo 弹出框里面内容是啥
+            return;
+        }
+
+        if (clickContent("去观看")) return;
+        if (clickTotalMatchContent("立即提现")) {
+            Utils.sleep(2000);
+            clickContent("继续下一个任务");
+            return;
+        }
+
+        scrollUpSlow();
+
     }
 
     private void doPageId7Things() {
@@ -194,7 +227,9 @@ public class DianTaoFastScript extends BaseScript {
                 return;
             }
         }
-
+        if (clickId("sign-panel-btn")) {
+            Utils.sleep(1000);
+        }
         clickXY(point_DaGong.x, point_DaGong.y);
         Utils.sleep(2000);
         if (clickTotalMatchContent("开始打工")) {
@@ -219,9 +254,7 @@ public class DianTaoFastScript extends BaseScript {
             return;
         }
 
-        if (clickId("sign-panel-btn")) {
-            Utils.sleep(1000);
-        }
+
 
         clickXY(point_ZhuanTiLi.x, point_ZhuanTiLi.y);
 
@@ -231,6 +264,7 @@ public class DianTaoFastScript extends BaseScript {
         if (samePageCount >= 2) {
             closeDialog();
         }
+
 
         if (clickContent("去签到")) {
             return;
@@ -243,13 +277,6 @@ public class DianTaoFastScript extends BaseScript {
             return;
         }
 
-        if (!SPUtils.getInstance().getBoolean("dt_invite", false)) {
-            if (clickContent("新人填写邀请码")) {
-                editPage = false;
-                return;
-            }
-        }
-
         if (!SPUtils.getInstance().getBoolean(DeviceUtils.getToday() + "dt", false)) {
             if (clickContent("今日签到")) {
                 Utils.sleep(1500);
@@ -257,6 +284,26 @@ public class DianTaoFastScript extends BaseScript {
                 SPUtils.getInstance().put(DeviceUtils.getToday() + "dt", true);
                 return;
             }
+        }
+
+
+        if (findContent("后当日福利过期")) {
+            if (!SPUtils.getInstance().getBoolean("dt_" + DeviceUtils.getToday(), false)) {
+
+                if (!SPUtils.getInstance().getBoolean("invite_diantao", false)) {
+                    scrollUpSlow();
+                    Utils.sleep(2000);
+                    if (clickContent("新人填写邀请码")) {
+                        editPage = false;
+                        return;
+                    }
+                }
+                if (clickContent("后当日福利过期")) return;
+
+            }
+
+            scrollUpSlow();
+            Utils.sleep(2000);
         }
 
         if (clickContent("打工赚元宝")) return;
@@ -301,7 +348,7 @@ public class DianTaoFastScript extends BaseScript {
 
     private void doPageId3Things() {
         if (findContent("抱歉 你已经抽过奖了")) {
-            SPUtils.getInstance().put("dt_invite", true);
+            SPUtils.getInstance().put("invite_diantao", true);
             clickBack();
             return;
         }
@@ -315,12 +362,41 @@ public class DianTaoFastScript extends BaseScript {
             }
         }
 
-        if (findContent("提交 去抽奖")) {
-            if (autoInvite()) {
+        try {
+            if (findContent("提交 去抽奖")) {
+                AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
+                if (root == null) return;
+                AccessibilityNodeInfo root1 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
+                AccessibilityNodeInfo accessibilityNodeInfo = root1.getChild(0).getChild(0).getChild(0).getChild(3).getChild(3).getChild(0).getChild(1).getChild(0);
+
+//                AccessibilityNodeInfo accessibilityNodeInfo = findAccessibilityNodeById("textInput");
+//                AccessibilityNodeInfo accessibilityNodeInfo1 = findAccessibilityNodeByText("textInput");
+//                AccessibilityNodeInfo accessibilityNodeInfo2 = findAccessibilityNodeByText("输入好友分享的邀请码");
+//                AccessibilityNodeInfo accessibilityNodeInfo3 = accessibilityNodeInfo2.getParent().getChild(1).getChild(0);
+
+                if (accessibilityNodeInfo != null) {
+                    Bundle arguments = new Bundle();
+                    arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, MyApplication.recommendBean.getCode_diantao());
+                    accessibilityNodeInfo.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+                    Utils.sleep(2000);
+
+                    if (clickContent("提交 去抽奖")) {
+                        Utils.sleep(2000);
+                        SPUtils.getInstance().put("invite_diantao", true);
+                        CrashReport.postCatchedException(new Exception("点淘自动填写邀请码成功"));
+                        return;
+                    }
+                }
+
+//                if (autoInvite()) {
+//                    return;
+//                }
                 return;
             }
-            return;
+        } catch (Exception e) {
+
         }
+
 
     }
 

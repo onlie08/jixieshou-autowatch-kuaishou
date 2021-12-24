@@ -597,7 +597,6 @@ public class TouTiaoAdvertScript extends BaseScript {
     public AccessibilityNodeInfo findEditText() {
         AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
         if (root == null) return null;
-        AccessibilityNodeInfo root0 = findAccessibilityNodeById("root");
         AccessibilityNodeInfo root1 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
         AccessibilityNodeInfo root2 = root1.getChild(0);
         AccessibilityNodeInfo root3 = root2.getChild(0);
