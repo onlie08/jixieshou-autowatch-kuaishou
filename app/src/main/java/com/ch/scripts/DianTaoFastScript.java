@@ -182,21 +182,19 @@ public class DianTaoFastScript extends BaseScript {
      */
     private void doPageId8Things() {
         if (samePageCount > 3) {
-            SPUtils.getInstance().put("dt_" + DeviceUtils.getToday(), true);
             clickBack();
         }
-        if (clickContent("去签到")) {
-            Utils.sleep(2000);
-            //todo 弹出框里面内容是啥
-            return;
-        }
-
-        if (clickContent("去观看")) return;
         if (clickTotalMatchContent("立即提现")) {
             Utils.sleep(2000);
             clickContent("继续下一个任务");
             return;
         }
+        if (clickContent("去签到")) {
+            Utils.sleep(2000);
+            return;
+        }
+
+        if (clickContent("去观看")) return;
 
         scrollUpSlow();
 
@@ -255,7 +253,6 @@ public class DianTaoFastScript extends BaseScript {
         }
 
 
-
         clickXY(point_ZhuanTiLi.x, point_ZhuanTiLi.y);
 
     }
@@ -264,7 +261,6 @@ public class DianTaoFastScript extends BaseScript {
         if (samePageCount >= 2) {
             closeDialog();
         }
-
 
         if (clickContent("去签到")) {
             return;
@@ -288,22 +284,12 @@ public class DianTaoFastScript extends BaseScript {
 
 
         if (findContent("后当日福利过期")) {
-            if (!SPUtils.getInstance().getBoolean("dt_" + DeviceUtils.getToday(), false)) {
-
-                if (!SPUtils.getInstance().getBoolean("invite_diantao", false)) {
-                    scrollUpSlow();
-                    Utils.sleep(2000);
-                    if (clickContent("新人填写邀请码")) {
-                        editPage = false;
-                        return;
-                    }
-                }
-                if (clickContent("后当日福利过期")) return;
-
+            if (clickContent("新人填写邀请码")) {
+                editPage = false;
+                return;
             }
+            if (clickContent("后当日福利过期")) return;
 
-            scrollUpSlow();
-            Utils.sleep(2000);
         }
 
         if (clickContent("打工赚元宝")) return;
@@ -369,11 +355,6 @@ public class DianTaoFastScript extends BaseScript {
                 AccessibilityNodeInfo root1 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
                 AccessibilityNodeInfo accessibilityNodeInfo = root1.getChild(0).getChild(0).getChild(0).getChild(3).getChild(3).getChild(0).getChild(1).getChild(0);
 
-//                AccessibilityNodeInfo accessibilityNodeInfo = findAccessibilityNodeById("textInput");
-//                AccessibilityNodeInfo accessibilityNodeInfo1 = findAccessibilityNodeByText("textInput");
-//                AccessibilityNodeInfo accessibilityNodeInfo2 = findAccessibilityNodeByText("输入好友分享的邀请码");
-//                AccessibilityNodeInfo accessibilityNodeInfo3 = accessibilityNodeInfo2.getParent().getChild(1).getChild(0);
-
                 if (accessibilityNodeInfo != null) {
                     Bundle arguments = new Bundle();
                     arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, MyApplication.recommendBean.getCode_diantao());
@@ -388,9 +369,6 @@ public class DianTaoFastScript extends BaseScript {
                     }
                 }
 
-//                if (autoInvite()) {
-//                    return;
-//                }
                 return;
             }
         } catch (Exception e) {

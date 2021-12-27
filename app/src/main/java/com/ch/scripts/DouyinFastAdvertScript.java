@@ -1,7 +1,9 @@
 package com.ch.scripts;
 
 import android.graphics.Point;
+import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
@@ -132,35 +134,59 @@ public class DouyinFastAdvertScript extends BaseScript {
      * @return
      */
     private boolean dealNoResponse2() {
+        if (clickContent("仅在使用中允许")) return true;
+        if (clickContent("重试")) return true;
+        if (clickTotalMatchContent("以后再说")) return true;
+        if (clickTotalMatchContent("允许")) return true;
+        if (clickTotalMatchContent("取消")) return true;
+        if (clickTotalMatchContent("不允许")) return true;
+        if (clickTotalMatchContent("禁止")) return true;
+
         if (clickContent("暂时不要")) return true;
         if (clickContent("知道")) return true;
         if (clickContent("立即签到")) return true;
         if (clickTotalMatchContent("以后再说")) return true;
-        if (clickContent("允许")) return true;
+        if (clickTotalMatchContent("允许")) return true;
         if (clickContent("立即添加")) return true;
-        if (clickContent("关闭")) return true;
+        if (clickTotalMatchContent("关闭")) return true;
         if (clickContent("重试")) return true;
-        if (clickContent("取消")) return true;
+        if (clickTotalMatchContent("取消")) return true;
+
+
         return false;
     }
 
     private void doPageId0Things() {
         LogUtils.d(TAG, "doPageId0Things");
+        scrollUp();
+        Utils.sleep(2000);
 
         if (samePageCount > 3) {
             clickXY(point_LaiZhuanQian.x, point_LaiZhuanQian.y);
+
+            //没有去赚钱按钮而是去拍摄的情况
+            Utils.sleep(2000);
+            if(findTotalMatchContent("选择音乐")){
+                clickBack();
+                Utils.sleep(2000);
+                if(clickContent("/8")){
+                    return;
+                }
+            }
             return;
         }
 
-        scrollUp();
     }
 
 
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
         if (samePageCount > 2) {
-            clickContent("立即签到 +");
+            if(clickContent("邀请好友 立赚高额现金")) Utils.sleep(2000);
+            if(clickContent("立即签到 +")) Utils.sleep(2000);
+//            if(clickContent("去赚钱")) Utils.sleep(2000);
 //            clickContent("去赚钱");
+//            tryClickDialog();
         }
 
         if (samePageCount > 4) {
@@ -170,12 +196,39 @@ public class DouyinFastAdvertScript extends BaseScript {
         }
 //        if(clickContent("开宝箱得金币"))Utils.sleep(2000);
 
-        if (!findContent("看广告")) {
-            scrollUpSlow();
-            return;
+        if(findContent("填写好友邀请码")){
+            NodeInfo nodeInfo = findByText("填写好友邀请码");
+            clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()+SizeUtils.dp2px(40));
+            Utils.sleep(2000);
+            AccessibilityNodeInfo editText = findEditText();
+            if(null != editText){
+                Bundle arguments = new Bundle();
+                arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, MyApplication.recommendBean.getCode_douyin());
+                editText.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+                Utils.sleep(2000);
+                clickBack();
+                Utils.sleep(2000);
+
+                clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(70),nodeInfo.getRect().centerY()+SizeUtils.dp2px(40));
+
+                Utils.sleep(2000);
+                SPUtils.getInstance().put("invite_douyin", true);
+                CrashReport.postCatchedException(new Exception("抖音邀请码自动填写成功"));
+                clickBack();
+                Utils.sleep(2000);
+//                clickBack();
+                return;
+//                if(clickTotalMatchContent("确认")){
+//                    Utils.sleep(2000);
+//                    SPUtils.getInstance().put("invite_douyin", true);
+//                    CrashReport.postCatchedException(new Exception("抖音邀请码自动填写成功"));
+//                    clickBack();
+//                    Utils.sleep(2000);
+//                    clickBack();
+//                    return;
+//                }
+            }
         }
-        clickContent("看广告");
-        Utils.sleep(2000);
 
         NodeInfo nodeInfo = findByText("点击领金币");
         if (null != nodeInfo) {
@@ -183,9 +236,17 @@ public class DouyinFastAdvertScript extends BaseScript {
             clickXY(point.x, point.y);
             return;
         }
-//        if (clickContent("点击领金币")) return;
 
         if (clickContent("开宝箱得金币")) return;
+
+        if (!findContent("看广告")) {
+            scrollUpSlow();
+            return;
+        }
+        clickContent("看广告");
+        Utils.sleep(2000);
+
+
 
         if (findContent("明日再来")) {
             setTodayDone(true);
@@ -246,7 +307,7 @@ public class DouyinFastAdvertScript extends BaseScript {
         } else if (pageId == -1) {
             return 1000;
         } else if (pageId == 0) {
-            return 4000;
+            return 3000;
         }
         return 2000;
     }
@@ -377,4 +438,16 @@ public class DouyinFastAdvertScript extends BaseScript {
         }
     }
 
+    public AccessibilityNodeInfo findEditText() {
+        AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
+        if (root == null) return null;
+        AccessibilityNodeInfo root0 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
+//        AccessibilityNodeInfo root1 = root0.getChild(0);
+//        AccessibilityNodeInfo root2 = root1.getChild(1);
+//        AccessibilityNodeInfo root3 = root2.getChild(1);
+        if (null != root0) {
+            return root0;
+        }
+        return null;
+    }
 }

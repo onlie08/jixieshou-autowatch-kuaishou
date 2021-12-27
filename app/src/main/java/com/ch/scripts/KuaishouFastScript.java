@@ -111,6 +111,9 @@ public class KuaishouFastScript extends BaseScript {
 
         } else {
             Utils.sleep(1500);
+            if(samePageCount > 2){
+                if(clickContent("去完成任务"))return;
+            }
             clickBack();
         }
     }
@@ -171,7 +174,7 @@ public class KuaishouFastScript extends BaseScript {
         AccessibilityNodeInfo textInfo = findEditText();
         if (textInfo != null) {
             Bundle arguments = new Bundle();
-            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, MyApplication.recommendBean.getCode_kuaishou());
+            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, MyApplication.recommendBean.getCode_douyin());
             textInfo.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
             Utils.sleep(2000);
             if (clickContent("提交领现金")) {

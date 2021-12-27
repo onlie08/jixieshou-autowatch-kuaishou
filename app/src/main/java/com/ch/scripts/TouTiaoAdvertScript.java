@@ -304,26 +304,6 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     }
 
-    private void tryClickDialog() {
-        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2);
-        Utils.sleep(500);
-        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+100);
-        Utils.sleep(500);
-        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+200);
-        Utils.sleep(500);
-        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+300);
-        Utils.sleep(500);
-        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+400);
-        Utils.sleep(500);
-        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+500);
-        Utils.sleep(500);
-        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+600);
-        Utils.sleep(500);
-//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+700);
-//        Utils.sleep(500);
-//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+800);
-//        Utils.sleep(500);
-    }
 
     private void doPageId2Things() {
 //        count++;
@@ -518,7 +498,6 @@ public class TouTiaoAdvertScript extends BaseScript {
             Utils.sleep(1000);
         }
         pressHome();
-
         stop = true;
     }
 
@@ -529,11 +508,11 @@ public class TouTiaoAdvertScript extends BaseScript {
      */
     private boolean dealNoResponse2() {
         if (clickContent("网络不给力，点击屏幕重试")) return true;
-        if (clickTotalMatchContent("禁止")) return true;
         if (clickContent("知道")) return true;
         if (clickContent("去赚钱")) return true;
         if (clickContent("视频再领")) return true;
         if (clickContent("仅在使用中允许")) return true;
+        if (clickTotalMatchContent("禁止")) return true;
         if (clickContent("立即添加")) return true;
         if (clickTotalMatchContent("关闭")) return true;
         if (clickContent("重试")) return true;

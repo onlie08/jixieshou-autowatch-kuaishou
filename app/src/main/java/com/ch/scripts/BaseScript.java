@@ -382,5 +382,23 @@ public abstract class BaseScript implements IScript {
         return false;
     }
 
+    public void tryClickDialog() {
+        LogUtils.d(BASETAG, "tryClickDialog()");
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2);
+        Utils.sleep(500);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+100);
+        Utils.sleep(500);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+200);
+        Utils.sleep(500);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+300);
+        Utils.sleep(500);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+400);
+        Utils.sleep(500);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+500);
+        Utils.sleep(500);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+600);
+        Utils.sleep(500);
+    }
+
 
 }
