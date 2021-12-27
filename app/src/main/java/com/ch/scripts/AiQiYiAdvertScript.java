@@ -12,7 +12,6 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.search.node.NodeInfo;
-import com.ch.core.utils.ActionUtils;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
 import com.ch.jixieshou.BuildConfig;
@@ -32,8 +31,6 @@ public class AiQiYiAdvertScript extends BaseScript {
 
     private Point point_ShouYe;
     private Point point_ZhuanQian;
-    private Point point_TianXieHaoYouYaoQingMa;
-    private Point point_ZhanTie;
     private Point point_LiJiKaiYun;
 
     private volatile static AiQiYiAdvertScript instance; //声明成 volatile
@@ -150,7 +147,7 @@ public class AiQiYiAdvertScript extends BaseScript {
 
     private void doPageId5Things() {
         AccessibilityNodeInfo edittext = findEditText();
-        if(null != edittext){
+        if (null != edittext) {
             Bundle arguments = new Bundle();
             arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, MyApplication.recommendBean.getCode_aiqiyi());
             edittext.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
@@ -159,7 +156,7 @@ public class AiQiYiAdvertScript extends BaseScript {
             if (clickContent("提交")) {
                 Utils.sleep(4000);
                 CrashReport.postCatchedException(new Exception("爱奇艺自动填写邀请码成功"));
-                if(clickTotalMatchContent("去赚钱")){
+                if (clickTotalMatchContent("去赚钱")) {
                     Utils.sleep(2000);
                     clickBack();
                     Utils.sleep(500);
@@ -245,18 +242,15 @@ public class AiQiYiAdvertScript extends BaseScript {
             return;
         }
 
-        if(findContent("新人限时任务")){
+        if (findContent("新人限时任务")) {
             scrollUp();
             Utils.sleep(2000);
             if (clickContent("填写邀请码奖励")) {
 //                SPUtils.getInstance().put(Constant.AIQIYI_TIANXIEHAOYOUYAOQINGMA, "");
 //                SPUtils.getInstance().put(Constant.AIQIYI_ZHANTIE, "");
-                Utils.sleep(1000);
-                return;
+                Utils.sleep(2000);
             }
         }
-
-
 
         if (clickContent("看视频赚钱")) {
             Utils.sleep(1500);
@@ -416,15 +410,6 @@ public class AiQiYiAdvertScript extends BaseScript {
         if (!TextUtils.isEmpty(sp_zhuanqian)) {
             point_ZhuanQian = new Gson().fromJson(sp_zhuanqian, Point.class);
         }
-        String sp_tianxiehaoyouyaoqingma = SPUtils.getInstance().getString(Constant.AIQIYI_TIANXIEHAOYOUYAOQINGMA, "");
-        if (!TextUtils.isEmpty(sp_tianxiehaoyouyaoqingma)) {
-            point_TianXieHaoYouYaoQingMa = new Gson().fromJson(sp_tianxiehaoyouyaoqingma, Point.class);
-        }
-
-        String sp_zhantie = SPUtils.getInstance().getString(Constant.AIQIYI_ZHANTIE, "");
-        if (!TextUtils.isEmpty(sp_zhantie)) {
-            point_ZhanTie = new Gson().fromJson(sp_zhantie, Point.class);
-        }
 
         String sp_lijikaiyun = SPUtils.getInstance().getString(Constant.AIQIYI_LIJIKAIYUN, "");
         if (!TextUtils.isEmpty(sp_lijikaiyun)) {
@@ -508,47 +493,6 @@ public class AiQiYiAdvertScript extends BaseScript {
         if (clickContent("我的收益")) return true;
         return false;
     }
-
-
-    private boolean autoInvite() {
-        if (true) {
-            return true;
-        }
-        //[50,718][1150,838]
-        getRecognitionResult();
-        if (null == point_TianXieHaoYouYaoQingMa) {
-            SPUtils.getInstance().put(Constant.AIQIYI_ZHANTIE, "");
-        }
-        if (null != point_ZhanTie) {
-            clickXY(point_ZhanTie.x, point_ZhanTie.y);
-            Utils.sleep(1000);
-
-            clickContent("提交");
-            Utils.sleep(2000);
-            SPUtils.getInstance().put(Constant.AIQIYI_INVITE_SUCCESS, true);
-            CrashReport.postCatchedException(new Throwable("爱奇艺自动填写邀请码成功"));
-            return true;
-        }
-
-        if (null != point_TianXieHaoYouYaoQingMa) {
-            ActionUtils.longPress(point_TianXieHaoYouYaoQingMa.x, point_TianXieHaoYouYaoQingMa.y);
-            Utils.sleep(1500);
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_AI_QI_YI, Constant.PAGE_INVITE));
-        } else {
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_AI_QI_YI, Constant.PAGE_INVITE));
-            return false;
-        }
-        return false;
-    }
-
-//    private void setText(){
-//        AccessibilityNodeInfo textInfo = service.findFirst(AbstractTF.newClassName(ST_EDITTEXT));//假设只有一个edittext
-//        if (textInfo != null) {
-//            Bundle arguments = new Bundle();
-//            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "文本内容");
-//            textInfo.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
-//        }
-//    }
 
     @Override
     protected void doSamePageDeal() {
