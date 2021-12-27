@@ -167,18 +167,12 @@ public class AiQiYiAdvertScript extends BaseScript {
             }
         }
 
-//        if (autoInvite()) {
-//            clickBack();
-//        }
     }
 
     public AccessibilityNodeInfo findEditText() {
         AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
         if (root == null) return null;
         AccessibilityNodeInfo root0 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
-//        AccessibilityNodeInfo root1 = root0.getChild(1);
-//        AccessibilityNodeInfo root2 = root1.getChild(1);
-//        AccessibilityNodeInfo root3 = root2.getChild(1);
         if (null != root0) {
             return root0;
         }
@@ -186,7 +180,7 @@ public class AiQiYiAdvertScript extends BaseScript {
     }
 
     private void doPageId4Things() {
-        scrollUp();
+//        scrollUp();
     }
 
 
@@ -496,6 +490,9 @@ public class AiQiYiAdvertScript extends BaseScript {
 
     @Override
     protected void doSamePageDeal() {
+        if(pageId == 4){
+            return;
+        }
         if (samePageCount > 10 && samePageCount < 13) {
             Utils.sleep(1500);
             clickBack();
