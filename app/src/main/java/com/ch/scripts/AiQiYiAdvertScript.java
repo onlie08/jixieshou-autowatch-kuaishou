@@ -1,7 +1,9 @@
 package com.ch.scripts;
 
 import android.graphics.Point;
+import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
@@ -147,9 +149,43 @@ public class AiQiYiAdvertScript extends BaseScript {
 
 
     private void doPageId5Things() {
-        if (autoInvite()) {
-            clickBack();
+        AccessibilityNodeInfo edittext = findEditText();
+        if(null != edittext){
+            Bundle arguments = new Bundle();
+            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, MyApplication.recommendBean.getCode_aiqiyi());
+            edittext.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+            Utils.sleep(2000);
+
+            if (clickContent("提交")) {
+                Utils.sleep(4000);
+                CrashReport.postCatchedException(new Exception("爱奇艺自动填写邀请码成功"));
+                if(clickTotalMatchContent("去赚钱")){
+                    Utils.sleep(2000);
+                    clickBack();
+                    Utils.sleep(500);
+                    clickBack();
+                }
+
+                return;
+            }
         }
+
+//        if (autoInvite()) {
+//            clickBack();
+//        }
+    }
+
+    public AccessibilityNodeInfo findEditText() {
+        AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
+        if (root == null) return null;
+        AccessibilityNodeInfo root0 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
+//        AccessibilityNodeInfo root1 = root0.getChild(1);
+//        AccessibilityNodeInfo root2 = root1.getChild(1);
+//        AccessibilityNodeInfo root3 = root2.getChild(1);
+        if (null != root0) {
+            return root0;
+        }
+        return null;
     }
 
     private void doPageId4Things() {
@@ -158,7 +194,20 @@ public class AiQiYiAdvertScript extends BaseScript {
 
 
     private void doPageId0Things() {
-        if (clickContent("领金币")) return;
+        if (clickContent("领金币")) {
+            Utils.sleep(1500);
+            if (findContent("明天可再来领取哦")) {
+//                    advertDone4 = true;
+                if (clickContent("人最高赚")) {
+                    Utils.sleep(1500);
+                    clickBack();
+                    Utils.sleep(1500);
+                    clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
+                    return;
+                }
+            }
+            Utils.sleep(1500);
+        }
 //        if (!advertDone4) {
         if (clickContent("赚金币")) {
             Utils.sleep(1500);
@@ -196,14 +245,18 @@ public class AiQiYiAdvertScript extends BaseScript {
             return;
         }
 
-        if (!findContent("已完成")) {
+        if(findContent("新人限时任务")){
+            scrollUp();
+            Utils.sleep(2000);
             if (clickContent("填写邀请码奖励")) {
-                SPUtils.getInstance().put(Constant.AIQIYI_TIANXIEHAOYOUYAOQINGMA, "");
-                SPUtils.getInstance().put(Constant.AIQIYI_ZHANTIE, "");
+//                SPUtils.getInstance().put(Constant.AIQIYI_TIANXIEHAOYOUYAOQINGMA, "");
+//                SPUtils.getInstance().put(Constant.AIQIYI_ZHANTIE, "");
                 Utils.sleep(1000);
                 return;
             }
         }
+
+
 
         if (clickContent("看视频赚钱")) {
             Utils.sleep(1500);
@@ -303,7 +356,7 @@ public class AiQiYiAdvertScript extends BaseScript {
 //        if (findContent("幸运大转盘") && findContent("恭喜")) {
 //            return 3;
 //        }
-        if (findContent("明日可领") || (findContent("活动规则") && findContent("金币"))) {
+        if (findContent("我的金币") || findContent("明日可领") || (findContent("活动规则") && findContent("金币"))) {
             return 1;
         }
 
