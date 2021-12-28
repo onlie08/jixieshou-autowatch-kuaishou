@@ -203,5 +203,29 @@ public class CommonDialogManage {
         });
     }
 
+    /**
+     * 微信扫码看电影
+     *
+     * @param context
+     */
+    public void showMoviAppDilaog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View inflate = LayoutInflater.from(context).inflate(R.layout.dialog_movi_app, null);
+        builder.setView(inflate);
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().getDecorView().setDrawingCacheEnabled(true);
+        dialog.getWindow().getDecorView().buildDrawingCache();
+
+        dialog.show();
+        MaterialButton btn_save = inflate.findViewById(R.id.btn_save);
+        btn_save.setOnClickListener(v -> {
+            View dialogView = dialog.getWindow().getDecorView();
+            Bitmap dialogBitmap = dialogView.getDrawingCache();
+            ImageUtils.save2Album(dialogBitmap, Bitmap.CompressFormat.JPEG);
+            Toast.makeText(context, "二维码已保存本地相册", Toast.LENGTH_LONG).show();
+            dialog.dismiss();
+        });
+    }
+
 
 }
