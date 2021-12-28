@@ -103,6 +103,9 @@ public class DianTaoFastScript extends BaseScript {
         if (findContent("新人任务 元宝换现金")) {
             return 8;
         }
+        if (findContent("滑动浏览")) {
+            return 9;
+        }
         return -1;
     }
 
@@ -168,6 +171,8 @@ public class DianTaoFastScript extends BaseScript {
             doPageId7Things();
         } else if (pageId == 8) {
             doPageId8Things();
+        }else if (pageId == 9) {
+            doPageId9Things();
         } else {
             if (samePageCount >= 2) {
                 clickXY(point_DianTao.x, point_DianTao.y);
@@ -175,6 +180,10 @@ public class DianTaoFastScript extends BaseScript {
             Utils.sleep(1500);
             clickBack();
         }
+    }
+
+    private void doPageId9Things() {
+        scrollUpSlow();
     }
 
     /**
@@ -206,8 +215,8 @@ public class DianTaoFastScript extends BaseScript {
             if (clickContent("去看直播")) return;
             if (clickContent("体力不足，去获得体力")) return;
         }
-        if (null == point_LingTiLi) {
 
+        if (null == point_LingTiLi) {
             NodeInfo nodeInfo1 = findByText("体力+");
             if (null != nodeInfo1) {
                 point_LingTiLi = new Point(nodeInfo1.getRect().centerX(), nodeInfo1.getRect().centerY() + SizeUtils.dp2px(20));
@@ -225,24 +234,27 @@ public class DianTaoFastScript extends BaseScript {
                 return;
             }
         }
-        if (clickId("sign-panel-btn")) {
-            Utils.sleep(1000);
-        }
-        clickXY(point_DaGong.x, point_DaGong.y);
-        Utils.sleep(2000);
-        if (clickTotalMatchContent("开始打工")) {
-            Utils.sleep(2000);
+
+        if (clickContent("去浏览")) {
             return;
         }
-
-
         if (clickContent("去观看")) {
             return;
         }
         if (clickContent("看直播")) {
             return;
         }
+        if (clickId("sign-panel-btn")) {
+            Utils.sleep(1000);
+        }
         if (clickContent("查看更多任务")) {
+            return;
+        }
+
+        clickXY(point_DaGong.x, point_DaGong.y);
+        Utils.sleep(2000);
+        if (clickTotalMatchContent("开始打工")) {
+            Utils.sleep(2000);
             return;
         }
 
@@ -601,37 +613,6 @@ public class DianTaoFastScript extends BaseScript {
         if (clickContent("关闭")) return true;
         if (clickContent("重试")) return true;
         if (clickContent("取消")) return true;
-        return false;
-    }
-
-
-    private boolean autoInvite() {
-        //[50,718][1150,838]
-        if (true) {
-            return true;
-        }
-        getRecognitionResult();
-        if (null == point_ShuruYaoQingMa) {
-            SPUtils.getInstance().put(Constant.DIANTAO_ZHANTIE, "");
-        }
-        if (null != point_ZhanTie) {
-            clickXY(point_ZhanTie.x, point_ZhanTie.y);
-            Utils.sleep(1000);
-
-            clickContent("提交 去抽奖");
-            Utils.sleep(2000);
-            CrashReport.postCatchedException(new Throwable("点淘自动填写邀请码成功"));
-            return true;
-        }
-
-        if (null != point_ShuruYaoQingMa) {
-            ActionUtils.longPress(point_ShuruYaoQingMa.x, point_ShuruYaoQingMa.y);
-            Utils.sleep(1500);
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_DIAN_TAO, Constant.PAGE_INVITE));
-        } else {
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_DIAN_TAO, Constant.PAGE_INVITE));
-            return false;
-        }
         return false;
     }
 
