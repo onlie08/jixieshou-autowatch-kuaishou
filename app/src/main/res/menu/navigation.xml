@@ -11,7 +11,7 @@
         android:id="@+id/navigation_coupon"
         android:icon="@drawable/icon_coupon"
         android:iconTint="@drawable/icon_coupon"
-        android:title="优惠券" />
+        android:title="福利" />
 
     <item
         android:id="@+id/navigation_dashboard"

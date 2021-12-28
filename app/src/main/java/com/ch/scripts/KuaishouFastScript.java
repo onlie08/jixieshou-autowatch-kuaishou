@@ -328,6 +328,7 @@ public class KuaishouFastScript extends BaseScript {
      * 弹出框里点击看广告
      */
     private boolean clickAdvert() {
+        if (clickContent("再看一个")) return true;
         if (clickContent("视频再赚")) return true;
         if (clickContent("视频就赚")) return true;
         if (clickContent("看视频最高得")) return true;

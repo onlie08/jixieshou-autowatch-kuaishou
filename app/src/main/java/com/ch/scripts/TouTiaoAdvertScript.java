@@ -225,22 +225,6 @@ public class TouTiaoAdvertScript extends BaseScript {
             clickContent("0评论");
         }
 
-
-//        NodeInfo nodeInfo = findById("agp");
-////        NodeInfo nodeInfo = findByText("0评论");
-//        if(null != nodeInfo){
-//            LogUtils.d(TAG,"nodeInfo.getChildCount():"+nodeInfo.getChildCount());
-//            if(nodeInfo.getChildCount()>2){
-////                scrollUpSlow();
-//                return;
-//            }else {
-//                clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY());
-//                return;
-//            }
-//        }
-
-//        if (clickContent("0评论")) return;
-
         if (clickContent("继续阅读")) return;
 
 
@@ -251,14 +235,8 @@ public class TouTiaoAdvertScript extends BaseScript {
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
         if (samePageCount >= 2) {
-//            if (clickContent("视频再领")) Utils.sleep(1500);
-//            if (clickContent("我知道了")) return;
-//            if (clickContent("打开签到提醒")) return;
             clickXY(point_ShouYe.x, point_ShouYe.y);
         }
-//        if (samePageCount >= 3) {
-//            clickXY(point_ShouYe.x, point_ShouYe.y);
-//        }
 
         if(clickTotalMatchContent("开宝箱得金币")){
             Utils.sleep(4000);
@@ -284,22 +262,6 @@ public class TouTiaoAdvertScript extends BaseScript {
                 return;
             }
         }
-
-//        if(findContent("点击领取")){
-//            Utils.sleep(3000);
-//        }
-//        if(findContent("新人福利")){
-//            NodeInfo nodeInfo = findByText("立即领取今日福利");
-//            if(null != nodeInfo){
-//                clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(80),nodeInfo.getRect().centerY());
-//                Utils.sleep(2000);
-//                NodeInfo nodeInfo1 = findByText("+0.3元");
-//                if(null != nodeInfo1){
-//                    clickXY(MyApplication.getScreenWidth()/2,nodeInfo1.getRect().centerY()+SizeUtils.dp2px(70));
-//                    Utils.sleep(2000);
-//                }
-//            }
-//        }
         scrollUp();
 
     }
@@ -320,7 +282,8 @@ public class TouTiaoAdvertScript extends BaseScript {
         if (null != nodeInfo) {
             LogUtils.d(TAG, "nodeInfo.getChildCount():" + nodeInfo.getChildCount());
             if (nodeInfo.getChildCount() > 3) {
-                clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(80), nodeInfo.getRect().top + SizeUtils.dp2px(100));
+                clickXY(SizeUtils.dp2px(80), nodeInfo.getRect().top + SizeUtils.dp2px(100));
+//                clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(80), nodeInfo.getRect().top + SizeUtils.dp2px(100));
                 return;
             } else {
                 clickBack();
@@ -362,7 +325,7 @@ public class TouTiaoAdvertScript extends BaseScript {
         if (findContent("频道管理") && findContent("发布")) {
             return 0;
         }
-        if ((findContent("新人福利") ||findContent("日常任务") || findContent("看广告赚金币")) && findContent("金币")) {
+        if ((findContent("每日挑战") ||findContent("新人福利") ||findContent("日常任务") || findContent("看广告赚金币")) && findContent("金币")) {
             return 1;
         }
         if (findContent("搜索") || findContent("更多操作")) {

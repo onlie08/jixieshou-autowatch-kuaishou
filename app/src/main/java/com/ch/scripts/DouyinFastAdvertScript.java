@@ -442,9 +442,6 @@ public class DouyinFastAdvertScript extends BaseScript {
         AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
         if (root == null) return null;
         AccessibilityNodeInfo root0 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
-//        AccessibilityNodeInfo root1 = root0.getChild(0);
-//        AccessibilityNodeInfo root2 = root1.getChild(1);
-//        AccessibilityNodeInfo root3 = root2.getChild(1);
         if (null != root0) {
             return root0;
         }

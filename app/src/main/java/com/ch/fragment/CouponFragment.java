@@ -108,8 +108,7 @@ public class CouponFragment extends Fragment {
         Uri uri = null;
         switch (type) {
             case 6:
-                uri = Uri.parse("taobao://main.aweme.sdk.com");
-//                uri = Uri.parse("snssdk1128://user/profile/1327807758079032");
+                uri = Uri.parse("http://dpurl.cn/AsqYbGSz");
 //                uri = Uri.parse("https://promotion-waimai.meituan.com/invite/r2x/coupon/?inviteCode=NnOIp-QOs8SiYF1dcSlL5r8phPrCf6qkH7evMyjIoureqol0OXXaopfjjblE0yPgVDQI9oO7zzULG0YhAlZWjSBHCU5Sg8wPJ54uw3IJOTKxyYNrSDuyNENpsOQvFoGQVLxrwXj_hojaGSHcn87IUTjane8UmtDBPyRXIs_GLNk&lq_source=2");
                 break;
             case 7:

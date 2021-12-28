@@ -108,40 +108,46 @@ public class MainPageFragment extends Fragment {
     }
 
     private void initView(View view) {
-        view.findViewById(R.id.tv_describe_one_info).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.tv_describe).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 playInfo(1);
             }
         });
-
-        view.findViewById(R.id.tv_describe_two_info).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                playInfo(2);
-            }
-        });
-
-        view.findViewById(R.id.tv_describe_thire_info).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                playInfo(3);
-            }
-        });
-
-        view.findViewById(R.id.tv_describe_four_info).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CommonDialogManage.getSingleton().showScreemReasonDialog(getActivity());
-            }
-        });
-
-        view.findViewById(R.id.tv_describe_end_info).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PackageUtils.openQQ(getActivity());
-            }
-        });
+//        view.findViewById(R.id.tv_describe_one_info).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                playInfo(1);
+//            }
+//        });
+//
+//        view.findViewById(R.id.tv_describe_two_info).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                playInfo(2);
+//            }
+//        });
+//
+//        view.findViewById(R.id.tv_describe_thire_info).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                playInfo(3);
+//            }
+//        });
+//
+//        view.findViewById(R.id.tv_describe_four_info).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                CommonDialogManage.getSingleton().showScreemReasonDialog(getActivity());
+//            }
+//        });
+//
+//        view.findViewById(R.id.tv_describe_end_info).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                PackageUtils.openQQ(getActivity());
+//            }
+//        });
 
         view.findViewById(R.id.f_view3).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -478,7 +484,7 @@ public class MainPageFragment extends Fragment {
                 uri = Uri.parse("https://v.kuaishouapp.com/s/kMLqIurI");
                 break;
             case 6:
-                uri = Uri.parse("http://dpurl.cn/AsqYbGSz");
+                uri = Uri.parse("https://promotion-waimai.meituan.com/invite/r2x/coupon/?inviteCode=NnOIp-QOs8SiYF1dcSlL5r8phPrCf6qkH7evMyjIoureqol0OXXaopfjjblE0yPgVDQI9oO7zzULG0YhAlZWjSBHCU5Sg8wPJ54uw3IJOTKxyYNrSDuyNENpsOQvFoGQVLxrwXj_hojaGSHcn87IUTjane8UmtDBPyRXIs_GLNk&lq_source=2");
                 break;
             case 7:
                 uri = Uri.parse("https://h5.ele.me/ant/qrcode2?open_type=miniapp&url_id=35&inviterId=3b72f5fa&actId=1&_ltracker_f=hjb_app_jgwzfb&chInfo=ch_share__chsub_CopyLink&apshareid=7816ec01-60af-46db-8640-4f8ccf3b4b7d");
