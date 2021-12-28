@@ -1,5 +1,6 @@
 package com.ch.fragment;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.ch.common.CommonDialogManage;
 import com.ch.jixieshou.R;
 
@@ -15,7 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class CouponFragment extends Fragment {
-
+    private String TAG = this.getClass().getSimpleName();
     public static CouponFragment newInstance() {
         Bundle args = new Bundle();
         CouponFragment fragment = new CouponFragment();
@@ -54,11 +56,28 @@ public class CouponFragment extends Fragment {
                 playInfo(7);
             }
         });
+        view.findViewById(R.id.f_view3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playInfo(8);
+            }
+        });
+        view.findViewById(R.id.f_view4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playInfo(9);
+            }
+        });
         view.findViewById(R.id.img_chongzhi).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CommonDialogManage.getSingleton().showChongzhiAppDilaog(getActivity());
-//                playInfo(8);
+            }
+        });
+        view.findViewById(R.id.img_movi).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CommonDialogManage.getSingleton().showMoviAppDilaog(getActivity());
             }
         });
     }
@@ -67,10 +86,31 @@ public class CouponFragment extends Fragment {
     }
 
     private void playInfo(int type) {
+
+//        Intent intent=new Intent();
+//参数是包名，类全限定名，注意直接用类名不行
+//        ComponentName cn=new ComponentName("com.ss.android.ugc.aweme.lite",
+//                "com.ss.android.ugc.aweme.wxapi.WXEntryActivity");
+//        intent.setComponent(cn);
+
+//        try {
+//            Intent intent = new Intent();
+//            intent.setAction("com.ss.android.ugc.aweme.lite.luckydog.DataUnionActivity");
+//            intent.addCategory("android.intent.category.DEFAULT");
+//            intent.setPackage("com.ss.android.ugc.aweme.lite");
+//            startActivity(intent);
+//        }catch (Exception e){
+//            LogUtils.e(TAG,e.getMessage());
+//        }
+
+
+
         Uri uri = null;
         switch (type) {
             case 6:
-                uri = Uri.parse("http://dpurl.cn/AsqYbGSz");
+                uri = Uri.parse("taobao://main.aweme.sdk.com");
+//                uri = Uri.parse("snssdk1128://user/profile/1327807758079032");
+//                uri = Uri.parse("https://promotion-waimai.meituan.com/invite/r2x/coupon/?inviteCode=NnOIp-QOs8SiYF1dcSlL5r8phPrCf6qkH7evMyjIoureqol0OXXaopfjjblE0yPgVDQI9oO7zzULG0YhAlZWjSBHCU5Sg8wPJ54uw3IJOTKxyYNrSDuyNENpsOQvFoGQVLxrwXj_hojaGSHcn87IUTjane8UmtDBPyRXIs_GLNk&lq_source=2");
                 break;
             case 7:
                 uri = Uri.parse("https://h5.ele.me/ant/qrcode2?open_type=miniapp&url_id=35&inviterId=3b72f5fa&actId=1&_ltracker_f=hjb_app_jgwzfb&chInfo=ch_share__chsub_CopyLink&apshareid=7816ec01-60af-46db-8640-4f8ccf3b4b7d");
@@ -82,9 +122,6 @@ public class CouponFragment extends Fragment {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(uri);
         startActivity(intent);
-
-//        Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("weixin://dl/businessWebview/link/?appid=wx10520854a4f9c525&url=baidu.com"));
-//        startActivity(intent);
 
     }
 }
