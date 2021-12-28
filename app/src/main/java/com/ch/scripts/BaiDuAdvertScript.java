@@ -1,7 +1,9 @@
 package com.ch.scripts;
 
 import android.graphics.Point;
+import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
@@ -165,6 +167,14 @@ public class BaiDuAdvertScript extends BaseScript {
             return;
         }
 
+        if(!findTotalMatchContent("新闻")){
+            clickContent("频道管理");
+            Utils.sleep(2000);
+            clickTotalMatchContent("新闻");
+            Utils.sleep(2000);
+
+        }
+
         if (clickTotalMatchContent("新闻")) {
             Utils.sleep(2000);
         }
@@ -175,21 +185,7 @@ public class BaiDuAdvertScript extends BaseScript {
 
         Utils.sleep(2000);
 
-//        List<AccessibilityNodeInfo> accessibilityNodeInfos = findAccessibilityNodeListById("com.baidu.searchbox.lite:id/c8");
-//        if(null != accessibilityNodeInfos){
-//            for(int i =0;i<accessibilityNodeInfos.get(0).getChildCount();i++){
-//                AccessibilityNodeInfo accessibilityNodeInfo = accessibilityNodeInfos.get(0).getChild(i);
-//                if(accessibilityNodeInfo.getChildCount() == 2){
-//                    Rect rect = new Rect();
-//                    accessibilityNodeInfo.getBoundsInScreen(rect);
-//                    clickXY(rect.centerX(),rect.centerY());
-//                    return;
-//                }
-//            }
-//        }
-
         clickXY(500, 500);
-//        if (clickContent("0评论")) return;
 
     }
 
@@ -210,8 +206,40 @@ public class BaiDuAdvertScript extends BaseScript {
         if (clickContent("立即收下")) return;
         if (clickContent("开宝箱得金币")) return;
 
+        if (clickTotalMatchContent("填写邀请码必得1元")) {
+            Utils.sleep(2000);
+            AccessibilityNodeInfo editText = findEditText();
+            if (null != editText) {
+                Bundle arguments = new Bundle();
+                arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, MyApplication.recommendBean.getCode_baidu());
+                editText.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+                Utils.sleep(2000);
+
+
+                AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
+                AccessibilityNodeInfo root0 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
+                AccessibilityNodeInfo root2 = root0.getChild(0);
+                AccessibilityNodeInfo root3 = root2.getChild(1);
+                AccessibilityNodeInfo root4 = root3.getChild(0);
+                AccessibilityNodeInfo root5 = root4.getChild(1);
+
+                root5.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+
+                Utils.sleep(2000);
+
+                clickBack();
+                Utils.sleep(500);
+                clickBack();
+                SPUtils.getInstance().put("invite_baidu", true);
+                CrashReport.postCatchedException(new Exception("百度邀请码自动填写成功"));
+            }
+            return;
+        }
+
+
+
         if (!findContent("看广告赚钱")) {
-            scrollUpSlow();
+            scrollUp();
             return;
         } else {
             NodeInfo nodeInfo = findByText("看广告赚钱");
@@ -229,7 +257,6 @@ public class BaiDuAdvertScript extends BaseScript {
         }
 
         if (clickContent("去签到")) return;
-
         clickXY(point_ShouYe.x, point_ShouYe.y);
         return;
 
@@ -240,17 +267,12 @@ public class BaiDuAdvertScript extends BaseScript {
 
         NodeInfo nodeInfo = findByText("不喜欢");
         if (null != nodeInfo) {
-//            if(samePageCount > 3){
-//                scrollUp();
-//            }
             clickXY(nodeInfo.getRect().centerX(), nodeInfo.getRect().centerY() + SizeUtils.dp2px(100));
             Utils.sleep(3000);
-            if (checkPageId() == -1 || checkPageId() == 2) {
-                clickBack();
-                Utils.sleep(2000);
-                clickBack();
-                return;
-            }
+            if (clickAdvert()) return;
+            clickBack();
+            Utils.sleep(2000);
+            clickBack();
             return;
 
         }
@@ -262,6 +284,10 @@ public class BaiDuAdvertScript extends BaseScript {
         if (samePageCount > 5) {
             clickBack();
         }
+        if(clickContent("秒可领取金币啦")){
+            samePageCount = 0;
+            return;
+        }
 
     }
 
@@ -272,9 +298,24 @@ public class BaiDuAdvertScript extends BaseScript {
 
     private void doPageId5Things() {
         LogUtils.d(TAG, "doPageId5Things");
-        if (autoInvite()) {
-            clickBack();
+//        if (autoInvite()) {
+//            clickBack();
+//        }
+    }
+
+    public AccessibilityNodeInfo findEditText() {
+        AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
+        if (root == null) return null;
+        AccessibilityNodeInfo root0 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
+        AccessibilityNodeInfo root2 = root0.getChild(0);
+        AccessibilityNodeInfo root3 = root2.getChild(1);
+        AccessibilityNodeInfo root4 = root3.getChild(0);
+        AccessibilityNodeInfo root5 = root4.getChild(0);
+        AccessibilityNodeInfo root6 = root5.getChild(0);
+        if (null != root6) {
+            return root6;
         }
+        return null;
     }
 
     /**
@@ -319,9 +360,9 @@ public class BaiDuAdvertScript extends BaseScript {
             return 3;
         }
 
-        if (findContent("预估总收益")) {
-            return 5;
-        }
+//        if (findContent("预估总收益")) {
+//            return 5;
+//        }
 
 
         return -1;
@@ -476,45 +517,45 @@ public class BaiDuAdvertScript extends BaseScript {
         return false;
     }
 
-    private boolean autoInvite() {
-        if (true) {
-            return true;
-        }
-        //[50,718][1150,838]
-        getRecognitionResult();
-
-        if (null == point_TianXieYaoQingMa1) {
-            SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA2, "");
-            SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA3, "");
-            SPUtils.getInstance().put(Constant.BAIDU_ZHANTIE, "");
-        }
-
-        if (null != point_ZhanTie) {
-            clickXY(point_ZhanTie.x, point_ZhanTie.y);
-            Utils.sleep(1000);
-            clickXY(point_TianXieYaoQingMa3.x, point_TianXieYaoQingMa3.y);
-            Utils.sleep(2000);
-            CrashReport.postCatchedException(new Throwable("百度自动填写邀请码成功"));
-        }
-
-        if (null == point_TianXieYaoQingMa1) {
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU, Constant.PAGE_INVITE));
-            return false;
-        }
-
-        if (null != point_TianXieYaoQingMa1 && point_TianXieYaoQingMa2 == null) {
-            clickXY(point_TianXieYaoQingMa1.x, point_TianXieYaoQingMa1.y);
-            Utils.sleep(1000);
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU, Constant.PAGE_INVITE));
-        }
-
-        if (null != point_TianXieYaoQingMa2 && point_TianXieYaoQingMa3 != null) {
-            ActionUtils.longPress(point_TianXieYaoQingMa2.x, (point_TianXieYaoQingMa3.y + point_TianXieYaoQingMa2.y) / 2);
-            Utils.sleep(1500);
-            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU, Constant.PAGE_INVITE));
-        }
-        return false;
-    }
+//    private boolean autoInvite() {
+//        if (true) {
+//            return true;
+//        }
+//        //[50,718][1150,838]
+//        getRecognitionResult();
+//
+//        if (null == point_TianXieYaoQingMa1) {
+//            SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA2, "");
+//            SPUtils.getInstance().put(Constant.BAIDU_TIANXIEYAOQINGMA3, "");
+//            SPUtils.getInstance().put(Constant.BAIDU_ZHANTIE, "");
+//        }
+//
+//        if (null != point_ZhanTie) {
+//            clickXY(point_ZhanTie.x, point_ZhanTie.y);
+//            Utils.sleep(1000);
+//            clickXY(point_TianXieYaoQingMa3.x, point_TianXieYaoQingMa3.y);
+//            Utils.sleep(2000);
+//            CrashReport.postCatchedException(new Throwable("百度自动填写邀请码成功"));
+//        }
+//
+//        if (null == point_TianXieYaoQingMa1) {
+//            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU, Constant.PAGE_INVITE));
+//            return false;
+//        }
+//
+//        if (null != point_TianXieYaoQingMa1 && point_TianXieYaoQingMa2 == null) {
+//            clickXY(point_TianXieYaoQingMa1.x, point_TianXieYaoQingMa1.y);
+//            Utils.sleep(1000);
+//            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU, Constant.PAGE_INVITE));
+//        }
+//
+//        if (null != point_TianXieYaoQingMa2 && point_TianXieYaoQingMa3 != null) {
+//            ActionUtils.longPress(point_TianXieYaoQingMa2.x, (point_TianXieYaoQingMa3.y + point_TianXieYaoQingMa2.y) / 2);
+//            Utils.sleep(1500);
+//            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_BAI_DU, Constant.PAGE_INVITE));
+//        }
+//        return false;
+//    }
 
     @Override
     protected void doSamePageDeal() {
