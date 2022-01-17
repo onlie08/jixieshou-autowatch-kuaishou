@@ -168,7 +168,7 @@ public class TouTiaoAdvertScript extends BaseScript {
             dealNoResponse2();
         }
         if (samePageCount > 15) {
-            doRandomClick();
+            tryClickDialog();
         }
 
         if (samePageCount > 35) {
@@ -244,6 +244,9 @@ public class TouTiaoAdvertScript extends BaseScript {
                 Utils.sleep(2000);
             }else {
                 tryClickDialog();
+                Utils.sleep(1000);
+                if(clickTotalMatchContent("直接领取"))Utils.sleep(2000);
+
             }
         }
 

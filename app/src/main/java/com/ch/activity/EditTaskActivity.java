@@ -25,6 +25,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import cn.leancloud.AVObject;
 
 /**
  * 新建或编辑任务界面
@@ -165,11 +166,11 @@ public class EditTaskActivity extends AppCompatActivity {
 
 //        AVObject testObject = new AVObject("task_list");
 //        AppInfo appInfo = new AppInfo();
-//        appInfo.setName("淘特");
-//        appInfo.setAppName("淘特");
+//        appInfo.setName("丰声打开");
+//        appInfo.setAppName("丰声打开");
 //        appInfo.setFree(true);
 //        appInfo.setPeriod(5l);
-//        appInfo.setPkgName(Constant.PN_TAO_TE);
+//        appInfo.setPkgName(Constant.PN_FENG_SHENG);
 //        testObject.put("name", appInfo.getName());
 //        testObject.put("isFree", appInfo.isFree());
 //        testObject.put("period", appInfo.getPeriod());

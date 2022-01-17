@@ -383,7 +383,7 @@ public class HuoShanAdvertScript extends BaseScript {
         }
 
         if (samePageCount > 15) {
-            doRandomClick();
+            tryClickDialog();
         }
         if (samePageCount > 30) {
             clickBack();

@@ -63,6 +63,7 @@ public class MyApplication extends Application {
     private MainActivity mainActivity;
     private boolean isStarted = false;
 
+
     @Override
     public void onTerminate() {
         super.onTerminate();

@@ -22,6 +22,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RecommendCodeManage {
     private String TAG = this.getClass().getSimpleName();
+    private RecommendBean parentCode;
 
     private volatile static RecommendCodeManage instance; //声明成 volatile
 
@@ -36,7 +37,42 @@ public class RecommendCodeManage {
         return instance;
     }
 
+    public RecommendBean getParentCode() {
+        return parentCode;
+    }
+
+    public void setParentCode(RecommendBean parentCode) {
+        this.parentCode = parentCode;
+    }
+
     public void saveMyRecommendCode(String code) {
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                + File.separator + "01JianDouZi" + File.separator + "code.data");
+        if (file.exists()) {
+            file.delete();
+        }
+        try {
+            FileUtils.write(file, code);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getMyCode() {
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                + File.separator + "01JianDouZi" + File.separator + "code.data");
+        if (null == file || !file.exists()) {
+            return "";
+        }
+        try {
+            return FileUtils.readFileToString(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public void saveMyCode(String code) {
         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
                 + File.separator + "01JianDouZi" + File.separator + "code.data");
         if (file.exists()) {
@@ -89,6 +125,9 @@ public class RecommendCodeManage {
     }
 
     private RecommendBean dealData(RecommendBean recommendBean) {
+        if(null == recommendBean){
+            return initRecommendBean();
+        }
         if (TextUtils.isEmpty(recommendBean.getCode_aiqiyi())) {
             recommendBean.setCode_aiqiyi("2883663620");
         }
@@ -164,6 +203,10 @@ public class RecommendCodeManage {
                         // todo 就是 objectId 为 582570f38ac247004f39c24b 的 Todo 实例
                         String code = todo.getString("code");
                         String apps = todo.getString("apps");
+                        if(TextUtils.isEmpty(apps)){
+                            ToastUtils.showLong("未找到邀请码");
+                            return;
+                        }
                         RecommendBean recommendBean = new Gson().fromJson(apps, RecommendBean.class);
                         saveRecommendBean(new Gson().toJson(recommendBean));
 

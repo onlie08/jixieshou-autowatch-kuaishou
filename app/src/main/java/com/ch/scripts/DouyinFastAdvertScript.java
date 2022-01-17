@@ -192,7 +192,7 @@ public class DouyinFastAdvertScript extends BaseScript {
         if (samePageCount > 4) {
             scrollDown();
             Utils.sleep(2000);
-            doRandomClick();
+            tryClickDialog();
         }
 //        if(clickContent("开宝箱得金币"))Utils.sleep(2000);
 
@@ -251,6 +251,7 @@ public class DouyinFastAdvertScript extends BaseScript {
         if (findContent("明日再来")) {
             setTodayDone(true);
             CrashReport.postCatchedException(new Exception("抖音极速版今日任务完成"));
+            skipTask();
         }
 //        if (!findContent("去逛街")) {
 //            scrollUpSlow();
@@ -434,7 +435,7 @@ public class DouyinFastAdvertScript extends BaseScript {
         }
 
         if (samePageCount > 15) {
-            doRandomClick();
+            tryClickDialog();
         }
     }
 

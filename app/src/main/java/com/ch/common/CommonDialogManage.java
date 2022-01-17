@@ -7,12 +7,18 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.ImageUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.ch.common.leancloud.SetParentCodeTask;
+import com.ch.core.utils.Constant;
 import com.ch.jixieshou.R;
 import com.google.android.material.button.MaterialButton;
 
@@ -40,6 +46,8 @@ public class CommonDialogManage {
         builder.setView(inflate);
         AlertDialog dialog = builder.create();
         dialog.show();
+        TextView tv_title = inflate.findViewById(R.id.tv_title);
+        tv_title.setText("捡豆子App下载 邀请码:"+Constant.user);
         MaterialButton btnColse = inflate.findViewById(R.id.btn_colse);
         MaterialButton btn_copy = inflate.findViewById(R.id.btn_copy);
         btnColse.setOnClickListener(v -> dialog.dismiss());
@@ -137,8 +145,21 @@ public class CommonDialogManage {
         EditText edit_input = inflate.findViewById(R.id.edit_input);
         MaterialButton btn_send = inflate.findViewById(R.id.btn_send);
         btn_send.setOnClickListener(v -> {
+            if(TextUtils.isEmpty(edit_input.getText().toString().trim())){
+                ToastUtils.showLong("请填写好友邀请码");
+                return;
+            }
+            if(edit_input.getText().toString().trim().length() <8){
+                ToastUtils.showLong("请填写8位邀请码");
+                return;
+            }
+            if(edit_input.getText().toString().trim().equals(Constant.user)){
+                ToastUtils.showLong("不能填写自己的邀请码");
+                return;
+            }
             dialog.dismiss();
-            RecommendCodeManage.getSingleton().getRecommendBean(edit_input.getText().toString());
+            new SetParentCodeTask(context).execute(edit_input.getText().toString().trim());
+//            RecommendCodeManage.getSingleton().getRecommendBean(edit_input.getText().toString());
         });
     }
 

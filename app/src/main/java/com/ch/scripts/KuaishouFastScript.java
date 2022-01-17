@@ -234,6 +234,7 @@ public class KuaishouFastScript extends BaseScript {
         if (findContent("明天再来") && findContent("明日再来")) {
             setTodayDone(true);
             CrashReport.postCatchedException(new Exception("快手极速版今日任务完成"));
+            skipTask();
         }
         clickBack();
 
@@ -388,7 +389,7 @@ public class KuaishouFastScript extends BaseScript {
                 MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 Utils.sleep(1500);
             }
-            doRandomClick();
+            tryClickDialog();
         }
         if (samePageCount > 30) {
             if (BuildConfig.DEBUG) {

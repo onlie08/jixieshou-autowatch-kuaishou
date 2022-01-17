@@ -130,6 +130,7 @@ public class JingDongAdvertScript extends BaseScript {
         if (samePageCount > 3) {
             setTodayDone(true);
             CrashReport.postCatchedException(new Exception("京东今日任务完成"));
+            skipTask();
         }
 
         if (clickContent("逛商品赚金币")) Utils.sleep(3000);
@@ -341,7 +342,7 @@ public class JingDongAdvertScript extends BaseScript {
         }
 
         if (samePageCount > 15) {
-            doRandomClick();
+            tryClickDialog();
         }
         if (samePageCount > 30) {
             clickBack();

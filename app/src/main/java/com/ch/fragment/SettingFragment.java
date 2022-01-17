@@ -2,6 +2,7 @@ package com.ch.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,10 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.ch.activity.HelpDocumentActivity;
 import com.ch.activity.SetRecommendCodeActivity;
+import com.ch.application.MyApplication;
 import com.ch.common.CommonDialogManage;
 import com.ch.common.PackageUtils;
+import com.ch.core.utils.Constant;
 import com.ch.core.utils.SFUpdaterUtils;
 import com.ch.jixieshou.R;
 import com.google.android.material.button.MaterialButton;
@@ -68,13 +71,23 @@ public class SettingFragment extends Fragment {
             getActivity().startActivity(intent);
         });
         view.findViewById(R.id.btn_recommend).setOnClickListener(view16 -> {
+            if(!TextUtils.isEmpty(Constant.parentCode)){
+                SPUtils.getInstance().put("parentCode",Constant.parentCode);
+                ToastUtils.showLong("已填写好友邀请码："+Constant.parentCode);
+                return;
+            }
             CommonDialogManage.getSingleton().showRecommendDialog(getActivity());
         });
+//        view.findViewById(R.id.btn_recommend).setOnLongClickListener(view16 -> {
+//            Intent intent = new Intent();
+//            intent.setClass(getActivity(), SetRecommendCodeActivity.class);
+//            startActivity(intent);
+//            return false;
+//        });
         view.findViewById(R.id.btn_set_code).setOnClickListener(view16 -> {
-            Intent intent = new Intent();
-            intent.setClass(getActivity(), SetRecommendCodeActivity.class);
-            startActivity(intent);
+            CommonDialogManage.getSingleton().showShareAppDilaog(getActivity());
         });
+
 
 
     }

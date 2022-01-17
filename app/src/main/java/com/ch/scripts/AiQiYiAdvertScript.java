@@ -503,7 +503,7 @@ public class AiQiYiAdvertScript extends BaseScript {
         }
 
         if (samePageCount > 15) {
-            doRandomClick();
+            tryClickDialog();
         }
 
     }

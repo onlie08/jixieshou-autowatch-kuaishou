@@ -235,13 +235,13 @@ public class DianTaoFastScript extends BaseScript {
             }
         }
 
-        if (clickContent("去浏览")) {
-            return;
-        }
         if (clickContent("去观看")) {
             return;
         }
         if (clickContent("看直播")) {
+            return;
+        }
+        if (clickContent("去浏览")) {
             return;
         }
         if (clickId("sign-panel-btn")) {
@@ -673,7 +673,7 @@ public class DianTaoFastScript extends BaseScript {
         }
 
         if (samePageCount > 15) {
-            doRandomClick();
+            tryClickDialog();
         }
     }
 }

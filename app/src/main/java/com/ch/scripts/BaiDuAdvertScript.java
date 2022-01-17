@@ -281,12 +281,13 @@ public class BaiDuAdvertScript extends BaseScript {
 
     private void doPageId3Things() {
         LogUtils.d(TAG, "doPageId3Things");
-        if (samePageCount > 5) {
-            clickBack();
-        }
+
         if(clickContent("秒可领取金币啦")){
             samePageCount = 0;
             return;
+        }
+        if (samePageCount > 5) {
+            clickBack();
         }
 
     }
@@ -357,6 +358,13 @@ public class BaiDuAdvertScript extends BaseScript {
         }
 
         if (findContent("s后得金币")) {
+            return 3;
+        }
+
+        if (findContent("立即下载")) {
+            return 3;
+        }
+        if (findContent("立即打开")) {
             return 3;
         }
 
@@ -566,11 +574,11 @@ public class BaiDuAdvertScript extends BaseScript {
 
         if (samePageCount > 12 && samePageCount < 16) {
             dealNoResponse2();
-
         }
 
         if (samePageCount > 15) {
-            doRandomClick();
+            tryClickDialog();
+//            doRandomClick();
         }
         if (samePageCount > 30) {
             clickBack();

@@ -120,6 +120,7 @@ public class TaoTeScript extends BaseScript {
     boolean task3 = false;
     boolean task4 = false;
     boolean task5 = false;
+    boolean task6 = false;
 
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
@@ -189,16 +190,25 @@ public class TaoTeScript extends BaseScript {
                 return;
             }
         }
+        if (!task6) {
+            if (clickContent("逛特价好物")) {
+                doScan(16);
+                Utils.sleep(3000);
+                task6 = true;
+                return;
+            }
+        }
         if (checkDone()) {
             setTodayDone(true);
             CrashReport.postCatchedException(new Exception("淘特今日任务完成"));
+            skipTask();
             return;
         }
         scrollUpSlow();
     }
 
     private boolean checkDone() {
-        if (task1 && task2 && task3 && task4 && task5) {
+        if (task1 && task2 && task3 && task4 && task5&& task6) {
             return true;
         }
         return false;
@@ -461,7 +471,7 @@ public class TaoTeScript extends BaseScript {
         }
 
         if (samePageCount > 15) {
-            doRandomClick();
+            tryClickDialog();
         }
         if (samePageCount > 30) {
             clickBack();
