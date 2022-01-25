@@ -15,6 +15,8 @@ import com.ch.core.utils.Logger;
 import com.ch.core.utils.Utils;
 import com.ch.model.AppInfo;
 
+import java.util.List;
+import java.util.LongSummaryStatistics;
 import java.util.Random;
 
 public abstract class BaseTimingScript implements IScript {
@@ -95,6 +97,10 @@ public abstract class BaseTimingScript implements IScript {
         return FindByText.find(text);
     }
 
+    protected List<NodeInfo> findNodeInfosByText(String text) {
+        return FindByText.findNodeInfos(text);
+    }
+
     /**
      * 获取图像识别的结果
      *
@@ -150,6 +156,20 @@ public abstract class BaseTimingScript implements IScript {
             return true;
         }
         return false;
+    }
+
+    /**
+     * findContent
+     *
+     * @return
+     */
+    public List<NodeInfo> findContents(String content) {
+        List<NodeInfo> nodeInfo = findNodeInfosByText(content);
+        if (nodeInfo != null) {
+            LogUtils.dTag(BASETAG, "findContent: " + content);
+            return nodeInfo;
+        }
+        return null;
     }
 
     /**

@@ -8,7 +8,7 @@
     android:background="#ffffff">
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="捡豆子App下载"
@@ -42,7 +42,7 @@
         android:src="@drawable/download"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_colse"

@@ -48,6 +48,7 @@ import static com.ch.core.bus.EventType.refresh_time;
 import static com.ch.core.bus.EventType.roots_ready;
 import static com.ch.core.bus.EventType.set_accessiblity;
 import static com.ch.core.bus.EventType.start_task;
+import static com.ch.core.bus.EventType.task_weixin;
 import static com.ch.core.bus.EventType.unpause_byhand;
 
 public class MyApplication extends Application {
@@ -122,16 +123,16 @@ public class MyApplication extends Application {
                 break;
             case start_task:
                 this.isStarted = true;
-                setFloatText("任务执行中");
+                setFloatText("执行中");
                 break;
             case pause_byhand:
                 if (isStarted) {
-                    setFloatText("已被您暂停");
+                    setFloatText("已暂停");
                 }
                 break;
             case unpause_byhand:
                 if (isStarted) {
-                    setFloatText("捡豆子已开始");
+                    setFloatText("已开始");
                 }
                 break;
             case pause_becauseof_not_destination_page:
@@ -142,7 +143,7 @@ public class MyApplication extends Application {
             case refresh_time:
                 if (!TaskExecutor.getInstance().isForcePause()) {
 //                    setFloatText("已执行：" + event.getData());
-                    setFloatText("任务执行中");
+                    setFloatText("执行中");
                     if (!FloatWindow.get().isShowing()) {
                         FloatWindow.get().show();
                     }
@@ -157,7 +158,10 @@ public class MyApplication extends Application {
                 setFloatText("重新准备就绪");
                 break;
             case accessiblity_connected:
-                setFloatText("准备就绪，点我去启动");
+                setFloatText("点我去启动");
+                break;
+            case task_weixin:
+                setFloatText("执行中");
                 break;
         }
     }

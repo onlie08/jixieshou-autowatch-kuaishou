@@ -39,9 +39,7 @@ public class MyAccessbilityService extends AccessibilityService {
             for (CharSequence text : texts) {
                 String content = text.toString();
                 if (!TextUtils.isEmpty(content)) {
-                    //判断是否含有[微信红包]字样
                     if (content.contains("[微信红包]")) {
-                        //如果有则打开微信红包页面
                         openWeChatPage(event);
                     }
                 }

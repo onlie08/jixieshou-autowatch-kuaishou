@@ -52,7 +52,7 @@ public class RecommendCodeManage {
             file.delete();
         }
         try {
-            FileUtils.write(file, code);
+            FileUtils.writeStringToFile(file, code);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,7 +79,7 @@ public class RecommendCodeManage {
             file.delete();
         }
         try {
-            FileUtils.write(file, code);
+            FileUtils.writeStringToFile(file, code);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -92,7 +92,7 @@ public class RecommendCodeManage {
             file.delete();
         }
         try {
-            FileUtils.write(file, code);
+            FileUtils.writeStringToFile(file, code);
         } catch (IOException e) {
             e.printStackTrace();
         }

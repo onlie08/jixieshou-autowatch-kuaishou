@@ -55,4 +55,9 @@ public class EventType {
      * 目标app任务完成
      */
     public static final int task_finish = 11;
+
+    /**
+     * 打开微信红包助手
+     */
+    public static final int task_weixin = 12;
 }

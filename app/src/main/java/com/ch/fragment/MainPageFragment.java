@@ -41,6 +41,8 @@ import com.ch.floatwindow.PermissionUtil;
 import com.ch.jixieshou.R;
 import com.ch.model.AppInfo;
 import com.ch.model.TaskInfo;
+import com.ch.scripts.FSRedPackageScript;
+import com.ch.scripts.WXPackageScript;
 import com.ch.scripts.WeiXinScript;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.button.MaterialButton;
@@ -61,6 +63,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.ch.core.bus.EventType.task_finish;
+import static com.ch.core.bus.EventType.task_weixin;
 
 
 public class MainPageFragment extends Fragment {
@@ -70,6 +73,7 @@ public class MainPageFragment extends Fragment {
     private CardView f_view;
     private RecyclerView taskListView;
     private TextView tv_wx_statue;
+    private TextView tv_qq_statue;
     private TextView tv_add_task;
     private TextView tv_acceess_enable;
     private TaskListAdapter1 taskListAdapter1;
@@ -111,6 +115,7 @@ public class MainPageFragment extends Fragment {
         view.findViewById(R.id.tv_describe).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                startWXTask();
                 playInfo(1);
             }
         });
@@ -172,10 +177,26 @@ public class MainPageFragment extends Fragment {
         view.findViewById(R.id.f_view4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                if (f_view.getVisibility() == View.VISIBLE) {
+//                    gotoAccessSetting();
+//                    return;
+//                }
+//                if (tv_qq_statue.getText().equals("未开启")) {
+//                    CommonDialogManage.getSingleton().showWeiXinTipDialog(getActivity(), (dialog, which) -> {
+//                        tv_qq_statue.setText("已开启");
+//                        startFengShengTask();
+//                    });
+//
+//                } else {
+//                    tv_qq_statue.setText("未开启");
+//                    stopFengShengTask();
+//                }
+
                 ToastUtils.showLong("程序员开发中。。。");
             }
         });
         tv_wx_statue = view.findViewById(R.id.tv_wx_statue);
+        tv_qq_statue = view.findViewById(R.id.tv_qq_statue);
         f_view = view.findViewById(R.id.f_view);
         f_view.setOnClickListener(view1 -> gotoAccessSetting());
 
@@ -230,6 +251,7 @@ public class MainPageFragment extends Fragment {
             appInfo.setName("微信抢红包");
             WeiXinScript.getSingleton(appInfo).stop = false;
             WeiXinScript.getSingleton(appInfo).execute();
+            BusManager.getBus().post(new BusEvent<>(task_weixin));
         }).start();
 
     }
@@ -241,6 +263,41 @@ public class MainPageFragment extends Fragment {
         appInfo.setAppName("微信抢红包");
         appInfo.setName("微信抢红包");
         WeiXinScript.getSingleton(appInfo).stop = true;
+//        }).start();
+
+    }
+
+    private void startFengShengTask() {
+        new Thread(() -> {
+            AppInfo appInfo = new AppInfo();
+            appInfo.setPkgName(Constant.PN_FENG_SHENG);
+            appInfo.setAppName("丰声抢红包");
+            appInfo.setName("丰声抢红包");
+            FSRedPackageScript.getSingleton(appInfo).stop = false;
+            FSRedPackageScript.getSingleton(appInfo).execute();
+        }).start();
+
+    }
+
+    private void startWXTask() {
+        new Thread(() -> {
+            AppInfo appInfo = new AppInfo();
+            appInfo.setPkgName(Constant.PN_WEI_XIN);
+            appInfo.setAppName("微信抢红包");
+            appInfo.setName("微信抢红包");
+            WXPackageScript.getSingleton(appInfo).stop = false;
+            WXPackageScript.getSingleton(appInfo).execute();
+        }).start();
+
+    }
+
+    private void stopFengShengTask() {
+//        new Thread(() -> {
+        AppInfo appInfo = new AppInfo();
+        appInfo.setPkgName(Constant.PN_FENG_SHENG);
+        appInfo.setAppName("丰声抢红包");
+        appInfo.setName("丰声抢红包");
+        FSRedPackageScript.getSingleton(appInfo).stop = true;
 //        }).start();
 
     }
