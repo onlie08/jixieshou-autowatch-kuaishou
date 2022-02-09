@@ -44,6 +44,8 @@ public class MyAccessbilityService extends AccessibilityService {
                     }
                 }
             }
+        }else if(eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED){
+            Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
         }
 //        Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
     }
@@ -187,7 +189,6 @@ public class MyAccessbilityService extends AccessibilityService {
     private void openWeChatPage(AccessibilityEvent event) {
         if (event.getParcelableData() != null && event.getParcelableData() instanceof Notification) {
             Notification notification = (Notification) event.getParcelableData();
-
             //打开对应的聊天界面
             PendingIntent pendingIntent = notification.contentIntent;
             try {

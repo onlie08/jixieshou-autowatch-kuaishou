@@ -16,6 +16,7 @@ import com.ch.event.AddTaskEvent;
 import com.ch.event.EditTaskEvent;
 import com.ch.jixieshou.R;
 import com.ch.model.AppInfo;
+import com.ch.utils.AssetUtils;
 import com.google.android.material.button.MaterialButton;
 
 import org.greenrobot.eventbus.EventBus;
@@ -42,9 +43,11 @@ public class TaskTypeListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_type_list);
         type = getIntent().getIntExtra("type", 1);
+
+//        new GetTaskListTask(TaskTypeListActivity.this).execute();
+        appInfos = AssetUtils.getSingleton().getAppInfos(this);
         initView();
 
-        new GetTaskListTask(this).execute();
 //        new CheckPayTask(this).execute();
     }
 

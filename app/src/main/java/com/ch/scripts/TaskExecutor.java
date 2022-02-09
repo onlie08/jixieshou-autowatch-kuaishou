@@ -151,7 +151,7 @@ public class TaskExecutor {
                                         @Override
                                         public void run() {
                                             if (isPause()) {
-                                                BusManager.getBus().post(new BusEvent<>(pause_becauseof_not_destination_page, currentScript.getAppInfo().getAppName()));
+                                                BusManager.getBus().post(new BusEvent<>(pause_becauseof_not_destination_page, currentScript.getAppInfo().getTaskName()));
                                             } else {
                                                 String s = Utils.getTimeDescription(System.currentTimeMillis() - finalSt);
                                                 BusManager.getBus().post(new BusEvent<>(EventType.refresh_time, s));

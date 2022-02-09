@@ -7,19 +7,9 @@ public class AppInfo {
     private String uuid = UUID.randomUUID().toString();
 
     /**
-     * 中文名
+     * 任务名称
      */
-    private String name;
-
-    /**
-     * 应用名称
-     */
-    private String appName;
-
-    /**
-     * 图标id
-     */
-    private int icon;
+    private String taskName;
 
     /**
      * 包名
@@ -37,9 +27,9 @@ public class AppInfo {
     private boolean isFree;
 
     /**
-     * 适配版本
+     * 推荐指数
      */
-    private String version;
+    private String star;
 
     /**
      * 标识今天任务是否完成
@@ -52,14 +42,6 @@ public class AppInfo {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getPkgName() {
@@ -78,13 +60,6 @@ public class AppInfo {
         this.period = period;
     }
 
-    public int getIcon() {
-        return icon;
-    }
-
-    public void setIcon(int icon) {
-        this.icon = icon;
-    }
 
     public boolean isFree() {
         return isFree;
@@ -94,21 +69,12 @@ public class AppInfo {
         isFree = free;
     }
 
-    public String getAppName() {
-        return appName;
+    public String getTaskName() {
+        return taskName;
     }
 
-    public void setAppName(String appName) {
-        this.appName = appName;
-    }
-
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 
     public boolean isTodayDone() {
@@ -117,5 +83,13 @@ public class AppInfo {
 
     public void setTodayDone(boolean todayDone) {
         this.todayDone = todayDone;
+    }
+
+    public String getStar() {
+        return star;
+    }
+
+    public void setStar(String star) {
+        this.star = star;
     }
 }

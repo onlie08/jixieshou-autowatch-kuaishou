@@ -247,8 +247,7 @@ public class MainPageFragment extends Fragment {
         new Thread(() -> {
             AppInfo appInfo = new AppInfo();
             appInfo.setPkgName(Constant.PN_WEI_XIN);
-            appInfo.setAppName("微信抢红包");
-            appInfo.setName("微信抢红包");
+            appInfo.setTaskName("微信抢红包");
             WeiXinScript.getSingleton(appInfo).stop = false;
             WeiXinScript.getSingleton(appInfo).execute();
             BusManager.getBus().post(new BusEvent<>(task_weixin));
@@ -260,8 +259,7 @@ public class MainPageFragment extends Fragment {
 //        new Thread(() -> {
         AppInfo appInfo = new AppInfo();
         appInfo.setPkgName(Constant.PN_WEI_XIN);
-        appInfo.setAppName("微信抢红包");
-        appInfo.setName("微信抢红包");
+        appInfo.setTaskName("微信抢红包");
         WeiXinScript.getSingleton(appInfo).stop = true;
 //        }).start();
 
@@ -271,8 +269,7 @@ public class MainPageFragment extends Fragment {
         new Thread(() -> {
             AppInfo appInfo = new AppInfo();
             appInfo.setPkgName(Constant.PN_FENG_SHENG);
-            appInfo.setAppName("丰声抢红包");
-            appInfo.setName("丰声抢红包");
+            appInfo.setTaskName("丰声抢红包");
             FSRedPackageScript.getSingleton(appInfo).stop = false;
             FSRedPackageScript.getSingleton(appInfo).execute();
         }).start();
@@ -283,8 +280,7 @@ public class MainPageFragment extends Fragment {
         new Thread(() -> {
             AppInfo appInfo = new AppInfo();
             appInfo.setPkgName(Constant.PN_WEI_XIN);
-            appInfo.setAppName("微信抢红包");
-            appInfo.setName("微信抢红包");
+            appInfo.setTaskName("微信抢红包");
             WXPackageScript.getSingleton(appInfo).stop = false;
             WXPackageScript.getSingleton(appInfo).execute();
         }).start();
@@ -295,8 +291,7 @@ public class MainPageFragment extends Fragment {
 //        new Thread(() -> {
         AppInfo appInfo = new AppInfo();
         appInfo.setPkgName(Constant.PN_FENG_SHENG);
-        appInfo.setAppName("丰声抢红包");
-        appInfo.setName("丰声抢红包");
+        appInfo.setTaskName("丰声抢红包");
         FSRedPackageScript.getSingleton(appInfo).stop = true;
 //        }).start();
 
@@ -450,8 +445,7 @@ public class MainPageFragment extends Fragment {
                 curr.setFree(appInfo.isFree());
                 curr.setPkgName(appInfo.getPkgName());
                 curr.setPeriod(appInfo.getPeriod());
-                curr.setIcon(appInfo.getIcon());
-                curr.setName(appInfo.getName());
+                curr.setTaskName(appInfo.getTaskName());
                 taskListAdapter1.notifyDataSetChanged();
                 break;
             }

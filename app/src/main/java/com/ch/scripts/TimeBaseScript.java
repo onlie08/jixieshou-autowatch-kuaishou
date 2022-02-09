@@ -47,7 +47,7 @@ public abstract class TimeBaseScript implements IScript {
                 }
                 executeScript();
             } catch (Exception e) {
-                Logger.e("执行异常，脚本: " + appInfo.getName(), e);
+                Logger.e("执行异常，脚本: " + appInfo.getTaskName(), e);
             } finally {
                 if (findContent("启动应用")) {
                     clickId("button1");

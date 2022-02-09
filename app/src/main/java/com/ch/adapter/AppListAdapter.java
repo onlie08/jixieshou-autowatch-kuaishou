@@ -55,7 +55,7 @@ public class AppListAdapter extends BaseAdapter {
             holder = (AppListViewHolder) convertView.getTag();
         }
         AppInfo info = getItem(position);
-        holder.name.setText(info.getName() + getAppInstall(info.getPkgName()));
+        holder.name.setText(info.getTaskName() + getAppInstall(info.getPkgName()));
         holder.free.setText("添加");
 
 //        if (info.isFree()) {

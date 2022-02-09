@@ -242,7 +242,7 @@ public class EditTaskActivity extends AppCompatActivity {
 //    }
 
     private void initAppInfo(AppInfo appInfo) {
-        this.taskTypeName.setText(appInfo.getName());
+        this.taskTypeName.setText(appInfo.getTaskName());
         findViewById(R.id.sp).setVisibility(View.VISIBLE);
 //        findViewById(R.id.periodLayout).setVisibility(View.VISIBLE);
         this.periodEdit.setText(String.valueOf(appInfo.getPeriod()));

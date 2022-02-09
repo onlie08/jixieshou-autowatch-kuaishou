@@ -16,7 +16,6 @@ import com.ch.core.utils.Utils;
 import com.ch.model.AppInfo;
 
 import java.util.List;
-import java.util.LongSummaryStatistics;
 import java.util.Random;
 
 public abstract class BaseTimingScript implements IScript {
@@ -40,7 +39,7 @@ public abstract class BaseTimingScript implements IScript {
                 }
                 executeScript();
             } catch (Exception e) {
-                Logger.e("执行异常，脚本: " + appInfo.getName(), e);
+                Logger.e("执行异常，脚本: " + appInfo.getTaskName(), e);
             } finally {
                 if (findContent("启动应用")) {
                     clickId("button1");

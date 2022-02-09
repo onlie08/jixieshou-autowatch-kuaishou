@@ -23,7 +23,7 @@ public class TaskListAdapter1 extends BaseQuickAdapter<AppInfo, BaseViewHolder> 
 
     @Override
     protected void convert(BaseViewHolder helper, AppInfo item) {
-        helper.setText(R.id.name, item.getName());
+        helper.setText(R.id.name, item.getTaskName());
         helper.setText(R.id.time, getAppInstall(item.getPkgName()));
         if (item.getPkgName().equals(Constant.PN_DOU_YIN)) {
             helper.setBackgroundRes(R.id.icon, R.drawable.dy_fast);
