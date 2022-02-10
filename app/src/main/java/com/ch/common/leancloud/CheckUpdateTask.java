@@ -10,13 +10,13 @@ import com.ch.common.SystemDownloder;
 import com.ch.jixieshou.R;
 
 import androidx.appcompat.app.AlertDialog;
-import cn.leancloud.AVObject;
-import cn.leancloud.AVQuery;
+import cn.leancloud.LCObject;
+import cn.leancloud.LCQuery;
 
 /**
  * 检查更新的任务
  */
-public class CheckUpdateTask extends AsyncTask<Void, Integer, AVObject> {
+public class CheckUpdateTask extends AsyncTask<Void, Integer, LCObject> {
 
     private Activity activity;
 
@@ -25,11 +25,11 @@ public class CheckUpdateTask extends AsyncTask<Void, Integer, AVObject> {
     }
 
     @Override
-    protected AVObject doInBackground(Void... voids) {
+    protected LCObject doInBackground(Void... voids) {
         try {
-            AVQuery<AVObject> query = new AVQuery<>(AVUtils.tb_update);
+            LCQuery<LCObject> query = new LCQuery<>(AVUtils.tb_update);
             query.whereEqualTo("flag", "update");
-            AVObject obj = query.getFirst();
+            LCObject obj = query.getFirst();
             if (obj != null) {
                 return obj;
             }
@@ -42,7 +42,7 @@ public class CheckUpdateTask extends AsyncTask<Void, Integer, AVObject> {
     }
 
     @Override
-    protected void onPostExecute(final AVObject obj) {
+    protected void onPostExecute(final LCObject obj) {
         super.onPostExecute(obj);
         if (obj == null) {
             return;
@@ -73,8 +73,8 @@ public class CheckUpdateTask extends AsyncTask<Void, Integer, AVObject> {
         }
     }
 
-    private AVObject initTable() {
-        AVObject obj = new AVObject(AVUtils.tb_update);
+    private LCObject initTable() {
+        LCObject obj = new LCObject(AVUtils.tb_update);
         obj.put("versionCode", PackageUtils.getVersionCode());
         obj.put("versionName", PackageUtils.getVersionName());
         obj.put("flag", "update");

@@ -8,8 +8,8 @@ import com.ch.core.utils.Logger;
 import com.ch.core.utils.StringUtil;
 import com.ch.model.RecommendBean;
 
-import cn.leancloud.AVObject;
-import cn.leancloud.AVQuery;
+import cn.leancloud.LCObject;
+import cn.leancloud.LCQuery;
 
 public class InitCode extends AsyncTask<String, Integer, RecommendBean> {
 
@@ -21,9 +21,9 @@ public class InitCode extends AsyncTask<String, Integer, RecommendBean> {
                 return null;
             }
             // 查询是否存在某设备
-            AVQuery<AVObject> query = new AVQuery<>(AVUtils.tb_code);
+            LCQuery<LCObject> query = new LCQuery<>(AVUtils.tb_code);
             query.whereEqualTo("serial", parentCode);
-            AVObject obj = query.getFirst();
+            LCObject obj = query.getFirst();
             if (obj != null) {
                 RecommendBean recommendBean = new RecommendBean();
                 recommendBean.setCode_toutiao(obj.getString("toutiao"));

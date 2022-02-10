@@ -7,8 +7,8 @@ import com.ch.application.MyApplication;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Logger;
 
-import cn.leancloud.AVObject;
-import cn.leancloud.AVQuery;
+import cn.leancloud.LCObject;
+import cn.leancloud.LCQuery;
 
 public class CheckPayTask extends AsyncTask<Void, Integer, Integer> {
 
@@ -21,9 +21,9 @@ public class CheckPayTask extends AsyncTask<Void, Integer, Integer> {
     @Override
     protected Integer doInBackground(Void... voids) {
         try {
-            AVQuery<AVObject> query = new AVQuery<>(AVUtils.tb_pay);
+            LCQuery<LCObject> query = new LCQuery<>(AVUtils.tb_pay);
             query.whereEqualTo("serial", Constant.user);
-            AVObject obj = query.getFirst();
+            LCObject obj = query.getFirst();
             if (obj != null) {
                 boolean vip = obj.getBoolean("payed");
                 return vip ? 1 : -1;

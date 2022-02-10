@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.ch.common.CommonDialogManage;
 import com.ch.model.AppInfo;
 import com.google.gson.Gson;
@@ -32,6 +33,7 @@ public class AssetUtils {
         try {
             InputStream inputStream = mContext.getAssets().open("AppInfos.json");
             String convert = ConvertUtils.inputStream2String(inputStream,"UTF-8");
+            LogUtils.d(TAG,convert);
             List<AppInfo> appInfos =new Gson().fromJson(convert, new TypeToken<List<AppInfo>>() {}.getType());
             return appInfos;
         } catch (IOException e) {

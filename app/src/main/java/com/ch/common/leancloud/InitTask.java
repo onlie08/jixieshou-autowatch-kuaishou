@@ -12,8 +12,12 @@ import com.ch.core.utils.StringUtil;
 import com.ch.model.RecommendBean;
 import com.google.gson.Gson;
 
-import cn.leancloud.AVObject;
-import cn.leancloud.AVQuery;
+import java.util.List;
+
+import cn.leancloud.LCObject;
+import cn.leancloud.LCQuery;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class InitTask extends AsyncTask<String, Integer, Boolean> {
 
@@ -25,9 +29,9 @@ public class InitTask extends AsyncTask<String, Integer, Boolean> {
                 return false;
             }
             // 查询是否存在某设备
-            AVQuery<AVObject> query = new AVQuery<>(AVUtils.tb_pay);
+            LCQuery<LCObject> query = new LCQuery<>(AVUtils.tb_pay);
             query.whereEqualTo("serial", serial);
-            AVObject obj = query.getFirst();
+            LCObject obj = query.getFirst();
             if (obj != null) {
                 // 已注册
                 MyApplication.getAppInstance().setVip(obj.getBoolean("payed"));
@@ -35,9 +39,9 @@ public class InitTask extends AsyncTask<String, Integer, Boolean> {
                 SPUtils.getInstance().put("parentCode",Constant.parentCode);
 
                 if(!TextUtils.isEmpty(Constant.parentCode)){
-                    AVQuery<AVObject> query1 = new AVQuery<>(AVUtils.tb_code);
+                    LCQuery<LCObject> query1 = new LCQuery<>(AVUtils.tb_code);
                     query1.whereEqualTo("serial", Constant.parentCode);
-                    AVObject obj1 = query1.getFirst();
+                    LCObject obj1 = query1.getFirst();
                     if (obj1 != null) {
                         RecommendBean recommendBean = new RecommendBean();
                         recommendBean.setCode_toutiao(obj1.getString("toutiao"));

@@ -1,35 +1,54 @@
 package com.ch.scripts;
 
-import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.ch.application.MyApplication;
-import com.ch.core.executor.builder.SFStepBuilder;
 import com.ch.core.search.node.NodeInfo;
 import com.ch.core.utils.Constant;
-import com.ch.core.utils.Logger;
 import com.ch.core.utils.Utils;
 import com.ch.jixieshou.BuildConfig;
 import com.ch.model.AppInfo;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 import static com.ch.core.utils.ActionUtils.pressHome;
 
 public class FengShengFastScript extends BaseScript {
     private String TAG = this.getClass().getSimpleName();
+
+    private volatile static FengShengFastScript instance; //声明成 volatile
+
+    public static FengShengFastScript getSingleton(AppInfo appInfo) {
+        if (instance == null) {
+            synchronized (FengShengFastScript.class) {
+                if (instance == null) {
+                    instance = new FengShengFastScript(appInfo);
+                }
+            }
+        }
+        return instance;
+    }
+
+
     private int pageId = -1;//0:首页 1:个人中心  2:阅读页  3:广告页
     private int lastPageId = -1; //上次的页面
     private int samePageCount = 0; //同一个页面停留次数
+
+    private int type = 0; //任务执行类型 1：早上打卡 2：加班餐申请 3：晚上打卡 4：申请加班时长
+    private int mHour = 0;//当前小时
+    private boolean task1 = false; //早上打卡
+    private boolean task2 = false; //加班餐申请
+    private boolean task3 = false; //晚上打卡
+    private boolean task4 = false; //申请加班时长
 
     public FengShengFastScript(AppInfo appInfo) {
         super(appInfo);
@@ -58,11 +77,58 @@ public class FengShengFastScript extends BaseScript {
             LogUtils.d(TAG, "屏幕锁定了");
             return;
         }
-        if(checkCardTime()){
+
+        if (isWeekDay()) {
+            setTodayDone(true);
             skipTask();
             return;
         }
+        getCurHour();
 
+        if (mHour != 9 && mHour != 15 && mHour != 21 && mHour != 22) {
+            skipTask();
+            task1 = false;
+            task2 = false;
+            task3 = false;
+            task4 = false;
+            type = 0;
+            return;
+        }
+
+        switch (mHour) {
+            case 9:
+                if (task1) {
+                    type = 0;
+                    skipTask();
+                } else {
+                    type = 1;
+                }
+                break;
+            case 15:
+                if (task2) {
+                    type = 0;
+                    skipTask();
+                } else {
+                    type = 2;
+                }
+                break;
+            case 21:
+                if (task3) {
+                    type = 0;
+                    skipTask();
+                } else {
+                    type = 3;
+                }
+                break;
+            case 22:
+                if (task4) {
+                    type = 0;
+                    skipTask();
+                } else {
+                    type = 4;
+                }
+                break;
+        }
 
         pageId = checkPageId();
         if (pageId == lastPageId) {
@@ -87,6 +153,18 @@ public class FengShengFastScript extends BaseScript {
             case 3:
                 doCardPage();
                 break;
+            case 4:
+                doTask3();
+                break;
+            case 5:
+                doShenQin();
+                break;
+            case 6:
+                doShenQin1();
+                break;
+            case 7:
+                doShenQin2();
+                break;
             default:
                 Utils.sleep(1500);
                 clickBack();
@@ -94,48 +172,181 @@ public class FengShengFastScript extends BaseScript {
         }
     }
 
-    private boolean checkCardTime() {
+    private boolean isWeekDay() {
         Calendar c = Calendar.getInstance();
-        int mHour = c.get(Calendar.HOUR_OF_DAY);//时
-        LogUtils.d(TAG,"mhour:"+mHour);
-        if(mHour > 8){
-            return false;
+        int week = c.get(Calendar.DAY_OF_WEEK);
+        if (week == 1 || week == 7) {
+            return true;
         }
-        return true;
+        return false;
     }
 
+    private void doShenQin2() {
+        AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
+        if (root == null) return;
+        AccessibilityNodeInfo root1 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
+        AccessibilityNodeInfo root2 = root1.getChild(0).getChild(0).getChild(3).getChild(1).getChild(0).getChild(0).getChild(1).getChild(0).getChild(1).getChild(0);
+        AccessibilityNodeInfo root3 = root1.getChild(0).getChild(0).getChild(3).getChild(1).getChild(0).getChild(1).getChild(1).getChild(0).getChild(1).getChild(0);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String timeURL = TimeUtils.getNowString(formatter).substring(0, 10);
+        if (root2 != null) {
+            Bundle arguments = new Bundle();
+
+            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, timeURL + " 18:30");
+            root2.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+            Utils.sleep(1000);
+        }
+
+        if (root3 != null) {
+            Bundle arguments = new Bundle();
+            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, timeURL + " 21:00");
+            root3.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+            Utils.sleep(2000);
+        }
+
+        root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
+        if (root == null) return;
+        root1 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
+        AccessibilityNodeInfo root4 = root1.getChild(0).getChild(0).getChild(3).getChild(1).getChild(0).getChild(4).getChild(2).getChild(0);
+        AccessibilityNodeInfo root5 = root1.getChild(0).getChild(0).getChild(3).getChild(1).getChild(0).getChild(5).getChild(1).getChild(0);
+
+        if (root4 != null) {
+            Bundle arguments = new Bundle();
+            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "延时加班");
+            root4.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+            Utils.sleep(1000);
+        }
+
+        if (root5 != null) {
+            Bundle arguments = new Bundle();
+            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "工作进度需要");
+            root5.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+            Utils.sleep(1000);
+        }
+
+        if (clickTotalMatchContent("提交申请")) {
+            Utils.sleep(1000);
+            if (clickTotalMatchContent("确定")) {
+                task4 = true;
+                setTodayDone(true);
+                skipTask();
+            }
+        }
+    }
+
+    private void doShenQin1() {
+        if (clickTotalMatchContent("加班")) {
+            return;
+        }
+    }
+
+    //加班餐申请
+    private void doShenQin() {
+        NodeInfo nodeInfo = findByText("加班原因");
+        clickXY(nodeInfo.getRect().centerX(), nodeInfo.getRect().centerY() + SizeUtils.dp2px(40));
+        Utils.sleep(1000);
+
+        AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
+        if (root == null) return;
+        AccessibilityNodeInfo root1 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
+        AccessibilityNodeInfo root2 = root1.getChild(0).getChild(0).getChild(0).getChild(3).getChild(1);
+
+        if (root2 != null) {
+            Bundle arguments = new Bundle();
+            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "工作进度需要");
+            root2.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+            Utils.sleep(2000);
+
+
+            NodeInfo nodeInfo1 = findByText("备注");
+            clickXY(nodeInfo1.getRect().centerX(), nodeInfo1.getRect().centerY() + SizeUtils.dp2px(40));
+            Utils.sleep(1000);
+
+            if (clickTotalMatchContent("提交")) {
+                Utils.sleep(2000);
+                NodeInfo nodeInfo2 = findByText("领取餐补");
+                if(null != nodeInfo2){
+                    clickXY(nodeInfo2.getRect().centerX(),nodeInfo2.getRect().centerY()-SizeUtils.dp2px(50));
+                    Utils.sleep(2000);
+                    task2 = true;
+                    clickBack();
+                    type = 0;
+                    skipTask();
+                }
+            }
+        }
+    }
+
+    private void doTask3() {
+        if (clickTotalMatchContent("加班餐")) {
+            Utils.sleep(1500);
+            if (clickTotalMatchContent("已知悉，继续点餐")) {
+                return;
+            }
+            clickXY(MyApplication.getScreenWidth() / 2, 2250);
+        }
+
+    }
+
+
+    private void getCurHour() {
+        Calendar c = Calendar.getInstance();
+        mHour = c.get(Calendar.HOUR_OF_DAY);//时
+        LogUtils.d(TAG, "mHour:" + mHour);
+    }
+
+    //打卡操作
     private void doCardPage() {
         NodeInfo nodeInfo = findByText("当前时间");
-        clickXY(MyApplication.getScreenWidth()/2,nodeInfo.getRect().centerY()-SizeUtils.dp2px(100));
+        clickXY(MyApplication.getScreenWidth() / 2, nodeInfo.getRect().centerY() - SizeUtils.dp2px(100));
         Utils.sleep(3000);
-        if(findContent("打卡成功")){
+        if (findContent("打卡成功")) {
             clickContent("知道了");
             Utils.sleep(2000);
             clickBack();
-            setTodayDone(true);
+//            setTodayDone(true);
             skipTask();
+            if (type == 1) {
+                task1 = true;
+            } else if (type == 3) {
+                task3 = true;
+            }
 
         }
     }
 
     private void doJumpPage() {
-        clickTotalMatchContent("打卡");
+        switch (type) {
+            case 1:
+                clickTotalMatchContent("打卡");
+                break;
+            case 2:
+                clickTotalMatchContent("餐饮");
+                break;
+            case 3:
+                clickTotalMatchContent("打卡");
+                break;
+            case 4:
+                clickTotalMatchContent("考勤");
+                break;
+        }
     }
 
     private void doMainPage() {
-        if(samePageCount > 2){
+        if (samePageCount > 2) {
             tryClickDialog();
         }
-        clickXY(MyApplication.getScreenWidth()*3/4-SizeUtils.dp2px(40),MyApplication.getScreenHeight()-SizeUtils.dp2px(20));
+        clickXY(MyApplication.getScreenWidth() * 3 / 4 - SizeUtils.dp2px(40), MyApplication.getScreenHeight() - SizeUtils.dp2px(20));
         Utils.sleep(3000);
         return;
 
     }
 
     private void doLoginPage() {
-        clickTotalMatchContent("登录");Utils.sleep(3000);
+        clickTotalMatchContent("登录");
+        Utils.sleep(3000);
 
-        if(findContent("使用该账号的密码")){
+        if (findContent("使用该账号的密码")) {
             clickBack();
             Utils.sleep(2000);
 //            clickTotalMatchContent("记住密码");
@@ -143,7 +354,7 @@ public class FengShengFastScript extends BaseScript {
         }
 
         AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
-        if (root == null) return ;
+        if (root == null) return;
         AccessibilityNodeInfo editPassword = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
         if (editPassword != null) {
             Bundle arguments = new Bundle();
@@ -176,6 +387,7 @@ public class FengShengFastScript extends BaseScript {
     }
 
     int resumeCount = 0;
+
     @Override
     public boolean isDestinationPage() {
         // 检查当前包名是否有本年应用
@@ -280,10 +492,21 @@ public class FengShengFastScript extends BaseScript {
         if (findTotalMatchContent("已进入打卡范围")) {
             return 3;
         }
+        if (findTotalMatchContent("便捷扫码支付")) {
+            return 4;
+        }
+        if (findTotalMatchContent("丰味平台") && findTotalMatchContent("加班原因 *")) {
+            return 5;
+        }
+        if (findTotalMatchContent("正常出勤") && findTotalMatchContent("销假")) {
+            return 6;
+        }
+        if (findTotalMatchContent("开始加班时间")) {
+            return 7;
+        }
 
         return -1;
     }
-
 
 
 }

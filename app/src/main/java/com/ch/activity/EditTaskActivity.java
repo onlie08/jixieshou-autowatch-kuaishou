@@ -25,7 +25,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import cn.leancloud.AVObject;
+import cn.leancloud.LCObject;
 
 /**
  * 新建或编辑任务界面
@@ -140,7 +140,7 @@ public class EditTaskActivity extends AppCompatActivity {
             sureBtn.setText("更新");
         }
 
-//        AVObject testObject = new AVObject("recommend_list");
+//        LCObject testObject = new LCObject("recommend_list");
 //        RecommendBean recommendBean = new RecommendBean();
 //        recommendBean.setRecommendUser("13720282090");
 //        recommendBean.setCode_aiqiyi("2883663620");
@@ -164,7 +164,7 @@ public class EditTaskActivity extends AppCompatActivity {
 //        testObject.saveInBackground().blockingSubscribe();
 
 
-//        AVObject testObject = new AVObject("task_list");
+//        LCObject testObject = new LCObject("task_list");
 //        AppInfo appInfo = new AppInfo();
 //        appInfo.setName("丰声打开");
 //        appInfo.setAppName("丰声打开");
@@ -177,7 +177,7 @@ public class EditTaskActivity extends AppCompatActivity {
 //        testObject.put("pkgName", appInfo.getPkgName());
 //        testObject.saveInBackground().blockingSubscribe();
 //
-//        AVObject testObject = new AVObject("task_list");
+//        LCObject testObject = new LCObject("task_list");
 //        AppInfo appInfo = new AppInfo();
 //        appInfo.setName("点淘App-赚金币");
 //        appInfo.setAppName("点淘App");
@@ -190,7 +190,7 @@ public class EditTaskActivity extends AppCompatActivity {
 //        testObject.put("pkgName", appInfo.getPkgName());
 //        testObject.saveInBackground().blockingSubscribe();
 //
-//        AVObject testObject1 = new AVObject("task_list");
+//        LCObject testObject1 = new LCObject("task_list");
 //        AppInfo appInfo1 = new AppInfo();
 //        appInfo1.setName("抖音极速版-看广告");
 //        appInfo1.setAppName("抖音极速版App");
@@ -203,7 +203,7 @@ public class EditTaskActivity extends AppCompatActivity {
 //        testObject1.put("pkgName", appInfo1.getPkgName());
 //        testObject1.saveInBackground().blockingSubscribe();
 //
-//        AVObject testObject1 = new AVObject("task_list");
+//        LCObject testObject1 = new LCObject("task_list");
 //        AppInfo appInfo1 = new AppInfo();
 //        appInfo1.setName("爱奇艺极速版");
 //        appInfo1.setAppName("爱奇艺极速版App");
@@ -216,7 +216,7 @@ public class EditTaskActivity extends AppCompatActivity {
 //        testObject1.put("pkgName", appInfo1.getPkgName());
 //        testObject1.saveInBackground().blockingSubscribe();
 //
-//        AVObject testObject1 = new AVObject("task_list");
+//        LCObject testObject1 = new LCObject("task_list");
 //        AppInfo appInfo1 = new AppInfo();
 //        appInfo1.setName("百度极速版");
 //        appInfo1.setAppName("百度极速版App");

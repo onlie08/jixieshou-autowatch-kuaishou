@@ -38,7 +38,7 @@ import com.squareup.leakcanary.LeakCanary;
 import com.squareup.otto.Subscribe;
 import com.tencent.bugly.crashreport.CrashReport;
 
-import cn.leancloud.AVOSCloud;
+import cn.leancloud.core.LeanCloud;
 
 import static com.ch.core.bus.EventType.accessiblity_connected;
 import static com.ch.core.bus.EventType.no_roots_alert;
@@ -176,7 +176,8 @@ public class MyApplication extends Application {
 
     private void initLeancloud() {
         try {
-            AVOSCloud.initialize("15IzPzEVyONHdh2Sv6NgaY7N-gzGzoHsz", "FSW0TSuSrQ6sHHLwY4bsIxY7");
+//            LeanCloud.initialize(this, "15IzPzEVyONHdh2Sv6NgaY7N-gzGzoHsz", "FSW0TSuSrQ6sHHLwY4bsIxY7", "https://please-replace-with-your-customized.domain.com");
+            LeanCloud.initialize("15IzPzEVyONHdh2Sv6NgaY7N-gzGzoHsz", "FSW0TSuSrQ6sHHLwY4bsIxY7","https://15izpzev.lc-cn-n1-shared.com");
 //            new InitTask().execute();
         } catch (Exception e) {
             Logger.e(e.getMessage(), e);

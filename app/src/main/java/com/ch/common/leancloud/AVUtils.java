@@ -4,7 +4,7 @@ import android.os.Build;
 
 import com.ch.model.RecommendBean;
 
-import cn.leancloud.AVObject;
+import cn.leancloud.LCObject;
 
 public class AVUtils {
 
@@ -15,7 +15,7 @@ public class AVUtils {
     public static final String tb_update = "tb_update";
 
     public static void regist(String serial) {
-        AVObject user_pay = new AVObject(AVUtils.tb_pay);
+        LCObject user_pay = new LCObject(AVUtils.tb_pay);
         user_pay.put("serial", serial);
         user_pay.put("payed", false);
         user_pay.put("model", Build.MODEL);
@@ -29,7 +29,7 @@ public class AVUtils {
      * @param recommendBean
      */
     public static void registCode(String serial,RecommendBean recommendBean) {
-        AVObject user_pay = new AVObject(AVUtils.tb_code);
+        LCObject user_pay = new LCObject(AVUtils.tb_code);
         user_pay.put("serial", serial);
         user_pay.put("toutiao", recommendBean.getCode_toutiao());
         user_pay.put("douyin", recommendBean.getCode_douyin());

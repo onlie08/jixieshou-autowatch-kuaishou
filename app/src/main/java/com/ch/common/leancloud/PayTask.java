@@ -6,8 +6,8 @@ import com.ch.activity.TaskTypeListActivity;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Logger;
 
-import cn.leancloud.AVObject;
-import cn.leancloud.AVQuery;
+import cn.leancloud.LCObject;
+import cn.leancloud.LCQuery;
 
 import static com.ch.common.leancloud.AVUtils.tb_pay;
 
@@ -26,9 +26,9 @@ public class PayTask extends AsyncTask<Boolean, Integer, Boolean> {
     protected Boolean doInBackground(Boolean... params) {
         try {
             String serial = Constant.user;
-            AVQuery<AVObject> query = new AVQuery<>(tb_pay);
+            LCQuery<LCObject> query = new LCQuery<>(tb_pay);
             query.whereEqualTo("serial", serial);
-            AVObject obj = query.getFirst();
+            LCObject obj = query.getFirst();
             if (obj != null) {
                 obj.put("payed", true);
                 obj.save();

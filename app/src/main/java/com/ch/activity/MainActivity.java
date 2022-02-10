@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.TextureView;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,7 +20,6 @@ import com.ch.common.CommonDialogManage;
 import com.ch.common.PerMissionManage;
 import com.ch.common.RecognitionManage;
 import com.ch.common.RecommendCodeManage;
-import com.ch.common.leancloud.InitCode;
 import com.ch.common.leancloud.InitTask;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.FragmentNavigator;
@@ -31,25 +29,20 @@ import com.ch.fragment.CouponFragment;
 import com.ch.fragment.MainPageFragment;
 import com.ch.fragment.SettingFragment;
 import com.ch.jixieshou.R;
-import com.ch.model.RecommendBean;
 import com.ch.model.ScreenShootEvet;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
-import org.w3c.dom.Text;
 
 import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import cn.leancloud.AVObject;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 
@@ -116,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         }
         CrashReport.setUserId(Constant.user);
         new InitTask().execute();
-        if(TextUtils.isEmpty(Constant.parentCode) && !TextUtils.isEmpty(SPUtils.getInstance().getString("parentCode"))){
+        if (TextUtils.isEmpty(Constant.parentCode) && !TextUtils.isEmpty(SPUtils.getInstance().getString("parentCode"))) {
             Constant.parentCode = SPUtils.getInstance().getString("parentCode");
         }
 //        if(!TextUtils.isEmpty(Constant.parentCode)){
@@ -221,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 遍历循环所有的网络接口，找到接口是 wlan0
      * 必须的权限 <uses-permission android:name="android.permission.INTERNET" />
+     *
      * @return
      */
     private static String getMacFromHardware() {

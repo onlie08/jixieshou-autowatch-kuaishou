@@ -74,16 +74,14 @@ public class DianTaoFastScript extends BaseScript {
         if (findId("tl_homepage2_search_entry_big")) {
             return 0;
         }
-        if (findContent("日 获得大礼包")) {
+        if (findContent("行走赚元宝")) {
             return 4;
         }
-//        if(findContent("去打工赚钱") || findContent("打工中")){
-//            return 5;
-//        }
+
         if (findContent("做任务 得抽奖机会")) {
             return 6;
         }
-//        if (findContent("元宝中心") && findContent("我的成就")) {
+
         if (findContent("元宝中心")) {
             return 1;
         }
@@ -105,6 +103,9 @@ public class DianTaoFastScript extends BaseScript {
         }
         if (findContent("滑动浏览")) {
             return 9;
+        }
+        if (findContent("日 获得大礼包")) {
+            return 4;
         }
         return -1;
     }

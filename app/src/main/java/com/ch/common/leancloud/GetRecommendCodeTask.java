@@ -18,11 +18,11 @@ public class GetRecommendCodeTask extends AsyncTask<Void, Integer, RecommendBean
     @Override
     protected RecommendBean doInBackground(Void... voids) {
 //        try {
-//            AVQuery<AVObject> query = new AVQuery<>(tb_tasklist);
-//            List<AVObject> objects = query.find();
+//            LCQuery<LCObject> query = new LCQuery<>(tb_tasklist);
+//            List<LCObject> objects = query.find();
 //            List<AppInfo> list = new ArrayList<>();
 //            if (objects != null) {
-//                for (AVObject obj : objects) {
+//                for (LCObject obj : objects) {
 //                    AppInfo appInfo = new AppInfo();
 //                    appInfo.setName(obj.getString("name"));
 //                    appInfo.setFree(obj.getBoolean("isFree"));

@@ -13,8 +13,8 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 
-import cn.leancloud.AVObject;
-import cn.leancloud.AVQuery;
+import cn.leancloud.LCObject;
+import cn.leancloud.LCQuery;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -190,15 +190,15 @@ public class RecommendCodeManage {
         if (TextUtils.isEmpty(objectId)) {
             return;
         }
-        AVQuery<AVObject> query = new AVQuery<>("recommend_list");
+        LCQuery<LCObject> query = new LCQuery<>("recommend_list");
         query.getInBackground(objectId)
                 .subscribeOn(Schedulers.io())//这里指定在io线程执行
                 .observeOn(AndroidSchedulers.mainThread())//返回结果在主线程执行
-                .subscribe(new Observer<AVObject>() {
+                .subscribe(new Observer<LCObject>() {
                     public void onSubscribe(Disposable disposable) {
                     }
 
-                    public void onNext(AVObject todo) {
+                    public void onNext(LCObject todo) {
                         LogUtils.d(TAG, "onNext");
                         // todo 就是 objectId 为 582570f38ac247004f39c24b 的 Todo 实例
                         String code = todo.getString("code");

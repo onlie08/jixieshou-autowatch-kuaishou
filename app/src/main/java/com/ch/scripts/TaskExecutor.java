@@ -78,7 +78,7 @@ public class TaskExecutor {
                                 script = TouTiaoAdvertScript.getSingleton(appInfo);
                                 break;
                             case Constant.PN_FENG_SHENG:
-                                script = new FengShengFastScript(appInfo);
+                                script = FengShengFastScript.getSingleton(appInfo);
                                 break;
                             case Constant.PN_DIAN_TAO:
                                 script = DianTaoFastScript.getSingleton(appInfo);

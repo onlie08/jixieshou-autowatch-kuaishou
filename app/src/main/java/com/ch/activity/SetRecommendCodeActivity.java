@@ -16,8 +16,8 @@ import java.io.IOException;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import cn.leancloud.AVObject;
-import cn.leancloud.AVQuery;
+import cn.leancloud.LCObject;
+import cn.leancloud.LCQuery;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -77,15 +77,15 @@ public class SetRecommendCodeActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(ObjectId)) {
             return;
         }
-        AVQuery<AVObject> query = new AVQuery<>("recommend_list");
+        LCQuery<LCObject> query = new LCQuery<>("recommend_list");
         query.getInBackground(ObjectId)
                 .subscribeOn(Schedulers.io())//这里指定在io线程执行
                 .observeOn(AndroidSchedulers.mainThread())//返回结果在主线程执行
-                .subscribe(new Observer<AVObject>() {
+                .subscribe(new Observer<LCObject>() {
                     public void onSubscribe(Disposable disposable) {
                     }
 
-                    public void onNext(AVObject todo) {
+                    public void onNext(LCObject todo) {
                         LogUtils.d(TAG, "onNext");
                         // todo 就是 objectId 为 582570f38ac247004f39c24b 的 Todo 实例
                         String code = todo.getString("code");
@@ -136,11 +136,11 @@ public class SetRecommendCodeActivity extends AppCompatActivity {
         recommendBean.setCode_meitianzhuandian(edit_input_meitianzhuandian.getEditableText().toString().trim());
         recommendBean.setRecommendCode(edit_input_yaoqingma.getText().toString().trim());
 
-        AVObject todo;
+        LCObject todo;
         if (TextUtils.isEmpty(ObjectId)) {
-            todo = new AVObject("recommend_list");
+            todo = new LCObject("recommend_list");
         } else {
-            todo = AVObject.createWithoutData("recommend_list", ObjectId);
+            todo = LCObject.createWithoutData("recommend_list", ObjectId);
         }
         // 为属性赋值
 //        todo.put("objectId", recommendBean.getRecommendCode());
@@ -148,11 +148,11 @@ public class SetRecommendCodeActivity extends AppCompatActivity {
         todo.put("apps", new Gson().toJson(recommendBean));
 
         // 将对象保存到云端
-        todo.saveInBackground().subscribe(new Observer<AVObject>() {
+        todo.saveInBackground().subscribe(new Observer<LCObject>() {
             public void onSubscribe(Disposable disposable) {
             }
 
-            public void onNext(AVObject todo) {
+            public void onNext(LCObject todo) {
                 RecommendCodeManage.getSingleton().saveMyRecommendCode(todo.getObjectId());
 //                SPUtils.getInstance().put("recommendCode",todo.getObjectId());
             }

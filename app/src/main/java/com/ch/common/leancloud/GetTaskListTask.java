@@ -12,8 +12,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import cn.leancloud.AVObject;
-import cn.leancloud.AVQuery;
+import cn.leancloud.LCObject;
+import cn.leancloud.LCQuery;
 
 /**
  * 任务列表的任务
@@ -30,11 +30,11 @@ public class GetTaskListTask extends AsyncTask<Void, Integer, List<AppInfo>> {
     @Override
     protected List<AppInfo> doInBackground(Void... voids) {
         try {
-            AVQuery<AVObject> query = new AVQuery<>(tb_tasklist);
-            List<AVObject> objects = query.find();
+            LCQuery<LCObject> query = new LCQuery<>(tb_tasklist);
+            List<LCObject> objects = query.find();
             List<AppInfo> list = new ArrayList<>();
             if (objects != null) {
-                for (AVObject obj : objects) {
+                for (LCObject obj : objects) {
                     AppInfo appInfo = new AppInfo();
                     appInfo.setTaskName(obj.getString("taskName"));
                     appInfo.setFree(obj.getBoolean("isFree"));

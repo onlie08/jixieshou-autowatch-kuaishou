@@ -11,8 +11,8 @@ import com.ch.core.utils.Constant;
 import com.ch.core.utils.Logger;
 import com.ch.core.utils.StringUtil;
 
-import cn.leancloud.AVObject;
-import cn.leancloud.AVQuery;
+import cn.leancloud.LCObject;
+import cn.leancloud.LCQuery;
 
 
 public class SetParentCodeTask extends AsyncTask<String, Integer, Integer> {
@@ -35,17 +35,17 @@ public class SetParentCodeTask extends AsyncTask<String, Integer, Integer> {
                 return FAILE;
             }
             // 查询是否存在某设备
-            AVQuery<AVObject> query = new AVQuery<>(AVUtils.tb_pay);
+            LCQuery<LCObject> query = new LCQuery<>(AVUtils.tb_pay);
             query.whereEqualTo("serial", parentCode);
-            AVObject obj = query.getFirst();
+            LCObject obj = query.getFirst();
             if (obj == null) {
                 LogUtils.d(TAG,"找不到邀请码用户");
                 return WRONGCODE;
             }
 
-            AVQuery<AVObject> query1 = new AVQuery<>(AVUtils.tb_pay);
+            LCQuery<LCObject> query1 = new LCQuery<>(AVUtils.tb_pay);
             query1.whereEqualTo("serial", Constant.user);
-            AVObject obj1 = query1.getFirst();
+            LCObject obj1 = query1.getFirst();
             if (obj1 != null) {
                 obj1.put("parentCode", parentCode);
                 obj1.save();
