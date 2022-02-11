@@ -177,7 +177,7 @@ public class MyApplication extends Application {
     private void initLeancloud() {
         try {
 //            LeanCloud.initialize(this, "15IzPzEVyONHdh2Sv6NgaY7N-gzGzoHsz", "FSW0TSuSrQ6sHHLwY4bsIxY7", "https://please-replace-with-your-customized.domain.com");
-            LeanCloud.initialize("15IzPzEVyONHdh2Sv6NgaY7N-gzGzoHsz", "FSW0TSuSrQ6sHHLwY4bsIxY7","https://15izpzev.lc-cn-n1-shared.com");
+            LeanCloud.initialize("15IzPzEVyONHdh2Sv6NgaY7N-gzGzoHsz", "FSW0TSuSrQ6sHHLwY4bsIxY7", "https://15izpzev.lc-cn-n1-shared.com");
 //            new InitTask().execute();
         } catch (Exception e) {
             Logger.e(e.getMessage(), e);

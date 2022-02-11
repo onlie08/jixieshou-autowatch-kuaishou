@@ -1,8 +1,6 @@
 package com.ch.scripts;
 
-import android.graphics.Point;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
@@ -12,16 +10,11 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.search.node.NodeInfo;
-import com.ch.core.utils.ActionUtils;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
 import com.ch.jixieshou.BuildConfig;
 import com.ch.model.AppInfo;
-import com.ch.model.ScreenShootEvet;
-import com.google.gson.Gson;
 import com.tencent.bugly.crashreport.CrashReport;
-
-import org.greenrobot.eventbus.EventBus;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 import static com.ch.core.utils.ActionUtils.pressHome;

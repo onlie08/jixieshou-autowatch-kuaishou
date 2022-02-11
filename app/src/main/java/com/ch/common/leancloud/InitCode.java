@@ -3,7 +3,6 @@ package com.ch.common.leancloud;
 import android.os.AsyncTask;
 
 import com.ch.common.RecommendCodeManage;
-import com.ch.core.utils.Constant;
 import com.ch.core.utils.Logger;
 import com.ch.core.utils.StringUtil;
 import com.ch.model.RecommendBean;

@@ -4,10 +4,8 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Handler
 import android.util.TypedValue
-import android.view.View
 import android.widget.TextSwitcher
 import android.widget.TextView
-import android.widget.ViewSwitcher
 
 class TestKotlin {
     internal var textSwitcher: TextSwitcher? = null

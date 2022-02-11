@@ -26,7 +26,6 @@ import com.ch.application.MyApplication;
 import com.ch.common.CommonDialogManage;
 import com.ch.common.DeviceUtils;
 import com.ch.common.DownLoadAppManage;
-import com.ch.common.PackageUtils;
 import com.ch.common.SPService;
 import com.ch.core.bus.BusEvent;
 import com.ch.core.bus.BusManager;

@@ -10,7 +10,6 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.ch.adapter.AppListAdapter;
 import com.ch.application.MyApplication;
-import com.ch.common.leancloud.GetTaskListTask;
 import com.ch.event.AddAllTaskEvent;
 import com.ch.event.AddTaskEvent;
 import com.ch.event.EditTaskEvent;

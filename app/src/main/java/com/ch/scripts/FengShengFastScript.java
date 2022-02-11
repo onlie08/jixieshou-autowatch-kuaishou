@@ -265,8 +265,8 @@ public class FengShengFastScript extends BaseScript {
             if (clickTotalMatchContent("提交")) {
                 Utils.sleep(2000);
                 NodeInfo nodeInfo2 = findByText("领取餐补");
-                if(null != nodeInfo2){
-                    clickXY(nodeInfo2.getRect().centerX(),nodeInfo2.getRect().centerY()-SizeUtils.dp2px(50));
+                if (null != nodeInfo2) {
+                    clickXY(nodeInfo2.getRect().centerX(), nodeInfo2.getRect().centerY() - SizeUtils.dp2px(50));
                     Utils.sleep(2000);
                     task2 = true;
                     clickBack();

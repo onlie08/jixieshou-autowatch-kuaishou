@@ -16,8 +16,6 @@ import com.ch.jixieshou.BuildConfig;
 import com.ch.model.AppInfo;
 import com.tencent.bugly.crashreport.CrashReport;
 
-import org.w3c.dom.Node;
-
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 import static com.ch.core.utils.ActionUtils.pressHome;
 

@@ -1,6 +1,5 @@
 package com.ch.fragment;
 
-import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.ch.common.CommonDialogManage;
 import com.ch.jixieshou.R;
 

@@ -1,8 +1,6 @@
 package com.ch.scripts;
 
 
-import android.view.accessibility.AccessibilityNodeInfo;
-
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ScreenUtils;

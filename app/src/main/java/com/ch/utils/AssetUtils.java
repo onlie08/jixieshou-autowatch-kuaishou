@@ -3,9 +3,7 @@ package com.ch.utils;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ConvertUtils;
-import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
-import com.ch.common.CommonDialogManage;
 import com.ch.model.AppInfo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

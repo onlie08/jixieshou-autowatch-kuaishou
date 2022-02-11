@@ -25,7 +25,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import cn.leancloud.LCObject;
 
 /**
  * 新建或编辑任务界面

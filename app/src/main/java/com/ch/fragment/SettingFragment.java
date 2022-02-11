@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.ch.activity.HelpDocumentActivity;
-import com.ch.activity.SetRecommendCodeActivity;
-import com.ch.application.MyApplication;
 import com.ch.common.CommonDialogManage;
 import com.ch.common.PackageUtils;
 import com.ch.core.utils.Constant;

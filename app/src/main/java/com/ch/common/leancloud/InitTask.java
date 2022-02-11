@@ -12,12 +12,8 @@ import com.ch.core.utils.StringUtil;
 import com.ch.model.RecommendBean;
 import com.google.gson.Gson;
 
-import java.util.List;
-
 import cn.leancloud.LCObject;
 import cn.leancloud.LCQuery;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
 public class InitTask extends AsyncTask<String, Integer, Boolean> {
 
@@ -36,9 +32,9 @@ public class InitTask extends AsyncTask<String, Integer, Boolean> {
                 // 已注册
                 MyApplication.getAppInstance().setVip(obj.getBoolean("payed"));
                 Constant.parentCode = obj.getString("parentCode");
-                SPUtils.getInstance().put("parentCode",Constant.parentCode);
+                SPUtils.getInstance().put("parentCode", Constant.parentCode);
 
-                if(!TextUtils.isEmpty(Constant.parentCode)){
+                if (!TextUtils.isEmpty(Constant.parentCode)) {
                     LCQuery<LCObject> query1 = new LCQuery<>(AVUtils.tb_code);
                     query1.whereEqualTo("serial", Constant.parentCode);
                     LCObject obj1 = query1.getFirst();
