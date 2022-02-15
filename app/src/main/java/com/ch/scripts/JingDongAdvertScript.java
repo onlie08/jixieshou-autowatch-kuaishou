@@ -186,13 +186,14 @@ public class JingDongAdvertScript extends BaseScript {
             return 0;
         }
 
+        if (findContent("逛商品赚金币") && findContent("逛活动赚金币")) {
+            return 2;
+        }
+
         if (findContent("约¥") && findContent("规则")) {
             return 1;
         }
 
-        if (findContent("逛商品赚金币") && findContent("逛活动赚金币")) {
-            return 2;
-        }
         if (findContent("返回") && findContent("更多菜单")) {
             return 3;
         }

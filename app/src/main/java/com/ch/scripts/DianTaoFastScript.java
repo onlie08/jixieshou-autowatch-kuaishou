@@ -210,11 +210,21 @@ public class DianTaoFastScript extends BaseScript {
 
     }
 
+    /**
+     * 打工赚元宝
+     */
     private void doPageId7Things() {
         if (samePageCount > 2) {
             if (clickContent("我知道了")) return;
             if (clickContent("去看直播")) return;
             if (clickContent("体力不足，去获得体力")) return;
+        }
+        if (samePageCount > 4) {
+            clickBack();
+            Utils.sleep(2000);
+            clickContent("走路赚元宝");
+            return;
+
         }
 
         if (null == point_LingTiLi) {
@@ -236,15 +246,18 @@ public class DianTaoFastScript extends BaseScript {
             }
         }
 
-        if (clickContent("去观看")) {
-            return;
+        if(findTotalMatchContent("去芭芭农场施肥")){
+            if (clickContent("去观看")) {
+                return;
+            }
+            if (clickContent("看直播")) {
+                return;
+            }
+            if (clickContent("去浏览")) {
+                return;
+            }
         }
-        if (clickContent("看直播")) {
-            return;
-        }
-        if (clickContent("去浏览")) {
-            return;
-        }
+
         if (clickId("sign-panel-btn")) {
             Utils.sleep(1000);
         }
@@ -256,6 +269,9 @@ public class DianTaoFastScript extends BaseScript {
         Utils.sleep(2000);
         if (clickTotalMatchContent("开始打工")) {
             Utils.sleep(2000);
+            return;
+        }else if(clickTotalMatchContent("体力不足，去获得体力")){
+            Utils.sleep(1000);
             return;
         }
 
@@ -270,6 +286,9 @@ public class DianTaoFastScript extends BaseScript {
 
     }
 
+    /**
+     * 元宝中心
+     */
     private void doPageId1Things() {
         if (samePageCount >= 2) {
             closeDialog();
@@ -318,6 +337,9 @@ public class DianTaoFastScript extends BaseScript {
     int timeCount = 0;
     boolean findTaskCount = false;
 
+    /**
+     *浏览任务
+     */
     private void doPageId2Things() {
         if (samePageCount > 6) {
             if (clickContent("重新加载")) return;
@@ -345,6 +367,9 @@ public class DianTaoFastScript extends BaseScript {
 
     boolean editPage = false;
 
+    /**
+     * 填写验证码
+     */
     private void doPageId3Things() {
         if (findContent("抱歉 你已经抽过奖了")) {
             SPUtils.getInstance().put("invite_diantao", true);
@@ -402,6 +427,7 @@ public class DianTaoFastScript extends BaseScript {
 
 
         if (clickContent("去观看")) return;
+        if (clickContent("去浏览")) return;
         if (clickContent("去领步数")) return;
 
         NodeInfo nodeInfo = findTotalMatchByText("领取");

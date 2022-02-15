@@ -1,5 +1,6 @@
 package com.ch.scripts;
 
+import android.graphics.Point;
 import android.os.Bundle;
 import android.view.accessibility.AccessibilityNodeInfo;
 
@@ -9,6 +10,7 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.ch.application.MyApplication;
+import com.ch.core.executor.builder.SwipStepBuilder;
 import com.ch.core.search.node.NodeInfo;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
@@ -192,6 +194,7 @@ public class FengShengFastScript extends BaseScript {
         if (root2 != null) {
             Bundle arguments = new Bundle();
 
+//            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "2022-02-10 18:30");
             arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, timeURL + " 18:30");
             root2.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
             Utils.sleep(1000);
@@ -199,6 +202,7 @@ public class FengShengFastScript extends BaseScript {
 
         if (root3 != null) {
             Bundle arguments = new Bundle();
+//            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "2022-02-10 21:00");
             arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, timeURL + " 21:00");
             root3.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
             Utils.sleep(2000);
@@ -207,14 +211,29 @@ public class FengShengFastScript extends BaseScript {
         root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
         if (root == null) return;
         root1 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
-        AccessibilityNodeInfo root4 = root1.getChild(0).getChild(0).getChild(3).getChild(1).getChild(0).getChild(4).getChild(2).getChild(0);
-        AccessibilityNodeInfo root5 = root1.getChild(0).getChild(0).getChild(3).getChild(1).getChild(0).getChild(5).getChild(1).getChild(0);
+        AccessibilityNodeInfo root4 = root1.getChild(0).getChild(0).getChild(3).getChild(1).getChild(0).getChild(3).getChild(2).getChild(0);
+        AccessibilityNodeInfo root5 = root1.getChild(0).getChild(0).getChild(3).getChild(1).getChild(0).getChild(4).getChild(1).getChild(0);
 
         if (root4 != null) {
-            Bundle arguments = new Bundle();
-            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "延时加班");
-            root4.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
-            Utils.sleep(1000);
+//            Bundle arguments = new Bundle();
+//            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "延时加班");
+//            root4.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+//            Utils.sleep(1000);
+
+            NodeInfo nodeInfo = findByText("加班类型");
+            clickXY(MyApplication.getScreenWidth()/2,nodeInfo.getRect().centerY());
+            Utils.sleep(2000);
+
+            NodeInfo nodeInfo1 = findByText("延时加班");
+            NodeInfo nodeInfo2 = findByText("公息日加班");
+
+            int x = MyApplication.getAppInstance().getScreenWidth() / 2;
+            int fromY = nodeInfo1.getRect().centerY();
+            int toY = nodeInfo2.getRect().centerY();
+            new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
+            Utils.sleep(2000);
+            clickTotalMatchContent("完成");
+            Utils.sleep(2000);
         }
 
         if (root5 != null) {
@@ -223,10 +242,11 @@ public class FengShengFastScript extends BaseScript {
             root5.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
             Utils.sleep(1000);
         }
-
+//
         if (clickTotalMatchContent("提交申请")) {
             Utils.sleep(1000);
             if (clickTotalMatchContent("确定")) {
+                Utils.sleep(4000);
                 task4 = true;
                 setTodayDone(true);
                 skipTask();
