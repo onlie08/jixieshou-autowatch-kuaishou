@@ -15,7 +15,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="start|center"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="30dp"
             android:layout_marginStart="16dp"
             android:src="@drawable/arrow_back" />
 
@@ -59,13 +59,13 @@
 
                         <LinearLayout
                             android:id="@+id/sp"
-                            android:visibility="gone"
                             android:layout_width="match_parent"
+                            android:layout_height="1dp"
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
                             android:background="#e5e5ea"
                             android:orientation="vertical"
-                            android:layout_height="1dp" />
+                            android:visibility="gone" />
 
                         <include
                             android:visibility="gone"
@@ -113,6 +113,60 @@
                         android:text="确定" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:lineSpacingExtra="4sp"
+                    android:text="@string/toutiao_detail"
+                    android:textColor="#7b7c98"
+                    android:textSize="12sp"
+                    android:visibility="visible" />
+
+
+                <!--<androidx.cardview.widget.CardView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="20dp"-->
+                <!--android:layout_marginEnd="20dp"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--app:cardCornerRadius="8dp"-->
+                <!--app:cardElevation="2dp"-->
+                <!--android:background="#fff">-->
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="10dp"-->
+
+                <!--android:orientation="vertical">-->
+
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="@color/color_393939"-->
+                <!--android:text="任务说明及攻略"-->
+                <!--android:textSize="16sp"-->
+                <!--android:textStyle="bold"-->
+                <!--/>-->
+
+                <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="14sp"-->
+                <!--android:layout_marginTop="4dp"-->
+                <!--android:textColor="@color/color_393939"-->
+                <!--android:text="@string/aiqiyi_describe"-->
+                <!--/>-->
+
+                <!--</LinearLayout>-->
+                <!--</androidx.cardview.widget.CardView>-->
+
 
             </LinearLayout>
         </ScrollView>

@@ -15,7 +15,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="start|center"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="30dp"
             android:layout_marginStart="16dp"
             android:src="@drawable/arrow_back" />
 
@@ -37,19 +37,25 @@
                     android:text="请选择一个任务" />
 
                 <TextView
+                    android:id="@+id/tv_add_all"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_height="28dp"
+                    android:layout_gravity="right"
                     android:layout_marginStart="16dp"
+                    android:background="@drawable/shape_round_corner"
+                    android:drawableLeft="@drawable/add"
+                    android:textColor="@color/color_white"
+                    android:drawablePadding="2dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="4dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
                     android:gravity="center"
                     android:lineSpacingExtra="8sp"
-                    android:text="@string/tip_vip"
-                    android:textColor="#7b7c98"
+                    android:text="一键添加"
                     android:textSize="12sp"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/openVIPBtn"
@@ -70,12 +76,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="4dp"
                     android:background="#fff">
 
-                    <com.cmlanche.widget.ListViewForScrollView
+                    <com.ch.widget.ListViewForScrollView
                         android:id="@+id/typeListView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

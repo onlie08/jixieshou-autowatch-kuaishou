@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:iconTint="@drawable/ic_home_black_24dp"
+        android:title="任务" />
+
+    <item
+        android:id="@+id/navigation_coupon"
+        android:icon="@drawable/icon_coupon"
+        android:iconTint="@drawable/icon_coupon"
+        android:title="福利" />
+
+    <item
+        android:id="@+id/navigation_dashboard"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:iconTint="@drawable/ic_dashboard_black_24dp"
+        android:title="更多" />
+
+
+</menu>

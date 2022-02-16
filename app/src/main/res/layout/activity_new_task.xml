@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cmlanche.activity.NewOrEditTaskActivity">
+    tools:context="com.ch.activity.EditTaskActivity">
 
     <include layout="@layout/content_new_task" />
 

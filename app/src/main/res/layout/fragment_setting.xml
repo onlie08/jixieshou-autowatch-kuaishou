@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <TextView
+            android:id="@+id/tv_join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="加入群聊："
+            android:textColor="@color/color_text"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_join"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/color_white"
+            android:gravity="center_vertical"
+            android:text="软件反馈交流QQ群"
+            android:drawableLeft="@drawable/communicate"
+            android:drawablePadding="12dp"
+            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+            android:textColor="@color/color_text"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:cornerRadius="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_join" />
+
+
+        <TextView
+            android:id="@+id/tv_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="工具："
+            android:textColor="@color/color_text"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_join" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_clear_data"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="4dp"
+            android:backgroundTint="@color/color_white"
+            android:gravity="center_vertical"
+            android:text="清除数据"
+            android:drawableLeft="@drawable/clear"
+            android:drawablePadding="12dp"
+            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+            android:textColor="@color/color_text"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:cornerRadius="4dp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_update"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_set" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_update"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/color_white"
+            android:gravity="center_vertical"
+            android:text="检查更新"
+            android:drawableLeft="@drawable/update"
+            android:drawablePadding="12dp"
+            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+            android:textColor="@color/color_text"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:cornerRadius="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_clear_data"
+            app:layout_constraintTop_toBottomOf="@+id/tv_set" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_recommend"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="4dp"
+            android:backgroundTint="@color/color_white"
+            android:drawableLeft="@drawable/icon_invite"
+            android:drawablePadding="12dp"
+            android:gravity="center_vertical"
+            android:text="填写邀请码"
+            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+            android:textColor="@color/color_text"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:cornerRadius="4dp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_set_code"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_update" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_set_code"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/color_white"
+            android:drawableLeft="@drawable/icon_recommend"
+            android:drawablePadding="12dp"
+            android:gravity="center_vertical"
+            android:text="分享好友"
+            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+            android:textColor="@color/color_text"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:cornerRadius="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_recommend"
+            app:layout_constraintTop_toBottomOf="@+id/btn_update" />
+
+
+        <TextView
+            android:id="@+id/tv_help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="帮助与反馈："
+            android:textColor="@color/color_text"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_set_code" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_feedback"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/color_white"
+            android:gravity="center_vertical"
+            android:text="问题反馈"
+            android:drawableLeft="@drawable/feedback"
+            android:drawablePadding="12dp"
+            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+            android:textColor="@color/color_text"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:cornerRadius="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_help" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_help"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/color_white"
+            android:gravity="center_vertical"
+            android:text="常见问题"
+            android:drawableLeft="@drawable/help"
+            android:drawablePadding="12dp"
+            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+            android:textColor="@color/color_text"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:cornerRadius="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_feedback" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_warming"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/color_white"
+            android:gravity="center_vertical"
+            android:text="软件声明"
+            android:drawableLeft="@drawable/warning"
+            android:drawablePadding="12dp"
+            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+            android:textColor="@color/color_text"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:cornerRadius="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_help" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_about"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/color_white"
+            android:gravity="center_vertical"
+            android:text="关于软件"
+            android:drawableLeft="@drawable/about"
+            android:drawablePadding="12dp"
+            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+            android:textColor="@color/color_text"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:cornerRadius="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_warming" />
+
+        <TextView
+            android:id="@+id/tv_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="【捡豆子助手完全免费，如遇到售卖请举报！】"
+            android:textColor="#50000000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_about" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_exit"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:gravity="center"
+            android:text="退出软件"
+            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+            android:textColor="@color/color_white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
