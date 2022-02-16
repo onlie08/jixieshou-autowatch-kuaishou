@@ -1,5 +1,7 @@
 package com.ch.activity;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,6 +12,7 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.ch.adapter.AppListAdapter;
 import com.ch.application.MyApplication;
+import com.ch.common.leancloud.CheckPayTask;
 import com.ch.event.AddAllTaskEvent;
 import com.ch.event.AddTaskEvent;
 import com.ch.event.EditTaskEvent;
@@ -47,7 +50,7 @@ public class TaskTypeListActivity extends AppCompatActivity {
         appInfos = AssetUtils.getSingleton().getAppInfos(this);
         initView();
 
-//        new CheckPayTask(this).execute();
+        new CheckPayTask(this).execute();
     }
 
     private void initView() {
@@ -72,7 +75,7 @@ public class TaskTypeListActivity extends AppCompatActivity {
                     if (MyApplication.getAppInstance().isVip()) {
                         choose(info);
                     } else {
-                        Toast.makeText(TaskTypeListActivity.this, "您还不是VIP会员，无法使用此任务", Toast.LENGTH_LONG).show();
+                        Toast.makeText(TaskTypeListActivity.this, "您还没有使用该任务的权限", Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -101,6 +104,8 @@ public class TaskTypeListActivity extends AppCompatActivity {
                 }
                 if (appInfoList.isEmpty()) {
                     ToastUtils.showLong("所有任务app都未安装，请单独添加任务");
+//                    EventBus.getDefault().post(new AddAllTaskEvent(appInfos));
+//                    finish();
                     return;
                 }
                 EventBus.getDefault().post(new AddAllTaskEvent(appInfoList));

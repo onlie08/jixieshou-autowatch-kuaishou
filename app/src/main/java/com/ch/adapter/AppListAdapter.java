@@ -2,6 +2,8 @@ package com.ch.adapter;
 
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.AppUtils;
+import com.ch.application.MyApplication;
 import com.ch.core.utils.Constant;
 import com.ch.jixieshou.R;
 import com.ch.model.AppInfo;

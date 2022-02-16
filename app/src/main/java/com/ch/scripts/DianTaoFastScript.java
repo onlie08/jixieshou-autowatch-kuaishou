@@ -270,7 +270,8 @@ public class DianTaoFastScript extends BaseScript {
         if (clickTotalMatchContent("开始打工")) {
             Utils.sleep(2000);
             return;
-        }else if(clickTotalMatchContent("体力不足，去获得体力")){
+        }else if(findTotalMatchContent("体力不足，去获得体力")){
+            clickXY(MyApplication.getScreenWidth()/2, SizeUtils.dp2px(200));
             Utils.sleep(1000);
             return;
         }

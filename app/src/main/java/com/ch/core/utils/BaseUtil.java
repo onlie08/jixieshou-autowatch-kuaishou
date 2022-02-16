@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.AppUtils;
 import com.ch.application.MyApplication;
 import com.ch.jixieshou.R;
 import com.google.android.material.button.MaterialButton;
@@ -33,8 +34,12 @@ public class BaseUtil {
     private final static String MARKET_PKG_NAME_HUAWEI = "com.huawei.appmarket";
     private final static String MARKET_PKG_NAME_MEIZU = "com.meizu.mstore";
 
+//    public static boolean isInstallPackage(String packageName) {
+//        return new File("/data/data/" + packageName).exists();
+//    }
+
     public static boolean isInstallPackage(String packageName) {
-        return new File("/data/data/" + packageName).exists();
+        return AppUtils.isAppInstalled(packageName);
     }
 
     public static void showDownLoadDialog(String packageName, final Context context) {

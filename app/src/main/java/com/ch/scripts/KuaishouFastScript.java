@@ -200,6 +200,7 @@ public class KuaishouFastScript extends BaseScript {
             if (clickContent("都领完了，继续赚钱")) return;
             if (clickContent("立即预约")) return;
             if (clickContent("点击开启")) return;
+            if (clickTotalMatchContent("立即签到")) return;
         }
 
         if(findContent("限时福利14天领")){
