@@ -200,7 +200,6 @@ public class KuaishouFastScript extends BaseScript {
             if (clickContent("都领完了，继续赚钱")) return;
             if (clickContent("立即预约")) return;
             if (clickContent("点击开启")) return;
-//            if (clickContent("立即签到")) return;
         }
 
         if(findContent("限时福利14天领")){
@@ -346,12 +345,12 @@ public class KuaishouFastScript extends BaseScript {
             return 1;
         }
 
-        if (findId("left_btn") && findContent("直播广场")) {
+        if (findId("left_btn") && findContent("发现")) {
             return 0;
         }
 
 
-        if (findContent("s后可领取奖励")) {
+        if (findContent("s后可领取奖励") || findContent("s后领取观看奖励")) {
             return 2;
         }
 
