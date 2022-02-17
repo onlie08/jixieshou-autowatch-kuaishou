@@ -113,7 +113,20 @@ public class FindByText {
         return Utils.textTotalMatch(text, nodeInfo.getText());
     }
 
-//    public static String getContent(String s) {
-//
-//    }
+    public static List<NodeInfo> findAllTotalMatch(String text) {
+        List<NodeInfo> nodeInfoList = new ArrayList<>();
+        AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getRoots();
+        if (roots == null) {
+            Log.i(Utils.tag, "roots is null.");
+        }
+        TreeInfo treeInfo = new Dumper(roots).dump();
+        if (treeInfo != null && treeInfo.getRects() != null) {
+            for (NodeInfo rect : treeInfo.getRects()) {
+                if (isTotalMatch(rect, text)) {
+                    nodeInfoList.add(rect);
+                }
+            }
+        }
+        return nodeInfoList.isEmpty()?null:nodeInfoList;
+    }
 }

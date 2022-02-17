@@ -15,6 +15,7 @@ import com.ch.core.search.node.NodeInfo;
 import com.ch.core.utils.ActionUtils;
 import com.ch.core.utils.Logger;
 import com.ch.core.utils.Utils;
+import com.ch.jixieshou.BuildConfig;
 import com.ch.model.AppInfo;
 
 import java.util.List;
@@ -74,6 +75,9 @@ public abstract class BaseScript implements IScript {
             } finally {
                 if (findContent("启动应用")) {
                     clickId("button1");
+                }
+                if(BuildConfig.DEBUG){
+                    if (findId("test")) ;
                 }
                 int t = getRandomSleepTime(getMinSleepTime(), getMaxSleepTime());
                 Logger.i("休眠：" + t);
@@ -162,6 +166,10 @@ public abstract class BaseScript implements IScript {
 
     protected NodeInfo findTotalMatchByText(String text) {
         return FindByText.findTotalMatch(text);
+    }
+
+    protected List<NodeInfo> findAllTotalMatchByText(String text) {
+        return FindByText.findAllTotalMatch(text);
     }
 
     protected void runOnUiThread(Runnable runnable) {

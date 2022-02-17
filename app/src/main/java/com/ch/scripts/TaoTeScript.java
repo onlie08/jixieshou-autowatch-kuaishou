@@ -2,12 +2,14 @@ package com.ch.scripts;
 
 import android.graphics.Point;
 import android.text.TextUtils;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
+import com.blankj.utilcode.util.UiMessageUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.search.node.NodeInfo;
 import com.ch.core.utils.Constant;
@@ -17,16 +19,14 @@ import com.ch.model.AppInfo;
 import com.google.gson.Gson;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import java.util.List;
+
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 import static com.ch.core.utils.ActionUtils.pressHome;
 
 public class TaoTeScript extends BaseScript {
 
     private String TAG = this.getClass().getSimpleName();
-    private Point point_ZhuanJinBi;
-    private Point point_RenWu;
-    private Point point_TianXieYaoQingMa3;
-    private Point point_ZhanTie;
 
     private volatile static TaoTeScript instance; //声明成 volatile
 
@@ -82,35 +82,53 @@ public class TaoTeScript extends BaseScript {
         LogUtils.d(TAG, "pageId:" + pageId + " samePageCount:" + samePageCount);
 
         doSamePageDeal();
-//
-//        if (clickAdvert()) return;
-//
+
         if (pageId == 0) {
 
+            /**
+             * 淘特首页
+             */
             doPageId0Things();
 
         } else if (pageId == 1) {
 
+            /**
+             * 赚特币主页
+             */
             doPageId1Things();
 
         } else if (pageId == 2) {
-
+            /**
+             * 赚特币任务详细页
+             */
             doPageId2Things();
 
         } else if (pageId == 3) {
 
+            /**
+             * 任务中心
+             */
             doPageId3Things();
 
         } else if (pageId == 4) {
 
+            /**
+             * 签到领金币
+             */
             doPageId4Things();
 
-        }else if (pageId == 5) {
+        } else if (pageId == 5) {
 
+            /**
+             * 发财鸭升级
+             */
             doPageId5Things();
 
-        }else if (pageId == 6) {
+        } else if (pageId == 6) {
 
+            /**
+             * 喂养小鸡
+             */
             doPageId6Things();
 
         } else {
@@ -127,28 +145,45 @@ public class TaoTeScript extends BaseScript {
      * 喂养小鸡
      */
     private void doPageId6Things() {
-        clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(60),MyApplication.getScreenHeight() - SizeUtils.dp2px(60));
+        NodeInfo nodeInfo = findTotalMatchByText("一键喂5次");
+        if (!findTotalMatchContent("明日可领")) {
+            if (null != nodeInfo) {
+                clickXY(nodeInfo.getRect().centerX(), nodeInfo.getRect().centerY() - SizeUtils.dp2px(70));
+                Utils.sleep(2000);
+                if (clickTotalMatchContent("去喂小鸡")) {
+                    Utils.sleep(2000);
+                }
+            }
+        }
+        if (!findContent("次可开")) {
+            if (null != nodeInfo) {
+                clickXY(SizeUtils.dp2px(50), nodeInfo.getRect().centerY() - SizeUtils.dp2px(70));
+                Utils.sleep(2000);
+                if (clickTotalMatchContent("去喂养小鸡")) {
+                    Utils.sleep(2000);
+                }
+            }
+        }
+        if (clickContent("领取升级奖励饲料")) {
+            return;
+        }
+        if (clickContent("开心收下")) {
+            return;
+        }
+        clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(60), MyApplication.getScreenHeight() - SizeUtils.dp2px(60));
         Utils.sleep(2000);
         clickBack();
-//        if(clickTotalMatchContent("领饲料")){
-//            Utils.sleep(1000);
-//            if(clickTotalMatchContent("每日免费领饲料")){
-//                clickBack();
-//                return;
-//            }
-//        }
-
     }
 
     /**
      * 发财鸭升级
      */
     private void doPageId5Things() {
-        if(clickTotalMatchContent("领取奖励")){
+        if (clickTotalMatchContent("领取奖励")) {
             return;
         }
 
-        if(clickContent("消耗")){
+        if (clickContent("消耗")) {
             Utils.sleep(2000);
             clickBack();
             return;
@@ -163,39 +198,56 @@ public class TaoTeScript extends BaseScript {
      * 签到界面
      */
     private void doPageId4Things() {
-        if(clickTotalMatchContent("点击签到")){
-
+        List<NodeInfo> nodeInfoList = findAllTotalMatchByText("点击领取现金");
+        if (null != nodeInfoList && !nodeInfoList.isEmpty() && nodeInfoList.size() == 3) {
+            if (clickTotalMatchContent("点击领取现金")) {
+                Utils.sleep(1000);
+                clickXY(nodeInfoList.get(nodeInfoList.size() - 1).getRect().centerX(), nodeInfoList.get(nodeInfoList.size() - 1).getRect().centerY());
+                Utils.sleep(2000);
+                clickBack();
+                return;
+            }
+        }
+        if (clickTotalMatchContent("点击签到")) {
             return;
         }
-        if(clickTotalMatchContent("点击领取")){
+        if (clickTotalMatchContent("点击领取")) {
             Utils.sleep(1000);
             clickBack();
             return;
         }
+
+        if (clickTotalMatchContent("继续领取现金")) {
+            Utils.sleep(2000);
+            List<NodeInfo> nodeInfoList1 = findAllTotalMatchByText("明日再来");
+            if (nodeInfoList1 != null && nodeInfoList1.size() == 2) {
+                clickBack();
+                return;
+            }
+            if (findTotalMatchContent("做任务领取更多现金")) {
+                if (clickTotalMatchContent("逛街赚钱")) {
+                    Utils.sleep(2000);
+                    doScan(35);
+                    clickBack();
+                    Utils.sleep(2000);
+                }
+                if (clickTotalMatchContent("浏览精选货品")) {
+                    Utils.sleep(2000);
+                    doScan(35);
+                    clickBack();
+                    Utils.sleep(2000);
+                }
+            }
+        }
         clickBack();
-//        if (findTotalMatchContent("做任务领取更多现金")) {
-//            if (clickTotalMatchContent("逛街赚钱")) {
-//                Utils.sleep(2000);
-//                doScan(35);
-//                clickBack();
-//            }
-//            if (clickTotalMatchContent("浏览精选货品")) {
-//                Utils.sleep(2000);
-//                doScan(35);
-//                clickBack();
-//            }
-//
-//            return;
-//        }
-//        if (clickTotalMatchContent("继续领取现金")) {
-//
-//        }
+
     }
 
+    /**
+     * 淘特首页
+     */
     private void doPageId0Things() {
         LogUtils.d(TAG, "doPageId0Things");
-//        if (clickContent("天天赚特币")) return;
-
         NodeInfo nodeInfo = findTotalMatchByText("搜索");
         clickXY(SizeUtils.dp2px(30), nodeInfo.getRect().centerY());
         return;
@@ -208,21 +260,28 @@ public class TaoTeScript extends BaseScript {
     boolean task5 = false;
     boolean task6 = false;
 
+    /**
+     * 赚特币主页
+     */
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
         if (samePageCount > 2) {
             clickBack();
             return;
         }
-        if (clickContent("立即领币")) {
-            Utils.sleep(1000);
-            clickBack();
+        //每日立即领取
+        if (clickTotalMatchContent("立即领取")) {
+            Utils.sleep(2000);
+            if (clickContent("放弃膨胀 领取")) {
+                Utils.sleep(2000);
+                clickBack();
+                return;
+            }
             return;
         }
 
         if (clickContent("点击继续")) return;
         if (clickContent("立即重试")) return;
-        if (clickContent("放弃膨胀 领取")) return;
 
         if (clickTotalMatchContent("可开红包")) {
             Utils.sleep(3000);
@@ -232,13 +291,18 @@ public class TaoTeScript extends BaseScript {
             }
         }
 
-//        if (clickContent("继续赚币")) return;
+        if (clickContent("继续赚币")) return;
         return;
     }
 
+    /**
+     * 赚特币弹出任务窗口时
+     */
     private void doPageId2Things() {
         LogUtils.d(TAG, "doPageId2Things");
-
+        if (checkDone()) {
+            return;
+        }
         if (!task1) {
             if (clickContent("看直播福利最高赚") || clickContent("看视频福利最高赚")) {
                 doScan(35);
@@ -266,6 +330,22 @@ public class TaoTeScript extends BaseScript {
             }
         }
 
+        if (!task5) {
+            if (clickContent("逛30%抵扣最高赚")) {
+                doScan(16);
+                Utils.sleep(3000);
+                task5 = true;
+                return;
+            }
+        }
+        if (!task6) {
+            if (clickContent("逛特价好物最高赚")) {
+                doScan(16);
+                Utils.sleep(3000);
+                task6 = true;
+                return;
+            }
+        }
         if (!task4) {
             if (clickContent("逛超值抵扣最高赚")) {
                 doScan(35);
@@ -274,30 +354,13 @@ public class TaoTeScript extends BaseScript {
                 return;
             }
         }
-
-        if (!task5) {
-            if (clickContent("逛30%抵扣最高")) {
-                doScan(16);
-                Utils.sleep(3000);
-                task5 = true;
-                return;
-            }
-        }
-        if (!task6) {
-            if (clickContent("逛特价好物")) {
-                doScan(16);
-                Utils.sleep(3000);
-                task6 = true;
-                return;
-            }
-        }
-        if (checkDone()) {
-            setTodayDone(true);
-            CrashReport.postCatchedException(new Exception("淘特今日任务完成"));
-            skipTask();
-            return;
-        }
-        scrollUpSlow();
+//        if (checkDone()) {
+//            setTodayDone(true);
+//            CrashReport.postCatchedException(new Exception("淘特今日任务完成"));
+//            skipTask();
+//            return;
+//        }
+//        scrollUpSlow();
     }
 
     private boolean checkDone() {
@@ -319,10 +382,39 @@ public class TaoTeScript extends BaseScript {
 
     int pos = 0;
 
+    /**
+     * 任务中心
+     */
     private void doPageId3Things() {
         LogUtils.d(TAG, "doPageId3Things");
+        if (samePageCount > 5) {
+            if (findTotalMatchContent("明日再来哦")) {
+                setTodayDone(true);
+                CrashReport.postCatchedException(new Exception("淘特今日任务完成"));
+                skipTask();
+                return;
+            }
+        }
+
         if (clickTotalMatchContent("去领取")) {
             return;
+        }
+        if (findTotalMatchContent("再逛逛") && !findTotalMatchContent("明日再来哦")) {
+            NodeInfo nodeInfo = findTotalMatchByText("3分钟");
+            if (null != nodeInfo) {
+                clickXY(nodeInfo.getRect().centerX(), nodeInfo.getRect().centerY() - SizeUtils.dp2px(20));
+                Utils.sleep(2000);
+            }
+            NodeInfo nodeInfo1 = findTotalMatchByText("10分钟");
+            if (null != nodeInfo1) {
+                clickXY(nodeInfo1.getRect().centerX(), nodeInfo1.getRect().centerY() - SizeUtils.dp2px(20));
+                Utils.sleep(2000);
+            }
+            NodeInfo nodeInfo2 = findTotalMatchByText("20分钟");
+            if (null != nodeInfo2) {
+                clickXY(nodeInfo2.getRect().centerX(), nodeInfo2.getRect().centerY() - SizeUtils.dp2px(20));
+                Utils.sleep(2000);
+            }
         }
         pos++;
 
@@ -348,9 +440,10 @@ public class TaoTeScript extends BaseScript {
                 }
                 break;
             case 3:
-                if (clickTotalMatchContent("升级鸭鸭赚现金")) {
-                    return;
-                }
+                return;
+//                if (clickTotalMatchContent("升级鸭鸭赚现金")) {
+//                    return;
+//                }
             case 4:
                 if (clickTotalMatchContent("喂小鸡好货0元领")) {
                     return;
@@ -432,11 +525,6 @@ public class TaoTeScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
-        String sp_zhuanjinbi = SPUtils.getInstance().getString(Constant.JINGDONG_ZHUANJINBI, "");
-        if (!TextUtils.isEmpty(sp_zhuanjinbi)) {
-            point_ZhuanJinBi = new Gson().fromJson(sp_zhuanjinbi, Point.class);
-        }
-
     }
 
 
