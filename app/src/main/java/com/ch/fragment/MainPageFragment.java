@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,10 +38,12 @@ import com.ch.event.AddTaskEvent;
 import com.ch.event.DelectTaskEvent;
 import com.ch.event.RefreshTaskEvent;
 import com.ch.floatwindow.PermissionUtil;
+import com.ch.jixieshou.BuildConfig;
 import com.ch.jixieshou.R;
 import com.ch.model.AppInfo;
 import com.ch.model.TaskInfo;
 import com.ch.scripts.FSRedPackageScript;
+import com.ch.scripts.TaskExecutor;
 import com.ch.scripts.WXPackageScript;
 import com.ch.scripts.WeiXinScript;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -111,6 +114,16 @@ public class MainPageFragment extends Fragment {
     }
 
     private void initView(View view) {
+        Button btn_skip_task = view.findViewById(R.id.btn_skip_task);
+        if(BuildConfig.DEBUG){
+            btn_skip_task.setVisibility(View.VISIBLE);
+        }
+        view.findViewById(R.id.btn_skip_task).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TaskExecutor.getInstance().setAllTime(0);
+            }
+        });
         view.findViewById(R.id.tv_describe).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

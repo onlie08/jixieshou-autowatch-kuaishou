@@ -83,7 +83,7 @@
     "taskName":"丰声-打卡",
     "pkgName":"com.sfexpress.sfim",
     "period":5,
-    "isFree":true,
+    "isFree":false,
     "discribe":"",
     "star":"2颗星"
   }

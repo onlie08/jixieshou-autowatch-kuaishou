@@ -27,7 +27,6 @@ public class TaskExecutor {
     private boolean isFinished = true;
     private AppInfo currentTaskApp;
     private IScript currentScript;
-
     private Thread scriptThread;
     private Thread monitorThread;
 
