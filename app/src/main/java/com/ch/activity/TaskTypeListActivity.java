@@ -97,15 +97,20 @@ public class TaskTypeListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 List<AppInfo> appInfoList = new ArrayList<>();
+
                 for (AppInfo appInfo : appInfos) {
                     if (getAppInstall(appInfo.getPkgName()).equals("已安装")) {
-                        appInfoList.add(appInfo);
+                        if(appInfo.isFree()){
+                            appInfoList.add(appInfo);
+                        }else {
+                            if(MyApplication.getAppInstance().isVip()){
+                                appInfoList.add(appInfo);
+                            }
+                        }
                     }
                 }
                 if (appInfoList.isEmpty()) {
                     ToastUtils.showLong("所有任务app都未安装，请单独添加任务");
-//                    EventBus.getDefault().post(new AddAllTaskEvent(appInfos));
-//                    finish();
                     return;
                 }
                 EventBus.getDefault().post(new AddAllTaskEvent(appInfoList));

@@ -256,6 +256,10 @@ public class DianTaoFastScript extends BaseScript {
             if (clickContent("去浏览")) {
                 return;
             }
+            clickBack();
+            Utils.sleep(2000);
+            clickContent("走路赚元宝");
+            return;
         }
 
         if (clickId("sign-panel-btn")) {
