@@ -7,7 +7,9 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
+import com.ch.core.search.node.NodeInfo;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
 import com.ch.jixieshou.BuildConfig;
@@ -18,6 +20,8 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.List;
+
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT;
 import static com.ch.core.utils.ActionUtils.pressHome;
 
@@ -25,6 +29,8 @@ public class JingDongAdvertScript extends BaseScript {
 
     private String TAG = this.getClass().getSimpleName();
     private Point point_ZhuanJinBi;
+    private Point point_YiQian;
+    private boolean signToday = false;
 
     private volatile static JingDongAdvertScript instance; //声明成 volatile
 
@@ -80,9 +86,7 @@ public class JingDongAdvertScript extends BaseScript {
         LogUtils.d(TAG, "pageId:" + pageId + " samePageCount:" + samePageCount);
 
         doSamePageDeal();
-//
-//        if (clickAdvert()) return;
-//
+
         if (pageId == 0) {
 
             doPageId0Things();
@@ -99,19 +103,47 @@ public class JingDongAdvertScript extends BaseScript {
 
             doPageId3Things();
 
-        } else {
+        }  else {
             Utils.sleep(1500);
             clickBack();
         }
 
     }
 
+    /**
+     * 首页
+     */
     private void doPageId0Things() {
         LogUtils.d(TAG, "doPageId0Things");
+        if(!signToday){
+            if(clickTotalMatchContent("签到免单")){
+                Utils.sleep(3000);
+                if(findTotalMatchContent("签到免单")){
+                    if (null == point_YiQian) {
+                        getRecognitionResult();
+                        if (null == point_YiQian) {
+                            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_JING_DONG, Constant.PAGE_MAIN));
+                            Utils.sleep(2000);
+                            clickBack();
+                            return;
+                        }
+                    }
+
+                    clickXY(MyApplication.getScreenWidth()- SizeUtils.dp2px(80),point_YiQian.y);
+                    Utils.sleep(2000);
+                    signToday = true;
+                }
+                clickBack();
+                return;
+            }
+        }
         if (clickContent("赚钱")) return;
 
     }
 
+    /**
+     * 赚金币页
+     */
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
         if (null == point_ZhuanJinBi) {
@@ -125,12 +157,21 @@ public class JingDongAdvertScript extends BaseScript {
 
     }
 
+    /**
+     * 赚金币任务展开页
+     */
     private void doPageId2Things() {
         LogUtils.d(TAG, "doPageId2Things");
         if (samePageCount > 3) {
-            setTodayDone(true);
-            CrashReport.postCatchedException(new Exception("京东今日任务完成"));
-            skipTask();
+            List<NodeInfo> nodeInfoList = findAllTotalMatchByText("已完成");
+            if(null != nodeInfoList && nodeInfoList.size() == 3){
+                setTodayDone(true);
+                CrashReport.postCatchedException(new Exception("京东今日任务完成"));
+                skipTask();
+                return;
+            }
+            clickBack();
+            return;
         }
 
         if (clickContent("逛商品赚金币")) Utils.sleep(3000);
@@ -141,6 +182,9 @@ public class JingDongAdvertScript extends BaseScript {
 //      if(clickContent("东东爱消除"))Utils.sleep(5000);
     }
 
+    /**
+     * 逛商品任务页
+     */
     private void doPageId3Things() {
         LogUtils.d(TAG, "doPageId3Things");
         if (findContent("今日已完成")) {
@@ -156,18 +200,6 @@ public class JingDongAdvertScript extends BaseScript {
         }
         scrollUp();
 
-    }
-
-    /**
-     * 弹出框里点击看广告
-     */
-    private boolean clickAdvert() {
-        if (clickContent("视频再")) return true;
-        if (clickContent("再看一个")) return true;
-        if (clickContent("看广告再得")) return true;
-//        if (clickContent("继续赚金币")) return true;
-
-        return false;
     }
 
     /**
@@ -249,6 +281,10 @@ public class JingDongAdvertScript extends BaseScript {
         String sp_zhuanjinbi = SPUtils.getInstance().getString(Constant.JINGDONG_ZHUANJINBI, "");
         if (!TextUtils.isEmpty(sp_zhuanjinbi)) {
             point_ZhuanJinBi = new Gson().fromJson(sp_zhuanjinbi, Point.class);
+        }
+        String sp_yiqian = SPUtils.getInstance().getString(Constant.JINGDONG_YIQIAN, "");
+        if (!TextUtils.isEmpty(sp_yiqian)) {
+            point_YiQian = new Gson().fromJson(sp_yiqian, Point.class);
         }
 
     }
