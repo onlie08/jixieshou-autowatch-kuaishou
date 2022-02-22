@@ -215,13 +215,9 @@ public class FengShengFastScript extends BaseScript {
         AccessibilityNodeInfo root5 = root1.getChild(0).getChild(0).getChild(3).getChild(1).getChild(0).getChild(4).getChild(1).getChild(0);
 
         if (root4 != null) {
-//            Bundle arguments = new Bundle();
-//            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "延时加班");
-//            root4.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
-//            Utils.sleep(1000);
 
             NodeInfo nodeInfo = findByText("加班类型");
-            clickXY(MyApplication.getScreenWidth()/2,nodeInfo.getRect().centerY());
+            clickXY(MyApplication.getScreenWidth() / 2, nodeInfo.getRect().centerY());
             Utils.sleep(2000);
 
             NodeInfo nodeInfo1 = findByText("延时加班");
@@ -242,7 +238,7 @@ public class FengShengFastScript extends BaseScript {
             root5.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
             Utils.sleep(1000);
         }
-//
+
         if (clickTotalMatchContent("提交申请")) {
             Utils.sleep(1000);
             if (clickTotalMatchContent("确定")) {
@@ -317,6 +313,9 @@ public class FengShengFastScript extends BaseScript {
 
     //打卡操作
     private void doCardPage() {
+        if (clickTotalMatchContent("我知道了")) {
+            Utils.sleep(2000);
+        }
         NodeInfo nodeInfo = findByText("当前时间");
         clickXY(MyApplication.getScreenWidth() / 2, nodeInfo.getRect().centerY() - SizeUtils.dp2px(100));
         Utils.sleep(3000);
@@ -324,7 +323,6 @@ public class FengShengFastScript extends BaseScript {
             clickContent("知道了");
             Utils.sleep(2000);
             clickBack();
-//            setTodayDone(true);
             skipTask();
             if (type == 1) {
                 task1 = true;
