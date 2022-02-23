@@ -26,6 +26,7 @@ public class PerMissionManage {
 
     private static String[] PERMISSIONS_REQUEST = {
 //            Manifest.permission.READ_PHONE_STATE,
+//            Manifest.permission.MANAGE_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
     };
@@ -33,7 +34,8 @@ public class PerMissionManage {
     public boolean requestPermission(Context context) {
         if (Build.VERSION.SDK_INT >= 23) {
             if (context.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Process.myPid(), Process.myUid())
-                    != PackageManager.PERMISSION_GRANTED) {
+                    != PackageManager.PERMISSION_GRANTED || context.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, Process.myPid(), Process.myUid())
+                    != PackageManager.PERMISSION_GRANTED ) {
                 ((Activity) context).requestPermissions(PERMISSIONS_REQUEST, 1);
             } else {
                 return true;

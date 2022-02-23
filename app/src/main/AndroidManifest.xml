@@ -4,24 +4,7 @@
     package="com.ch.jixieshou"
     android:versionCode="1"
     android:versionName="1.0">
-
-    <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />-->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <!--<uses-permission android:name="android.permission.READ_SMS" />-->
-    <!--<uses-permission android:name="android.permission.RECEIVE_SMS" />-->
-    <uses-permission android:name="android.permission.REORDER_TASKS" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
-
-
+    <!-- <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> -->
     <application
         android:name="com.ch.application.MyApplication"
         android:allowBackup="true"
@@ -31,13 +14,14 @@
         android:roundIcon="@drawable/money"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true">
+
         <activity
             android:name="com.ch.activity.MainActivity"
             android:label="@string/title_activity_main"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,20 +33,18 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.ch.activity.TaskTypeListActivity"
-            android:screenOrientation="portrait" />
-
-        <!-- 友盟分享开始 -->
+            android:screenOrientation="portrait" /> <!-- 友盟分享开始 -->
         <!-- 微博 -->
         <activity
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.sina.weibo.sdk.web.WeiboSdkWebActivity"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.sina.weibo.sdk.share.WbShareTransActivity"
             android:launchMode="singleTask"
@@ -72,14 +54,12 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-        <!-- 微信 -->
+        </activity> <!-- 微信 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!-- QQ -->
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- QQ -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -97,9 +77,10 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name="com.ch.floatwindow.FloatActivity" />
-        <!-- 友盟分享结束 -->
+        <activity android:name="com.ch.floatwindow.FloatActivity" /> <!-- 友盟分享结束 -->
+        <activity android:name="com.ch.activity.HelpDocumentActivity" />
 
+        <activity android:name="com.ch.activity.SetRecommendCodeActivity" />
         <service
             android:name="com.ch.core.service.MyAccessbilityService"
             android:accessibilityFlags="flagReportViewIds"
@@ -114,9 +95,19 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility" />
         </service>
-
-        <activity android:name="com.ch.activity.HelpDocumentActivity" />
-        <activity android:name="com.ch.activity.SetRecommendCodeActivity" />
     </application>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- <uses-permission android:name="android.permission.READ_SMS" /> -->
+    <!-- <uses-permission android:name="android.permission.RECEIVE_SMS" /> -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
 </manifest>

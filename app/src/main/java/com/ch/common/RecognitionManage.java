@@ -522,6 +522,10 @@ public class RecognitionManage {
             case Constant.PN_JING_DONG:
                 switch (pageId) {
                     case PAGE_MAIN:
+                        Point p_yiqian = getPoint(getRecognitionBean(recognitionBeans, "已签"));
+                        if (null != p_yiqian) {
+                            SPUtils.getInstance().put(Constant.JINGDONG_YIQIAN, new Gson().toJson(p_yiqian));
+                        }
                         break;
                     case PAGE_TASK:
                         Point p_zhuanjinbi = getPoint(getRecognitionBean(recognitionBeans, "赚金币"));

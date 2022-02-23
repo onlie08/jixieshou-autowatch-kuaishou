@@ -33,7 +33,7 @@ public class TouTiaoAdvertScript extends BaseScript {
     private String TAG = this.getClass().getSimpleName();
     private Point point_ShouYe;
     private Point point_RenWu;
-    private Point point_KaiBaoXiangDeJinBi;
+//    private Point point_KaiBaoXiangDeJinBi;
 //    private Point point_ShuRuHaoYouYaoQingMa;
 //    private Point point_ZhanTie;
 
@@ -118,14 +118,6 @@ public class TouTiaoAdvertScript extends BaseScript {
 
         } else if (pageId == 1) {
 
-            if (point_KaiBaoXiangDeJinBi == null) {
-                getRecognitionResult();
-                if (point_KaiBaoXiangDeJinBi == null) {
-                    EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_TOU_TIAO, Constant.PAGE_TASK));
-                }
-                return;
-            }
-
             doPageId1Things();
 
         } else if (pageId == 2) {
@@ -178,6 +170,13 @@ public class TouTiaoAdvertScript extends BaseScript {
     private int gotoPersonCount = 0;
 
     private void doPageId0Things() {
+        if(!findTotalMatchContent("历史")){
+            if(clickTotalMatchContent("频道管理")){
+                Utils.sleep(1500);
+                clickTotalMatchContent("历史");
+                Utils.sleep(1500);
+            }
+        }
         gotoPersonCount++;
         if (gotoPersonCount > 5) {
             gotoPersonCount = 0;
@@ -233,45 +232,53 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
-        if (samePageCount >= 2) {
+        if(samePageCount > 0){
+            if(clickAdvert())return;
+        }
+        if (samePageCount > 2) {
+            scrollDown();
+            Utils.sleep(2000);
             clickXY(point_ShouYe.x, point_ShouYe.y);
         }
+        //签到弹出窗口
+        if(clickLastTotalMatchByText("直接领取")) Utils.sleep(1500);
 
-        if(clickTotalMatchContent("开宝箱得金币")){
-            Utils.sleep(4000);
-            if (clickContent("视频再领")){
-                Utils.sleep(2000);
-            }else {
-                tryClickDialog();
-                Utils.sleep(1000);
-                if(clickTotalMatchContent("直接领取"))Utils.sleep(2000);
+        //限时专享
+        if(clickTotalMatchContent("领取")) Utils.sleep(1500);
+        if(clickEveryTotalMatchByText("立即领取")) Utils.sleep(1500);
+        if(clickEveryTotalMatchByText("领福利")) Utils.sleep(1500);
 
-            }
+        //阅读翻倍
+        if (clickLastTotalMatchByText("点击翻倍")) {
+            Utils.sleep(1500);
+            if (clickContent("我知道了")) Utils.sleep(1500);
         }
 
-        if (clickContent("看广告赚金币")) {
-            Utils.sleep(2000);
-        }
+        //看广告赚金币
+        if (clickContent("看广告赚金币")) Utils.sleep(2000);
 
-        if (clickContent("点击翻倍")) {
-            Utils.sleep(2000);
-            if (clickContent("我知道了")) return;
-            Utils.sleep(2000);
-        }
+        if (clickContent("填写邀请码")) return;
 
-        if(!SPUtils.getInstance().getBoolean("invite_toutiao", false)){
-            if (clickContent("填写邀请码")) {
-                return;
-            }
+        if(clickEveryTotalMatchByText("开宝箱得金币")){
+            return;
+//            Utils.sleep(4000);
+//            if (clickContent("视频再领")){
+//                Utils.sleep(2000);
+//            }else {
+//                tryClickDialog();
+//                Utils.sleep(1000);
+//                if(clickTotalMatchContent("直接领取"))Utils.sleep(2000);
+//
+//            }
         }
-        scrollUp();
-
+        scrollUpSlow();
     }
 
 
     private void doPageId2Things() {
 //        count++;
         LogUtils.d(TAG, "doPageId2Things");
+        logcatAccessibilityNode();
         if (clickContent("领金币")) {
             Utils.sleep(2000);
             if (clickContent("视频再领")) return;
@@ -311,10 +318,10 @@ public class TouTiaoAdvertScript extends BaseScript {
      * 弹出框里点击看广告
      */
     private boolean clickAdvert() {
-        if (clickContent("再看一个获得")) return true;
-        if (clickContent("继续观看")) return true;
-        if (clickContent("视频再领")) return true;
-        if (clickContent("看视频领")) return true;
+        if (clickEveryNodeInfosByText("再看一个获得")) return true;
+        if (clickEveryNodeInfosByText("继续观看")) return true;
+        if (clickEveryNodeInfosByText("视频再领")) return true;
+        if (clickEveryNodeInfosByText("看视频领")) return true;
         return false;
     }
 
@@ -324,6 +331,12 @@ public class TouTiaoAdvertScript extends BaseScript {
      * @return //0:首页 1:个人中心  2:阅读页  3:广告页
      */
     private int checkPageId() {
+        if(findContent("每日凌晨，金币自动兑换成现金")){
+            return 1;
+        }
+        if(findContent("我的现金：")){
+            return 1;
+        }
         if (findContent("频道管理") && findContent("发布")) {
             return 0;
         }
@@ -393,10 +406,10 @@ public class TouTiaoAdvertScript extends BaseScript {
             point_RenWu = new Gson().fromJson(sp_renwu, Point.class);
         }
 
-        String sp_kaibaoxiangdejinbi = SPUtils.getInstance().getString(Constant.TOUTIAO_KAIBAOXIANGDEJINBI, "");
-        if (!TextUtils.isEmpty(sp_kaibaoxiangdejinbi)) {
-            point_KaiBaoXiangDeJinBi = new Gson().fromJson(sp_kaibaoxiangdejinbi, Point.class);
-        }
+//        String sp_kaibaoxiangdejinbi = SPUtils.getInstance().getString(Constant.TOUTIAO_KAIBAOXIANGDEJINBI, "");
+//        if (!TextUtils.isEmpty(sp_kaibaoxiangdejinbi)) {
+//            point_KaiBaoXiangDeJinBi = new Gson().fromJson(sp_kaibaoxiangdejinbi, Point.class);
+//        }
 //
 //        String sp_shuruhaoyouyaoqingma = SPUtils.getInstance().getString(Constant.TOUTIAO_SHURUHAOYOUYAOQINGMA, "");
 //        if (!TextUtils.isEmpty(sp_shuruhaoyouyaoqingma)) {
@@ -551,5 +564,7 @@ public class TouTiaoAdvertScript extends BaseScript {
         }
         return null;
     }
+
+
 }
 

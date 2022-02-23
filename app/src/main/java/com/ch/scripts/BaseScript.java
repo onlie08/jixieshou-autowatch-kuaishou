@@ -1,6 +1,7 @@
 package com.ch.scripts;
 
 import android.graphics.Point;
+import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
@@ -77,13 +78,56 @@ public abstract class BaseScript implements IScript {
                     clickId("button1");
                 }
                 if(BuildConfig.DEBUG){
-                    if (findId("test")) ;
+//                    if (findId("test")) ;
+//                    logcatAccessibilityNode();
                 }
                 int t = getRandomSleepTime(getMinSleepTime(), getMaxSleepTime());
                 Logger.i("休眠：" + t);
                 Utils.sleep(t);
             }
         }
+    }
+    private String TAG1 = "logcatAccess";
+    public void logcatAccessibilityNode() {
+        AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
+        if (root == null) return;
+//        AccessibilityNodeInfo root1 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
+//        Log.d(TAG1," root.toString():"+root.toString());
+
+        if(null != root){
+            getChildRoot(root);
+//            int childCount = root.getChildCount();
+//            LogUtils.d(TAG1,"rootChildCount:"+childCount + " ClassName:"+root.getClassName());
+//            for(int i= 0;i<childCount;i++){
+//                AccessibilityNodeInfo access1 = root.getChild(i);
+//                int count1 = access1.getChildCount();
+//                LogUtils.d(TAG1,"count1:"+count1 + " ClassName:"+access1.getClassName());
+//                for(int i1= 0;i1<count1;i1++){
+//                    AccessibilityNodeInfo access2 = access1.getChild(i1);
+//                    int count2 = access2.getChildCount();
+//                    LogUtils.d(TAG1,"count2:"+count2 + " ClassName:"+access2.getClassName());
+//                    for(int i2= 0;i1<count2;i2++){
+//                        AccessibilityNodeInfo access3 = access1.getChild(i2);
+//                        int count3 = access3.getChildCount();
+//                        LogUtils.d(TAG1,"count3:"+count3 + " ClassName:"+access3.getClassName());
+//                    }
+//                }
+//            }
+
+        }
+    }
+
+    private void getChildRoot(AccessibilityNodeInfo root) {
+        if(null == root)return;
+        int childCount = root.getChildCount();
+//        Log.d(TAG1,"ChildCount:"+childCount + " ClassName:"+root.getClassName() +" ViewIdResourceName:"+root.getViewIdResourceName()+" root.toString():"+root.toString());
+        Log.d(TAG1,"root.toString():"+root.toString());
+        if(childCount == 0)return;
+        for(int i= 0;i<childCount;i++) {
+            AccessibilityNodeInfo access1 = root.getChild(i);
+            getChildRoot(access1);
+        }
+
     }
 
     /**
@@ -172,6 +216,52 @@ public abstract class BaseScript implements IScript {
         return FindByText.findAllTotalMatch(text);
     }
 
+    protected List<NodeInfo> findNodeInfosByText(String text) {
+        return FindByText.findNodeInfos(text);
+    }
+
+    protected boolean clickLastTotalMatchByText(String text){
+        List<NodeInfo> nodeInfoList = findAllTotalMatchByText(text);
+        if(null != nodeInfoList && !nodeInfoList.isEmpty()){
+            clickXY(nodeInfoList.get(nodeInfoList.size()-1).getRect().centerX(),nodeInfoList.get(nodeInfoList.size()-1).getRect().centerY());
+            return true;
+        }
+        return false;
+    }
+
+    protected boolean clickLastNodeInfosByText(String text){
+        List<NodeInfo> nodeInfoList = findNodeInfosByText(text);
+        if(null != nodeInfoList && !nodeInfoList.isEmpty()){
+            clickXY(nodeInfoList.get(nodeInfoList.size()-1).getRect().centerX(),nodeInfoList.get(nodeInfoList.size()-1).getRect().centerY());
+            return true;
+        }
+        return false;
+    }
+
+    protected boolean clickEveryNodeInfosByText(String text){
+        List<NodeInfo> nodeInfoList = findNodeInfosByText(text);
+        if(null != nodeInfoList && !nodeInfoList.isEmpty()){
+            for(int i=0;i<nodeInfoList.size();i++){
+                clickXY(nodeInfoList.get(i).getRect().centerX(),nodeInfoList.get(i).getRect().centerY());
+                Utils.sleep(500);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    protected boolean clickEveryTotalMatchByText(String text){
+        List<NodeInfo> nodeInfoList = findAllTotalMatchByText(text);
+        if(null != nodeInfoList && !nodeInfoList.isEmpty()){
+            for(int i=0;i<nodeInfoList.size();i++){
+                clickXY(nodeInfoList.get(i).getRect().centerX(),nodeInfoList.get(i).getRect().centerY());
+                Utils.sleep(1000);
+            }
+            return true;
+        }
+        return false;
+    }
+
     protected void runOnUiThread(Runnable runnable) {
         MyApplication.getAppInstance().getMainActivity().runOnUiThread(runnable);
     }
@@ -251,7 +341,7 @@ public abstract class BaseScript implements IScript {
     public boolean clickTotalMatchContent(String content) {
         NodeInfo nodeInfo = findTotalMatchByText(content);
         if (nodeInfo != null) {
-            LogUtils.dTag(BASETAG, "clickContent: " + content + " x:" + nodeInfo.getRect().centerX() + " y:" + nodeInfo.getRect().centerY());
+            LogUtils.dTag(BASETAG, "clickTotalMatchContent: " + content + " x:" + nodeInfo.getRect().centerX() + " y:" + nodeInfo.getRect().centerY());
             ActionUtils.click(nodeInfo);
             return true;
         }

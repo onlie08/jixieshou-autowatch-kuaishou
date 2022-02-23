@@ -119,6 +119,7 @@ public class Constant {
      * 京东图像识别内容
      */
     public static final String JINGDONG_ZHUANJINBI = "JINGDONG_ZHUANJINBI";
+    public static final String JINGDONG_YIQIAN = "JINGDONG_YIQIAN";
 
     /**
      * 每天赚点图像识别内容

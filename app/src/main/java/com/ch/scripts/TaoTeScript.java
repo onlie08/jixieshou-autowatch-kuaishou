@@ -200,14 +200,26 @@ public class TaoTeScript extends BaseScript {
     private void doPageId4Things() {
         List<NodeInfo> nodeInfoList = findAllTotalMatchByText("点击领取现金");
         if (null != nodeInfoList && !nodeInfoList.isEmpty() && nodeInfoList.size() == 3) {
+            clickXY(nodeInfoList.get(nodeInfoList.size() - 1).getRect().centerX(), nodeInfoList.get(nodeInfoList.size() - 1).getRect().centerY());
+            Utils.sleep(2000);
+            clickBack();
+            return;
+        }
+        if (null != nodeInfoList && !nodeInfoList.isEmpty() && nodeInfoList.size() == 2) {
             if (clickTotalMatchContent("点击领取现金")) {
                 Utils.sleep(1000);
-                clickXY(nodeInfoList.get(nodeInfoList.size() - 1).getRect().centerX(), nodeInfoList.get(nodeInfoList.size() - 1).getRect().centerY());
-                Utils.sleep(2000);
-                clickBack();
                 return;
             }
         }
+//        if (null != nodeInfoList && !nodeInfoList.isEmpty() && nodeInfoList.size() == 3) {
+//            if (clickTotalMatchContent("点击领取现金")) {
+//                Utils.sleep(1000);
+//                clickXY(nodeInfoList.get(nodeInfoList.size() - 1).getRect().centerX(), nodeInfoList.get(nodeInfoList.size() - 1).getRect().centerY());
+//                Utils.sleep(2000);
+//                clickBack();
+//                return;
+//            }
+//        }
         if (clickTotalMatchContent("点击签到")) {
             return;
         }
@@ -279,19 +291,24 @@ public class TaoTeScript extends BaseScript {
             }
             return;
         }
-
+        if (clickContent("立即领币")) {
+            Utils.sleep(2000);
+            clickBack();
+            return;
+        }
         if (clickContent("点击继续")) return;
         if (clickContent("立即重试")) return;
 
-        if (clickTotalMatchContent("可开红包")) {
-            Utils.sleep(3000);
-            if (clickTotalMatchContent("立即抽奖")) {
-                Utils.sleep(5000);
-                return;
-            }
-        }
+//        if (clickTotalMatchContent("可开红包")) {
+//            Utils.sleep(3000);
+//            if (clickTotalMatchContent("立即抽奖")) {
+//                Utils.sleep(5000);
+//                return;
+//            }
+//        }
 
         if (clickContent("继续赚币")) return;
+
         return;
     }
 
