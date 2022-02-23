@@ -79,7 +79,7 @@ public abstract class BaseScript implements IScript {
                 }
                 if(BuildConfig.DEBUG){
 //                    if (findId("test")) ;
-//                    logcatAccessibilityNode();
+                    logcatAccessibilityNode();
                 }
                 int t = getRandomSleepTime(getMinSleepTime(), getMaxSleepTime());
                 Logger.i("休眠：" + t);
@@ -91,29 +91,39 @@ public abstract class BaseScript implements IScript {
     public void logcatAccessibilityNode() {
         AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
         if (root == null) return;
-//        AccessibilityNodeInfo root1 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
-//        Log.d(TAG1," root.toString():"+root.toString());
-
         if(null != root){
             getChildRoot(root);
-//            int childCount = root.getChildCount();
-//            LogUtils.d(TAG1,"rootChildCount:"+childCount + " ClassName:"+root.getClassName());
-//            for(int i= 0;i<childCount;i++){
-//                AccessibilityNodeInfo access1 = root.getChild(i);
-//                int count1 = access1.getChildCount();
-//                LogUtils.d(TAG1,"count1:"+count1 + " ClassName:"+access1.getClassName());
-//                for(int i1= 0;i1<count1;i1++){
-//                    AccessibilityNodeInfo access2 = access1.getChild(i1);
-//                    int count2 = access2.getChildCount();
-//                    LogUtils.d(TAG1,"count2:"+count2 + " ClassName:"+access2.getClassName());
-//                    for(int i2= 0;i1<count2;i2++){
-//                        AccessibilityNodeInfo access3 = access1.getChild(i2);
-//                        int count3 = access3.getChildCount();
-//                        LogUtils.d(TAG1,"count3:"+count3 + " ClassName:"+access3.getClassName());
-//                    }
-//                }
-//            }
+        }
+    }
 
+    public AccessibilityNodeInfo getWebViewRoot() {
+        return webViewRoot;
+    }
+
+    public void setWebViewRoot(AccessibilityNodeInfo webViewRoot) {
+        this.webViewRoot = webViewRoot;
+    }
+
+    AccessibilityNodeInfo webViewRoot;
+    public void findWebViewNode() {
+        AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
+        if (root == null) return;
+        getWebViewRoot(root);
+    }
+
+    private void getWebViewRoot(AccessibilityNodeInfo root) {
+        if(null == root)return;
+        if(root.getClassName().toString().contains("WebView")){
+            webViewRoot = root;
+            return;
+        }
+        int childCount = root.getChildCount();
+        Log.d(TAG1,"childCount:"+childCount + " className:"+root.getClassName().toString());
+//        Log.d(TAG1,"root.toString():"+root.toString());
+
+        for(int i= 0;i<childCount;i++) {
+            AccessibilityNodeInfo access1 = root.getChild(i);
+            getWebViewRoot(access1);
         }
     }
 
@@ -121,7 +131,11 @@ public abstract class BaseScript implements IScript {
         if(null == root)return;
         int childCount = root.getChildCount();
 //        Log.d(TAG1,"ChildCount:"+childCount + " ClassName:"+root.getClassName() +" ViewIdResourceName:"+root.getViewIdResourceName()+" root.toString():"+root.toString());
-        Log.d(TAG1,"root.toString():"+root.toString());
+//        Log.d(TAG1,"root.toString():"+root.toString());
+//        Log.d(TAG1,"childCount:"+childCount + " className:"+root.getClassName().toString());
+        for(int i= 0;i<childCount;i++) {
+            Log.d(TAG1,"childCount:"+childCount + " className:"+root.getChild(i).getClassName().toString() + " getChildCount:"+root.getChild(i).getChildCount());
+        }
         if(childCount == 0)return;
         for(int i= 0;i<childCount;i++) {
             AccessibilityNodeInfo access1 = root.getChild(i);

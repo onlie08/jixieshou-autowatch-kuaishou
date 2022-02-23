@@ -263,18 +263,32 @@ public class BaiDuAdvertScript extends BaseScript {
 
     private void doPageId2Things() {
         LogUtils.d(TAG, "doPageId2Things");
-
-        NodeInfo nodeInfo = findByText("不喜欢");
-        if (null != nodeInfo) {
-            clickXY(nodeInfo.getRect().centerX(), nodeInfo.getRect().centerY() + SizeUtils.dp2px(100));
-            Utils.sleep(3000);
-            if (clickAdvert()) return;
-            clickBack();
-            Utils.sleep(2000);
-            clickBack();
-            return;
-
+        try {
+            AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
+            if (root == null) return;
+            findWebViewNode();
+            AccessibilityNodeInfo webview = getWebViewRoot();
+            if(null != webview){
+                AccessibilityNodeInfo child =  webview.getChild(0).getChild(0).getChild(0).getChild(4);
+                if(child.performAction(AccessibilityNodeInfo.ACTION_CLICK)){
+                    return;
+                }
+            }
+        }catch (Exception e){
+            LogUtils.e(e);
         }
+
+//        NodeInfo nodeInfo = findByText("不喜欢");
+//        if (null != nodeInfo) {
+//            clickXY(nodeInfo.getRect().centerX(), nodeInfo.getRect().centerY() + SizeUtils.dp2px(100));
+//            Utils.sleep(3000);
+//            if (clickAdvert()) return;
+//            clickBack();
+//            Utils.sleep(2000);
+//            clickBack();
+//            return;
+//
+//        }
         scrollUp();
     }
 
