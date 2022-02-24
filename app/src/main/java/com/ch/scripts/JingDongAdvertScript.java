@@ -165,7 +165,7 @@ public class JingDongAdvertScript extends BaseScript {
         if (samePageCount > 3) {
             List<NodeInfo> nodeInfoList = findAllTotalMatchByText("已完成");
             if(null != nodeInfoList && nodeInfoList.size() == 3){
-                setTodayDone(true);
+//                setTodayDone(true);
                 CrashReport.postCatchedException(new Exception("京东今日任务完成"));
                 skipTask();
                 return;
@@ -309,7 +309,7 @@ public class JingDongAdvertScript extends BaseScript {
 
             resumeCount++;
             if (resumeCount > 5) {
-                LogUtils.d(TAG, "自动恢复到头条极速版");
+                LogUtils.d(TAG, "自动恢复到京东极速版");
                 startApp();
                 Utils.sleep(2000);
             }

@@ -78,8 +78,8 @@ public abstract class BaseScript implements IScript {
                     clickId("button1");
                 }
                 if(BuildConfig.DEBUG){
-//                    if (findId("test")) ;
-                    logcatAccessibilityNode();
+                    if (findId("test")) ;
+//                    logcatAccessibilityNode();
                 }
                 int t = getRandomSleepTime(getMinSleepTime(), getMaxSleepTime());
                 Logger.i("休眠：" + t);
@@ -134,7 +134,7 @@ public abstract class BaseScript implements IScript {
 //        Log.d(TAG1,"root.toString():"+root.toString());
 //        Log.d(TAG1,"childCount:"+childCount + " className:"+root.getClassName().toString());
         for(int i= 0;i<childCount;i++) {
-            Log.d(TAG1,"childCount:"+childCount + " className:"+root.getChild(i).getClassName().toString() + " getChildCount:"+root.getChild(i).getChildCount());
+//            Log.d(TAG1,"childCount:"+childCount + " className:"+root.getChild(i).getClassName().toString() + " getChildCount:"+root.getChild(i).getChildCount());
         }
         if(childCount == 0)return;
         for(int i= 0;i<childCount;i++) {

@@ -223,7 +223,7 @@ public class KuaishouFastScript extends BaseScript {
 
         if (clickContent("观看广告单日最高")) return;
 
-        if (clickTotalMatchContent("立即签到")) return;
+//        if (clickTotalMatchContent("立即签到")) return;
         if (findContent("明天再来") && findContent("明日再来")) {
             setTodayDone(true);
             CrashReport.postCatchedException(new Exception("快手极速版今日任务完成"));
