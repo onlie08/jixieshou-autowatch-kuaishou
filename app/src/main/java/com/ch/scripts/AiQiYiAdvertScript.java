@@ -133,8 +133,15 @@ public class AiQiYiAdvertScript extends BaseScript {
             clickBack();
             Utils.sleep(1500);
             if (samePageCount >= 2) {
+                NodeInfo nodeInfo = findByText("反馈");
+                if (null != nodeInfo) {
+                    clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(40), nodeInfo.getRect().centerY());
+                    Utils.sleep(1500);
+                }
+
                 scrollDown();
                 Utils.sleep(2000);
+                if (clickContent("继续观看")) return;
                 if (clickContent("刷新页面")) return;
                 if (clickContent("人最高赚")) return;
 
@@ -185,40 +192,49 @@ public class AiQiYiAdvertScript extends BaseScript {
 
 
     private void doPageId0Things() {
-        if (clickContent("领金币")) {
+        NodeInfo nodeInfo = findByText("电视剧");
+        clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(30), nodeInfo.getRect().centerY() - SizeUtils.dp2px(70));
+        Utils.sleep(1000);
+        if (clickContent("再赚")) Utils.sleep(1000);
+        if (clickTotalMatchContent("邀请好友赚钱")) {
+            Utils.sleep(1000);
+            clickBack();
             Utils.sleep(1500);
-            if (findContent("明天可再来领取哦")) {
-//                    advertDone4 = true;
-                if (clickContent("人最高赚")) {
-                    Utils.sleep(1500);
-                    clickBack();
-                    Utils.sleep(1500);
-                    clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
-                    return;
-                }
-            }
-            Utils.sleep(1500);
+            clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
+            return;
         }
-//        if (!advertDone4) {
-        if (clickContent("赚金币")) {
-            Utils.sleep(1500);
-            if (findContent("明天可再来领取哦")) {
-//                    advertDone4 = true;
-                if (clickContent("人最高赚")) {
-                    Utils.sleep(1500);
-                    clickBack();
-                    Utils.sleep(1500);
-                    clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
-                    return;
-                }
-            }
-            Utils.sleep(1500);
-        }
+
+
+//        if (clickContent("领100")) {
+//            Utils.sleep(1500);
+//            if (findContent("明天可再来领取哦")) {
+////                    advertDone4 = true;
+//                if (clickContent("人最高赚")) {
+//                    Utils.sleep(1500);
+//                    clickBack();
+//                    Utils.sleep(1500);
+//                    clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
+//                    return;
+//                }
+//            }
+//            Utils.sleep(1500);
 //        }
-
-//        if (clickContent("开宝箱")) return;
-
-        clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
+//        if (clickContent("领金币")) {
+//            Utils.sleep(1500);
+//            if (findContent("明天可再来领取哦")) {
+////                    advertDone4 = true;
+//                if (clickContent("人最高赚")) {
+//                    Utils.sleep(1500);
+//                    clickBack();
+//                    Utils.sleep(1500);
+//                    clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
+//                    return;
+//                }
+//            }
+//            Utils.sleep(1500);
+//        }
+//
+//        clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
     }
 
     private void doPageId1Things() {
@@ -338,7 +354,7 @@ public class AiQiYiAdvertScript extends BaseScript {
         }
 
 
-        if (findContent("s后可领取奖励")) {
+        if (findContent("s后可领取奖励") || findContent("| 跳过")) {
             return 2;
         }
 //        if (findContent("幸运大转盘") && findContent("恭喜")) {
@@ -362,7 +378,7 @@ public class AiQiYiAdvertScript extends BaseScript {
     @Override
     protected int getMinSleepTime() {
         if (pageId == 2) {
-            return 3000;
+            return 6000;
         } else if (pageId == 1) {
             return 2000;
         } else if (pageId == 3) {
@@ -380,7 +396,7 @@ public class AiQiYiAdvertScript extends BaseScript {
     @Override
     protected int getMaxSleepTime() {
         if (pageId == 2) {
-            return 3000;
+            return 6000;
         } else if (pageId == 1) {
             return 2000;
         } else if (pageId == 3) {
@@ -490,7 +506,7 @@ public class AiQiYiAdvertScript extends BaseScript {
 
     @Override
     protected void doSamePageDeal() {
-        if(pageId == 4){
+        if (pageId == 4) {
             return;
         }
         if (samePageCount > 10 && samePageCount < 13) {
