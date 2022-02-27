@@ -166,13 +166,13 @@ public class TouTiaoAdvertScript extends BaseScript {
     private int gotoPersonCount = 0;
 
     private void doPageId0Things() {
-        if(!findTotalMatchContent("历史")){
-            if(clickTotalMatchContent("频道管理")){
-                Utils.sleep(1500);
-                clickTotalMatchContent("热点");
-                Utils.sleep(1500);
-            }
-        }
+//        if(!findTotalMatchContent("历史")){
+//            if(clickTotalMatchContent("频道管理")){
+//                Utils.sleep(1500);
+//                clickTotalMatchContent("热点");
+//                Utils.sleep(1500);
+//            }
+//        }
         gotoPersonCount++;
         if (gotoPersonCount > 5) {
             gotoPersonCount = 0;
@@ -189,9 +189,36 @@ public class TouTiaoAdvertScript extends BaseScript {
 
         scrollUp();
 
-        Utils.sleep(2000);
+        Utils.sleep(3000);
+        List<AccessibilityNodeInfo> accessibilityNodeInfos = findAccessibilityNodeListById("com.ss.android.article.lite:id/ajb");
+        if (null == accessibilityNodeInfos) {
+            accessibilityNodeInfos = findAccessibilityNodeListById("com.ss.android.article.lite:id/afk");
+        }
+        if (null == accessibilityNodeInfos) {
+            accessibilityNodeInfos = findAccessibilityNodeListById("com.ss.android.article.lite:id/agp");
+        }
 
-        clickContent("0评论");
+        if (null != accessibilityNodeInfos) {
+            for (int i = 0; i < accessibilityNodeInfos.size(); i++) {
+                LogUtils.d(TAG, "nodeInfo.getChildCount():" + accessibilityNodeInfos.get(i).getChildCount() + " postion:" + i);
+                if (accessibilityNodeInfos.get(i).getChildCount() > 2) {
+                    continue;
+                } else {
+                    AccessibilityNodeInfo accessibilityNodeInfo = accessibilityNodeInfos.get(i);
+                    Rect nodeRect = new Rect();
+                    accessibilityNodeInfo.getBoundsInScreen(nodeRect);
+                    clickXY(nodeRect.centerX(), nodeRect.centerY());
+
+//                    accessibilityNodeInfos.get(i).performAction(AccessibilityNodeInfo.ACTION_CLICK);
+//                    Utils.sleep(2000);
+                    return;
+                }
+            }
+        }else {
+            clickContent("0评论");
+        }
+
+        if (clickContent("继续阅读")) return;
 
     }
 
@@ -199,18 +226,9 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
-        if(samePageCount > 0){
+        if(samePageCount > 1){
             //签到弹出窗口
-            if(clickEveryTotalMatchByText("直接领取")) Utils.sleep(1500);
-
-            //限时专享
-            if(clickTotalMatchContent("领取")) Utils.sleep(1500);
-            if(clickEveryTotalMatchByText("立即领取")) Utils.sleep(1500);
-            if(clickEveryTotalMatchByText("领福利")) Utils.sleep(1500);
-
-            if(clickAdvert())Utils.sleep(2000);
-
-            clickXY(point_ShouYe.x, point_ShouYe.y);
+           tryClickDialog();
 //
         }
         if (samePageCount > 2) {
@@ -231,11 +249,28 @@ public class TouTiaoAdvertScript extends BaseScript {
 
 //        if (clickContent("填写邀请码")) Utils.sleep(2000);
 
+        if(clickEveryTotalMatchByText("直接领取")) Utils.sleep(1500);
+
         if(clickEveryTotalMatchByText("开宝箱得金币")){
             Utils.sleep(2000);
             clickAdvert();
             return;
         }
+
+        //限时专享
+        if(clickTotalMatchContent("领取")){
+            Utils.sleep(1500);
+            clickAdvert();
+        }
+        if(clickEveryTotalMatchByText("立即领取")){
+            Utils.sleep(1500);
+        }
+        if(clickEveryTotalMatchByText("领福利")){
+            Utils.sleep(1500);
+            clickAdvert();
+        }
+
+        clickXY(point_ShouYe.x, point_ShouYe.y);
 //        scrollUpSlow();
     }
 
