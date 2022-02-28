@@ -86,7 +86,7 @@ public class DouyinFastAdvertScript extends BaseScript {
         doSamePageDeal();
         LogUtils.d(TAG, "pageId:" + pageId + " samePageCount:" + samePageCount);
 
-        if (clickAdvert()) return;
+//        if (clickAdvert()) return;
 
         if (pageId == 0) {
             if (point_ShouYe == null) {
@@ -111,7 +111,7 @@ public class DouyinFastAdvertScript extends BaseScript {
             doPageId1Things();
 
         } else if (pageId == 2) {
-
+            if (clickAdvert()) return;
             doPageId2Things();
 
         } else if (pageId == 3) {
@@ -218,15 +218,6 @@ public class DouyinFastAdvertScript extends BaseScript {
                 Utils.sleep(2000);
 //                clickBack();
                 return;
-//                if(clickTotalMatchContent("确认")){
-//                    Utils.sleep(2000);
-//                    SPUtils.getInstance().put("invite_douyin", true);
-//                    CrashReport.postCatchedException(new Exception("抖音邀请码自动填写成功"));
-//                    clickBack();
-//                    Utils.sleep(2000);
-//                    clickBack();
-//                    return;
-//                }
             }
         }
 
