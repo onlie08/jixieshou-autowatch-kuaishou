@@ -32,7 +32,7 @@
             android:name="com.ch.activity.EditTaskActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ch.activity.TaskTypeListActivity"
+            android:name="com.ch.activity.AddTaskActivity"
             android:screenOrientation="portrait" /> <!-- 友盟分享开始 -->
         <!-- 微博 -->
         <activity

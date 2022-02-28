@@ -20,8 +20,8 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.ch.activity.AddTaskActivity;
 import com.ch.activity.EditTaskActivity;
-import com.ch.activity.TaskTypeListActivity;
 import com.ch.adapter.TaskListAdapter1;
 import com.ch.application.MyApplication;
 import com.ch.common.CommonDialogManage;
@@ -370,7 +370,7 @@ public class MainPageFragment extends Fragment {
 
     private void gotoAddNewTaskActivity() {
         Intent intent = new Intent();
-        intent.setClass(getActivity(), TaskTypeListActivity.class);
+        intent.setClass(getActivity(), AddTaskActivity.class);
         intent.putExtra("type", 1);
         startActivity(intent);
     }

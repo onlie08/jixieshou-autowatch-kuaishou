@@ -17,6 +17,8 @@ import com.ch.event.EditTaskEvent;
 import com.ch.event.RefreshTaskEvent;
 import com.ch.jixieshou.R;
 import com.ch.model.AppInfo;
+import com.ch.utils.AppDescribeUtil;
+import com.ch.utils.AppIconUtil;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -32,15 +34,14 @@ import androidx.appcompat.app.AppCompatActivity;
 public class EditTaskActivity extends AppCompatActivity {
     private String TAG = this.getClass().getSimpleName();
 
-    private TextView taskTypeName;
-    private TextInputEditText periodEdit;
+    private TextView name;
     private AppInfo appInfo;
     private AppInfo editedAppInfo;
     private boolean isEdit;
     private MaterialButton deleteBtn;
     private MaterialButton sureBtn;
-    private TextView title;
     private TextView tv_detail;
+    private TextView tv_exit;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,18 +80,18 @@ public class EditTaskActivity extends AppCompatActivity {
                 finish();
             }
         });
-        findViewById(R.id.typeLayout).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.card_task).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setClass(EditTaskActivity.this, TaskTypeListActivity.class);
+                intent.setClass(EditTaskActivity.this, AddTaskActivity.class);
                 intent.putExtra("type", 2);
                 startActivity(intent);
             }
         });
 
-        taskTypeName = findViewById(R.id.name);
-        periodEdit = findViewById(R.id.periodEdit);
+
+        name = findViewById(R.id.name);
         sureBtn = findViewById(R.id.sureBtn);
         sureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,194 +101,38 @@ public class EditTaskActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "请选择一个任务", Toast.LENGTH_LONG).show();
                     return;
                 }
-                String period = periodEdit.getText().toString();
-                if (StringUtil.isEmpty(period)) {
-                    Toast.makeText(getApplicationContext(), "请输入执行时长", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                appInfo.setPeriod(Integer.parseInt(period));
-
-//                Intent data = new Intent();
-//                data.putExtra("appInfo", JSON.toJSONString(appInfo));
                 if (isEdit) {
                     EventBus.getDefault().post(new RefreshTaskEvent(appInfo, editedAppInfo));
-//                    data.putExtra("editedAppInfo", JSON.toJSONString(editedAppInfo));
-//                    setResult(2, data);
                 } else {
                     EventBus.getDefault().post(new DelectTaskEvent(editedAppInfo));
-//                    setResult(1, data);
                 }
                 finish();
             }
         });
 
         deleteBtn = findViewById(R.id.deleteBtn);
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EventBus.getDefault().post(new DelectTaskEvent(appInfo));
-                finish();
-            }
+        deleteBtn.setOnClickListener(view -> {
+            EventBus.getDefault().post(new DelectTaskEvent(appInfo));
+            finish();
         });
         deleteBtn.setVisibility(isEdit ? View.VISIBLE : View.GONE);
 
         tv_detail = findViewById(R.id.tv_detail);
-        title = findViewById(R.id.title);
+        tv_exit = findViewById(R.id.tv_exit);
         if (isEdit) {
             initAppInfo(appInfo);
-            title.setText("编辑任务");
             sureBtn.setText("更新");
         }
-
-//        LCObject testObject = new LCObject("recommend_list");
-//        RecommendBean recommendBean = new RecommendBean();
-//        recommendBean.setRecommendUser("13720282090");
-//        recommendBean.setCode_aiqiyi("2883663620");
-//        recommendBean.setCode_baidu("151156827638");
-//        recommendBean.setCode_diantao("LRHN7T5O");
-//        recommendBean.setCode_douyin("8161779848");
-//        recommendBean.setCode_kuaishou("446859698");
-//        recommendBean.setCode_toutiao("Q38842766");
-//        recommendBean.setCode_meituan("");
-//        recommendBean.setCode_eleme("");
-//
-//        testObject.put("recommendUser", recommendBean.getRecommendUser());
-//        testObject.put("code_aiqiyi", recommendBean.getCode_aiqiyi());
-//        testObject.put("code_baidu", recommendBean.getCode_baidu());
-//        testObject.put("code_diantao", recommendBean.getCode_diantao());
-//        testObject.put("code_douyin", recommendBean.getCode_douyin());
-//        testObject.put("code_kuaishou", recommendBean.getCode_kuaishou());
-//        testObject.put("code_toutiao", recommendBean.getCode_toutiao());
-//        testObject.put("code_meituan", recommendBean.getCode_meituan());
-//        testObject.put("code_eleme", recommendBean.getCode_eleme());
-//        testObject.saveInBackground().blockingSubscribe();
-
-
-//        LCObject testObject = new LCObject("task_list");
-//        AppInfo appInfo = new AppInfo();
-//        appInfo.setName("丰声打开");
-//        appInfo.setAppName("丰声打开");
-//        appInfo.setFree(true);
-//        appInfo.setPeriod(5l);
-//        appInfo.setPkgName(Constant.PN_FENG_SHENG);
-//        testObject.put("name", appInfo.getName());
-//        testObject.put("isFree", appInfo.isFree());
-//        testObject.put("period", appInfo.getPeriod());
-//        testObject.put("pkgName", appInfo.getPkgName());
-//        testObject.saveInBackground().blockingSubscribe();
-//
-//        LCObject testObject = new LCObject("task_list");
-//        AppInfo appInfo = new AppInfo();
-//        appInfo.setName("点淘App-赚金币");
-//        appInfo.setAppName("点淘App");
-//        appInfo.setFree(true);
-//        appInfo.setPeriod(2l);
-//        appInfo.setPkgName(Constant.PN_DIAN_TAO);
-//        testObject.put("name", appInfo.getName());
-//        testObject.put("isFree", appInfo.isFree());
-//        testObject.put("period", appInfo.getPeriod());
-//        testObject.put("pkgName", appInfo.getPkgName());
-//        testObject.saveInBackground().blockingSubscribe();
-//
-//        LCObject testObject1 = new LCObject("task_list");
-//        AppInfo appInfo1 = new AppInfo();
-//        appInfo1.setName("抖音极速版-看广告");
-//        appInfo1.setAppName("抖音极速版App");
-//        appInfo1.setFree(true);
-//        appInfo1.setPeriod(1l);
-//        appInfo1.setPkgName(Constant.PN_DOU_YIN);
-//        testObject1.put("name", appInfo1.getName());
-//        testObject1.put("isFree", appInfo1.isFree());
-//        testObject1.put("period", appInfo1.getPeriod());
-//        testObject1.put("pkgName", appInfo1.getPkgName());
-//        testObject1.saveInBackground().blockingSubscribe();
-//
-//        LCObject testObject1 = new LCObject("task_list");
-//        AppInfo appInfo1 = new AppInfo();
-//        appInfo1.setName("爱奇艺极速版");
-//        appInfo1.setAppName("爱奇艺极速版App");
-//        appInfo1.setFree(true);
-//        appInfo1.setPeriod(2l);
-//        appInfo1.setPkgName(Constant.PN_AI_QI_YI);
-//        testObject1.put("name", appInfo1.getName());
-//        testObject1.put("isFree", appInfo1.isFree());
-//        testObject1.put("period", appInfo1.getPeriod());
-//        testObject1.put("pkgName", appInfo1.getPkgName());
-//        testObject1.saveInBackground().blockingSubscribe();
-//
-//        LCObject testObject1 = new LCObject("task_list");
-//        AppInfo appInfo1 = new AppInfo();
-//        appInfo1.setName("百度极速版");
-//        appInfo1.setAppName("百度极速版App");
-//        appInfo1.setFree(true);
-//        appInfo1.setPeriod(2l);
-//        appInfo1.setPkgName(Constant.PN_BAI_DU);
-//        testObject1.put("name", appInfo1.getName());
-//        testObject1.put("isFree", appInfo1.isFree());
-//        testObject1.put("period", appInfo1.getPeriod());
-//        testObject1.put("pkgName", appInfo1.getPkgName());
-//        testObject1.saveInBackground().blockingSubscribe();
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 100 && resultCode == 1) {
-//            // 免费任务
-//            String info = data.getStringExtra("appInfo");
-//            appInfo = JSON.parseObject(info, AppInfo.class);
-//            this.initAppInfo(appInfo);
-//        }
-//    }
 
     private void initAppInfo(AppInfo appInfo) {
-        this.taskTypeName.setText(appInfo.getTaskName());
-        findViewById(R.id.sp).setVisibility(View.VISIBLE);
-//        findViewById(R.id.periodLayout).setVisibility(View.VISIBLE);
-        this.periodEdit.setText(String.valueOf(appInfo.getPeriod()));
-        this.periodEdit.setSelection(this.periodEdit.getText().length());
+        findViewById(R.id.icon).setBackgroundResource(AppIconUtil.getIconResours(appInfo.getPkgName()));
 
-        switch (appInfo.getPkgName()) {
-            case Constant.PN_TOU_TIAO:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.toutiao_detail)), MyApplication.recommendBean.getCode_toutiao()));
-                break;
-            case Constant.PN_DOU_YIN:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.douyin_detail)), MyApplication.recommendBean.getCode_douyin()));
+        this.name.setText(appInfo.getTaskName());
+        tv_detail.setText(AppDescribeUtil.getAppDescribe(appInfo.getPkgName(),this));
+        tv_exit.setText(getAppInstall(appInfo.getPkgName()));
 
-                break;
-            case Constant.PN_KUAI_SHOU:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.kuaishou_detail)), MyApplication.recommendBean.getCode_kuaishou()));
-
-                break;
-            case Constant.PN_DIAN_TAO:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.diantao_detail)), MyApplication.recommendBean.getCode_diantao()));
-
-                break;
-            case Constant.PN_AI_QI_YI:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.aiqiyi_detail)), MyApplication.recommendBean.getCode_aiqiyi()));
-
-                break;
-            case Constant.PN_BAI_DU:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.baidu_detail)), MyApplication.recommendBean.getCode_baidu()));
-
-                break;
-            case Constant.PN_HUO_SHAN:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.huoshan_detail)), MyApplication.recommendBean.getCode_huoshan()));
-                break;
-            case Constant.PN_FAN_QIE:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.fanqie_detail)), MyApplication.recommendBean.getCode_fanqie()));
-                break;
-            case Constant.PN_JING_DONG:
-                tv_detail.setText(getResources().getText(R.string.jingdong_detail));
-                break;
-            case Constant.PN_TAO_TE:
-                tv_detail.setText(getResources().getText(R.string.taote_detail));
-                break;
-            case Constant.PN_MEI_TIAN_ZHUAN_DIAN:
-                tv_detail.setText(String.format(String.valueOf(getResources().getText(R.string.meitianzhuandian_detail)), MyApplication.recommendBean.getCode_meitianzhuandian()));
-
-                break;
-        }
     }
 
     @Override

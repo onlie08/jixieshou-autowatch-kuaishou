@@ -1,8 +1,8 @@
 package com.ch.common.leancloud;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
-import com.ch.activity.TaskTypeListActivity;
 import com.ch.application.MyApplication;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Logger;
@@ -12,10 +12,10 @@ import cn.leancloud.LCQuery;
 
 public class CheckPayTask extends AsyncTask<Void, Integer, Integer> {
 
-    private TaskTypeListActivity activity;
+    private Context context;
 
-    public CheckPayTask(TaskTypeListActivity activity) {
-        this.activity = activity;
+    public CheckPayTask(Context context) {
+        this.context = context;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CheckPayTask extends AsyncTask<Void, Integer, Integer> {
 //            Toast.makeText(activity, "如果您已开通VIP，但是未生效，您需要确认下您的网络是否正常！", Toast.LENGTH_LONG).show();
         }
         boolean isVip = vip == 1;
-        activity.updateVIPBtn(isVip);
+//        activity.updateVIPBtn(isVip);
         MyApplication.getAppInstance().setVip(isVip);
     }
 }

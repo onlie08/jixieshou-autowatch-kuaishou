@@ -13,9 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.ch.activity.AddTaskActivity;
 import com.ch.activity.EditTaskActivity;
 import com.ch.activity.MainActivity;
-import com.ch.activity.TaskTypeListActivity;
 import com.ch.common.PackageUtils;
 import com.ch.common.SPService;
 import com.ch.core.bus.BusEvent;
@@ -245,7 +245,7 @@ public class MyApplication extends Application {
                 .setView(floatView)
                 .setY(150)
                 .setX(0)
-                .setFilter(false, MainActivity.class, EditTaskActivity.class, TaskTypeListActivity.class)
+                .setFilter(false, MainActivity.class, EditTaskActivity.class, AddTaskActivity.class)
                 .setMoveType(MoveType.slide)
                 .setMoveStyle(500, new BounceInterpolator())
                 .setViewStateListener(mViewStateListener)

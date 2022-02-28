@@ -88,29 +88,29 @@
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/deleteBtn"
                         android:layout_width="match_parent"
-                        android:layout_height="64dp"
+                        android:layout_height="50dp"
                         android:layout_marginRight="16dp"
                         android:layout_weight="1"
-                        android:textSize="15sp"
-                        android:textColor="#ffffff"
-                        android:gravity="center"
-                        app:cornerRadius="30dp"
-                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
                         android:backgroundTint="@color/warning"
-                        android:text="删除" />
+                        android:gravity="center"
+                        android:text="删除"
+                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp"
+                        app:cornerRadius="30dp" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/sureBtn"
                         android:layout_width="match_parent"
-                        android:layout_height="64dp"
+                        android:layout_height="50dp"
                         android:layout_weight="1"
-                        android:textSize="15sp"
-                        android:gravity="center"
-                        android:textColor="#ffffff"
-                        app:cornerRadius="30dp"
-                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
                         android:backgroundTint="@color/colorPrimary"
-                        android:text="确定" />
+                        android:gravity="center"
+                        android:text="确定"
+                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp"
+                        app:cornerRadius="30dp" />
 
                 </LinearLayout>
 
