@@ -195,9 +195,18 @@ public class AiQiYiAdvertScript extends BaseScript {
         NodeInfo nodeInfo = findByText("电视剧");
         clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(30), nodeInfo.getRect().centerY() - SizeUtils.dp2px(70));
         Utils.sleep(1000);
-        if (clickContent("再赚")) Utils.sleep(1000);
+        if (clickContent("再赚")){
+            Utils.sleep(1000);
+            return;
+        }
         if (clickTotalMatchContent("邀请好友赚钱")) {
             Utils.sleep(1000);
+            clickBack();
+            Utils.sleep(1500);
+            clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
+            return;
+        }
+        if(findTotalMatchContent("邀请好友") && findContent("我的邀请码：")){
             clickBack();
             Utils.sleep(1500);
             clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
@@ -234,7 +243,7 @@ public class AiQiYiAdvertScript extends BaseScript {
 //            Utils.sleep(1500);
 //        }
 //
-//        clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
+        clickXY(point_ZhuanQian.x, point_ZhuanQian.y);
     }
 
     private void doPageId1Things() {
