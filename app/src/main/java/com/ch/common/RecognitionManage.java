@@ -2,6 +2,7 @@ package com.ch.common;
 
 import android.graphics.Point;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.blankj.utilcode.util.ClipboardUtils;
@@ -193,6 +194,7 @@ public class RecognitionManage {
                 String fileName2 = fileName1.replace("_", "");
                 if (fileName2.contains(timeURL)) {
                     finalFile = fileList2.get(fileList2.size() - 1);
+                    curFilePath = finalFile.getPath();
                     startRecognition(finalFile.getPath(), packageName, pageId);
                     return;
                 }
@@ -220,13 +222,28 @@ public class RecognitionManage {
                 String fileName5 = fileName4.replace("_", "");
                 if (fileName5.contains(timeURL1)) {
                     finalFile = fileList3.get(fileList3.size() - 1);
+                    curFilePath = finalFile.getPath();
                     startRecognition(finalFile.getPath(), packageName, pageId);
                     return;
                 }
             }
         }
-
+        curFilePath = finalFile.getPath();
         startRecognition(finalFile.getPath(), packageName, pageId);
+    }
+    private String curFilePath;
+    //图像识别成功后删除刚截屏的照片
+    private void delectScreenPic(){
+        try{
+            if(TextUtils.isEmpty(curFilePath))return;
+            File file = new File(curFilePath);
+            if(file.exists()){
+                file.delete();
+            }
+        }catch (Exception e){
+            LogUtils.d(TAG,e.getMessage());
+        }
+
     }
 
     public void startRecognition(String photoPath, String packageName, int pageId) {
@@ -321,7 +338,7 @@ public class RecognitionManage {
 
                             }
                             dealWithRecogintionResult(recognitionBeans, packageName, pageId);
-
+                            delectScreenPic();
                         } catch (Exception e) {
                             Log.d(TAG, "Exception: " + e.getMessage());
                             CrashReport.postCatchedException(new Throwable("PhotoTagPresenter:" + e.getMessage()));
