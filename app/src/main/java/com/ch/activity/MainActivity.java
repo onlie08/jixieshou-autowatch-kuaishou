@@ -20,6 +20,7 @@ import com.ch.common.CommonDialogManage;
 import com.ch.common.PerMissionManage;
 import com.ch.common.RecognitionManage;
 import com.ch.common.RecommendCodeManage;
+import com.ch.common.leancloud.CheckPayTask;
 import com.ch.common.leancloud.InitTask;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.FragmentNavigator;
@@ -30,6 +31,7 @@ import com.ch.fragment.MainPageFragment;
 import com.ch.fragment.SettingFragment;
 import com.ch.jixieshou.R;
 import com.ch.model.ScreenShootEvet;
+import com.ch.utils.AssetUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -134,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initData() {
         MyApplication.recommendBean = RecommendCodeManage.getSingleton().getRecommendBean();
+        MyApplication.appInfos = AssetUtils.getSingleton().getAppInfos(this);
+        new CheckPayTask(this).execute();
     }
 
 

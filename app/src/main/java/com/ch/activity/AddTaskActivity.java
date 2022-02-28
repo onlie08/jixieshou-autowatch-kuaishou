@@ -45,7 +45,8 @@ public class AddTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task_type_list_new);
         type = getIntent().getIntExtra("type", 1);
 
-        appInfos = AssetUtils.getSingleton().getAppInfos(this);
+        this.appInfos = MyApplication.appInfos;
+
         initView();
 
         new CheckPayTask(this).execute();

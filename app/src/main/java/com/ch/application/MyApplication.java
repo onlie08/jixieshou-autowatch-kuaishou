@@ -51,11 +51,15 @@ import static com.ch.core.bus.EventType.start_task;
 import static com.ch.core.bus.EventType.task_weixin;
 import static com.ch.core.bus.EventType.unpause_byhand;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MyApplication extends Application {
 
     private static final String TAG = "MyApplication";
     public static MyAccessbilityService accessbilityService;
     public static RecommendBean recommendBean;
+    public static List<AppInfo> appInfos = new ArrayList<>();//读取assets任务文件
     protected static MyApplication appInstance;
     private static int screenWidth;
     private static int screenHeight;

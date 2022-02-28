@@ -115,28 +115,28 @@ public class JingDongAdvertScript extends BaseScript {
      */
     private void doPageId0Things() {
         LogUtils.d(TAG, "doPageId0Things");
-        if(!signToday){
-            if(clickTotalMatchContent("签到免单")){
-                Utils.sleep(3000);
-                if(findTotalMatchContent("签到免单")){
-                    if (null == point_YiQian) {
-                        getRecognitionResult();
-                        if (null == point_YiQian) {
-                            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_JING_DONG, Constant.PAGE_MAIN));
-                            Utils.sleep(2000);
-                            clickBack();
-                            return;
-                        }
-                    }
-
-                    clickXY(MyApplication.getScreenWidth()- SizeUtils.dp2px(80),point_YiQian.y);
-                    Utils.sleep(2000);
-                    signToday = true;
-                }
-                clickBack();
-                return;
-            }
-        }
+//        if(!signToday){
+//            if(clickTotalMatchContent("签到免单")){
+//                Utils.sleep(3000);
+//                if(findTotalMatchContent("签到免单")){
+//                    if (null == point_YiQian) {
+//                        getRecognitionResult();
+//                        if (null == point_YiQian) {
+//                            EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_JING_DONG, Constant.PAGE_MAIN));
+//                            Utils.sleep(2000);
+//                            clickBack();
+//                            return;
+//                        }
+//                    }
+//
+//                    clickXY(MyApplication.getScreenWidth()- SizeUtils.dp2px(80),point_YiQian.y);
+//                    Utils.sleep(2000);
+//                    signToday = true;
+//                }
+//                clickBack();
+//                return;
+//            }
+//        }
         if (clickContent("赚钱")) return;
 
     }

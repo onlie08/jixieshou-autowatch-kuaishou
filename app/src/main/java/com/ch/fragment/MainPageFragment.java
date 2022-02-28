@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -118,95 +119,40 @@ public class MainPageFragment extends Fragment {
         if(BuildConfig.DEBUG){
             btn_skip_task.setVisibility(View.VISIBLE);
         }
-        view.findViewById(R.id.btn_skip_task).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TaskExecutor.getInstance().setAllTime(0);
-            }
-        });
-        view.findViewById(R.id.tv_describe).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
+        view.findViewById(R.id.btn_skip_task).setOnClickListener(view14 -> TaskExecutor.getInstance().setAllTime(0));
+        view.findViewById(R.id.tv_describe).setOnClickListener(view15 -> {
 //                startWXTask();
-                playInfo(1);
-            }
+            playInfo(1);
         });
-//        view.findViewById(R.id.tv_describe_one_info).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                playInfo(1);
-//            }
-//        });
-//
-//        view.findViewById(R.id.tv_describe_two_info).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                playInfo(2);
-//            }
-//        });
-//
-//        view.findViewById(R.id.tv_describe_thire_info).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                playInfo(3);
-//            }
-//        });
-//
-//        view.findViewById(R.id.tv_describe_four_info).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                CommonDialogManage.getSingleton().showScreemReasonDialog(getActivity());
-//            }
-//        });
-//
-//        view.findViewById(R.id.tv_describe_end_info).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                PackageUtils.openQQ(getActivity());
-//            }
-//        });
-
-        view.findViewById(R.id.f_view3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (f_view.getVisibility() == View.VISIBLE) {
-                    gotoAccessSetting();
-                    return;
-                }
-                if (tv_wx_statue.getText().equals("未开启")) {
-                    CommonDialogManage.getSingleton().showWeiXinTipDialog(getActivity(), (dialog, which) -> {
-                        tv_wx_statue.setText("已开启");
-                        startWeiXinTask();
-                    });
-
-                } else {
-                    tv_wx_statue.setText("未开启");
-                    stopWeiXinTask();
-                }
-
+        view.findViewById(R.id.f_view3).setOnClickListener(view16 -> {
+            if (f_view.getVisibility() == View.VISIBLE) {
+                gotoAccessSetting();
+                return;
             }
-        });
-        view.findViewById(R.id.f_view4).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                if (f_view.getVisibility() == View.VISIBLE) {
-//                    gotoAccessSetting();
-//                    return;
-//                }
-//                if (tv_qq_statue.getText().equals("未开启")) {
-//                    CommonDialogManage.getSingleton().showWeiXinTipDialog(getActivity(), (dialog, which) -> {
-//                        tv_qq_statue.setText("已开启");
-//                        startFengShengTask();
-//                    });
-//
-//                } else {
-//                    tv_qq_statue.setText("未开启");
-//                    stopFengShengTask();
-//                }
+            if (tv_wx_statue.getText().equals("未开启")) {
+                CommonDialogManage.getSingleton().showWeiXinTipDialog(getActivity(), (dialog, which) -> {
+                    tv_wx_statue.setText("已开启");
+                    startWeiXinTask();
+                });
 
-                ToastUtils.showLong("程序员开发中。。。");
+            } else {
+                tv_wx_statue.setText("未开启");
+                stopWeiXinTask();
             }
+
         });
+        view.findViewById(R.id.f_view4).setOnClickListener(view17 -> ToastUtils.showLong("程序员开发中。。。"));
+        view.findViewById(R.id.tv_clear_task).setOnClickListener(v -> {
+            newTaskCardView.setVisibility(View.VISIBLE);
+            listCardView.setVisibility(View.GONE);
+            appInfos.clear();
+            if (null != taskListAdapter1) {
+                taskListAdapter1.notifyDataSetChanged();
+            }
+            saveTaskList();
+        });
+
         tv_wx_statue = view.findViewById(R.id.tv_wx_statue);
         tv_qq_statue = view.findViewById(R.id.tv_qq_statue);
         f_view = view.findViewById(R.id.f_view);
@@ -225,28 +171,25 @@ public class MainPageFragment extends Fragment {
         taskListView.setLayoutManager(layout);
 
         startBtn = view.findViewById(R.id.startBtn);
-        startBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (appInfos.isEmpty()) {
-                    Toast.makeText(getActivity(), "请选择一个任务", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                if (!PermissionUtils.isGranted(PERMISSIONS_REQUEST)) {
-                    CommonDialogManage.getSingleton().showPermissionFailDialog(getActivity());
-                    return;
-                }
-
-                TaskInfo taskInfo = new TaskInfo();
-                taskInfo.setAppInfos(appInfos);
-                SPService.put(SPService.SP_HIS_TASK_LIST, taskInfo);
-
-                currentPos = 0;
-                currentAppInfo = appInfos.get(currentPos);
-                startTask();
-
+        startBtn.setOnClickListener(view18 -> {
+            if (appInfos.isEmpty()) {
+                Toast.makeText(getActivity(), "请选择一个任务", Toast.LENGTH_LONG).show();
+                return;
             }
+
+            if (!PermissionUtils.isGranted(PERMISSIONS_REQUEST)) {
+                CommonDialogManage.getSingleton().showPermissionFailDialog(getActivity());
+                return;
+            }
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.setAppInfos(appInfos);
+            SPService.put(SPService.SP_HIS_TASK_LIST, taskInfo);
+
+            currentPos = 0;
+            currentAppInfo = appInfos.get(currentPos);
+            startTask();
+
         });
     }
 
@@ -310,7 +253,6 @@ public class MainPageFragment extends Fragment {
     }
 
     private void startTask() {
-
         boolean isAppExit = DownLoadAppManage.getSingleton().checkIsAppExit(getActivity(), appInfos);
         if (!isAppExit) {
             return;
@@ -338,19 +280,36 @@ public class MainPageFragment extends Fragment {
     }
 
     private void gotoAccessSetting() {
-
         Toast.makeText(getActivity(), "请打开「捡豆子」的辅助服务", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
         startActivity(intent);
-
     }
 
     private void initData() {
-
         TaskInfo taskInfo = SPService.get(SPService.SP_HIS_TASK_LIST, TaskInfo.class);
         if (taskInfo == null || taskInfo.getAppInfos() == null || taskInfo.getAppInfos().isEmpty()) {
-            newTaskCardView.setVisibility(View.VISIBLE);
-            listCardView.setVisibility(View.GONE);
+            //TODO 自动添加已安装的任务
+            List<AppInfo> appInfoList = new ArrayList<>();
+            for (AppInfo appInfo : MyApplication.appInfos) {
+                if (AppUtils.isAppInstalled(appInfo.getPkgName())) {
+                    if (appInfo.isFree()) {
+                        appInfoList.add(appInfo);
+                    } else {
+                        if (MyApplication.getAppInstance().isVip()) {
+                            appInfoList.add(appInfo);
+                        }
+                    }
+                }
+            }
+            if (appInfoList.isEmpty()) {
+                newTaskCardView.setVisibility(View.VISIBLE);
+                listCardView.setVisibility(View.GONE);
+                return;
+            }
+            newTaskCardView.setVisibility(View.GONE);
+            listCardView.setVisibility(View.VISIBLE);
+            appInfos.addAll(appInfoList);
+
         } else {
             newTaskCardView.setVisibility(View.GONE);
             listCardView.setVisibility(View.VISIBLE);
