@@ -71,7 +71,6 @@ public class TaoTeScript extends BaseScript {
             return;
         }
 
-
         pageId = checkPageId();
         if (pageId == lastPageId) {
             samePageCount++;
@@ -289,34 +288,102 @@ public class TaoTeScript extends BaseScript {
             return;
         }
 
-
-        //每日立即领取
-        if (clickTotalMatchContent("立即领取")) {
-            Utils.sleep(2000);
-            if (clickContent("放弃膨胀 领取")) {
-                Utils.sleep(2000);
-                clickBack();
-                return;
-            }
-            return;
-        }
-        if (clickContent("立即领币")) {
-            Utils.sleep(2000);
+        if(clickTotalMatchContent("来访领币")){
+            Utils.sleep(1500);
             clickBack();
             return;
         }
-        if (clickContent("点击继续")) return;
-        if (clickContent("立即重试")) return;
 
-//        if (clickTotalMatchContent("可开红包")) {
-//            Utils.sleep(3000);
-//            if (clickTotalMatchContent("立即抽奖")) {
-//                Utils.sleep(5000);
-//                return;
-//            }
+        if(clickTotalMatchContent("立即领币")){
+            Utils.sleep(1500);
+            clickBack();
+            return;
+        }
+
+        if(clickTotalMatchContent("可领取")){
+            Utils.sleep(1500);
+            clickBack();
+            return;
+        }
+
+        if(clickTotalMatchContent("喂猫奖励")){
+            Utils.sleep(1500);
+//            clickBack();
+//            return;
+        }
+
+        if(clickContent("克")){
+            Utils.sleep(1500);
+            if(findTotalMatchContent("我的猫粮：")){
+                if(clickTotalMatchContent("逛逛必买特价好物（0/1）")){
+                    Utils.sleep(1500);
+                    doScan(20);
+                    clickBack();
+                    Utils.sleep(1500);
+                }
+                if(clickTotalMatchContent("逛逛精选好货（0/1）")){
+                    Utils.sleep(1500);
+                    doScan(20);
+                    clickBack();
+                    Utils.sleep(1500);
+                }
+                if(clickTotalMatchContent("去官方补贴逛品牌好货（0/1）")){
+                    Utils.sleep(1500);
+                    doScan(20);
+                    clickBack();
+                    Utils.sleep(1500);
+                }
+                if(clickTotalMatchContent("抢特币超值兑换特权（0/1）")){
+                    Utils.sleep(1500);
+                    doScan(20);
+                    clickBack();
+                    Utils.sleep(1500);
+                }
+                if(clickTotalMatchContent("签到领现金免费兑红包（0/1）")){
+                    Utils.sleep(1500);
+                    doScan(20);
+                    clickBack();
+                    Utils.sleep(1500);
+                }
+                clickXY(MyApplication.getScreenWidth()/2, SizeUtils.dp2px(200));
+                Utils.sleep(1500);
+            }
+        }
+
+
+
+//        if(clickTotalMatchContent("赚更多币")){
+//            return;
 //        }
 
-        if (clickContent("继续赚币")) return;
+
+//        //每日立即领取
+//        if (clickTotalMatchContent("立即领取")) {
+//            Utils.sleep(2000);
+//            if (clickContent("放弃膨胀 领取")) {
+//                Utils.sleep(2000);
+//                clickBack();
+//                return;
+//            }
+//            return;
+//        }
+//        if (clickContent("立即领币")) {
+//            Utils.sleep(2000);
+//            clickBack();
+//            return;
+//        }
+//        if (clickContent("点击继续")) return;
+//        if (clickContent("立即重试")) return;
+//
+////        if (clickTotalMatchContent("可开红包")) {
+////            Utils.sleep(3000);
+////            if (clickTotalMatchContent("立即抽奖")) {
+////                Utils.sleep(5000);
+////                return;
+////            }
+////        }
+//
+//        if (clickContent("继续赚币")) return;
 
         return;
     }
@@ -487,13 +554,13 @@ public class TaoTeScript extends BaseScript {
         if (findContent("搜索") && findContent("全部分类")) {
             return 0;
         }
-        if (findContent("今日已完成任务")) {
+        if (findContent("精选好货 下单得特币") || findTotalMatchContent("逛逛任务")) {
             return 2;
         }
         if (findContent("我的积分")) {
             return 3;
         }
-        if (findContent("我的特币") || findContent("特币超值兑")) {
+        if (findContent("我的特币") || findContent("特币兑红包")) {
             return 1;
         }
         if (findContent("我的签到账户")) {
