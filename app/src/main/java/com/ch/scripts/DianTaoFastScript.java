@@ -213,6 +213,7 @@ public class DianTaoFastScript extends BaseScript {
     /**
      * 打工赚元宝
      */
+    boolean ifClickNextTask = true;
     private void doPageId7Things() {
         if (samePageCount > 2) {
             if (clickContent("我知道了")) return;
@@ -246,48 +247,67 @@ public class DianTaoFastScript extends BaseScript {
             }
         }
 
-        if(findTotalMatchContent("去芭芭农场施肥")){
-            if (clickContent("去观看")) {
+        if(findTotalMatchContent("打工时长: 10分钟")){
+            if (clickTotalMatchContent("开始打工")) {
+                Utils.sleep(2000);
+                return;
+            }else if(findTotalMatchContent("体力不足，去获得体力")){
+                clickXY(MyApplication.getScreenWidth()/2, SizeUtils.dp2px(200));
+                Utils.sleep(1000);
                 return;
             }
-            if (clickContent("看直播")) {
+
+        }else if(findTotalMatchContent("去芭芭农场施肥")){
+            if(ifClickNextTask){
+                ifClickNextTask = false;
+                if (clickTotalMatchContent("去观看")) {
+                    return;
+                }
+                if (clickTotalMatchContent("看直播")) {
+                    return;
+                }
+                if (clickTotalMatchContent("去浏览")) {
+                    doScan(35);
+                    clickBack();
+                    return;
+                }
+                clickBack();
+                Utils.sleep(2000);
+                clickTotalMatchContent("走路赚元宝");
+            }else {
+                ifClickNextTask = true;
+                clickXY(MyApplication.getScreenWidth()/2, SizeUtils.dp2px(200));
+                Utils.sleep(1500);
+            }
+            return;
+        }else {
+            if(findTotalMatchContent("浏览商品30秒")){
+                doScan(100);
+                clickBack();
                 return;
             }
-            if (clickContent("去浏览")) {
+
+            if (clickId("sign-panel-btn")) Utils.sleep(1000);
+
+            if(clickXY(point_LingTiLi.x, point_LingTiLi.y)){
+                Utils.sleep(1500);
+                if (clickTotalMatchContent("查看更多任务")) {
+                    Utils.sleep(1500);
+                    clickXY(MyApplication.getScreenWidth()/2, SizeUtils.dp2px(200));
+                    Utils.sleep(1500);
+                }
+            }
+            if(clickXY(point_DaGong.x, point_DaGong.y)){
+                Utils.sleep(1500);
+                if(findTotalMatchContent("打工时长: 10分钟")){
+                    return;
+                }
+            }
+            if(clickXY(point_ZhuanTiLi.x, point_ZhuanTiLi.y)){
+                Utils.sleep(1500);
                 return;
             }
-            clickBack();
-            Utils.sleep(2000);
-            clickContent("走路赚元宝");
-            return;
         }
-
-        if (clickId("sign-panel-btn")) {
-            Utils.sleep(1000);
-        }
-        if (clickContent("查看更多任务")) {
-            return;
-        }
-
-        clickXY(point_DaGong.x, point_DaGong.y);
-        Utils.sleep(2000);
-        if (clickTotalMatchContent("开始打工")) {
-            Utils.sleep(2000);
-            return;
-        }else if(findTotalMatchContent("体力不足，去获得体力")){
-            clickXY(MyApplication.getScreenWidth()/2, SizeUtils.dp2px(200));
-            Utils.sleep(1000);
-            return;
-        }
-
-        clickXY(point_LingTiLi.x, point_LingTiLi.y);
-        Utils.sleep(2000);
-        if (clickContent("查看更多任务")) {
-            return;
-        }
-
-
-        clickXY(point_ZhuanTiLi.x, point_ZhuanTiLi.y);
 
     }
 
@@ -430,33 +450,91 @@ public class DianTaoFastScript extends BaseScript {
             if (clickContent("我知道了")) return;
         }
 
-
-        if (clickContent("去观看")) return;
-        if (clickContent("去浏览")) return;
-        if (clickContent("去领步数")) return;
-
-        NodeInfo nodeInfo = findTotalMatchByText("领取");
-        if (nodeInfo != null) {
-            ActionUtils.click(nodeInfo.getRect().centerX(), nodeInfo.getRect().centerY() - SizeUtils.dp2px(20));
-            return;
-        }
-
-        if (findContent("今日20000步已完成")) {
-            clickBack();
-            Utils.sleep(2000);
-            if (clickContent("打工赚元宝")) return;
-            return;
-        }
-
-        if (clickContent("出发")) {
-            Utils.sleep(1500);
-            if (findContent("邀请好友助力赚步数吧")) {
-                clickContent("查看更多任务");
+        if(findTotalMatchContent("做任务赚步数")){
+            if (clickTotalMatchContent("去观看")) return;
+            if (clickTotalMatchContent("去浏览")) {
+                Utils.sleep(1500);
+                doScan(70);
+                clickBack();
                 return;
             }
-            return;
+            clickBack();
+        }else {
+            if(findTotalMatchContent("浏览商品30秒")){
+                doScan(100);
+                clickBack();
+                return;
+            }
+
+            if(findTotalMatchContent("明日再来")){
+                if(clickTotalMatchContent("188元宝100步")){
+                    Utils.sleep(1000);
+                    if(doTask()){
+                        return;
+                    }
+                }
+                if(clickTotalMatchContent("288元宝500步")){
+                    Utils.sleep(1000);
+                    if(doTask()){
+                        return;
+                    }
+                }
+                if(clickTotalMatchContent("188元宝2500步")){
+                    Utils.sleep(1000);
+                    if(doTask()){
+                        return;
+                    }
+                }
+                if(clickTotalMatchContent("288元宝5000步")){
+                    Utils.sleep(1000);
+                    if(doTask()){
+                        return;
+                    }
+                }
+                if(clickTotalMatchContent("388元宝10000步")){
+                    Utils.sleep(1000);
+                    if(doTask()){
+                        return;
+                    }
+                }
+                if(clickTotalMatchContent("188元宝12500步")){
+                    Utils.sleep(1000);
+                    if(doTask()){
+                        return;
+                    }
+                }
+                if(clickTotalMatchContent("388元宝15000步")){
+                    Utils.sleep(1000);
+                    if(doTask()){
+                        return;
+                    }
+                }
+                if(clickTotalMatchContent("488元宝17500步")){
+                    Utils.sleep(1000);
+                    if(doTask()){
+                        return;
+                    }
+                }
+                if(clickTotalMatchContent("588元宝20000步")){
+                    Utils.sleep(1000);
+                    if(doTask()){
+                        return;
+                    }
+                }
+
+            }
+            if(clickTotalMatchContent("领取")){
+                Utils.sleep(2000);
+            }
+            if(clickTotalMatchContent("出发")){
+                Utils.sleep(2000);
+                if (findTotalMatchContent("邀请好友助力赚步数吧")) {
+                    clickTotalMatchContent("查看更多任务");
+                    return;
+                }
+            }
         }
-        scrollDown();
+
 
     }
 
@@ -706,6 +784,15 @@ public class DianTaoFastScript extends BaseScript {
 
         if (samePageCount > 15) {
             tryClickDialog();
+        }
+    }
+
+    private void doScan(int second) {
+        for (int i = 0; i < second; i++) {
+            if (isCurrentScipte()) {
+                Utils.sleep(1000);
+                scrollUp();
+            }
         }
     }
 }

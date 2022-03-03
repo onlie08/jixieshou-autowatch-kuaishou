@@ -318,7 +318,7 @@ public abstract class BaseScript implements IScript {
     public boolean clickXY(int x, int y) {
         ActionUtils.click(x, y);
         LogUtils.dTag(BASETAG, "click x: " + x + " y:" + y);
-        return false;
+        return true;
     }
 
     /**

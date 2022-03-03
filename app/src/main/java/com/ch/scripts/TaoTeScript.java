@@ -132,6 +132,12 @@ public class TaoTeScript extends BaseScript {
             doPageId6Things();
 
         } else {
+            if (clickTotalMatchContent("领取升级福利")) {
+                Utils.sleep(2000);
+                if(clickTotalMatchContent("立即领币")){
+                    Utils.sleep(2000);
+                }
+            }
             if (samePageCount > 5) {
                 if (clickTotalMatchContent("推荐")) Utils.sleep(3000);
             }
@@ -198,6 +204,9 @@ public class TaoTeScript extends BaseScript {
      * 签到界面
      */
     private void doPageId4Things() {
+        if (clickTotalMatchContent("点击签到")) {
+            return;
+        }
         List<NodeInfo> nodeInfoList = findAllTotalMatchByText("点击领取现金");
         if (null != nodeInfoList && !nodeInfoList.isEmpty() && nodeInfoList.size() == 3) {
             clickXY(nodeInfoList.get(nodeInfoList.size() - 1).getRect().centerX(), nodeInfoList.get(nodeInfoList.size() - 1).getRect().centerY());
@@ -220,9 +229,7 @@ public class TaoTeScript extends BaseScript {
 //                return;
 //            }
 //        }
-        if (clickTotalMatchContent("点击签到")) {
-            return;
-        }
+
         if (clickTotalMatchContent("点击领取")) {
             Utils.sleep(1000);
             clickBack();
@@ -281,6 +288,8 @@ public class TaoTeScript extends BaseScript {
             clickBack();
             return;
         }
+
+
         //每日立即领取
         if (clickTotalMatchContent("立即领取")) {
             Utils.sleep(2000);

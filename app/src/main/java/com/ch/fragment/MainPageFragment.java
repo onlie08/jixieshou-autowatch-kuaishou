@@ -539,8 +539,8 @@ public class MainPageFragment extends Fragment {
                         public void run() {
                             startTask();
                         }
-                    }, 2000);
-                }, 2000);
+                    }, 1000);
+                }, 1000);
                 break;
         }
     }

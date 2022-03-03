@@ -162,14 +162,7 @@ public class JingDongAdvertScript extends BaseScript {
      */
     private void doPageId2Things() {
         LogUtils.d(TAG, "doPageId2Things");
-        if (samePageCount > 3) {
-            List<NodeInfo> nodeInfoList = findAllTotalMatchByText("已完成");
-            if(null != nodeInfoList && nodeInfoList.size() == 3){
-//                setTodayDone(true);
-                CrashReport.postCatchedException(new Exception("京东今日任务完成"));
-                skipTask();
-                return;
-            }
+        if (samePageCount > 2) {
             clickBack();
             return;
         }
@@ -177,6 +170,14 @@ public class JingDongAdvertScript extends BaseScript {
         if (clickContent("逛商品赚金币")) Utils.sleep(3000);
         if (clickContent("逛活动赚金币")) Utils.sleep(3000);
         if (clickContent("看视频赚金币")) Utils.sleep(3000);
+
+        List<NodeInfo> nodeInfoList = findAllTotalMatchByText("已完成");
+        if(null != nodeInfoList && nodeInfoList.size() == 3){
+            CrashReport.postCatchedException(new Exception("京东今日任务完成"));
+            skipTask();
+            return;
+        }
+
 
 //      if(clickContent("邀好友赚金币"))Utils.sleep(5000);
 //      if(clickContent("东东爱消除"))Utils.sleep(5000);
