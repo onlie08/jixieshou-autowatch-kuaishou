@@ -1,6 +1,14 @@
 [
   {
-    "taskName":"头条极速版-刷金币",
+    "taskName":"每天赚点",
+    "pkgName":"com.yongloveru.hjw",
+    "period":5,
+    "isFree":true,
+    "discribe":"",
+    "star":"5颗星"
+  },
+  {
+    "taskName":"头条极速版",
     "pkgName":"com.ss.android.article.lite",
     "period":5,
     "isFree":true,
@@ -8,7 +16,7 @@
     "star":"5颗星"
   },
   {
-    "taskName":"点淘-刷金币",
+    "taskName":"点淘",
     "pkgName":"com.taobao.live",
     "period":5,
     "isFree":true,
@@ -16,7 +24,7 @@
     "star":"5颗星"
   },
   {
-    "taskName":"爱奇艺极速版-刷金币",
+    "taskName":"爱奇艺极速版",
     "pkgName":"com.qiyi.video.lite",
     "period":5,
     "isFree":true,
@@ -24,7 +32,7 @@
     "star":"4颗星"
   },
   {
-    "taskName":"百度极速版-刷金币",
+    "taskName":"百度极速版",
     "pkgName":"com.baidu.searchbox.lite",
     "period":5,
     "isFree":true,
@@ -32,7 +40,7 @@
     "star":"4颗星"
   },
   {
-    "taskName":"京东极速版-刷金币",
+    "taskName":"京东极速版",
     "pkgName":"com.jd.jdlite",
     "period":5,
     "isFree":true,
@@ -40,7 +48,7 @@
     "star":"4颗星"
   },
   {
-    "taskName":"抖音极速版-刷金币",
+    "taskName":"抖音极速版",
     "pkgName":"com.ss.android.ugc.aweme.lite",
     "period":5,
     "isFree":true,
@@ -48,7 +56,7 @@
     "star":"3颗星"
   },
   {
-    "taskName":"快手极速版-刷金币",
+    "taskName":"快手极速版",
     "pkgName":"com.kuaishou.nebula",
     "period":5,
     "isFree":true,
@@ -56,7 +64,7 @@
     "star":"3颗星"
   },
   {
-    "taskName":"番茄畅听-刷金币",
+    "taskName":"番茄畅听",
     "pkgName":"com.xs.fm",
     "period":5,
     "isFree":true,
@@ -64,7 +72,7 @@
     "star":"3颗星"
   },
   {
-    "taskName":"抖音火山版-刷金币",
+    "taskName":"抖音火山版",
     "pkgName":"com.ss.android.ugc.live",
     "period":5,
     "isFree":true,
@@ -72,7 +80,7 @@
     "star":"2颗星"
   },
   {
-    "taskName":"淘特-刷特币",
+    "taskName":"淘特",
     "pkgName":"com.taobao.litetao",
     "period":5,
     "isFree":true,

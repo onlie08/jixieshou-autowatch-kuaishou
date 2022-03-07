@@ -144,6 +144,9 @@ public class Dumper {
             serializer.endDocument();
             String windowinfoStr = stringWriter.toString();
             treeInfo.setWindowinfo(windowinfoStr);
+            if(null != webviewNodes && !webviewNodes.isEmpty()){
+                treeInfo.setWebNodeInfo(webviewNodes.get(0));
+            }
 //            LogUtils.d(TAG,"dump window tree cost: " + (System.currentTimeMillis() - st));
             return treeInfo;
         } catch (Exception e) {

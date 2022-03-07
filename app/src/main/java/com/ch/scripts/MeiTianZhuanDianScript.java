@@ -1,8 +1,10 @@
 package com.ch.scripts;
 
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
@@ -184,25 +186,54 @@ public class MeiTianZhuanDianScript extends BaseScript {
     List<String> wrongTaskList = new ArrayList<>();//记录执行不了的任务
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
-        if (samePageCount == 3) {
-            if (clickTotalMatchContent("关注")) return;
-        }
-        if (samePageCount > 4) {
-            clickBack();
-            skipTask();
-            return;
-        }
-
+//        if (samePageCount == 3) {
+//            if (clickTotalMatchContent("关注")) return;
+//        }
+//        if (samePageCount > 4) {
+//            clickBack();
+//            skipTask();
+//            return;
+//        }
 
         if (PackageUtils.checkApkExist(MyApplication.getAppInstance(), Constant.PN_XIAO_HONG_SHU)) {
-            if (clickContent("小红书关注") || clickContent("小红书简单关注") || clickContent("小红书点关注") || clickContent("小红书粉丝")) {
-                curTaskType = EVENT_XHS_FOLLOW;
+            AccessibilityNodeInfo webNodeInfo = getWebNodeInfo();
+            AccessibilityNodeInfo child = webNodeInfo.getChild(0).getChild(1).getChild(1).getChild(0).getChild(0).getChild(2);
+            if(child.getChildCount() < 8){
+                child = webNodeInfo.getChild(0).getChild(1).getChild(1).getChild(0).getChild(0).getChild(3);
+            }
+            List<AccessibilityNodeInfo> accessibilityNodeInfos = new ArrayList<>();
+            for(int i = 0;i<child.getChildCount();i++){
+                AccessibilityNodeInfo accessibilityNodeInfo = child.getChild(i).getChild(1).getChild(0);
+                String name = accessibilityNodeInfo.getText().toString();
+                Rect rect = new Rect();
+                accessibilityNodeInfo.getBoundsInScreen(rect);
+                LogUtils.d(TAG,"rect:"+rect.toString());
+                if(!wrongTaskList.contains(name) && name.contains("小红书") && rect.bottom < MyApplication.getScreenHeight()){
+                    accessibilityNodeInfos.add(child.getChild(i));
+                }else {
+                    LogUtils.d(TAG,"找到错误列表："+name);
+                }
+            }
+            if (accessibilityNodeInfos.isEmpty()){
+                scrollUpPx(SizeUtils.dp2px(120));
                 return;
             }
-            if (clickContent("简单关注拒绝秒点")) {
-                curTaskType = EVENT_XHS_FOLLOW;
-                return;
-            }
+            Rect rect = new Rect();
+            accessibilityNodeInfos.get(0).getBoundsInScreen(rect);
+            clickXY(rect.centerX(),rect.bottom-20);
+            return;
+
+//            if(clickLastNodeInfosByText("小红书")){
+//                return;
+//            }
+//            if (clickLastNodeInfosByText("小红书关注") || clickContent("小红书简单关注") || clickContent("小红书点关注") || clickContent("小红书粉丝")) {
+//                curTaskType = EVENT_XHS_FOLLOW;
+//                return;
+//            }
+//            if (clickContent("简单关注拒绝秒点")) {
+//                curTaskType = EVENT_XHS_FOLLOW;
+//                return;
+//            }
 //            if (clickContent("小红书点赞")) {
 //                curTaskType = EVENT_XHS_THUMB;
 //                return;
@@ -241,7 +272,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
 //            }
 //        }
 
-        scrollUpSlow();
+        scrollUpPx(SizeUtils.dp2px(120));
         return;
 
     }
@@ -291,6 +322,34 @@ public class MeiTianZhuanDianScript extends BaseScript {
             }
         }
 
+        if(!dealTaskType()){
+            clickBack();
+            Utils.sleep(1000);
+            scrollUpPx(SizeUtils.dp2px(120));
+            return;
+        }
+
+        String taskName = getTaskName();
+        if(wrongTaskList.contains(taskName)){
+            clickBack();
+            Utils.sleep(1000);
+            scrollUpPx(SizeUtils.dp2px(120));
+            return;
+        }
+
+        AccessibilityNodeInfo webNode = getWebNodeInfo();
+        AccessibilityNodeInfo child = webNode.getChild(0).getChild(2).getChild(1);
+        //判断任务复杂程度 过于复杂则不做
+        if(child.getChildCount() > 8){
+            wrongTaskList.add(taskName);
+            clickBack();
+            Utils.sleep(1000);
+            scrollUpPx(SizeUtils.dp2px(120));
+            LogUtils.d(TAG,"无法执行任务列表添加："+taskName);
+            return;
+        }
+
+
         if (screemSuccess) {
             screemSuccess = false;
             if (findContent("微信扫一扫")) {
@@ -301,6 +360,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
 
             return;
         }
+
 
         if (recieveTask()) return;
 
@@ -330,6 +390,20 @@ public class MeiTianZhuanDianScript extends BaseScript {
 
         if (clickContent("关闭")) return;
 
+    }
+
+    /**
+     * 判断任务类型 关注还是点赞
+     */
+    private boolean dealTaskType() {
+        if(findTotalMatchContent("简单关注")){
+            curTaskType = EVENT_XHS_FOLLOW;
+            return true;
+        }else if(findTotalMatchContent("视频点赞")){
+            curTaskType = EVENT_XHS_THUMB;
+            return true;
+        }
+        return false;
     }
 
 
@@ -429,11 +503,11 @@ public class MeiTianZhuanDianScript extends BaseScript {
             }
 
             resumeCount++;
-            if (resumeCount > 10) {
+            if (resumeCount > 40) {
                 LogUtils.d(TAG, "自动恢复到每天赚点");
                 startApp();
             }
-            if (resumeCount > 12) {
+            if (resumeCount > 45) {
                 if (BuildConfig.DEBUG) {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 }
@@ -522,21 +596,19 @@ public class MeiTianZhuanDianScript extends BaseScript {
                 return true;
             }
             if (findContent("该任务申请次数过多，不能再次申请！")) {
-                String text = getContent("小红书关注");
-                if(!wrongTaskList.contains(text)){
-                    wrongTaskList.add(text);
-                }
-                LogUtils.d(TAG,"该任务申请次数过多，不能再次申请！: "+text);
+                wrongTaskList.add(getTaskName());
+                LogUtils.d(TAG,"该任务申请次数过多，不能再次申请！: ");
                 clickBack();
-                Utils.sleep(2000);
-                clickBack();
+                Utils.sleep(1500);
+                scrollUpPx(SizeUtils.dp2px(120));
                 return true;
             }
             if (findContent("操作频繁，")) {
 //                wrongTaskList.add();
+                wrongTaskList.add(getTaskName());
                 clickBack();
-                Utils.sleep(2000);
-                clickBack();
+                Utils.sleep(1500);
+                scrollUpPx(SizeUtils.dp2px(120));
                 return true;
             }
 
@@ -592,9 +664,9 @@ public class MeiTianZhuanDianScript extends BaseScript {
             if (clickContent("其他原因。")) {
                 Utils.sleep(2000);
                 if (clickContent("狠心取消")) {
+                    wrongTaskList.add(getTaskName());
                     Utils.sleep(2000);
                     clickBack();
-//                    wrongTaskList.add();
                 }
             }
         }
@@ -629,6 +701,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
      * 跳转链接小红书关注
      */
     private void doTask0() {
+
         if (clickTotalMatchContent("打开链接")) {
             Utils.sleep(5000);
             requestOpenApp();
@@ -849,6 +922,10 @@ public class MeiTianZhuanDianScript extends BaseScript {
      * 小红书关注
      */
     private void openXiaoHongShu() {
+        if(findTotalMatchContent("说点什么...")){
+            clickId("nickNameTV");
+            Utils.sleep(2000);
+        }
         if (findTotalMatchContent("发消息")) {
             shootAndBack();
             return;
@@ -897,6 +974,21 @@ public class MeiTianZhuanDianScript extends BaseScript {
         clickBack();
         Utils.sleep(1000);
         startApp();
+    }
+
+    private String getTaskName(){
+        try {
+            AccessibilityNodeInfo accessibilityNodeInfo = getWebNodeInfo();
+            if (null != accessibilityNodeInfo) {
+                AccessibilityNodeInfo taskNameNode = accessibilityNodeInfo.getChild(0).getChild(2).getChild(0).getChild(0).getChild(1);
+                String taskName = taskNameNode.getText().toString();
+                LogUtils.d(TAG,"taskName:"+taskName);
+                return taskName;
+            }
+        }catch (Exception e){
+            LogUtils.d(TAG,"taskNameNode:"+e.getMessage());
+        }
+        return "";
     }
 
 }

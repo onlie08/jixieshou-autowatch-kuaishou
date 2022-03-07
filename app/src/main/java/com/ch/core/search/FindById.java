@@ -45,6 +45,16 @@ public class FindById {
         return null;
     }
 
+    public static AccessibilityNodeInfo getWebNodeInfo(){
+        AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getRoots();
+        if (roots == null) {
+            Log.i(Utils.tag, "roots is null.");
+        }
+        TreeInfo treeInfo = new Dumper(roots).dump();
+        return treeInfo.getWebNodeInfo();
+
+    }
+
     public static NodeInfo find(String id) {
         AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getRoots();
         if (roots == null) {

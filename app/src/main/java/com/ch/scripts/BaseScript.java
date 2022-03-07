@@ -194,6 +194,14 @@ public abstract class BaseScript implements IScript {
         return FindById.find(id);
     }
 
+    /**
+     * 找到webview的根节点
+     * @return
+     */
+    protected AccessibilityNodeInfo getWebNodeInfo() {
+        return FindById.getWebNodeInfo();
+    }
+
     //
     protected AccessibilityNodeInfo findAccessibilityNodeById(String id) {
         return FindById.findAccessibilityNode(id);
@@ -425,6 +433,14 @@ public abstract class BaseScript implements IScript {
         int margin = 600 + (int) (Math.random() * 100);
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
         int toY = margin;
+        new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
+    }
+
+    public void scrollUpPx(int px) {
+        LogUtils.dTag(BASETAG, "scrollUpSlow");
+        int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int) (Math.random() * 100);
+        int fromY = MyApplication.getAppInstance().getScreenHeight()/2 ;
+        int toY = fromY - px;
         new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
     }
 

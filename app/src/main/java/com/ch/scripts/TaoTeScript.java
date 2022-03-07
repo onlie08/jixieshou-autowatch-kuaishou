@@ -560,7 +560,7 @@ public class TaoTeScript extends BaseScript {
         if (findContent("我的积分")) {
             return 3;
         }
-        if (findContent("我的特币") || findContent("特币兑红包")) {
+        if (findContent("天天赚特币") ||findContent("我的特币") || findContent("特币兑红包")) {
             return 1;
         }
         if (findContent("我的签到账户")) {
