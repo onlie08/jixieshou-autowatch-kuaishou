@@ -437,7 +437,7 @@ public abstract class BaseScript implements IScript {
     }
 
     public void scrollUpPx(int px) {
-        LogUtils.dTag(BASETAG, "scrollUpSlow");
+        LogUtils.dTag(BASETAG, "scrollUpPx"+px);
         int x = MyApplication.getAppInstance().getScreenWidth() / 2 + (int) (Math.random() * 100);
         int fromY = MyApplication.getAppInstance().getScreenHeight()/2 ;
         int toY = fromY - px;
