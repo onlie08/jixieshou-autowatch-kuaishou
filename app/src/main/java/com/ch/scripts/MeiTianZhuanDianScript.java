@@ -785,24 +785,27 @@ public class MeiTianZhuanDianScript extends BaseScript {
             return;
         } else if (findTotalMatchContent("点击保存二维码")) {
             doTask1();
-        }else if (clickTotalMatchContent("复制口令")) {
-            Utils.sleep(1000);
-            PackageUtils.startApp(Constant.PN_XIAO_HONG_SHU);
-            Utils.sleep(5000);
-            if(clickTotalMatchContent("立即查看")){
-                Utils.sleep(2000);
-                MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
-
-                if(findTotalMatchContent("说点什么...")){
-                    clickId("nickNameTV");
-                    Utils.sleep(2000);
-                }else {
-                    wrongRunDeal();
-                }
-            }else {
-                wrongRunDeal();
-            }
-        } else {
+        }
+//        else if (clickTotalMatchContent("复制口令")) {
+//            Utils.sleep(1000);
+//            PackageUtils.startApp(Constant.PN_XIAO_HONG_SHU);
+//            Utils.sleep(5000);
+//            if(clickTotalMatchContent("立即查看")){
+//                Utils.sleep(2000);
+//                MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
+//
+//                if(findTotalMatchContent("说点什么...")){
+//                    clickId("nickNameTV");
+//                    Utils.sleep(2000);
+//                    //todo
+//                }else {
+//                    wrongRunDeal();
+//                }
+//            }else {
+//                wrongRunDeal();
+//            }
+//        }
+        else {
             wrongRunDeal();
 //            cancelTask();
         }
