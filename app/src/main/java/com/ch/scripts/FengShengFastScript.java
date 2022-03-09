@@ -87,7 +87,7 @@ public class FengShengFastScript extends BaseScript {
         }
         getCurHour();
 
-        if (mHour != 9 && mHour != 15 && mHour != 21 && mHour != 22) {
+        if (mHour != 9 && mHour != 16 && mHour != 21 && mHour != 22) {
             skipTask();
             task1 = false;
             task2 = false;
@@ -106,7 +106,7 @@ public class FengShengFastScript extends BaseScript {
                     type = 1;
                 }
                 break;
-            case 15:
+            case 16:
                 if (task2) {
                     type = 0;
                     skipTask();
@@ -258,25 +258,14 @@ public class FengShengFastScript extends BaseScript {
 
     //加班餐申请
     private void doShenQin() {
-        NodeInfo nodeInfo = findByText("加班原因");
-        clickXY(nodeInfo.getRect().centerX(), nodeInfo.getRect().centerY() + SizeUtils.dp2px(40));
-        Utils.sleep(1000);
-
-        AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
-        if (root == null) return;
-        AccessibilityNodeInfo root1 = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
-        AccessibilityNodeInfo root2 = root1.getChild(0).getChild(0).getChild(0).getChild(3).getChild(1);
-
-        if (root2 != null) {
+        AccessibilityNodeInfo webNodeInfo = getWebNodeInfo();
+        AccessibilityNodeInfo edit = webNodeInfo.getChild(0).getChild(0).getChild(0).getChild(3).getChild(1);
+        if(null != edit){
+            LogUtils.d(TAG,"FIND EDIT");
             Bundle arguments = new Bundle();
             arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "工作进度需要");
-            root2.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+            edit.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
             Utils.sleep(2000);
-
-
-            NodeInfo nodeInfo1 = findByText("备注");
-            clickXY(nodeInfo1.getRect().centerX(), nodeInfo1.getRect().centerY() + SizeUtils.dp2px(40));
-            Utils.sleep(1000);
 
             if (clickTotalMatchContent("提交")) {
                 Utils.sleep(2000);
