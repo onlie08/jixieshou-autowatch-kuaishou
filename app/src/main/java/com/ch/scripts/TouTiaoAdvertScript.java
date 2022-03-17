@@ -388,6 +388,17 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
+        AccessibilityNodeInfo bottom = findAccessibilityNodeById("android:id/tabhost");
+        if(bottom != null){
+            Rect rect = new Rect();
+            bottom.getBoundsInScreen(rect);
+            point_ShouYe = new Point(MyApplication.getScreenWidth()/5,rect.bottom - SizeUtils.dp2px(20));
+            point_RenWu = new Point(MyApplication.getScreenWidth()/2,rect.bottom - SizeUtils.dp2px(20));
+            LogUtils.d(TAG,"point_ShouYe:"+point_ShouYe.toString() + " point_RenWu:"+ point_RenWu.toString() + " Height:"+MyApplication.getScreenHeight());
+            return;
+        }
+
+
         String sp_shouye = SPUtils.getInstance().getString(Constant.TOUTIAO_SHOUYE, "");
         if (!TextUtils.isEmpty(sp_shouye)) {
             point_ShouYe = new Gson().fromJson(sp_shouye, Point.class);

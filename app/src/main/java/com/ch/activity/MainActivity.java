@@ -158,6 +158,9 @@ public class MainActivity extends AppCompatActivity {
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ScreenShootEvet event) {
         LogUtils.d(TAG, "ScreenShootEvet");
+        if(RecognitionManage.getSingleton().isRecogniting()){
+            return;
+        }
         boolean success = MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
         if (!success) {
             CrashReport.postCatchedException(new Throwable("截图失败"));

@@ -47,7 +47,7 @@ import static com.ch.core.utils.Constant.PAGE_TASK;
 
 public class RecognitionManage {
     private String TAG = this.getClass().getSimpleName();
-
+    private boolean recogniting = false;
     private volatile static RecognitionManage instance; //声明成 volatile
 
     public static RecognitionManage getSingleton() {
@@ -59,6 +59,14 @@ public class RecognitionManage {
             }
         }
         return instance;
+    }
+
+    public boolean isRecogniting() {
+        return recogniting;
+    }
+
+    public void setRecogniting(boolean recogniting) {
+        this.recogniting = recogniting;
     }
 
     /**
@@ -256,6 +264,7 @@ public class RecognitionManage {
     }
 
     private void doRequest(String photoPath, String packageName, int pageId) {
+        recogniting = true;
         OkHttpClient okHttpClient = new OkHttpClient();
         okHttpClient.authenticator();
 
@@ -278,6 +287,7 @@ public class RecognitionManage {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 LogUtils.d(TAG, "Recognition onFailure");
+                recogniting = false;
             }
 
             @Override
@@ -339,13 +349,16 @@ public class RecognitionManage {
                             }
                             dealWithRecogintionResult(recognitionBeans, packageName, pageId);
                             delectScreenPic();
+                            recogniting = false;
                         } catch (Exception e) {
                             Log.d(TAG, "Exception: " + e.getMessage());
                             CrashReport.postCatchedException(new Throwable("PhotoTagPresenter:" + e.getMessage()));
+                            recogniting = false;
                         }
 
                     }
                 }
+                recogniting = false;
             }
         });
     }

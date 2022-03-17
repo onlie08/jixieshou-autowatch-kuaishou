@@ -421,14 +421,18 @@ public class AiQiYiAdvertScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
-        String sp_shouye = SPUtils.getInstance().getString(Constant.AIQIYI_SHOUYE, "");
-        if (!TextUtils.isEmpty(sp_shouye)) {
-            point_ShouYe = new Gson().fromJson(sp_shouye, Point.class);
-        }
-        String sp_zhuanqian = SPUtils.getInstance().getString(Constant.AIQIYI_ZHUANQIAN, "");
-        if (!TextUtils.isEmpty(sp_zhuanqian)) {
-            point_ZhuanQian = new Gson().fromJson(sp_zhuanqian, Point.class);
-        }
+        point_ShouYe = new Point(MyApplication.getScreenWidth()/5,MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
+        point_ZhuanQian = new Point(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
+        LogUtils.d(TAG,"point_ShouYe:"+point_ShouYe.toString() + " point_ZhuanQian:"+ point_ZhuanQian.toString() + " Height:"+MyApplication.getScreenHeight());
+
+//        String sp_shouye = SPUtils.getInstance().getString(Constant.AIQIYI_SHOUYE, "");
+//        if (!TextUtils.isEmpty(sp_shouye)) {
+//            point_ShouYe = new Gson().fromJson(sp_shouye, Point.class);
+//        }
+//        String sp_zhuanqian = SPUtils.getInstance().getString(Constant.AIQIYI_ZHUANQIAN, "");
+//        if (!TextUtils.isEmpty(sp_zhuanqian)) {
+//            point_ZhuanQian = new Gson().fromJson(sp_zhuanqian, Point.class);
+//        }
 
         String sp_lijikaiyun = SPUtils.getInstance().getString(Constant.AIQIYI_LIJIKAIYUN, "");
         if (!TextUtils.isEmpty(sp_lijikaiyun)) {
