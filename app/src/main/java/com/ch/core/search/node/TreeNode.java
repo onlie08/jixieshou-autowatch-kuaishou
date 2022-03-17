@@ -107,6 +107,7 @@ public class TreeNode<T> {
                     this.children.add(child);
                     return true;
                 default:
+
                     if (children != null) {
                         for (TreeNode<T> node : children) {
                             if (node.addToTree(t, detector)) {

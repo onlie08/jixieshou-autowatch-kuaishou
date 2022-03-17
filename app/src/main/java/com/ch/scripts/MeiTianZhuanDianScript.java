@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -39,6 +40,8 @@ public class MeiTianZhuanDianScript extends BaseScript {
     private String TAG = this.getClass().getSimpleName();
     private Point point_ShouYe;
     private Point point_WoDe;
+    private List<String> wrongTaskList = new ArrayList<>();//记录执行不了的任务
+    private String taskName = "";
 
     private volatile static MeiTianZhuanDianScript instance; //声明成 volatile
 
@@ -56,25 +59,6 @@ public class MeiTianZhuanDianScript extends BaseScript {
     private int pageId = -1;//0:首页 1:个人中心  2:广告页 3：幸运大转盘 4:看广告赚金币
     private int lastPageId = -1; //上次的页面
     private int samePageCount = 0; //同一个页面停留次数
-
-    private final int EVENT_XHS_FOLLOW = 10;//小红书关注
-    private final int EVENT_XHS_THUMB = 11;//小红书点赞
-
-    private final int EVENT_DY_FOLLOW = 20;//抖音关注
-    private final int EVENT_DY_THUMB = 21;//抖音点赞
-
-    private final int EVENT_KS_FOLLOW = 30;//快手关注
-    private final int EVENT_KS_THUMB = 31;//快手点赞
-
-    private final int EVENT_BLBL_FOLLOW = 40;//哔哩哔哩关注
-    private final int EVENT_BLBL_THUMB = 41;//哔哩哔哩点赞
-
-    private final int EVENT_TB_SCAN = 50;//淘宝产品浏览
-    private final int EVENT_TB_HELP = 51;//淘宝助力
-    private final int EVENT_TB_FARM_HELP = 52;//淘宝农场助力
-
-    private final int EVENT_TT_HELP = 90;//淘特助力
-
 
     @Override
     protected boolean isTargetPkg() {
@@ -176,109 +160,74 @@ public class MeiTianZhuanDianScript extends BaseScript {
             }
         }
 
-        if (clickContent("截图任务")) return;
+        if (clickContent("截图任务")) {
+//            Utils.sleep(2000);
+//            if(errCount> 2){
+//                reInstallApp();
+//                return;
+//            }
+//            if(checkPageId() == -1){
+//                errCount++;
+//            }else {
+//                errCount = 0;
+//            }
+            return;
+        }
 
+    }
+
+    private void reInstallApp() {
+        LogUtils.d(TAG,"卸载每天赚点App");
+        uninstallPackage(Constant.PN_MEI_TIAN_ZHUAN_DIAN);
+        installPackage(Constant.PN_MEI_TIAN_ZHUAN_DIAN);
+//        AppUtils.uninstallApp(Constant.PN_MEI_TIAN_ZHUAN_DIAN);
+        Utils.sleep(2000);
     }
 
     /**
      * 任务列表页面逻辑 查找小红书关注、抖音点赞、哔哩哔哩关注等任务
      */
-    int curTaskType = -1;
-    List<String> wrongTaskList = new ArrayList<>();//记录执行不了的任务
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
-//        if (samePageCount == 3) {
-//            if (clickTotalMatchContent("关注")) return;
-//        }
-//        if (samePageCount > 4) {
-//            clickBack();
-//            skipTask();
-//            return;
-//        }
-
-        if (PackageUtils.checkApkExist(MyApplication.getAppInstance(), Constant.PN_XIAO_HONG_SHU)) {
-            AccessibilityNodeInfo webNodeInfo = getWebNodeInfo();
-            AccessibilityNodeInfo child = webNodeInfo.getChild(0).getChild(1).getChild(1).getChild(0).getChild(0).getChild(2);
-            if(child.getChildCount() < 8){
-                child = webNodeInfo.getChild(0).getChild(1).getChild(1).getChild(0).getChild(0).getChild(3);
-            }
-            List<AccessibilityNodeInfo> accessibilityNodeInfos = new ArrayList<>();
-            for(int i = 0;i<child.getChildCount();i++){
-                AccessibilityNodeInfo accessibilityNodeInfo = child.getChild(i).getChild(1).getChild(0);
-                String name = accessibilityNodeInfo.getText().toString();
-                Rect rect = new Rect();
-                accessibilityNodeInfo.getBoundsInScreen(rect);
-                LogUtils.d(TAG,"rect:"+rect.toString());
-                if(!wrongTaskList.contains(name) && name.contains("小红书") && rect.bottom < MyApplication.getScreenHeight()){
-                    accessibilityNodeInfos.add(child.getChild(i));
-                }else {
-                    LogUtils.d(TAG,"找到错误列表："+name);
+        if (samePageCount > 8) {
+            clickBack();
+            skipTask();
+            return;
+        }
+        if (PackageUtils.checkApkExist(MyApplication.getAppInstance(), Constant.PN_HUO_SHAN)) {
+            if(!wrongTaskList.contains("抖音火山版领火苗")){
+                if(clickTotalMatchContent("抖音火山版领火苗")){
+                    return;
                 }
             }
-            if (accessibilityNodeInfos.isEmpty()){
-                scrollUpPx(SizeUtils.dp2px(120));
+        }
+        if (PackageUtils.checkApkExist(MyApplication.getAppInstance(), Constant.PN_TAO_TE)) {
+            if(!wrongTaskList.contains("淘特摇一摇")){
+                if(clickTotalMatchContent("淘特摇一摇")){
+                    return;
+                }
+            }
+        }
+        if (PackageUtils.checkApkExist(MyApplication.getAppInstance(), Constant.PN_XIAO_HONG_SHU)) {
+            List<NodeInfo> nodeInfoList = findNodeInfosByText("小红书");
+            if(nodeInfoList == null){
+                scrollUpPx(SizeUtils.dp2px(240));
                 return;
             }
-            Rect rect = new Rect();
-            accessibilityNodeInfos.get(0).getBoundsInScreen(rect);
-            clickXY(rect.centerX(),rect.bottom-20);
+            for(int i = 0;i<nodeInfoList.size();i++){
+                if(!wrongTaskList.contains(nodeInfoList.get(i).getText())  && nodeInfoList.get(i).getRect().bottom < MyApplication.getScreenHeight()){
+                    clickXY(nodeInfoList.get(i).getRect().centerX(),nodeInfoList.get(i).getRect().bottom-20);
+                    return;
+                }
+            }
+            scrollUpPx(SizeUtils.dp2px(240));
             return;
-
-//            if(clickLastNodeInfosByText("小红书")){
-//                return;
-//            }
-//            if (clickLastNodeInfosByText("小红书关注") || clickContent("小红书简单关注") || clickContent("小红书点关注") || clickContent("小红书粉丝")) {
-//                curTaskType = EVENT_XHS_FOLLOW;
-//                return;
-//            }
-//            if (clickContent("简单关注拒绝秒点")) {
-//                curTaskType = EVENT_XHS_FOLLOW;
-//                return;
-//            }
-//            if (clickContent("小红书点赞")) {
-//                curTaskType = EVENT_XHS_THUMB;
-//                return;
-//            }
         }
 
-//        if (PackageUtils.checkApkExist(MyApplication.getAppInstance(), Constant.PN_DOU_YIN)) {
-//            if (clickContent("抖音点赞")) {
-//                curTaskType = EVENT_DY_THUMB;
-//                return;
-//            }
-//        }
-
-//        if(PackageUtils.checkApkExist(MyApplication.getAppInstance(),Constant.PN_TAO_TE)){
-//            if(clickTotalMatchContent("+0.68元") ){
-//                curTaskType = EVENT_TT_HELP;
-//                return;
-//            }
-//        }
-
-//        if (PackageUtils.checkApkExist(MyApplication.getAppInstance(), Constant.PN_BI_LI_BI_LI)) {
-//            if (clickContent("哔哩哔哩关注")) {
-//                curTaskType = EVENT_BLBL_FOLLOW;
-//                return;
-//            }
-//        }
-
-//        if (PackageUtils.checkApkExist(MyApplication.getAppInstance(), Constant.PN_TAO_BAO)) {
-//            if (clickContent("淘宝产品浏览") || clickContent("淘宝浏览产品")) {
-//                curTaskType = EVENT_TB_SCAN;
-//                return;
-//            }
-//            if (clickContent("淘宝农场助力")) {
-//                curTaskType = EVENT_TB_FARM_HELP;
-//                return;
-//            }
-//        }
-
-        scrollUpPx(SizeUtils.dp2px(120));
+        scrollUpPx(SizeUtils.dp2px(240));
         return;
 
     }
-
-
 
     /**
      * 邀请码填写页
@@ -309,124 +258,92 @@ public class MeiTianZhuanDianScript extends BaseScript {
     /**
      * 做任务页面逻辑
      */
-    boolean towPic = false;
     private void doPageId2Things() {
-        LogUtils.d(TAG, "doPageId2Things：" + curTaskType);
-        if (findContent("任务太火爆，已经结束")) {
-            clickBack();
-            Utils.sleep(1000);
-            clickBack();
+       if(taskHasDone())return;
+        int picCount = checkPicCount();
+        LogUtils.d(TAG, "doPageId2Things：" + taskName);
+        getTaskName();
+        if(taskName.equals("抖音火山版领火苗")){
+            doHuoShanHuoMiao();
             return;
         }
-        if (findContent("开启悬浮助手")) {
-            if (clickContent("不再提醒")) {
+
+        if(taskName.equals("淘特摇一摇")){
+            doTaoTeYaoYiYao();
+            return;
+        }
+
+        if(taskName.contains("小红书")){
+            if(!findTotalMatchContent("打开链接") && !findTotalMatchContent("点击保存二维码")&& !findTotalMatchContent("复制口令")){
+                wrongRunDeal();
                 return;
             }
-        }
 
-        if (screemSuccess) {
-            screemSuccess = false;
-            if (findContent("微信扫一扫")) {
-                clickXY(500, 500);
-                Utils.sleep(2000);
+            if(!dealTaskType()){
+                wrongRunDeal();
+                return;
             }
-            if (uploadTask()) return;
+            if (recieveTask()) {
+                Utils.sleep(2000);
+                if(findTotalMatchContent("简单关注")){
+                    if(clickTotalMatchContent("打开链接")){
+                        Utils.sleep(2000);
+                        doXHStype1(picCount);
+                    }else if(clickTotalMatchContent("复制口令")){
+                        Utils.sleep(2000);
+                        doXHStype2(picCount);
+                    }else if(clickTotalMatchContent("点击保存二维码")){
+                        Utils.sleep(2000);
+                        doXHStype3(picCount);
+                    }
+                    return;
+                }
 
-            return;
+                if(findTotalMatchContent("视频点赞")){
+                    if(clickTotalMatchContent("打开链接")){
+                        Utils.sleep(2000);
+                        doXHStype4(picCount);
+                    }
+//                    else if(clickTotalMatchContent("复制口令")){
+//                        Utils.sleep(2000);
+//                        doXHStype5(picCount);
+//                    }else if(clickTotalMatchContent("点击保存二维码")){
+//                        Utils.sleep(2000);
+//                        doXHStype6(picCount);
+//                    }
+                    else {
+                        wrongRunDeal();
+                    }
+                }
+            }
         }
-
-        if(!dealTaskType()){
-            clickBack();
-            Utils.sleep(1000);
-            scrollUpPx(SizeUtils.dp2px(120));
-            return;
-        }
-
-        String taskName = getTaskName();
-        if(wrongTaskList.contains(taskName)){
-            clickBack();
-            Utils.sleep(1000);
-            scrollUpPx(SizeUtils.dp2px(120));
-            return;
-        }
-
-//        List<NodeInfo> nodeInfoList = findAllTotalMatchByText("选择文件");
-//        if(null != nodeInfoList){
-//            if(nodeInfoList.size() == 2){
-//                LogUtils.d(TAG,"选择文件个数："+nodeInfoList.size());
-//                towPic = true;
-//            }else {
-//                towPic = false;
-//            }
-//        }else {
-//            LogUtils.d(TAG,"nodeInfoList = null");
-//        }
-
-        AccessibilityNodeInfo webNode = getWebNodeInfo();
-        AccessibilityNodeInfo child = webNode.getChild(0).getChild(2).getChild(1);
-        if(child.getChildCount() == 10 || child.getChildCount() == 9){
-            towPic = true;
-        }else {
-            towPic = false;
-        }
-        //判断任务复杂程度 过于复杂则不做
-//        if(child.getChildCount() > 8){
-//            wrongTaskList.add(taskName);
-//            clickBack();
-//            Utils.sleep(1000);
-//            scrollUpPx(SizeUtils.dp2px(120));
-//            LogUtils.d(TAG,"无法执行任务列表添加："+taskName);
-//            return;
-//        }
-
-
-
-
-        if (recieveTask()) return;
-
-        switch (curTaskType) {
-            case EVENT_XHS_FOLLOW:
-                doTask0();
-                break;
-            case EVENT_TB_SCAN:
-                doTask2();
-                break;
-            case EVENT_TB_FARM_HELP:
-                doTask4();
-                break;
-            case EVENT_XHS_THUMB:
-                doTask5();
-                break;
-            case EVENT_DY_THUMB:
-                doTask6();
-                break;
-            case EVENT_TT_HELP:
-                doTask7();
-                break;
-            case EVENT_BLBL_FOLLOW:
-                doTask8();
-                break;
-        }
-
         if (clickContent("关闭")) return;
 
+    }
+
+    /**
+     * 需要拍几张照片
+     */
+    private int checkPicCount() {
+        List<NodeInfo> nodeInfoList = findPageByContent("示例图",true);
+        if(null != nodeInfoList){
+            LogUtils.d(TAG,"示例图个数："+nodeInfoList.size());
+            return nodeInfoList.size();
+        }
+        return 0;
     }
 
     /**
      * 判断任务类型 关注还是点赞
      */
     private boolean dealTaskType() {
-        LogUtils.d(TAG, "dealTaskType()");
         if(findTotalMatchContent("简单关注")){
-            curTaskType = EVENT_XHS_FOLLOW;
             return true;
         }else if(findTotalMatchContent("视频点赞")){
-            curTaskType = EVENT_XHS_THUMB;
             return true;
         }
         return false;
     }
-
 
     /**
      * 检查是在那个页面
@@ -454,41 +371,12 @@ public class MeiTianZhuanDianScript extends BaseScript {
 
     @Override
     protected int getMinSleepTime() {
-        if (pageId == 2) {
-            return 1000;
-        } else if (pageId == 1) {
-            return 2000;
-        } else if (pageId == 3) {
-            return 2000;
-        } else if (pageId == 4) {
-            return 2000;
-        } else if (pageId == 0) {
-            return 2000;
-        } else if (pageId == -1) {
-            return 1000;
-        } else {
-            return 3000;
-        }
-
+        return 2000;
     }
 
     @Override
     protected int getMaxSleepTime() {
-        if (pageId == 2) {
-            return 1000;
-        } else if (pageId == 1) {
-            return 2000;
-        } else if (pageId == 3) {
-            return 3000;
-        } else if (pageId == 4) {
-            return 2000;
-        } else if (pageId == 0) {
-            return 2000;
-        } else if (pageId == -1) {
-            return 1000;
-        } else {
-            return 3000;
-        }
+        return 2000;
     }
 
     @Override
@@ -504,13 +392,11 @@ public class MeiTianZhuanDianScript extends BaseScript {
 
     }
 
-
     public boolean isCurrentScipte() {
         return getAppInfo().getPkgName().equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN) ? true : false;
     }
 
     int resumeCount = 0;
-
     @Override
     public boolean isDestinationPage() {
         // 检查当前包名是否有本年应用
@@ -559,7 +445,6 @@ public class MeiTianZhuanDianScript extends BaseScript {
 
     /**
      * 处理返回解决不了的弹出框，但是能找到资源的
-     *
      * @return
      */
     private boolean dealNoResponse2() {
@@ -586,7 +471,6 @@ public class MeiTianZhuanDianScript extends BaseScript {
 
         if (samePageCount > 12 && samePageCount < 16) {
             dealNoResponse2();
-
         }
 
         if (samePageCount > 15) {
@@ -600,7 +484,6 @@ public class MeiTianZhuanDianScript extends BaseScript {
 
     }
 
-
     /**
      * 领取任务
      *
@@ -608,101 +491,44 @@ public class MeiTianZhuanDianScript extends BaseScript {
      */
     private boolean recieveTask() {
         LogUtils.d(TAG, "recieveTask()");
+        if(findTotalMatchContent("提交审核")){
+            return true;
+        }
         if (clickContent("立即赚钱")) {
             Utils.sleep(2000);
             if (findContent("任务已经被领取完了！")) {
-                clickBack();
-                Utils.sleep(2000);
-                clickBack();
-                return true;
+                wrongRunDeal();
+                return false;
             }
             if (findContent("该任务申请次数过多，不能再次申请！")) {
-                wrongTaskList.add(getTaskName());
-                LogUtils.d(TAG,"该任务申请次数过多，不能再次申请！: ");
-                clickBack();
-                Utils.sleep(1500);
-                scrollUpPx(SizeUtils.dp2px(120));
-                return true;
+                wrongRunDeal();
+                return false;
             }
             if (findContent("操作频繁，")) {
-//                wrongTaskList.add();
-                wrongTaskList.add(getTaskName());
-                clickBack();
-                Utils.sleep(1500);
-                scrollUpPx(SizeUtils.dp2px(120));
-                return true;
+                wrongRunDeal();
+                return false;
             }
             if (findContent("任务已过期，请换一个任务")) {
-                wrongTaskList.add(getTaskName());
-                clickBack();
-                Utils.sleep(1500);
-                scrollUpPx(SizeUtils.dp2px(120));
-                return true;
+                wrongRunDeal();
+                return false;
             }
 
             if (clickTotalMatchContent("确认领取")) {
                 return true;
             }
-            return true;
+            return false;
         }
         return false;
     }
 
     /**
-     * 上传截图提交任务
+     * 单张照片上传
+     * @return
      */
-    private boolean uploadTask() {
-        LogUtils.d(TAG, "uploadTask()");
+    private boolean uploadOnePicTask(){
         if (findContent("提交审核")) {
             scrollUp();
             Utils.sleep(2000);
-            if(towPic){
-                scrollUp();
-                Utils.sleep(2000);
-                scrollUp();
-                Utils.sleep(2000);
-                List<NodeInfo> nodeInfoList = findAllTotalMatchByText("选择文件");
-                if(nodeInfoList.size() == 2){
-                    clickXY(nodeInfoList.get(0).getRect().centerX(),nodeInfoList.get(0).getRect().centerY());
-                    Utils.sleep(2000);
-                    AccessibilityNodeInfo accessibilityNodeInfo = findAccessibilityNodeById("com.android.documentsui:id/dir_list");
-                    if (null == accessibilityNodeInfo) {
-                        accessibilityNodeInfo = findAccessibilityNodeById("com.google.android.documentsui:id/dir_list");
-                    }
-                    if (null != accessibilityNodeInfo) {
-                        AccessibilityNodeInfo accessibilityNodeInfo3 = accessibilityNodeInfo.getChild(0);
-                        if (null != accessibilityNodeInfo3) {
-                            accessibilityNodeInfo3.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                            Utils.sleep(2000);
-                        }
-                    }
-
-                    clickXY(nodeInfoList.get(1).getRect().centerX(),nodeInfoList.get(1).getRect().centerY());
-                    Utils.sleep(2000);
-                    accessibilityNodeInfo = findAccessibilityNodeById("com.android.documentsui:id/dir_list");
-                    if (null == accessibilityNodeInfo) {
-                        accessibilityNodeInfo = findAccessibilityNodeById("com.google.android.documentsui:id/dir_list");
-                    }
-                    if (null != accessibilityNodeInfo) {
-                        AccessibilityNodeInfo accessibilityNodeInfo3 = accessibilityNodeInfo.getChild(1);
-                        if (null != accessibilityNodeInfo3) {
-                            accessibilityNodeInfo3.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                            Utils.sleep(2000);
-                        }
-                        if (clickTotalMatchContent("+ 关注")) {
-                            Utils.sleep(2000);
-                        }
-                        if (clickContent("提交审核")) {
-                            Utils.sleep(5000);
-                            clickBack();
-                            curTaskType = -1;
-                            towPic = false;
-                            return true;
-                        }
-                    }
-                }
-
-            }
             if (clickContent("选择文件")) {
                 Utils.sleep(2000);
                 AccessibilityNodeInfo accessibilityNodeInfo = findAccessibilityNodeById("com.android.documentsui:id/dir_list");
@@ -720,13 +546,64 @@ public class MeiTianZhuanDianScript extends BaseScript {
                         if (clickContent("提交审核")) {
                             Utils.sleep(5000);
                             clickBack();
-                            curTaskType = -1;
                             return true;
                         }
                     }
                 }
 
             }
+        }
+        return false;
+    }
+    /**
+     * 两张照片上传
+     * @return
+     */
+    private boolean uploadTwoPicTask(boolean twoFirst){
+        Utils.sleep(2000);
+        scrollUp();
+        Utils.sleep(2000);
+        scrollUp();
+        Utils.sleep(2000);
+        List<NodeInfo> nodeInfoList = findAllTotalMatchByText("选择文件");
+        if(nodeInfoList.size() == 2){
+            clickXY(nodeInfoList.get(0).getRect().centerX(),nodeInfoList.get(0).getRect().centerY());
+            Utils.sleep(2000);
+            AccessibilityNodeInfo accessibilityNodeInfo = findAccessibilityNodeById("com.android.documentsui:id/dir_list");
+            if (null == accessibilityNodeInfo) {
+                accessibilityNodeInfo = findAccessibilityNodeById("com.google.android.documentsui:id/dir_list");
+            }
+            if (null != accessibilityNodeInfo) {
+                AccessibilityNodeInfo accessibilityNodeInfo3 = accessibilityNodeInfo.getChild(twoFirst ? 1 : 0);
+                if (null != accessibilityNodeInfo3) {
+                    accessibilityNodeInfo3.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                    Utils.sleep(2000);
+                }
+            }
+
+            clickXY(nodeInfoList.get(1).getRect().centerX(),nodeInfoList.get(1).getRect().centerY());
+            Utils.sleep(2000);
+            accessibilityNodeInfo = findAccessibilityNodeById("com.android.documentsui:id/dir_list");
+            if (null == accessibilityNodeInfo) {
+                accessibilityNodeInfo = findAccessibilityNodeById("com.google.android.documentsui:id/dir_list");
+            }
+            if (null != accessibilityNodeInfo) {
+                AccessibilityNodeInfo accessibilityNodeInfo3 = accessibilityNodeInfo.getChild(twoFirst ? 0 : 1);
+                if (null != accessibilityNodeInfo3) {
+                    accessibilityNodeInfo3.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                    Utils.sleep(2000);
+                }
+                if (clickTotalMatchContent("+ 关注")) {
+                    Utils.sleep(2000);
+                }
+                if (clickContent("提交审核")) {
+                    Utils.sleep(5000);
+                    clickBack();
+                    return true;
+                }
+            }
+        } else {
+            wrongRunDeal();
         }
         return false;
     }
@@ -740,9 +617,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
             if (clickContent("其他原因。")) {
                 Utils.sleep(2000);
                 if (clickContent("狠心取消")) {
-                    wrongTaskList.add(getTaskName());
-                    Utils.sleep(2000);
-//                    clickBack();
+                    wrongRunDeal();
                 }
             }
         }
@@ -774,72 +649,18 @@ public class MeiTianZhuanDianScript extends BaseScript {
     }
 
     /**
-     * 跳转链接小红书关注
-     */
-    private void doTask0() {
-
-        if (clickTotalMatchContent("打开链接")) {
-            Utils.sleep(5000);
-            requestOpenApp();
-            openXiaoHongShu();
-            return;
-        } else if (findTotalMatchContent("点击保存二维码")) {
-            doTask1();
-        }
-//        else if (clickTotalMatchContent("复制口令")) {
-//            Utils.sleep(1000);
-//            PackageUtils.startApp(Constant.PN_XIAO_HONG_SHU);
-//            Utils.sleep(5000);
-//            if(clickTotalMatchContent("立即查看")){
-//                Utils.sleep(2000);
-//                MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
-//
-//                if(findTotalMatchContent("说点什么...")){
-//                    clickId("nickNameTV");
-//                    Utils.sleep(2000);
-//                    //todo
-//                }else {
-//                    wrongRunDeal();
-//                }
-//            }else {
-//                wrongRunDeal();
-//            }
-//        }
-        else {
-            wrongRunDeal();
-//            cancelTask();
-        }
-    }
-
-    /**
      * 处理不了异常任务处理
      */
     private void wrongRunDeal(){
-        startApp();
-        Utils.sleep(2000);
-        wrongTaskList.add(getTaskName());
-        clickBack();
-    }
-
-
-    /**
-     * 扫码跳转小红书关注
-     */
-    private void doTask1() {
-        NodeInfo nodeInfo = findByText("点击保存二维码");
-        longPressXY(MyApplication.getScreenWidth() / 2, nodeInfo.getRect().centerY() - SizeUtils.dp2px(80));
-        Utils.sleep(3000);
-        if (clickTotalMatchContent("识别二维码")) {
-            Utils.sleep(5000);
-            if (findTotalMatchContent("识别二维码")) {
-                clickXY(500, 500);
-                Utils.sleep(2000);
-                wrongRunDeal();
-//                cancelTask();
-                return;
-            }
-            openXiaoHongShu();
+        LogUtils.d(TAG,"wrongRunDeal()");
+        if(!isTargetPkg()){
+            startApp();
         }
+        Utils.sleep(2000);
+        wrongTaskList.add(taskName);
+        clickBack();
+        Utils.sleep(1000);
+        scrollUpPx(SizeUtils.dp2px(240));
     }
 
     /**
@@ -859,30 +680,6 @@ public class MeiTianZhuanDianScript extends BaseScript {
 
         }
     }
-
-    /**
-     * 淘宝喵糖助力
-     */
-//    private void doTask3() {
-//        if(clickTotalMatchContent("复制口令")){
-//            Utils.sleep(1000);
-//            openTaoBao();
-//            Utils.sleep(5000);
-//            if(clickContent("查看详情")){
-//                Utils.sleep(2000);
-//                if(clickContent("立即助力")){
-//                    Utils.sleep(2000);
-//                    MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
-//                    screemSuccess = true;
-//                    Utils.sleep(3000);
-//                    clickBack();
-//                    Utils.sleep(1000);
-//                    clickBack();
-//                    startApp();
-//                }
-//            }
-//        }
-//    }
 
     /**
      * 淘宝农场助力
@@ -933,7 +730,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
             }
             return;
         } else {
-            cancelTask();
+            wrongRunDeal();
         }
     }
 
@@ -988,7 +785,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                     Utils.sleep(2000);
                     clickBack();
-                    screemSuccess = true;
+//                    screemSuccess = true;
                     Utils.sleep(2000);
                     startApp();
                     return;
@@ -1026,91 +823,11 @@ public class MeiTianZhuanDianScript extends BaseScript {
     private void openTaoBao() {
         PackageUtils.startApp("com.taobao.taobao");
     }
-
     /**
-     * 小红书关注
+     * 打开淘特
      */
-    private void openXiaoHongShu() {
-        if(findTotalMatchContent("说点什么...")){
-            clickId("nickNameTV");
-            Utils.sleep(2000);
-        }
-        if(towPic){
-            if(findTotalMatchContent("发消息")){
-                Utils.sleep(2000);
-                MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
-                Utils.sleep(3000);
-                scrollUpSlow();
-                Utils.sleep(3000);
-                if(clickTotalMatchContent("置顶")){
-
-                }else {
-                    clickXY(SizeUtils.dp2px(100),MyApplication.getScreenHeight() - SizeUtils.dp2px(100));
-                }
-
-                Utils.sleep(10000);
-                MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
-                Utils.sleep(2000);
-                screemSuccess = true;
-                Utils.sleep(4000);
-                clickBack();
-                Utils.sleep(1000);
-                clickBack();
-                Utils.sleep(1000);
-                startApp();
-                return;
-
-            }
-            NodeInfo nodeInfo = findByText("获赞与收藏");
-            if (null != nodeInfo) {
-                clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(100), nodeInfo.getRect().centerY() - SizeUtils.dp2px(15));
-                Utils.sleep(2000);
-                MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
-                Utils.sleep(2000);
-                scrollUpSlow();
-                Utils.sleep(2000);
-                if(clickTotalMatchContent("置顶")){
-
-                }else {
-                    clickXY(SizeUtils.dp2px(100),MyApplication.getScreenHeight() - SizeUtils.dp2px(100));
-                }
-                Utils.sleep(10000);
-                MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
-                Utils.sleep(2000);
-                screemSuccess = true;
-                Utils.sleep(4000);
-                clickBack();
-                Utils.sleep(1000);
-                clickBack();
-                Utils.sleep(1000);
-                startApp();
-                return;
-            }
-
-//            clickXY(SizeUtils.dp2px(100),MyApplication.getScreenHeight() - SizeUtils.dp2px(100));
-//            Utils.sleep(10000);
-//            MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
-//            Utils.sleep(2000);
-//            screemSuccess = true;
-//            Utils.sleep(4000);
-//            clickBack();
-//            Utils.sleep(1000);
-//            clickBack();
-//            Utils.sleep(1000);
-//            startApp();
-            return;
-        }
-        if (findTotalMatchContent("发消息")) {
-            shootAndBack();
-            return;
-        }
-
-        NodeInfo nodeInfo = findByText("获赞与收藏");
-        if (null != nodeInfo) {
-            clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(100), nodeInfo.getRect().centerY() - SizeUtils.dp2px(15));
-            shootAndBack();
-            return;
-        }
+    private void openTaoTe() {
+        PackageUtils.startApp(Constant.PN_TAO_TE);
     }
 
     /**
@@ -1136,33 +853,283 @@ public class MeiTianZhuanDianScript extends BaseScript {
     /**
      * 截屏加返回逻辑
      */
-    boolean screemSuccess = false;
+//    boolean screemSuccess = false;
 
     private void shootAndBack() {
         Utils.sleep(2000);
         MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
-        screemSuccess = true;
         Utils.sleep(4000);
-        clickBack();
-        Utils.sleep(1000);
-        clickBack();
-        Utils.sleep(1000);
         startApp();
+        Utils.sleep(2000);
     }
 
+    /**
+     * 获取任务名称
+     * @return
+     */
     private String getTaskName(){
+        AccessibilityNodeInfo accessibilityNodeInfo = getWebNodeInfo();
         try {
-            AccessibilityNodeInfo accessibilityNodeInfo = getWebNodeInfo();
             if (null != accessibilityNodeInfo) {
                 AccessibilityNodeInfo taskNameNode = accessibilityNodeInfo.getChild(0).getChild(2).getChild(0).getChild(0).getChild(1);
-                String taskName = taskNameNode.getText().toString();
+                taskName = taskNameNode.getText().toString();
                 LogUtils.d(TAG,"taskName:"+taskName);
                 return taskName;
             }
         }catch (Exception e){
-            LogUtils.d(TAG,"taskNameNode:"+e.getMessage());
+            AccessibilityNodeInfo taskNameNode = accessibilityNodeInfo.getChild(0).getChild(1).getChild(0).getChild(0).getChild(1);
+            taskName = taskNameNode.getText().toString();
+            LogUtils.d(TAG,"taskName:"+taskName);
+            return taskName;
         }
         return "";
+    }
+
+    /**
+     * 标识进任务的时候已经结束
+     * @return
+     */
+    private boolean taskHasDone(){
+        if (findContent("任务太火爆，已经结束")) {
+            clickBack();
+            Utils.sleep(1000);
+            clickBack();
+            return true;
+        }
+        if (findContent("开启悬浮助手")) {
+            if (clickContent("不再提醒")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 淘特摇一摇
+     */
+    private void doTaoTeYaoYiYao() {
+        if(taskHasDone())return;
+        if(recieveTask()){
+            Utils.sleep(2000);
+            if(clickTotalMatchContent("复制口令")){
+                Utils.sleep(1000);
+                openTaoTe();
+                Utils.sleep(5000);
+                if(clickTotalMatchContent("帮好友助力")){
+                    Utils.sleep(3000);
+                    MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
+                    Utils.sleep(4000);
+                    startApp();
+                    Utils.sleep(2000);
+                    if(uploadOnePicTask()){
+                        wrongTaskList.add(taskName);
+                    }else {
+                        wrongRunDeal();
+                    }
+
+                }else {
+                    wrongRunDeal();
+                }
+            }else {
+                wrongRunDeal();
+            }
+        }
+    }
+
+    /**
+     * 火山火苗
+     */
+    private void doHuoShanHuoMiao() {
+        if(taskHasDone())return;
+        if(recieveTask()){
+            Utils.sleep(2000);
+            if(clickTotalMatchContent("复制口令")){
+                Utils.sleep(1000);
+                PackageUtils.startApp(Constant.PN_HUO_SHAN);
+                Utils.sleep(5000);
+                if(clickTotalMatchContent("开启红包")){
+                    shootAndBack();
+                    if(uploadOnePicTask()){
+//                        wrongTaskList.add(taskName);
+                    }else {
+                        wrongRunDeal();
+                    }
+
+                }else {
+                    wrongRunDeal();
+                }
+            }else {
+                wrongRunDeal();
+            }
+        }
+    }
+
+    /**
+     * 截图
+     */
+    private void takeShoot(){
+        Utils.sleep(2000);
+        MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
+        Utils.sleep(4000);
+        if(findContent("把截屏分享到")){
+            clickBack();
+            Utils.sleep(2000);
+        }
+    }
+
+
+    /**
+     * 小红书关注1-打开链接
+     */
+    private void doXHStype1(int picCount){
+        Utils.sleep(4000);
+        requestOpenApp();
+
+        if(findTotalMatchContent("说点什么...")){
+            clickId("nickNameTV");
+            Utils.sleep(2000);
+        }
+        if(picCount == 1){
+            if (!findTotalMatchContent("发消息")) {
+                NodeInfo nodeInfo = findByText("获赞与收藏");
+                if (null != nodeInfo) {
+                    clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(100), nodeInfo.getRect().centerY() - SizeUtils.dp2px(15));
+                }
+            }
+            shootAndBack();
+            if (findContent("微信扫一扫")) {
+                clickXY(500, 500);
+                Utils.sleep(2000);
+            }
+            if(!uploadOnePicTask()){
+                wrongRunDeal();
+            }
+            return;
+        }else if(picCount == 2) {
+            if (!findTotalMatchContent("发消息")) {
+                NodeInfo nodeInfo = findByText("获赞与收藏");
+                if (null != nodeInfo) {
+                    clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(100), nodeInfo.getRect().centerY() - SizeUtils.dp2px(15));
+                }
+            }
+            takeShoot();
+            scrollUpSlow();
+            Utils.sleep(2000);
+            if (!clickTotalMatchContent("置顶")) {
+                clickXY(SizeUtils.dp2px(100), MyApplication.getScreenHeight() - SizeUtils.dp2px(100));
+            }
+            shootAndBack();
+            uploadTwoPicTask(false);
+            return;
+        }else {
+            wrongRunDeal();
+        }
+
+        return;
+    }
+
+    /**
+     * 小红书关注2-复制口令
+     */
+    private void doXHStype2(int picCount){
+        PackageUtils.startApp(Constant.PN_XIAO_HONG_SHU);
+        Utils.sleep(4000);
+        if(clickTotalMatchContent("立即查看")){
+            if(picCount == 2){
+                takeShoot();
+//                if(findTotalMatchContent("说点什么...")){
+                if(clickId("nickNameTV")){
+//                    clickId("nickNameTV");
+                    Utils.sleep(2000);
+                    if (!findTotalMatchContent("发消息")) {
+                        NodeInfo nodeInfo = findByText("获赞与收藏");
+                        if (null != nodeInfo) {
+                            clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(100), nodeInfo.getRect().centerY() - SizeUtils.dp2px(15));
+                        }
+                    }
+                    shootAndBack();
+                    uploadTwoPicTask(true);
+                    return;
+                }else if(clickId("matrixNickNameView")){
+                    Utils.sleep(2000);
+                    if (!findTotalMatchContent("发消息")) {
+                        NodeInfo nodeInfo = findByText("获赞与收藏");
+                        if (null != nodeInfo) {
+                            clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(100), nodeInfo.getRect().centerY() - SizeUtils.dp2px(15));
+                        }
+                    }
+                    shootAndBack();
+                    uploadTwoPicTask(true);
+                    return;
+                }else {
+                    wrongRunDeal();
+                }
+            }else {
+                wrongRunDeal();
+            }
+        }else {
+            wrongRunDeal();
+        }
+    }
+
+    /**
+     * 小红书关注3-长按二维码
+     */
+    private void doXHStype3(int picCount){
+        NodeInfo nodeInfo = findByText("点击保存二维码");
+        longPressXY(MyApplication.getScreenWidth() / 2, nodeInfo.getRect().centerY() - SizeUtils.dp2px(80));
+        Utils.sleep(3000);
+        if (clickTotalMatchContent("识别二维码")) {
+            Utils.sleep(5000);
+            if (findTotalMatchContent("识别二维码")) {
+                clickXY(500, 500);
+                Utils.sleep(2000);
+                wrongRunDeal();
+                return;
+            }
+            doXHStype1(picCount);
+        }
+    }
+
+    /**
+     * 小红书点赞4-打开链接
+     */
+    private void doXHStype4(int picCount){
+        requestOpenApp();
+        NodeInfo nodeInfo1 = findByText("说点什么");
+        if (null != nodeInfo1) {
+            ActionUtils.zuohua();
+            Utils.sleep(2000);
+            clickXY(MyApplication.getScreenWidth() / 2, nodeInfo1.getRect().centerY());
+            shootAndBack();
+            return;
+        }
+        Utils.sleep(1000 * 10);
+        NodeInfo nodeInfo = findByText("发弹幕");
+        clickXY(MyApplication.getScreenWidth() / 2, nodeInfo.getRect().centerY());
+        shootAndBack();
+        if(picCount == 1){
+            if(!uploadOnePicTask()){
+                wrongRunDeal();
+            }
+        }else {
+            wrongRunDeal();
+        }
+        return;
+    }
+
+    /**
+     * 小红书点赞5-复制口令
+     */
+    private void doXHStype5(int picCount){
+
+    }
+
+    /**
+     * 小红书点赞6-长按二维码
+     */
+    private void doXHStype6(int picCount){
+
     }
 
 }

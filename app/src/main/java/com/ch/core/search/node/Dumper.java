@@ -1,6 +1,7 @@
 package com.ch.core.search.node;
 
 import android.graphics.Rect;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -166,8 +167,10 @@ public class Dumper {
     private void dumpNodeRec(AccessibilityNodeInfo node, int index, String parentXpath) throws IOException {
 //        LogUtils.d(TAG,"dumpNodeRec()");
 //        LogUtils.e(TAG,"dumpNodeRec1");
+        if(node.getText() != null && node.getText().toString().equals("示例图")){
+            Log.d(TAG,"测试节点");
+        }
         NodeInfo myrect = convertAccessbilityNode(node);
-//        LogUtils.e(TAG,"dumpNodeRec2");
         int count = node.getChildCount();
 
         myrect.setLeaf(count == 0);
@@ -193,7 +196,12 @@ public class Dumper {
                     webviewNodes.add(child);
                     continue;
                 }
-                if (includeControlsOutsideScreen || Utils.isVisiableToUser(child, screenW, screenH)) {
+                boolean isVisiable = Utils.isVisiableToUser(child, screenW, screenH);
+                if(!isVisiable && child.getText() != null && child.getText().toString().equals("示例图")){//&& child.getText().equals("选择文件")
+                    Log.d(TAG,"isVisiable:"+isVisiable+" includeControlsOutsideScreen:"+includeControlsOutsideScreen+" child.getText():"+child.getText());
+                }
+//                Log.d(TAG,"isVisiable:"+isVisiable+" includeControlsOutsideScreen:"+includeControlsOutsideScreen+" child.getText():"+child.getText());
+                if (includeControlsOutsideScreen || isVisiable) {
                     dumpNodeRec(child, i, myXpath);
                     child.recycle();
                 }
@@ -294,7 +302,6 @@ public class Dumper {
         for (AccessibilityNodeInfo webNode : webviewNodes) {
             List<NodeInfo> container = new ArrayList<NodeInfo>();
             dumpWebViewItem(webNode, container);
-
             if (container.size() > 0) {
                 TreeNode<NodeInfo> root = new TreeNode<NodeInfo>(container.get(0));
                 for (int i = 1; i < container.size(); i++) {
@@ -320,7 +327,11 @@ public class Dumper {
             for (int i = 0; i < childCount; i++) {
                 AccessibilityNodeInfo child = node.getChild(i);
                 if (child != null) {
-                    if (includeControlsOutsideScreen || Utils.isVisiableToUser(child, screenW, screenH)) {
+                    boolean isVisiable = Utils.isVisiableToUser(child, screenW, screenH);
+                    if(!isVisiable && child.getText() != null && child.getText().toString().equals("示例图")){//&& child.getText().equals("选择文件")
+                        Log.d(TAG,"isVisiable:"+isVisiable+" includeControlsOutsideScreen:"+includeControlsOutsideScreen+" child.getText():"+child.getText());
+                    }
+                    if (includeControlsOutsideScreen || isVisiable) {
                         dumpWebViewItem(node.getChild(i), container);
                         child.recycle();
                     }
@@ -337,6 +348,7 @@ public class Dumper {
     private void addRect(NodeInfo rect) {
 //        LogUtils.d(TAG,"addRect()");
         if (treeInfo != null) {
+            Log.d(TAG,"addRect:"+rect.getText());
             treeInfo.addRect(rect);
         }
     }
@@ -416,11 +428,15 @@ public class Dumper {
      */
     private boolean addToTree(TreeNode<NodeInfo> root, final NodeInfo nodeInfo) {
 //        LogUtils.d(TAG,"addToTree()");
+        if(!TextUtils.isEmpty(nodeInfo.getText()) && nodeInfo.getText().equals("选择文件")){
+            Log.d(TAG,"addToTree");
+        }
         return root.addToTree(nodeInfo, new TreeNode.Detector<NodeInfo>() {
             @Override
             public TreeNode.RelationShip getRelationship(TreeNode<NodeInfo> currNode, NodeInfo newData) {
-                if (newData.getVisiableRect().height() <= 8
-                        || newData.getVisiableRect().width() <= 8) {
+
+                if (!includeControlsOutsideScreen && (newData.getVisiableRect().height() <= 8
+                        || newData.getVisiableRect().width() <= 8)) {
                     return TreeNode.RelationShip.IGNORED;
                 }
                 Rect c = currNode.getData().getVisiableRect();
@@ -442,11 +458,11 @@ public class Dumper {
                 if (c.contains(n)) {
                     if (currNode.getChildren() != null) {
                         // 如果当前节点的子节点还有包含新节点的话，则认为不清楚关系
-                        for (TreeNode<NodeInfo> node : currNode.getChildren()) {
-                            if (node.getData().getVisiableRect().contains(n)) {
-                                return TreeNode.RelationShip.UNKNOW;
-                            }
-                        }
+//                        for (TreeNode<NodeInfo> node : currNode.getChildren()) {
+//                            if (node.getData().getVisiableRect().contains(n)) {
+//                                return TreeNode.RelationShip.UNKNOW;
+//                            }
+//                        }
                     }
                     return TreeNode.RelationShip.CHILD;
                 }
@@ -454,6 +470,11 @@ public class Dumper {
                 if (Math.abs(c.centerY() - n.centerY()) <= 10) {
                     return TreeNode.RelationShip.BROTHER;
                 }
+
+                if(includeControlsOutsideScreen && n.bottom > c.bottom){
+                    return TreeNode.RelationShip.CHILD;
+                }
+
                 return TreeNode.RelationShip.UNKNOW;
             }
         });

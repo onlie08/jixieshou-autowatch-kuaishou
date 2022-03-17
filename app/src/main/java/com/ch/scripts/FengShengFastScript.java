@@ -88,6 +88,7 @@ public class FengShengFastScript extends BaseScript {
         getCurHour();
 
         if (mHour != 9 && mHour != 16 && mHour != 21 && mHour != 22) {
+//        if (mHour != 9 && mHour != 16 && mHour != 21 ) {
             skipTask();
             task1 = false;
             task2 = false;
@@ -493,7 +494,7 @@ public class FengShengFastScript extends BaseScript {
         if (findTotalMatchContent("全部") && findContent("@我")) {
             return 1;
         }
-        if (findTotalMatchContent("智能审批") && findContent("打卡")) {
+        if (findTotalMatchContent("协作文档") && findContent("打卡")) {
             return 2;
         }
         if (findTotalMatchContent("已进入打卡范围")) {

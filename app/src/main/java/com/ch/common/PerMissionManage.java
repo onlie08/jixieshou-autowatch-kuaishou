@@ -46,6 +46,28 @@ public class PerMissionManage {
         return false;
     }
 
+    private static String[] LOCATION_PERMISSIONS_REQUEST = {
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS,
+    };
+
+    public boolean requestLocationPermission(Context context) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (context.checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, Process.myPid(), Process.myUid())
+                    != PackageManager.PERMISSION_GRANTED || context.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION, Process.myPid(), Process.myUid())
+                    != PackageManager.PERMISSION_GRANTED || context.checkPermission(Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS, Process.myPid(), Process.myUid())
+                    != PackageManager.PERMISSION_GRANTED ) {
+                ((Activity) context).requestPermissions(LOCATION_PERMISSIONS_REQUEST, 1);
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+        return false;
+    }
+
 //    public boolean checkFloatPermission(Context context) {
 //        if (!PermissionUtil.checkFloatPermission(context)) {
 //            Toast.makeText(context, "没有悬浮框权限，为了保证任务能够持续，请授权", Toast.LENGTH_LONG).show();

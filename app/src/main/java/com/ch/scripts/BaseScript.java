@@ -1,9 +1,12 @@
 package com.ch.scripts;
 
+import static com.ch.core.utils.Constant.PN_MEI_TIAN_ZHUAN_DIAN;
+
 import android.graphics.Point;
 import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ScreenUtils;
@@ -14,6 +17,7 @@ import com.ch.core.search.FindById;
 import com.ch.core.search.FindByText;
 import com.ch.core.search.node.NodeInfo;
 import com.ch.core.utils.ActionUtils;
+import com.ch.core.utils.BaseUtil;
 import com.ch.core.utils.Logger;
 import com.ch.core.utils.Utils;
 import com.ch.jixieshou.BuildConfig;
@@ -230,6 +234,10 @@ public abstract class BaseScript implements IScript {
         return FindByText.find(text);
     }
 
+//    protected NodeInfo findAllPageByContent(String text,boolean totalMatch) {
+//        return FindByText.findAllPageByContent(text,totalMatch);
+//    }
+
     protected NodeInfo findTotalMatchByText(String text) {
         return FindByText.findTotalMatch(text);
     }
@@ -392,6 +400,10 @@ public abstract class BaseScript implements IScript {
         return false;
     }
 
+    public List<NodeInfo> findPageByContent(String content,boolean totalMatch) {
+        return FindByText.findPageByContent(content,totalMatch);
+    }
+
     /**
      * 点击 content
      *
@@ -526,6 +538,49 @@ public abstract class BaseScript implements IScript {
         Utils.sleep(500);
         clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+600);
         Utils.sleep(500);
+    }
+
+    public boolean installPackage(String pnkName) {
+        boolean isInstalled = BaseUtil.isInstallPackage(pnkName);
+        if(isInstalled){
+            return true;
+        }
+        BaseUtil.goToAppMarket(MyApplication.getAppInstance(), pnkName);
+        Utils.sleep(3000);
+        if(clickTotalMatchContent("下载")){
+            Utils.sleep(2000);
+            if(clickTotalMatchContent("立即下载")){
+                Utils.sleep(20000);
+                if(clickTotalMatchContent("安装")){
+                    Utils.sleep(6000);
+                    if(clickTotalMatchContent("打开")){
+                        Utils.sleep(3000);
+                        if(clickTotalMatchContent("同意")){
+                            Utils.sleep(3000);
+                           clickEveryNodeInfosByText("允许");
+                            Utils.sleep(1000);
+                           clickEveryNodeInfosByText("允许");
+                            Utils.sleep(1000);
+                           clickEveryNodeInfosByText("允许");
+                            Utils.sleep(1000);
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean uninstallPackage(String pnkName) {
+        AppUtils.uninstallApp(pnkName);
+        Utils.sleep(2000);
+        if(clickTotalMatchContent("确定"))Utils.sleep(5000);
+        if(clickTotalMatchContent("确定"))Utils.sleep(5000);
+        return true;
+    }
+
+    public boolean tryAutoLogin(String pnkName) {
+        return true;
     }
 
 

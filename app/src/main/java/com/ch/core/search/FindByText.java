@@ -14,6 +14,28 @@ import java.util.List;
 
 public class FindByText {
 
+//    public static NodeInfo findAllPageByContent(String text,boolean totalMatch) {
+//        AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getRoots();
+//        if (roots == null) {
+//            Log.i(Utils.tag, "roots is null.");
+//        }
+//        TreeInfo treeInfo = new Dumper(roots).withIncludeOutsideSceenControl(true).dump();
+//        if (treeInfo != null && treeInfo.getRects() != null) {
+//            for (NodeInfo rect : treeInfo.getRects()) {
+//                if(totalMatch){
+//                    if (isTotalMatch(rect, text)) {
+//                        return rect;
+//                    }
+//                }else {
+//                    if (isMatch(rect, text)) {
+//                        return rect;
+//                    }
+//                }
+//            }
+//        }
+//        return null;
+//    }
+
     public static NodeInfo find(String text) {
         AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getRoots();
         if (roots == null) {
@@ -30,7 +52,7 @@ public class FindByText {
             }
         }
 
-        TreeInfo treeInfo = new Dumper(roots).dump();
+        TreeInfo treeInfo = new Dumper(roots).withIncludeOutsideSceenControl(false).dump();
 
         if (treeInfo != null && treeInfo.getRects() != null) {
             for (NodeInfo rect : treeInfo.getRects()) {
@@ -59,7 +81,7 @@ public class FindByText {
             }
         }
 
-        TreeInfo treeInfo = new Dumper(roots).dump();
+        TreeInfo treeInfo = new Dumper(roots).withIncludeOutsideSceenControl(false).dump();
 
         if (treeInfo != null && treeInfo.getRects() != null) {
             for (NodeInfo rect : treeInfo.getRects()) {
@@ -94,7 +116,7 @@ public class FindByText {
             }
         }
 
-        TreeInfo treeInfo = new Dumper(roots).dump();
+        TreeInfo treeInfo = new Dumper(roots).withIncludeOutsideSceenControl(false).dump();
 
         if (treeInfo != null && treeInfo.getRects() != null) {
             for (NodeInfo rect : treeInfo.getRects()) {
@@ -119,11 +141,34 @@ public class FindByText {
         if (roots == null) {
             Log.i(Utils.tag, "roots is null.");
         }
-        TreeInfo treeInfo = new Dumper(roots).dump();
+        TreeInfo treeInfo = new Dumper(roots).withIncludeOutsideSceenControl(false).dump();
         if (treeInfo != null && treeInfo.getRects() != null) {
             for (NodeInfo rect : treeInfo.getRects()) {
                 if (isTotalMatch(rect, text)) {
                     nodeInfoList.add(rect);
+                }
+            }
+        }
+        return nodeInfoList.isEmpty()?null:nodeInfoList;
+    }
+
+    public static List<NodeInfo> findPageByContent(String text,boolean totalMatch) {
+        List<NodeInfo> nodeInfoList = new ArrayList<>();
+        AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getRoots();
+        if (roots == null) {
+            Log.i(Utils.tag, "roots is null.");
+        }
+        TreeInfo treeInfo = new Dumper(roots).withIncludeOutsideSceenControl(true).dump();
+        if (treeInfo != null && treeInfo.getRects() != null) {
+            for (NodeInfo rect : treeInfo.getRects()) {
+                if(totalMatch){
+                    if (isTotalMatch(rect, text)) {
+                        nodeInfoList.add(rect);
+                    }
+                }else {
+                    if(isMatch(rect,text)){
+                        nodeInfoList.add(rect);
+                    }
                 }
             }
         }

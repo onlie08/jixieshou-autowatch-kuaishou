@@ -253,6 +253,11 @@ public class MainPageFragment extends Fragment {
     }
 
     private void startTask() {
+        if (!accessEnable) {
+            gotoAccessSetting();
+            return;
+        }
+
         boolean isAppExit = DownLoadAppManage.getSingleton().checkIsAppExit(getActivity(), appInfos);
         if (!isAppExit) {
             return;
@@ -270,10 +275,7 @@ public class MainPageFragment extends Fragment {
             return;
         }
 
-        if (!accessEnable) {
-            gotoAccessSetting();
-            return;
-        }
+
         tasking = true;
         getActivity().startService(new Intent(getActivity(), MyAccessbilityService.class));
         MyApplication.getAppInstance().startTask(currentAppInfo);

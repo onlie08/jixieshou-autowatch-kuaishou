@@ -45,7 +45,7 @@ public class MyAccessbilityService extends AccessibilityService {
                 }
             }
         }else if(eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED){
-            Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
+//            Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
         }
 //        Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
     }

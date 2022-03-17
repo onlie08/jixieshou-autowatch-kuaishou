@@ -528,7 +528,7 @@ public class DianTaoFastScript extends BaseScript {
             }
             if(clickTotalMatchContent("出发")){
                 Utils.sleep(2000);
-                if (findTotalMatchContent("邀请好友助力赚步数吧")) {
+                if (findTotalMatchContent("邀请好友助力赚步数吧") || findTotalMatchContent("去领步数")) {
                     clickTotalMatchContent("查看更多任务");
                     return;
                 }

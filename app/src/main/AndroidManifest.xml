@@ -30,7 +30,8 @@
         </activity>
         <activity
             android:name="com.ch.activity.EditTaskActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name="com.ch.activity.AddTaskActivity"
             android:screenOrientation="portrait" /> <!-- 友盟分享开始 -->
@@ -77,10 +78,11 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name="com.ch.floatwindow.FloatActivity" /> <!-- 友盟分享结束 -->
-        <activity android:name="com.ch.activity.HelpDocumentActivity" />
+        <activity android:name="com.ch.floatwindow.FloatActivity" android:screenOrientation="portrait"/> <!-- 友盟分享结束 -->
+        <activity android:name="com.ch.activity.HelpDocumentActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.ch.activity.WebViewActivity" android:screenOrientation="portrait" />
 
-        <activity android:name="com.ch.activity.SetRecommendCodeActivity" />
+        <activity android:name="com.ch.activity.SetRecommendCodeActivity" android:screenOrientation="portrait"/>
         <service
             android:name="com.ch.core.service.MyAccessbilityService"
             android:accessibilityFlags="flagReportViewIds"
@@ -109,5 +111,8 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
 
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
 
 </manifest>
