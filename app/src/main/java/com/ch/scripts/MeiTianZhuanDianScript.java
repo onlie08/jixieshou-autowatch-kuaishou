@@ -130,6 +130,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
     /**
      * 首页页面逻辑 判断坐标 判断邀请 跳转截图任务
      */
+    int errCount = 0;
     private void doPageId0Things() {
         LogUtils.d(TAG, "doPageId0Things");
         if (point_ShouYe == null) {
@@ -161,16 +162,16 @@ public class MeiTianZhuanDianScript extends BaseScript {
         }
 
         if (clickContent("截图任务")) {
-//            Utils.sleep(2000);
-//            if(errCount> 2){
-//                reInstallApp();
-//                return;
-//            }
-//            if(checkPageId() == -1){
-//                errCount++;
-//            }else {
-//                errCount = 0;
-//            }
+            Utils.sleep(2000);
+            if(errCount> 2){
+                reInstallApp();
+                return;
+            }
+            if(checkPageId() == -1){
+                errCount++;
+            }else {
+                errCount = 0;
+            }
             return;
         }
 
@@ -381,14 +382,23 @@ public class MeiTianZhuanDianScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
-        String sp_shouye = SPUtils.getInstance().getString(Constant.MEITIANZHUANDIAN_SHOUYE, "");
-        if (!TextUtils.isEmpty(sp_shouye)) {
-            point_ShouYe = new Gson().fromJson(sp_shouye, Point.class);
-        }
-        String sp_wode = SPUtils.getInstance().getString(Constant.MEITIANZHUANDIAN_WODE, "");
-        if (!TextUtils.isEmpty(sp_wode)) {
-            point_WoDe = new Gson().fromJson(sp_wode, Point.class);
-        }
+//        AccessibilityNodeInfo accessibilityNodeInfo = getWebNodeInfo();
+//        Rect rect = new Rect();
+//        accessibilityNodeInfo.getBoundsInScreen(rect);
+
+        point_ShouYe = new Point(MyApplication.getScreenWidth()/5,MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
+        point_WoDe = new Point(MyApplication.getScreenWidth()*4/5,MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
+        LogUtils.d(TAG,"point_ShouYe:"+point_ShouYe.toString() + " point_WoDe:"+ point_WoDe.toString() + " Height:"+MyApplication.getScreenHeight());
+
+
+//        String sp_shouye = SPUtils.getInstance().getString(Constant.MEITIANZHUANDIAN_SHOUYE, "");
+//        if (!TextUtils.isEmpty(sp_shouye)) {
+//            point_ShouYe = new Gson().fromJson(sp_shouye, Point.class);
+//        }
+//        String sp_wode = SPUtils.getInstance().getString(Constant.MEITIANZHUANDIAN_WODE, "");
+//        if (!TextUtils.isEmpty(sp_wode)) {
+//            point_WoDe = new Gson().fromJson(sp_wode, Point.class);
+//        }
 
     }
 
