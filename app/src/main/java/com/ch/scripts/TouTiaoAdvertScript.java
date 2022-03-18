@@ -388,26 +388,30 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
-        AccessibilityNodeInfo bottom = findAccessibilityNodeById("android:id/tabhost");
-        if(bottom != null){
-            Rect rect = new Rect();
-            bottom.getBoundsInScreen(rect);
-            point_ShouYe = new Point(MyApplication.getScreenWidth()/5,rect.bottom - SizeUtils.dp2px(20));
-            point_RenWu = new Point(MyApplication.getScreenWidth()/2,rect.bottom - SizeUtils.dp2px(20));
-            LogUtils.d(TAG,"point_ShouYe:"+point_ShouYe.toString() + " point_RenWu:"+ point_RenWu.toString() + " Height:"+MyApplication.getScreenHeight());
-            return;
-        }
+        point_ShouYe = new Point(MyApplication.getScreenWidth()/5-SizeUtils.dp2px(20),MyApplication.getScreenHeight()- SizeUtils.dp2px(20));
+        point_RenWu = new Point(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()- SizeUtils.dp2px(20));
+        LogUtils.d(TAG,"point_ShouYe:"+point_ShouYe.toString() + " point_RenWu:"+ point_RenWu.toString() + " Height:"+MyApplication.getScreenHeight());
 
-
-        String sp_shouye = SPUtils.getInstance().getString(Constant.TOUTIAO_SHOUYE, "");
-        if (!TextUtils.isEmpty(sp_shouye)) {
-            point_ShouYe = new Gson().fromJson(sp_shouye, Point.class);
-        }
-
-        String sp_renwu = SPUtils.getInstance().getString(Constant.TOUTIAO_RENWU, "");
-        if (!TextUtils.isEmpty(sp_renwu)) {
-            point_RenWu = new Gson().fromJson(sp_renwu, Point.class);
-        }
+//        AccessibilityNodeInfo bottom = findAccessibilityNodeById("android:id/tabhost");
+//        if(bottom != null){
+//            Rect rect = new Rect();
+//            bottom.getBoundsInScreen(rect);
+//            point_ShouYe = new Point(MyApplication.getScreenWidth()/5-SizeUtils.dp2px(20),MyApplication.getScreenHeight()- SizeUtils.dp2px(20));
+//            point_RenWu = new Point(MyApplication.getScreenWidth()/2-SizeUtils.dp2px(20),MyApplication.getScreenHeight()- SizeUtils.dp2px(20));
+//            LogUtils.d(TAG,"point_ShouYe:"+point_ShouYe.toString() + " point_RenWu:"+ point_RenWu.toString() + " Height:"+MyApplication.getScreenHeight());
+//            return;
+//        }
+//
+//
+//        String sp_shouye = SPUtils.getInstance().getString(Constant.TOUTIAO_SHOUYE, "");
+//        if (!TextUtils.isEmpty(sp_shouye)) {
+//            point_ShouYe = new Gson().fromJson(sp_shouye, Point.class);
+//        }
+//
+//        String sp_renwu = SPUtils.getInstance().getString(Constant.TOUTIAO_RENWU, "");
+//        if (!TextUtils.isEmpty(sp_renwu)) {
+//            point_RenWu = new Gson().fromJson(sp_renwu, Point.class);
+//        }
 
 //        String sp_kaibaoxiangdejinbi = SPUtils.getInstance().getString(Constant.TOUTIAO_KAIBAOXIANGDEJINBI, "");
 //        if (!TextUtils.isEmpty(sp_kaibaoxiangdejinbi)) {

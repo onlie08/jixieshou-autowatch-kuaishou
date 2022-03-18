@@ -376,14 +376,19 @@ public class MeiTianZhuanDianScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
-        String sp_shouye = SPUtils.getInstance().getString(Constant.MEITIANZHUANDIAN_SHOUYE, "");
-        if (!TextUtils.isEmpty(sp_shouye)) {
-            point_ShouYe = new Gson().fromJson(sp_shouye, Point.class);
-        }
-        String sp_wode = SPUtils.getInstance().getString(Constant.MEITIANZHUANDIAN_WODE, "");
-        if (!TextUtils.isEmpty(sp_wode)) {
-            point_WoDe = new Gson().fromJson(sp_wode, Point.class);
-        }
+
+        point_ShouYe = new Point(MyApplication.getScreenWidth()/4-SizeUtils.dp2px(20),MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
+        point_WoDe = new Point(MyApplication.getScreenWidth()-SizeUtils.dp2px(20),MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
+        LogUtils.d(TAG,"point_ShouYe:"+point_ShouYe.toString() + " point_WoDe:"+ point_WoDe.toString() + " Height:"+MyApplication.getScreenHeight());
+
+//        String sp_shouye = SPUtils.getInstance().getString(Constant.MEITIANZHUANDIAN_SHOUYE, "");
+//        if (!TextUtils.isEmpty(sp_shouye)) {
+//            point_ShouYe = new Gson().fromJson(sp_shouye, Point.class);
+//        }
+//        String sp_wode = SPUtils.getInstance().getString(Constant.MEITIANZHUANDIAN_WODE, "");
+//        if (!TextUtils.isEmpty(sp_wode)) {
+//            point_WoDe = new Gson().fromJson(sp_wode, Point.class);
+//        }
 
     }
 

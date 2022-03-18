@@ -431,15 +431,21 @@ public class BaiDuAdvertScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
-        String sp_shouye = SPUtils.getInstance().getString(Constant.BAIDU_SHOUYE, "");
-        if (!TextUtils.isEmpty(sp_shouye)) {
-            point_ShouYe = new Gson().fromJson(sp_shouye, Point.class);
-        }
 
-        String sp_renwu = SPUtils.getInstance().getString(Constant.BAIDU_RENWU, "");
-        if (!TextUtils.isEmpty(sp_renwu)) {
-            point_RenWu = new Gson().fromJson(sp_renwu, Point.class);
-        }
+        point_ShouYe = new Point(MyApplication.getScreenWidth()/5-SizeUtils.dp2px(20),MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
+        point_RenWu = new Point(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
+        LogUtils.d(TAG,"point_ShouYe:"+point_ShouYe.toString() + " point_RenWu:"+ point_RenWu.toString() + " Height:"+MyApplication.getScreenHeight());
+
+
+//        String sp_shouye = SPUtils.getInstance().getString(Constant.BAIDU_SHOUYE, "");
+//        if (!TextUtils.isEmpty(sp_shouye)) {
+//            point_ShouYe = new Gson().fromJson(sp_shouye, Point.class);
+//        }
+//
+//        String sp_renwu = SPUtils.getInstance().getString(Constant.BAIDU_RENWU, "");
+//        if (!TextUtils.isEmpty(sp_renwu)) {
+//            point_RenWu = new Gson().fromJson(sp_renwu, Point.class);
+//        }
 
         String sp_tianxieyaoqingma1 = SPUtils.getInstance().getString(Constant.BAIDU_TIANXIEYAOQINGMA1, "");
         if (!TextUtils.isEmpty(sp_tianxieyaoqingma1)) {

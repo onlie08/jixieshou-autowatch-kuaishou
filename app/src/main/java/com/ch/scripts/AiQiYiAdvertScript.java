@@ -421,7 +421,7 @@ public class AiQiYiAdvertScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
-        point_ShouYe = new Point(MyApplication.getScreenWidth()/5,MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
+        point_ShouYe = new Point(MyApplication.getScreenWidth()/5-SizeUtils.dp2px(20),MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
         point_ZhuanQian = new Point(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
         LogUtils.d(TAG,"point_ShouYe:"+point_ShouYe.toString() + " point_ZhuanQian:"+ point_ZhuanQian.toString() + " Height:"+MyApplication.getScreenHeight());
 

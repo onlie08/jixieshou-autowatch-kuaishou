@@ -728,6 +728,10 @@ public class DianTaoFastScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
+        point_DianTao = new Point(MyApplication.getScreenWidth()/4-SizeUtils.dp2px(20),MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
+        LogUtils.d(TAG,"point_DianTao:"+point_DianTao.toString() + " Height:"+MyApplication.getScreenHeight());
+
+
         String sp_diantao = SPUtils.getInstance().getString(Constant.DIANTAO_DIANTAO, "");
         if (!TextUtils.isEmpty(sp_diantao)) {
             point_DianTao = new Gson().fromJson(sp_diantao, Point.class);

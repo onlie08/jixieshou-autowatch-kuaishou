@@ -279,6 +279,10 @@ public class JingDongAdvertScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
+//        point_ZhuanJinBi = new Point(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
+//        LogUtils.d(TAG,"point_ZhuanJinBi:"+point_ZhuanJinBi.toString() + " Height:"+MyApplication.getScreenHeight());
+
+
         String sp_zhuanjinbi = SPUtils.getInstance().getString(Constant.JINGDONG_ZHUANJINBI, "");
         if (!TextUtils.isEmpty(sp_zhuanjinbi)) {
             point_ZhuanJinBi = new Gson().fromJson(sp_zhuanjinbi, Point.class);
