@@ -358,7 +358,7 @@ public class AiQiYiAdvertScript extends BaseScript {
      * @return //0:首页 1:个人中心  2:阅读页  3:广告页
      */
     private int checkPageId() {
-        if (findContent("电视剧") && findContent("好片快看")) {
+        if (findContent("电视剧") && findContent("儿童")) {
             return 0;
         }
 

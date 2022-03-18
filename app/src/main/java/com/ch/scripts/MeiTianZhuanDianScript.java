@@ -210,20 +210,15 @@ public class MeiTianZhuanDianScript extends BaseScript {
         }
         if (PackageUtils.checkApkExist(MyApplication.getAppInstance(), Constant.PN_XIAO_HONG_SHU)) {
             List<NodeInfo> nodeInfoList = findNodeInfosByText("小红书");
-            if(nodeInfoList == null){
-                scrollUpPx(SizeUtils.dp2px(240));
-                return;
-            }
-            for(int i = 0;i<nodeInfoList.size();i++){
-                if(!wrongTaskList.contains(nodeInfoList.get(i).getText())  && nodeInfoList.get(i).getRect().bottom < MyApplication.getScreenHeight()){
-                    clickXY(nodeInfoList.get(i).getRect().centerX(),nodeInfoList.get(i).getRect().bottom-20);
-                    return;
+            if(nodeInfoList != null){
+                for(int i = 0;i<nodeInfoList.size();i++){
+                    if(!wrongTaskList.contains(nodeInfoList.get(i).getText())  && nodeInfoList.get(i).getRect().bottom < MyApplication.getScreenHeight()){
+                        clickXY(nodeInfoList.get(i).getRect().centerX(),nodeInfoList.get(i).getRect().bottom-20);
+                        return;
+                    }
                 }
             }
-            scrollUpPx(SizeUtils.dp2px(240));
-            return;
         }
-
         scrollUpPx(SizeUtils.dp2px(240));
         return;
 
@@ -660,7 +655,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
         wrongTaskList.add(taskName);
         clickBack();
         Utils.sleep(1000);
-        scrollUpPx(SizeUtils.dp2px(240));
+//        scrollUpPx(SizeUtils.dp2px(240));
     }
 
     /**
