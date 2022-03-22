@@ -565,7 +565,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
         Utils.sleep(1000);
         scrollUp();
         Utils.sleep(1000);
-        List<NodeInfo> nodeInfoList = findAllTotalMatchByText("选择文件");
+        List<NodeInfo> nodeInfoList = findNodeInfosByText("选择文件");
         if(nodeInfoList.size() == 2){
             clickXY(nodeInfoList.get(0).getRect().centerX(),nodeInfoList.get(0).getRect().centerY());
             Utils.sleep(1500);
@@ -877,7 +877,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
                 return taskName;
             }
         }catch (Exception e){
-            AccessibilityNodeInfo taskNameNode = accessibilityNodeInfo.getChild(0).getChild(1).getChild(0).getChild(0).getChild(1);
+            AccessibilityNodeInfo taskNameNode = accessibilityNodeInfo.getChild(0).getChild(0).getChild(1).getChild(0).getChild(0).getChild(1);
             taskName = taskNameNode.getText().toString();
             LogUtils.d(TAG,"taskName:"+taskName);
             return taskName;
