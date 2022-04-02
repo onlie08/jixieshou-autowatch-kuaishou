@@ -871,13 +871,14 @@ public class MeiTianZhuanDianScript extends BaseScript {
         AccessibilityNodeInfo accessibilityNodeInfo = getWebNodeInfo();
         try {
             if (null != accessibilityNodeInfo) {
-                AccessibilityNodeInfo taskNameNode = accessibilityNodeInfo.getChild(0).getChild(2).getChild(0).getChild(0).getChild(1);
+                AccessibilityNodeInfo taskNameNode = accessibilityNodeInfo.getChild(0).getChild(1).getChild(0).getChild(0).getChild(1);
+//                AccessibilityNodeInfo taskNameNode = accessibilityNodeInfo.getChild(0).getChild(2).getChild(0).getChild(0).getChild(1);
                 taskName = taskNameNode.getText().toString();
                 LogUtils.d(TAG,"taskName:"+taskName);
                 return taskName;
             }
         }catch (Exception e){
-            AccessibilityNodeInfo taskNameNode = accessibilityNodeInfo.getChild(0).getChild(0).getChild(1).getChild(0).getChild(0).getChild(1);
+            AccessibilityNodeInfo taskNameNode = accessibilityNodeInfo.getChild(0).getChild(1).getChild(0).getChild(0).getChild(1);
             taskName = taskNameNode.getText().toString();
             LogUtils.d(TAG,"taskName:"+taskName);
             return taskName;

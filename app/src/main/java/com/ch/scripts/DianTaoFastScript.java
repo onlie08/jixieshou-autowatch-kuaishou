@@ -221,9 +221,7 @@ public class DianTaoFastScript extends BaseScript {
             if (clickContent("体力不足，去获得体力")) return;
         }
         if (samePageCount > 4) {
-            clickBack();
-            Utils.sleep(2000);
-            clickContent("走路赚元宝");
+            changTask();
             return;
 
         }
@@ -240,9 +238,7 @@ public class DianTaoFastScript extends BaseScript {
                 point_DaGong = new Point(MyApplication.getScreenWidth() - SizeUtils.dp2px(80), point_LingTiLi.y);
                 SPUtils.getInstance().put(Constant.DIANTAO_DAGONG, new Gson().toJson(point_DaGong));
             } else {
-                clickBack();
-                Utils.sleep(2000);
-                clickContent("走路赚元宝");
+                changTask();
                 return;
             }
         }
@@ -271,9 +267,8 @@ public class DianTaoFastScript extends BaseScript {
                     clickBack();
                     return;
                 }
-                clickBack();
-                Utils.sleep(2000);
-                clickTotalMatchContent("走路赚元宝");
+                changTask();
+
             }else {
                 ifClickNextTask = true;
                 clickXY(MyApplication.getScreenWidth()/2, SizeUtils.dp2px(200));
@@ -309,6 +304,22 @@ public class DianTaoFastScript extends BaseScript {
             }
         }
 
+    }
+
+    /**
+     * 打工切换到走路
+     */
+    private void changTask(){
+        clickBack();
+        Utils.sleep(2000);
+        //todo 检查看有没有宝箱
+        if (!findContent("00:")) {
+            clickXY(point_RenWu.x, point_RenWu.y);
+            Utils.sleep(1500);
+            closeDialog();
+            Utils.sleep(2000);
+        }
+        clickTotalMatchContent("走路赚元宝");
     }
 
     /**
@@ -458,7 +469,8 @@ public class DianTaoFastScript extends BaseScript {
                 clickBack();
                 return;
             }
-            clickBack();
+            skipTask();
+            return;
         }else {
             if(findTotalMatchContent("浏览商品30秒")){
                 doScan(100);
