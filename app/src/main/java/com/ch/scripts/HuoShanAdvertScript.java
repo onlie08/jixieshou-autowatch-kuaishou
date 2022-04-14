@@ -171,7 +171,6 @@ public class HuoShanAdvertScript extends BaseScript {
 //            Utils.sleep(2000);
 //        }
         scrollUpSlow();
-        Utils.sleep(2000);
         return;
     }
 
@@ -372,6 +371,9 @@ public class HuoShanAdvertScript extends BaseScript {
 
     @Override
     protected void doSamePageDeal() {
+        if (samePageCount > 3) {
+            refreshNodeinfo();
+        }
         if (samePageCount > 10 && samePageCount < 13) {
             Utils.sleep(1500);
             clickBack();

@@ -166,17 +166,18 @@ public class JingDongAdvertScript extends BaseScript {
             clickBack();
             return;
         }
-
-        if (clickContent("逛商品赚金币")) Utils.sleep(3000);
-        if (clickContent("逛活动赚金币")) Utils.sleep(3000);
-        if (clickContent("看视频赚金币")) Utils.sleep(3000);
-
         List<NodeInfo> nodeInfoList = findAllTotalMatchByText("已完成");
         if(null != nodeInfoList && nodeInfoList.size() == 3){
             CrashReport.postCatchedException(new Exception("京东今日任务完成"));
             skipTask();
             return;
         }
+
+        if (clickContent("逛商品赚金币")) ;
+        if (clickContent("逛活动赚金币")) ;
+        if (clickContent("看视频赚金币")) ;
+
+
 
 
 //      if(clickContent("邀好友赚金币"))Utils.sleep(5000);
@@ -191,7 +192,6 @@ public class JingDongAdvertScript extends BaseScript {
         if (findContent("今日已完成")) {
             while (checkPageId() != 2 && isTargetPkg()) {
                 clickBack();
-                Utils.sleep(1500);
             }
             return;
         }
@@ -324,11 +324,8 @@ public class JingDongAdvertScript extends BaseScript {
                     Utils.sleep(2000);
                 }
                 clickBack();
-                Utils.sleep(2000);
                 clickBack();
-                Utils.sleep(2000);
                 dealNoResponse();
-                Utils.sleep(2000);
                 resumeCount = 0;
                 CrashReport.postCatchedException(new Throwable("京东极速版无响应"));
 
@@ -343,9 +340,7 @@ public class JingDongAdvertScript extends BaseScript {
     public void destory() {
         if (isTargetPkg()) {
             clickBack();
-            Utils.sleep(100);
             clickBack();
-            Utils.sleep(1000);
         }
         pressHome();
         stop = true;
@@ -373,8 +368,10 @@ public class JingDongAdvertScript extends BaseScript {
 
     @Override
     protected void doSamePageDeal() {
+        if (samePageCount > 3) {
+            refreshNodeinfo();
+        }
         if (samePageCount > 10 && samePageCount < 13) {
-            Utils.sleep(1500);
             clickBack();
         }
 

@@ -150,7 +150,11 @@ public class TaskExecutor {
                                         @Override
                                         public void run() {
                                             if (isPause()) {
-                                                BusManager.getBus().post(new BusEvent<>(pause_becauseof_not_destination_page, currentScript.getAppInfo().getTaskName()));
+                                                if(null != currentScript){
+                                                    BusManager.getBus().post(new BusEvent<>(pause_becauseof_not_destination_page, currentScript.getAppInfo().getTaskName()));
+                                                }else {
+                                                    LogUtils.e(TAG,"null == currentScript");
+                                                }
                                             } else {
                                                 String s = Utils.getTimeDescription(System.currentTimeMillis() - finalSt);
                                                 BusManager.getBus().post(new BusEvent<>(EventType.refresh_time, s));
@@ -169,7 +173,7 @@ public class TaskExecutor {
                     LogUtils.d(TAG, "currentScript.destory()");
                     currentScript.destory();
                     currentScript = null;
-                    Utils.sleep(1000);
+//                    Utils.sleep(1000);
 
                     resetFlags();
                     scriptThread.interrupt();

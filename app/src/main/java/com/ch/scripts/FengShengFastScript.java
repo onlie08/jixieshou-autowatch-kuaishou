@@ -445,6 +445,9 @@ public class FengShengFastScript extends BaseScript {
 
     @Override
     protected void doSamePageDeal() {
+        if (samePageCount > 3) {
+            refreshNodeinfo();
+        }
         if (samePageCount > 10 && samePageCount < 13) {
             Utils.sleep(1500);
             clickBack();

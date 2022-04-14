@@ -187,7 +187,6 @@ public class AiQiYiAdvertScript extends BaseScript {
     }
 
     private void doPageId4Things() {
-//        scrollUp();
     }
 
 
@@ -263,7 +262,6 @@ public class AiQiYiAdvertScript extends BaseScript {
 
         if (findContent("新人限时任务")) {
             scrollUp();
-            Utils.sleep(2000);
             if (clickContent("填写邀请码奖励")) {
 //                SPUtils.getInstance().put(Constant.AIQIYI_TIANXIEHAOYOUYAOQINGMA, "");
 //                SPUtils.getInstance().put(Constant.AIQIYI_ZHANTIE, "");
@@ -274,7 +272,6 @@ public class AiQiYiAdvertScript extends BaseScript {
         if (clickContent("看视频赚钱")) {
             Utils.sleep(1500);
             scrollUp();
-            Utils.sleep(3000);
             clickXY(500, 500);
             return;
         }
@@ -519,6 +516,9 @@ public class AiQiYiAdvertScript extends BaseScript {
 
     @Override
     protected void doSamePageDeal() {
+        if (samePageCount > 3) {
+            refreshNodeinfo();
+        }
         if (pageId == 4) {
             return;
         }

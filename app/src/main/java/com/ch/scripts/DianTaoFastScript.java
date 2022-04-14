@@ -178,7 +178,6 @@ public class DianTaoFastScript extends BaseScript {
             if (samePageCount >= 2) {
                 clickXY(point_DianTao.x, point_DianTao.y);
             }
-            Utils.sleep(1500);
             clickBack();
         }
     }
@@ -195,12 +194,10 @@ public class DianTaoFastScript extends BaseScript {
             clickBack();
         }
         if (clickTotalMatchContent("立即提现")) {
-            Utils.sleep(2000);
             clickContent("继续下一个任务");
             return;
         }
         if (clickContent("去签到")) {
-            Utils.sleep(2000);
             return;
         }
 
@@ -245,10 +242,8 @@ public class DianTaoFastScript extends BaseScript {
 
         if(findTotalMatchContent("打工时长: 10分钟")){
             if (clickTotalMatchContent("开始打工")) {
-                Utils.sleep(2000);
                 return;
             }else if(clickTotalMatchContent("体力不足，去获得体力")){
-                Utils.sleep(1000);
                 ifClickNextTask = true;
                 return;
             }
@@ -263,7 +258,7 @@ public class DianTaoFastScript extends BaseScript {
                     return;
                 }
                 if (clickTotalMatchContent("去浏览")) {
-                    doScan(35);
+                    doScan(16);
                     clickBack();
                     return;
                 }
@@ -272,34 +267,28 @@ public class DianTaoFastScript extends BaseScript {
             }else {
                 ifClickNextTask = true;
                 clickXY(MyApplication.getScreenWidth()/2, SizeUtils.dp2px(200));
-                Utils.sleep(1500);
             }
             return;
         }else {
             if(findTotalMatchContent("浏览商品30秒")){
-                doScan(100);
+                doScan(16);
                 clickBack();
                 return;
             }
 
-            if (clickId("sign-panel-btn")) Utils.sleep(1000);
+            if (clickId("sign-panel-btn")) ;
 
             if(clickXY(point_LingTiLi.x, point_LingTiLi.y)){
-                Utils.sleep(1500);
                 if (clickTotalMatchContent("查看更多任务")) {
-                    Utils.sleep(1500);
                     clickXY(MyApplication.getScreenWidth()/2, SizeUtils.dp2px(200));
-                    Utils.sleep(1500);
                 }
             }
             if(clickXY(point_DaGong.x, point_DaGong.y)){
-                Utils.sleep(1500);
                 if(findTotalMatchContent("打工时长: 10分钟")){
                     return;
                 }
             }
             if(clickXY(point_ZhuanTiLi.x, point_ZhuanTiLi.y)){
-                Utils.sleep(1500);
                 return;
             }
         }
@@ -311,13 +300,10 @@ public class DianTaoFastScript extends BaseScript {
      */
     private void changTask(){
         clickBack();
-        Utils.sleep(2000);
         //todo 检查看有没有宝箱
         if (!findContent("00:")) {
             clickXY(point_RenWu.x, point_RenWu.y);
-            Utils.sleep(1500);
             closeDialog();
-            Utils.sleep(2000);
         }
         clickTotalMatchContent("走路赚元宝");
     }
@@ -336,14 +322,12 @@ public class DianTaoFastScript extends BaseScript {
 
         if (!findContent("00:")) {
             clickXY(point_RenWu.x, point_RenWu.y);
-            Utils.sleep(1500);
             closeDialog();
             return;
         }
 
         if (!SPUtils.getInstance().getBoolean(DeviceUtils.getToday() + "dt", false)) {
             if (clickContent("今日签到")) {
-                Utils.sleep(1500);
                 clickBack();
                 SPUtils.getInstance().put(DeviceUtils.getToday() + "dt", true);
                 return;
@@ -383,7 +367,6 @@ public class DianTaoFastScript extends BaseScript {
         if (findContent("后完成")) {
             findTaskCount = true;
             scrollUp();
-            Utils.sleep(1500);
         } else {
             if (findTaskCount) {
                 findTaskCount = false;
@@ -433,10 +416,8 @@ public class DianTaoFastScript extends BaseScript {
                     Bundle arguments = new Bundle();
                     arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, MyApplication.recommendBean.getCode_diantao());
                     accessibilityNodeInfo.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
-                    Utils.sleep(2000);
 
                     if (clickContent("提交 去抽奖")) {
-                        Utils.sleep(2000);
                         SPUtils.getInstance().put("invite_diantao", true);
                         CrashReport.postCatchedException(new Exception("点淘自动填写邀请码成功"));
                         return;
@@ -464,8 +445,7 @@ public class DianTaoFastScript extends BaseScript {
         if(findTotalMatchContent("做任务赚步数")){
             if (clickTotalMatchContent("去观看")) return;
             if (clickTotalMatchContent("去浏览")) {
-                Utils.sleep(1500);
-                doScan(70);
+                doScan(16);
                 clickBack();
                 return;
             }
@@ -473,62 +453,53 @@ public class DianTaoFastScript extends BaseScript {
             return;
         }else {
             if(findTotalMatchContent("浏览商品30秒")){
-                doScan(100);
+                doScan(16);
                 clickBack();
                 return;
             }
 
             if(findTotalMatchContent("明日再来")){
                 if(clickTotalMatchContent("188元宝100步")){
-                    Utils.sleep(1000);
                     if(doTask()){
                         return;
                     }
                 }
                 if(clickTotalMatchContent("288元宝500步")){
-                    Utils.sleep(1000);
                     if(doTask()){
                         return;
                     }
                 }
                 if(clickTotalMatchContent("188元宝2500步")){
-                    Utils.sleep(1000);
                     if(doTask()){
                         return;
                     }
                 }
                 if(clickTotalMatchContent("288元宝5000步")){
-                    Utils.sleep(1000);
                     if(doTask()){
                         return;
                     }
                 }
                 if(clickTotalMatchContent("388元宝10000步")){
-                    Utils.sleep(1000);
                     if(doTask()){
                         return;
                     }
                 }
                 if(clickTotalMatchContent("188元宝12500步")){
-                    Utils.sleep(1000);
                     if(doTask()){
                         return;
                     }
                 }
                 if(clickTotalMatchContent("388元宝15000步")){
-                    Utils.sleep(1000);
                     if(doTask()){
                         return;
                     }
                 }
                 if(clickTotalMatchContent("488元宝17500步")){
-                    Utils.sleep(1000);
                     if(doTask()){
                         return;
                     }
                 }
                 if(clickTotalMatchContent("588元宝20000步")){
-                    Utils.sleep(1000);
                     if(doTask()){
                         return;
                     }
@@ -536,10 +507,8 @@ public class DianTaoFastScript extends BaseScript {
 
             }
             if(clickTotalMatchContent("领取")){
-                Utils.sleep(2000);
             }
             if(clickTotalMatchContent("出发")){
-                Utils.sleep(2000);
                 if (findTotalMatchContent("邀请好友助力赚步数吧") || findTotalMatchContent("去领步数")) {
                     clickTotalMatchContent("查看更多任务");
                     return;
@@ -603,7 +572,6 @@ public class DianTaoFastScript extends BaseScript {
 
     private void closeDialog() {
         if (clickContent("邀请好友 再赚")) {
-            Utils.sleep(1000);
             clickBack();
             return;
         }
@@ -616,16 +584,16 @@ public class DianTaoFastScript extends BaseScript {
     @Override
     protected int getMinSleepTime() {
         if (pageId == 1) {
-            return 1500;
+            return 1000;
         }
         if (pageId == 4) {
-            return 1500;
+            return 1000;
         }
         if (pageId == 6) {
-            return 1500;
+            return 1000;
         }
         if (pageId == 7) {
-            return 1500;
+            return 1000;
         }
         if (pageId == -1) {
             return 1000;
@@ -639,16 +607,16 @@ public class DianTaoFastScript extends BaseScript {
     @Override
     protected int getMaxSleepTime() {
         if (pageId == 1) {
-            return 1500;
+            return 1000;
         }
         if (pageId == 4) {
-            return 1500;
+            return 1000;
         }
         if (pageId == 6) {
-            return 1500;
+            return 1000;
         }
         if (pageId == 7) {
-            return 1500;
+            return 1000;
         }
         if (pageId == -1) {
             return 1000;
@@ -688,11 +656,8 @@ public class DianTaoFastScript extends BaseScript {
                     Utils.sleep(2000);
                 }
                 clickBack();
-                Utils.sleep(2000);
                 clickBack();
-                Utils.sleep(2000);
                 dealNoResponse();
-                Utils.sleep(2000);
                 resumeCount = 0;
                 CrashReport.postCatchedException(new Throwable("点淘无响应"));
 
@@ -707,9 +672,7 @@ public class DianTaoFastScript extends BaseScript {
     public void destory() {
         if (isTargetPkg()) {
             clickBack();
-            Utils.sleep(100);
             clickBack();
-            Utils.sleep(1000);
         }
         pressHome();
 
@@ -787,9 +750,11 @@ public class DianTaoFastScript extends BaseScript {
 
     @Override
     protected void doSamePageDeal() {
+        if (samePageCount > 3) {
+            refreshNodeinfo();
+        }
 
         if (samePageCount > 10 && samePageCount < 13) {
-            Utils.sleep(1500);
             clickBack();
         }
 
@@ -806,7 +771,6 @@ public class DianTaoFastScript extends BaseScript {
     private void doScan(int second) {
         for (int i = 0; i < second; i++) {
             if (isCurrentScipte()) {
-                Utils.sleep(1000);
                 scrollUp();
             }
         }

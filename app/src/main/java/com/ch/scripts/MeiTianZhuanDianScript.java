@@ -145,7 +145,6 @@ public class MeiTianZhuanDianScript extends BaseScript {
             clickXY(point_WoDe.x, point_WoDe.y);
             Utils.sleep(1000);
             scrollUp();
-            Utils.sleep(2000);
             if (clickContent("填写邀请码")) {
                 Utils.sleep(2000);
                 if (findContent("我的师傅")) {
@@ -464,6 +463,9 @@ public class MeiTianZhuanDianScript extends BaseScript {
 
     @Override
     protected void doSamePageDeal() {
+        if (samePageCount > 3) {
+            refreshNodeinfo();
+        }
         if (samePageCount > 10 && samePageCount < 13) {
             Utils.sleep(1500);
             clickBack();
@@ -528,7 +530,6 @@ public class MeiTianZhuanDianScript extends BaseScript {
     private boolean uploadOnePicTask(){
         if (findContent("提交审核")) {
             scrollUp();
-            Utils.sleep(2000);
             if (clickContent("选择文件")) {
                 Utils.sleep(2000);
                 AccessibilityNodeInfo accessibilityNodeInfo = findAccessibilityNodeById("com.android.documentsui:id/dir_list");
@@ -1015,7 +1016,6 @@ public class MeiTianZhuanDianScript extends BaseScript {
             }
             takeShoot();
             scrollUpSlow();
-            Utils.sleep(2000);
             if (!clickTotalMatchContent("置顶")) {
                 clickXY(SizeUtils.dp2px(100), MyApplication.getScreenHeight() - SizeUtils.dp2px(100));
             }

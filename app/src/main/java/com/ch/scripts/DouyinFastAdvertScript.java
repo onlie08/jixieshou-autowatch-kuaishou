@@ -134,6 +134,7 @@ public class DouyinFastAdvertScript extends BaseScript {
      * @return
      */
     private boolean dealNoResponse2() {
+        if (clickContent("领取奖励")) return true;
         if (clickContent("仅在使用中允许")) return true;
         if (clickContent("重试")) return true;
         if (clickTotalMatchContent("以后再说")) return true;
@@ -159,13 +160,12 @@ public class DouyinFastAdvertScript extends BaseScript {
     private void doPageId0Things() {
         LogUtils.d(TAG, "doPageId0Things");
         scrollUp();
-        Utils.sleep(2000);
 
         if (samePageCount > 3) {
             clickXY(point_LaiZhuanQian.x, point_LaiZhuanQian.y);
 
             //没有去赚钱按钮而是去拍摄的情况
-            Utils.sleep(2000);
+            Utils.sleep(5000);
             if(findTotalMatchContent("选择音乐")){
                 clickBack();
                 Utils.sleep(2000);
@@ -421,6 +421,13 @@ public class DouyinFastAdvertScript extends BaseScript {
 
     @Override
     protected void doSamePageDeal() {
+        if (samePageCount > 3) {
+            refreshNodeinfo();
+        }
+        if (samePageCount > 3) {
+            refreshNodeinfo();
+        }
+
         if (samePageCount > 10 && samePageCount < 13) {
             dealNoResponse2();
         }

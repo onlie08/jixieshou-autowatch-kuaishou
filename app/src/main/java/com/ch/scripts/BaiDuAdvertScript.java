@@ -182,8 +182,6 @@ public class BaiDuAdvertScript extends BaseScript {
 
         scrollUp();
 
-        Utils.sleep(2000);
-
         clickXY(500, 500);
 
     }
@@ -586,6 +584,9 @@ public class BaiDuAdvertScript extends BaseScript {
 
     @Override
     protected void doSamePageDeal() {
+        if (samePageCount > 3) {
+            refreshNodeinfo();
+        }
         if (samePageCount > 10 && samePageCount < 13) {
             Utils.sleep(1500);
             clickBack();

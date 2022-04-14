@@ -319,21 +319,22 @@ public class TouTiaoAdvertScript extends BaseScript {
         if ((findContent("每日挑战") || findContent("新人福利") || findContent("日常任务") || findContent("看广告赚金币")) && findContent("金币")) {
             return 1;
         }
-        if (findContent("搜索") || findContent("更多操作")) {
-            return 2;
-        }
-
         if ((findContent("s后可领取"))) {
             return 3;
         }
-
-        if ((findContent("s") && findContent("关闭")) || findContent("试玩")) {
+        if ((findContent("s") && findTotalMatchContent("关闭")) || findTotalMatchContent("试玩")) {
             return 3;
         }
+
+        if (findTotalMatchContent("搜索") || findTotalMatchContent("更多操作")) {
+            return 2;
+        }
+
+
         if (findContent("邀请码") && findContent("马上提交")) {
             return 4;
         }
-        if (findContent("浏览以下商品30秒，可领取")) {
+        if (findContent("浏览以下商品30秒")) {
             return 5;
         }
 
@@ -347,11 +348,11 @@ public class TouTiaoAdvertScript extends BaseScript {
         if (pageId == 2) {
             return 1000;
         } else if (pageId == 1) {
-            return 2000;
+            return 1000;
         } else if (pageId == -1) {
             return 1000;
         } else if (pageId == 0) {
-            return 100;
+            return 1000;
         } else {
             return 4000;
         }
@@ -363,11 +364,11 @@ public class TouTiaoAdvertScript extends BaseScript {
         if (pageId == 2) {
             return 1000;
         } else if (pageId == 1) {
-            return 2000;
+            return 1000;
         } else if (pageId == -1) {
             return 1000;
         } else if (pageId == 0) {
-            return 100;
+            return 1000;
         } else {
             return 4000;
         }
