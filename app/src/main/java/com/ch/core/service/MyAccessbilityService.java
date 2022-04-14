@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
@@ -14,6 +15,8 @@ import com.ch.application.MyApplication;
 import com.ch.core.bus.BusEvent;
 import com.ch.core.bus.BusManager;
 import com.ch.core.bus.EventType;
+import com.ch.core.search.node.Dumper;
+import com.ch.core.search.node.TreeInfo;
 import com.ch.core.utils.Logger;
 import com.ch.core.utils.StringUtil;
 import com.ch.core.utils.Utils;
@@ -29,7 +32,48 @@ public class MyAccessbilityService extends AccessibilityService {
     private int noRootCount = 0;
     private static final int maxNoRootCount = 3;
     private boolean isWork = false;
+    private AccessibilityNodeInfo[] curRoots;
+    private TreeInfo curTreeInfo;
+    private TreeInfo CurAllPageTreeInfo;
+    private boolean isSettingRoot = false;
 //    public static AccessibilityEvent curPageEvent;
+
+
+    public boolean isSettingRoot() {
+        return isSettingRoot;
+    }
+
+    public void setSettingRoot(boolean settingRoot) {
+        isSettingRoot = settingRoot;
+    }
+
+    public TreeInfo getCurTreeInfo() {
+//        Log.d("MyAccessbilityService","获取缓存的curTreeInfo");
+        return curTreeInfo;
+    }
+
+    public void setCurTreeInfo(TreeInfo curTreeInfo) {
+        this.curTreeInfo = curTreeInfo;
+    }
+
+    public TreeInfo getCurAllPageTreeInfo() {
+//        Log.d("MyAccessbilityService","获取缓存的CurAllPageTreeInfo");
+        return curTreeInfo;
+//        return CurAllPageTreeInfo;
+    }
+
+    public void setCurAllPageTreeInfo(TreeInfo curAllPageTreeInfo) {
+        CurAllPageTreeInfo = curAllPageTreeInfo;
+    }
+
+    public AccessibilityNodeInfo[] getCurRoots() {
+//        Log.d("MyAccessbilityService","获取缓存的root");
+        return curRoots;
+    }
+
+    public void setCurRoots(AccessibilityNodeInfo[] curRoots) {
+        this.curRoots = curRoots;
+    }
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
@@ -46,16 +90,25 @@ public class MyAccessbilityService extends AccessibilityService {
             }
         }else if(eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED){
 //            Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
+        }else if(eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED){
+//            Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
+        }else if(eventType == AccessibilityEvent.TYPE_WINDOWS_CHANGED){
+            Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
+            Utils.sleep(1000);
+            setRoot();
+//            Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
+        }else if(eventType == AccessibilityEvent.TYPE_VIEW_CLICKED){
+            Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
+            Utils.sleep(1000);
+            setRoot();
+//            Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
         }
 //        Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
     }
 
-    @Override
-    public void onInterrupt() {
-        Logger.e("MyAccessbilityService onInterrupt");
-    }
-
-    public AccessibilityNodeInfo[] getRoots() {
+    public void setRoot(){
+        if(isSettingRoot)return;
+        isSettingRoot = true;
         AccessibilityNodeInfo activeRoot = getRootInActiveWindow();
         String activeRootPkg = Utils.getRootPackageName(activeRoot);
 
@@ -103,14 +156,81 @@ public class MyAccessbilityService extends AccessibilityService {
                 }
             });
         }
-        return map.values().toArray(new AccessibilityNodeInfo[0]);
+        setCurRoots(map.values().toArray(new AccessibilityNodeInfo[0]));
+//        setCurAllPageTreeInfo(new Dumper(curRoots).withIncludeOutsideSceenControl(true).dump());
+        setCurTreeInfo(new Dumper(curRoots).withIncludeOutsideSceenControl(false).dump());
+        Log.d("MyAccessbilityService","更新缓存root");
+        isSettingRoot = false;
     }
+
+    @Override
+    public void onInterrupt() {
+        Logger.e("MyAccessbilityService onInterrupt");
+    }
+
+//    public AccessibilityNodeInfo[] getRoots() {
+//        if(null != curRoots){
+//            Log.d("MyAccessbilityService","获取缓存的root");
+//            return curRoots;
+//        }
+//        TreeInfo treeInfo = new Dumper(curRoots).withIncludeOutsideSceenControl(true).dump();
+//
+//        AccessibilityNodeInfo activeRoot = getRootInActiveWindow();
+//        String activeRootPkg = Utils.getRootPackageName(activeRoot);
+//
+//        Map<String, AccessibilityNodeInfo> map = new HashMap<>();
+//        if (activeRoot != null) {
+//            map.put(activeRootPkg, activeRoot);
+//        }
+//
+//        if (Build.VERSION.SDK_INT >= 21) {
+//            List<AccessibilityWindowInfo> windows = getWindows();
+//            for (AccessibilityWindowInfo w : windows) {
+//                if (w.getRoot() == null || getPackageName().equals(Utils.getRootPackageName(w.getRoot()))) {
+//                    continue;
+//                }
+//                String rootPkg = Utils.getRootPackageName(w.getRoot());
+//                if (getPackageName().equals(rootPkg)) {
+//                    continue;
+//                }
+//                if (rootPkg.equals(activeRootPkg)) {
+//                    continue;
+//                }
+//                map.put(rootPkg, w.getRoot());
+//            }
+//        }
+//        if (map.isEmpty()) {
+//            noRootCount++;
+//        } else {
+//            if (!isWork) {
+//                MyApplication.getAppInstance().getMainActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        BusManager.getBus().post(new BusEvent<>(EventType.roots_ready));
+//                    }
+//                });
+//            }
+//            isWork = true;
+//            noRootCount = 0;
+//        }
+//        if (noRootCount >= maxNoRootCount) {
+//            isWork = false;
+//            MyApplication.getAppInstance().getMainActivity().runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    BusManager.getBus().post(new BusEvent<>(EventType.no_roots_alert));
+//                }
+//            });
+//        }
+//        return map.values().toArray(new AccessibilityNodeInfo[0]);
+//    }
 
     public boolean containsPkg(String pkg) {
         if (StringUtil.isEmpty(pkg)) {
             return false;
         }
-        AccessibilityNodeInfo[] roots = getRoots();
+        AccessibilityNodeInfo[] roots = getCurRoots();
+        if(null == roots)return false;
         for (AccessibilityNodeInfo root : roots) {
             if (pkg.equals(Utils.getRootPackageName(root))) {
                 return true;

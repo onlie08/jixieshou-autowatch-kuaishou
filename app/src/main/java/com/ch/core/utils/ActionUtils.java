@@ -30,13 +30,17 @@ public class ActionUtils {
             GestureDescription gestureDescription = builder
                     .addStroke(new GestureDescription.StrokeDescription(path, 0, 100))
                     .build();
-            return MyApplication.getAppInstance().getAccessbilityService().dispatchGesture(gestureDescription,
+            boolean result = MyApplication.getAppInstance().getAccessbilityService().dispatchGesture(gestureDescription,
                     new AccessibilityService.GestureResultCallback() {
                         @Override
                         public void onCompleted(GestureDescription gestureDescription) {
                             super.onCompleted(gestureDescription);
                         }
                     }, null);
+            Utils.sleep(1500);
+            MyApplication.getAppInstance().getAccessbilityService().setRoot();
+
+            return result;
         }
         return false;
     }
