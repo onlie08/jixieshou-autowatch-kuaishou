@@ -37,22 +37,22 @@ public class FindByText {
 //    }
 
     public static NodeInfo find(String text) {
-        AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getRoots();
-        if (roots == null) {
-            Log.i(Utils.tag, "roots is null.");
-        }
+//        AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getCurRoots();
+//        if (roots == null) {
+//            Log.i(Utils.tag, "roots is null.");
+//        }
+//
+//        Log.i(Utils.tag, "roots size: " + roots.length);
+//        for (int i = 0; i < roots.length; i++) {
+//            AccessibilityNodeInfo root = roots[i];
+//            if (root != null) {
+//                Log.i(Utils.tag, String.format("%d. root package: %s", i + 1, Utils.getRootPackageName(root)));
+//            } else {
+//                Log.e(Utils.tag, "error: root is null, index: " + i);
+//            }
+//        }
 
-        Log.i(Utils.tag, "roots size: " + roots.length);
-        for (int i = 0; i < roots.length; i++) {
-            AccessibilityNodeInfo root = roots[i];
-            if (root != null) {
-                Log.i(Utils.tag, String.format("%d. root package: %s", i + 1, Utils.getRootPackageName(root)));
-            } else {
-                Log.e(Utils.tag, "error: root is null, index: " + i);
-            }
-        }
-
-        TreeInfo treeInfo = new Dumper(roots).withIncludeOutsideSceenControl(false).dump();
+        TreeInfo treeInfo = MyApplication.getAppInstance().getAccessbilityService().getCurTreeInfo();
 
         if (treeInfo != null && treeInfo.getRects() != null) {
             for (NodeInfo rect : treeInfo.getRects()) {
@@ -66,22 +66,23 @@ public class FindByText {
 
     public static List<NodeInfo> findNodeInfos(String text) {
         List<NodeInfo> nodeInfoList = new ArrayList<>();
-        AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getRoots();
-        if (roots == null) {
-            Log.i(Utils.tag, "roots is null.");
-        }
-
-        Log.i(Utils.tag, "roots size: " + roots.length);
-        for (int i = 0; i < roots.length; i++) {
-            AccessibilityNodeInfo root = roots[i];
-            if (root != null) {
-                Log.i(Utils.tag, String.format("%d. root package: %s", i + 1, Utils.getRootPackageName(root)));
-            } else {
-                Log.e(Utils.tag, "error: root is null, index: " + i);
-            }
-        }
-
-        TreeInfo treeInfo = new Dumper(roots).withIncludeOutsideSceenControl(false).dump();
+//        AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getCurRoots();
+//        if (roots == null) {
+//            Log.i(Utils.tag, "roots is null.");
+//        }
+//
+//        Log.i(Utils.tag, "roots size: " + roots.length);
+//        for (int i = 0; i < roots.length; i++) {
+//            AccessibilityNodeInfo root = roots[i];
+//            if (root != null) {
+//                Log.i(Utils.tag, String.format("%d. root package: %s", i + 1, Utils.getRootPackageName(root)));
+//            } else {
+//                Log.e(Utils.tag, "error: root is null, index: " + i);
+//            }
+//        }
+//
+//        TreeInfo treeInfo = new Dumper(roots).withIncludeOutsideSceenControl(false).dump();
+        TreeInfo treeInfo = MyApplication.getAppInstance().getAccessbilityService().getCurTreeInfo();
 
         if (treeInfo != null && treeInfo.getRects() != null) {
             for (NodeInfo rect : treeInfo.getRects()) {
@@ -101,22 +102,22 @@ public class FindByText {
     }
 
     public static NodeInfo findTotalMatch(String text) {
-        AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getRoots();
-        if (roots == null) {
-            Log.i(Utils.tag, "roots is null.");
-        }
+//        AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getCurRoots();
+//        if (roots == null) {
+//            Log.i(Utils.tag, "roots is null.");
+//        }
+//
+//        Log.i(Utils.tag, "roots size: " + roots.length);
+//        for (int i = 0; i < roots.length; i++) {
+//            AccessibilityNodeInfo root = roots[i];
+//            if (root != null) {
+//                Log.i(Utils.tag, String.format("%d. root package: %s", i + 1, Utils.getRootPackageName(root)));
+//            } else {
+//                Log.e(Utils.tag, "error: root is null, index: " + i);
+//            }
+//        }
 
-        Log.i(Utils.tag, "roots size: " + roots.length);
-        for (int i = 0; i < roots.length; i++) {
-            AccessibilityNodeInfo root = roots[i];
-            if (root != null) {
-                Log.i(Utils.tag, String.format("%d. root package: %s", i + 1, Utils.getRootPackageName(root)));
-            } else {
-                Log.e(Utils.tag, "error: root is null, index: " + i);
-            }
-        }
-
-        TreeInfo treeInfo = new Dumper(roots).withIncludeOutsideSceenControl(false).dump();
+        TreeInfo treeInfo = MyApplication.getAppInstance().getAccessbilityService().getCurTreeInfo();
 
         if (treeInfo != null && treeInfo.getRects() != null) {
             for (NodeInfo rect : treeInfo.getRects()) {
@@ -137,11 +138,11 @@ public class FindByText {
 
     public static List<NodeInfo> findAllTotalMatch(String text) {
         List<NodeInfo> nodeInfoList = new ArrayList<>();
-        AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getRoots();
-        if (roots == null) {
-            Log.i(Utils.tag, "roots is null.");
-        }
-        TreeInfo treeInfo = new Dumper(roots).withIncludeOutsideSceenControl(false).dump();
+//        AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getCurRoots();
+//        if (roots == null) {
+//            Log.i(Utils.tag, "roots is null.");
+//        }
+        TreeInfo treeInfo = MyApplication.getAppInstance().getAccessbilityService().getCurTreeInfo();
         if (treeInfo != null && treeInfo.getRects() != null) {
             for (NodeInfo rect : treeInfo.getRects()) {
                 if (isTotalMatch(rect, text)) {
@@ -154,11 +155,7 @@ public class FindByText {
 
     public static List<NodeInfo> findPageByContent(String text,boolean totalMatch) {
         List<NodeInfo> nodeInfoList = new ArrayList<>();
-        AccessibilityNodeInfo[] roots = MyApplication.getAppInstance().getAccessbilityService().getRoots();
-        if (roots == null) {
-            Log.i(Utils.tag, "roots is null.");
-        }
-        TreeInfo treeInfo = new Dumper(roots).withIncludeOutsideSceenControl(true).dump();
+        TreeInfo treeInfo = MyApplication.getAppInstance().getAccessbilityService().getCurAllPageTreeInfo();
         if (treeInfo != null && treeInfo.getRects() != null) {
             for (NodeInfo rect : treeInfo.getRects()) {
                 if(totalMatch){

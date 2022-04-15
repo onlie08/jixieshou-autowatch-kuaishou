@@ -187,7 +187,6 @@ public class AiQiYiAdvertScript extends BaseScript {
     }
 
     private void doPageId4Things() {
-//        scrollUp();
     }
 
 
@@ -263,7 +262,6 @@ public class AiQiYiAdvertScript extends BaseScript {
 
         if (findContent("新人限时任务")) {
             scrollUp();
-            Utils.sleep(2000);
             if (clickContent("填写邀请码奖励")) {
 //                SPUtils.getInstance().put(Constant.AIQIYI_TIANXIEHAOYOUYAOQINGMA, "");
 //                SPUtils.getInstance().put(Constant.AIQIYI_ZHANTIE, "");
@@ -274,7 +272,6 @@ public class AiQiYiAdvertScript extends BaseScript {
         if (clickContent("看视频赚钱")) {
             Utils.sleep(1500);
             scrollUp();
-            Utils.sleep(3000);
             clickXY(500, 500);
             return;
         }
@@ -358,7 +355,7 @@ public class AiQiYiAdvertScript extends BaseScript {
      * @return //0:首页 1:个人中心  2:阅读页  3:广告页
      */
     private int checkPageId() {
-        if (findContent("电视剧") && findContent("好片快看")) {
+        if (findContent("电视剧") && findContent("儿童")) {
             return 0;
         }
 
@@ -421,7 +418,7 @@ public class AiQiYiAdvertScript extends BaseScript {
 
     @Override
     protected void getRecognitionResult() {
-        point_ShouYe = new Point(MyApplication.getScreenWidth()/5,MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
+        point_ShouYe = new Point(MyApplication.getScreenWidth()/5-SizeUtils.dp2px(20),MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
         point_ZhuanQian = new Point(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
         LogUtils.d(TAG,"point_ShouYe:"+point_ShouYe.toString() + " point_ZhuanQian:"+ point_ZhuanQian.toString() + " Height:"+MyApplication.getScreenHeight());
 
@@ -519,6 +516,9 @@ public class AiQiYiAdvertScript extends BaseScript {
 
     @Override
     protected void doSamePageDeal() {
+        if (samePageCount > 3) {
+            refreshNodeinfo();
+        }
         if (pageId == 4) {
             return;
         }

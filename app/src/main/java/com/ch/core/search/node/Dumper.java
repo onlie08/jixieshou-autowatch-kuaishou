@@ -9,6 +9,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import com.blankj.utilcode.util.LogUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.utils.AccessibilityNodeInfoHelper;
+import com.ch.core.utils.Constant;
 import com.ch.core.utils.Logger;
 import com.ch.core.utils.NodeText;
 import com.ch.core.utils.Utils;
@@ -165,7 +166,9 @@ public class Dumper {
      * @throws IOException
      */
     private void dumpNodeRec(AccessibilityNodeInfo node, int index, String parentXpath) throws IOException {
-//        LogUtils.d(TAG,"dumpNodeRec()");
+        if(node.getPackageName().toString().equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
+            Log.d(TAG,"dumpNodeRec() className:" + node.getClassName().toString() + " ChildCount:" +node.getChildCount());
+        }
 //        LogUtils.e(TAG,"dumpNodeRec1");
         if(node.getText() != null && node.getText().toString().equals("示例图")){
             Log.d(TAG,"测试节点");
@@ -192,16 +195,26 @@ public class Dumper {
             AccessibilityNodeInfo child = node.getChild(i);
             if (child != null) {
                 String className = child.getClassName().toString();
+                if(node.getPackageName().toString().equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
+                    Log.d(TAG,"dumpNodeRec()1 className:" + className + " ChildCount:" +child.getChildCount());
+                }
                 if (Utils.isStandardWebView(className)) {
                     webviewNodes.add(child);
                     continue;
                 }
                 boolean isVisiable = Utils.isVisiableToUser(child, screenW, screenH);
+                if(className.equals("com.tencent.tbs.core.webkit.WebView")){
+                    isVisiable = true;
+                }
+
                 if(!isVisiable && child.getText() != null && child.getText().toString().equals("示例图")){//&& child.getText().equals("选择文件")
                     Log.d(TAG,"isVisiable:"+isVisiable+" includeControlsOutsideScreen:"+includeControlsOutsideScreen+" child.getText():"+child.getText());
                 }
 //                Log.d(TAG,"isVisiable:"+isVisiable+" includeControlsOutsideScreen:"+includeControlsOutsideScreen+" child.getText():"+child.getText());
                 if (includeControlsOutsideScreen || isVisiable) {
+                    if(node.getPackageName().toString().equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
+                        Log.d(TAG,"dumpNodeRec()2 className:" + className + " ChildCount:" +child.getChildCount());
+                    }
                     dumpNodeRec(child, i, myXpath);
                     child.recycle();
                 }

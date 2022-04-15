@@ -87,8 +87,8 @@ public class FengShengFastScript extends BaseScript {
         }
         getCurHour();
 
-        if (mHour != 9 && mHour != 16 && mHour != 21 && mHour != 22) {
-//        if (mHour != 9 && mHour != 16 && mHour != 21 ) {
+//        if (mHour != 9 && mHour != 16 && mHour != 21 && mHour != 22) {
+        if (mHour != 9 && mHour != 16 && mHour != 21 ) {
             skipTask();
             task1 = false;
             task2 = false;
@@ -123,14 +123,14 @@ public class FengShengFastScript extends BaseScript {
                     type = 3;
                 }
                 break;
-            case 22:
-                if (task4) {
-                    type = 0;
-                    skipTask();
-                } else {
-                    type = 4;
-                }
-                break;
+//            case 22:
+//                if (task4) {
+//                    type = 0;
+//                    skipTask();
+//                } else {
+//                    type = 4;
+//                }
+//                break;
         }
 
         pageId = checkPageId();
@@ -445,6 +445,9 @@ public class FengShengFastScript extends BaseScript {
 
     @Override
     protected void doSamePageDeal() {
+        if (samePageCount > 3) {
+            refreshNodeinfo();
+        }
         if (samePageCount > 10 && samePageCount < 13) {
             Utils.sleep(1500);
             clickBack();

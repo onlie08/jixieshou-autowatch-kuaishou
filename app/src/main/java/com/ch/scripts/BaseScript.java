@@ -271,9 +271,9 @@ public abstract class BaseScript implements IScript {
     protected boolean clickEveryNodeInfosByText(String text){
         List<NodeInfo> nodeInfoList = findNodeInfosByText(text);
         if(null != nodeInfoList && !nodeInfoList.isEmpty()){
+            LogUtils.dTag(BASETAG, "clickEveryNodeInfosByText: " + text);
             for(int i=0;i<nodeInfoList.size();i++){
                 clickXY(nodeInfoList.get(i).getRect().centerX(),nodeInfoList.get(i).getRect().centerY());
-                Utils.sleep(500);
             }
             return true;
         }
@@ -283,9 +283,9 @@ public abstract class BaseScript implements IScript {
     protected boolean clickEveryTotalMatchByText(String text){
         List<NodeInfo> nodeInfoList = findAllTotalMatchByText(text);
         if(null != nodeInfoList && !nodeInfoList.isEmpty()){
+            LogUtils.dTag(BASETAG, "clickEveryTotalMatchByText: " + text);
             for(int i=0;i<nodeInfoList.size();i++){
                 clickXY(nodeInfoList.get(i).getRect().centerX(),nodeInfoList.get(i).getRect().centerY());
-                Utils.sleep(1000);
             }
             return true;
         }
@@ -381,6 +381,7 @@ public abstract class BaseScript implements IScript {
     public boolean findTotalMatchContent(String content) {
         NodeInfo nodeInfo = findTotalMatchByText(content);
         if (nodeInfo != null) {
+            LogUtils.dTag(BASETAG, "findTotalMatchContent: " + content);
             return true;
         }
         return false;
@@ -437,6 +438,8 @@ public abstract class BaseScript implements IScript {
     public void clickBack() {
         LogUtils.dTag(BASETAG, "clickBack");
         ActionUtils.pressBack();
+        Utils.sleep(1000);
+        refreshNodeinfo();
     }
 
     public void scrollUpSlow() {
@@ -446,6 +449,8 @@ public abstract class BaseScript implements IScript {
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
         int toY = margin;
         new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
+        Utils.sleep(2000);
+        refreshNodeinfo();
     }
 
     public void scrollUpPx(int px) {
@@ -454,6 +459,8 @@ public abstract class BaseScript implements IScript {
         int fromY = MyApplication.getAppInstance().getScreenHeight()/2 ;
         int toY = fromY - px;
         new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
+        Utils.sleep(2000);
+        refreshNodeinfo();
     }
 
     public void scrollUp() {
@@ -463,6 +470,8 @@ public abstract class BaseScript implements IScript {
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
         int toY = margin;
         new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
+        Utils.sleep(2000);
+        refreshNodeinfo();
     }
 
     public void scrollDown() {
@@ -472,6 +481,8 @@ public abstract class BaseScript implements IScript {
         int fromY = MyApplication.getAppInstance().getScreenHeight() - margin;
         int toY = margin;
         new SwipStepBuilder().setPoints(new Point(x, toY), new Point(x, fromY)).get().execute();
+        Utils.sleep(2000);
+        refreshNodeinfo();
     }
 
     public void scrollUpNormal() {
@@ -582,6 +593,11 @@ public abstract class BaseScript implements IScript {
     public boolean tryAutoLogin(String pnkName) {
         return true;
     }
+
+    public void refreshNodeinfo(){
+        MyApplication.getAppInstance().getAccessbilityService().setRoot();
+    }
+
 
 
 }

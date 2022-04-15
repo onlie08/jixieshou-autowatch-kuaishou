@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.GeolocationPermissions;
 import android.webkit.SslErrorHandler;
@@ -19,11 +20,13 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.ch.common.CommonDialogManage;
 import com.ch.common.PerMissionManage;
@@ -34,15 +37,28 @@ public class WebViewActivity extends AppCompatActivity {
     private String TAG = this.getClass().getSimpleName();
     private SafeWebView mWebView;
     boolean permission = false;
-    private String url = "http://dpurl.cn/AsqYbGSz";
-//    private String url = "https://v.kuaishouapp.com/s/kMLqIurI";
+    private String url = "";
+    private TextView tv_version;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
+        url = getIntent().getStringExtra("url");
+        if(TextUtils.isEmpty(url)){
+            finish();
+        }
         initView();
         initData();
         permission = PerMissionManage.getSingleton().requestLocationPermission(WebViewActivity.this);
+        tv_version = findViewById(R.id.tv_version);
+        tv_version.setText("捡豆子助手V" + AppUtils.getAppVersionName());
+        findViewById(R.id.img_share).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CommonDialogManage.getSingleton().showShareAppDilaog(WebViewActivity.this);
+            }
+        });
     }
 
     private void initView() {

@@ -6,6 +6,17 @@ import android.net.Uri;
 
 public class SchemeJumpUtil {
 
+//    weixin://    此代码可以从浏览器进入微信
+//    weixin://dl/scan    微信 扫一扫
+//    weixin://dl/feedback  微信 设置
+//    weixin://dl/notifications 微信 消息通知设置
+//    weixin://dl/general  微信 通用设置
+//    weixin://dl/officialaccounts 微信 公众号
+//    weixin://dl/games 微信 游戏
+//    weixin://dl/help 微信 反馈
+//    weixin://dl/profile 微信 个人信息
+//    weixin://dl/features 微信 功能
+
 //    小红书Scheme全网最全
 //    xhsdiscover://account/bind/’,//账号与安全
 //    xhsdiscover://choose_share_user’,//分享给用户
@@ -55,6 +66,13 @@ public class SchemeJumpUtil {
      */
     private void jumpXhsUser(Context context, String userId) {
         Uri uri = Uri.parse("xhsdiscover://user/"+userId);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(uri);
+        context.startActivity(intent);
+    }
+
+    public static void jumpWX(Context context) {
+        Uri uri = Uri.parse("weixin://");
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(uri);
         context.startActivity(intent);

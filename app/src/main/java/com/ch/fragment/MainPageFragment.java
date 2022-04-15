@@ -306,6 +306,8 @@ public class MainPageFragment extends Fragment {
             if (appInfoList.isEmpty()) {
                 newTaskCardView.setVisibility(View.VISIBLE);
                 listCardView.setVisibility(View.GONE);
+                taskListAdapter1 = new TaskListAdapter1(getActivity(), appInfos);
+                taskListView.setAdapter(taskListAdapter1);
                 return;
             }
             newTaskCardView.setVisibility(View.GONE);

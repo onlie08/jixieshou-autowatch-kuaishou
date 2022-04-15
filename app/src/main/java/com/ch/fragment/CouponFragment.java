@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ch.activity.WebViewActivity;
 import com.ch.common.CommonDialogManage;
 import com.ch.jixieshou.R;
 
@@ -45,13 +46,21 @@ public class CouponFragment extends Fragment {
         view.findViewById(R.id.f_view1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playInfo(6);
+                Intent intent = new Intent();
+                intent.setClass(getActivity(),WebViewActivity.class);
+                intent.putExtra("url","https://promotion-waimai.meituan.com/invite/r2x/coupon/?inviteCode=NnOIp-QOs8SiYF1dcSlL5r8phPrCf6qkH7evMyjIoureqol0OXXaopfjjblE0yPgVDQI9oO7zzULG0YhAlZWjSBHCU5Sg8wPJ54uw3IJOTKxyYNrSDuyNENpsOQvFoGQVLxrwXj_hojaGSHcn87IUTjane8UmtDBPyRXIs_GLNk&lq_source=2");
+                startActivity(intent);
+//                playInfo(6);
+
             }
         });
         view.findViewById(R.id.f_view2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playInfo(7);
+                Intent intent = new Intent();
+                intent.setClass(getActivity(),WebViewActivity.class);
+                intent.putExtra("url","https://h5.ele.me/ant/qrcode2?open_type=miniapp&url_id=35&inviterId=3b72f5fa&actId=1&_ltracker_f=hjb_app_jgwzfb&chInfo=ch_share__chsub_CopyLink&apshareid=7816ec01-60af-46db-8640-4f8ccf3b4b7d");
+                startActivity(intent);
             }
         });
         view.findViewById(R.id.f_view3).setOnClickListener(new View.OnClickListener() {

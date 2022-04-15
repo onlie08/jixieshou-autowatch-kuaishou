@@ -130,8 +130,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.img_share).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent().setClass(MainActivity.this,WebViewActivity.class));
-//                CommonDialogManage.getSingleton().showShareAppDilaog(MainActivity.this);
+//                startActivity(new Intent().setClass(MainActivity.this,WebViewActivity.class));
+                CommonDialogManage.getSingleton().showShareAppDilaog(MainActivity.this);
             }
         });
     }
