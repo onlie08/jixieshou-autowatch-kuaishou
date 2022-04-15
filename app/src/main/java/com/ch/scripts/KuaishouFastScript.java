@@ -102,8 +102,11 @@ public class KuaishouFastScript extends BaseScript {
 
             doPageId3Things();
 
+        }  else if (pageId == 4) {
+
+            doPageId4Things();
+
         } else {
-            Utils.sleep(1500);
             if(samePageCount > 2){
                 if(clickContent("去完成任务"))return;
             }
@@ -133,6 +136,7 @@ public class KuaishouFastScript extends BaseScript {
         if (clickTotalMatchContent("取消")) return true;
         if (clickTotalMatchContent("确认")) return true;
         if (clickContent("邀请好友赚更多")) return true;
+        if (clickTotalMatchContent("放弃奖励")) return true;
         return false;
     }
 
@@ -150,6 +154,13 @@ public class KuaishouFastScript extends BaseScript {
         return null;
     }
 
+    private void doPageId4Things() {
+        if(clickContent("+人关注")){
+            Utils.sleep(70000);
+        }
+        clickBack();
+    }
+
     private void doPageId3Things() {
 //        if(findContent("已成功填写好友")){
 //            SPUtils.getInstance().put("invite_kuaishou", true);
@@ -161,7 +172,6 @@ public class KuaishouFastScript extends BaseScript {
         NodeInfo nodeInfo = findByText("提交领现金");
         if(null != nodeInfo){
             clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()-SizeUtils.sp2px(80));
-            Utils.sleep(2000);
         }
 
         AccessibilityNodeInfo textInfo = findEditText();
@@ -171,11 +181,9 @@ public class KuaishouFastScript extends BaseScript {
             textInfo.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
             Utils.sleep(2000);
             if (clickContent("提交领现金")) {
-                Utils.sleep(2000);
                 SPUtils.getInstance().put("invite_kuaishou", true);
                 CrashReport.postCatchedException(new Exception("快手邀请码自动填写成功"));
                 clickBack();
-                Utils.sleep(2000);
                 clickBack();
                 return;
             }
@@ -195,33 +203,56 @@ public class KuaishouFastScript extends BaseScript {
     private void doPageId1Things() {
         if (samePageCount > 2) {
 //            if(clickContent(""))return;
-            if (clickContent("明天继续领现金")) return;
-            if (clickContent("立即领取今日现金")) return;
-            if (clickContent("都领完了，继续赚钱")) return;
-            if (clickContent("立即预约")) return;
-            if (clickContent("点击开启")) return;
-            if (clickTotalMatchContent("立即签到")) return;
+            if (clickContent("明天继续领现金")) ;
+            if (clickContent("立即领取今日现金")) ;
+            if (clickContent("都领完了，继续赚钱")) ;
+            if (clickContent("立即预约")) ;
+            if (clickContent("点击开启")) ;
+            if (clickTotalMatchContent("立即签到")) ;
         }
+
+        if (samePageCount > 4) {
+            skipTask();
+        }
+
+
+        clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(70),MyApplication.getScreenHeight()-SizeUtils.dp2px(50));
 
         if(findContent("限时福利14天领")){
             if(clickTotalMatchContent("立即领取")){
-                Utils.sleep(2000);
             }
         }
 
-        if (clickContent("开宝箱得金币")) return;
+        if (clickContent("开宝箱得金币")) ;
 
         if (clickContent("填邀请码必得1元")) {
             return;
         }
 
-        if (!findContent("看广告")) {
-            scrollUpSlow();
-            return;
+//        if (!findContent("看广告")) {
+//            scrollUpSlow();
+//            return;
+//        }
+
+
+        if (clickContent("点击翻倍")) ;
+        if (clickContent("观看广告单日最高")) ;
+        if (clickContent("看广告赚金币")) ;
+        if(!findContent("金币，10/10")){
+            if (clickContent("看直播赚")) ;
         }
+        if(!findContent("金币，10/10")){
+            if (clickContent("看直播赚")) ;
+        }
+        //收益太鸡儿低
+//        if(!findContent("浏览商品立得 完成10/10")){
+//            if (clickContent("浏览商品立得")) {
+//                doScan(55);
+//                clickBack();
+//            }
+//        }
 
-
-        if (clickContent("观看广告单日最高")) return;
+        if (clickContent("去签到")) ;
 
 //        if (clickTotalMatchContent("立即签到")) return;
         if (findContent("明天再来") && findContent("明日再来")) {
@@ -229,8 +260,21 @@ public class KuaishouFastScript extends BaseScript {
             CrashReport.postCatchedException(new Exception("快手极速版今日任务完成"));
             skipTask();
         }
-        clickBack();
 
+        if(checkPageId() == 1){
+            scrollUpPx(SizeUtils.dp2px(300));
+        }
+
+//        clickBack();
+
+    }
+
+    public void doScan(int second) {
+        for (int i = 0; i < second; i++) {
+            if (isCurrentScipte()) {
+                scrollUp();
+            }
+        }
     }
 
     private void doPageId2Things() {
@@ -290,12 +334,9 @@ public class KuaishouFastScript extends BaseScript {
                     Utils.sleep(2000);
                 }
                 clickBack();
-                Utils.sleep(2000);
                 clickBack();
-                Utils.sleep(2000);
                 LogUtils.d(TAG, "爱奇艺极速版是不是anr了?");
                 dealNoResponse();
-                Utils.sleep(2000);
                 resumeCount = 0;
                 CrashReport.postCatchedException(new Throwable("快手极速版无响应"));
 
@@ -310,9 +351,7 @@ public class KuaishouFastScript extends BaseScript {
     public void destory() {
         if (isTargetPkg()) {
             clickBack();
-            Utils.sleep(100);
             clickBack();
-            Utils.sleep(1000);
         }
         pressHome();
         stop = true;
@@ -358,6 +397,9 @@ public class KuaishouFastScript extends BaseScript {
         if (findContent("填写邀请码") && findContent("返回")) {
             return 3;
         }
+        if (findTotalMatchContent("看直播领金币")) {
+            return 4;
+        }
         return -1;
     }
 
@@ -372,12 +414,10 @@ public class KuaishouFastScript extends BaseScript {
             refreshNodeinfo();
         }
         if (samePageCount > 10 && samePageCount < 13) {
-            Utils.sleep(1500);
             dealNoResponse2();
         }
 
         if (samePageCount > 12) {
-            Utils.sleep(1000);
             clickBack();
         }
         if (samePageCount > 14) {
