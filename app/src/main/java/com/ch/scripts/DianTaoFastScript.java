@@ -262,7 +262,18 @@ public class DianTaoFastScript extends BaseScript {
                     clickBack();
                     return;
                 }
+                if (clickTotalMatchContent("看直播5分钟")){
+                    if(checkPageId() != 7) return;
+                };
+                if (clickTotalMatchContent("浏览好货卖场30秒")){
+                    if(checkPageId() != 7) {
+                        doScan(16);
+                        clickBack();
+                        return;
+                    }
+                };
                 changTask();
+
 
             }else {
                 ifClickNextTask = true;

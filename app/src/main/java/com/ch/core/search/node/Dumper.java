@@ -166,13 +166,13 @@ public class Dumper {
      * @throws IOException
      */
     private void dumpNodeRec(AccessibilityNodeInfo node, int index, String parentXpath) throws IOException {
-        if(node.getPackageName().toString().equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
-            Log.d(TAG,"dumpNodeRec() className:" + node.getClassName().toString() + " ChildCount:" +node.getChildCount());
-        }
-//        LogUtils.e(TAG,"dumpNodeRec1");
-        if(node.getText() != null && node.getText().toString().equals("示例图")){
-            Log.d(TAG,"测试节点");
-        }
+//        if(node.getPackageName().toString().equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
+//            Log.d(TAG,"dumpNodeRec() className:" + node.getClassName().toString() + " ChildCount:" +node.getChildCount());
+//        }
+////        LogUtils.e(TAG,"dumpNodeRec1");
+//        if(node.getText() != null && node.getText().toString().equals("示例图")){
+//            Log.d(TAG,"测试节点");
+//        }
         NodeInfo myrect = convertAccessbilityNode(node);
         int count = node.getChildCount();
 
@@ -195,9 +195,9 @@ public class Dumper {
             AccessibilityNodeInfo child = node.getChild(i);
             if (child != null) {
                 String className = child.getClassName().toString();
-                if(node.getPackageName().toString().equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
-                    Log.d(TAG,"dumpNodeRec()1 className:" + className + " ChildCount:" +child.getChildCount());
-                }
+//                if(node.getPackageName().toString().equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
+//                    Log.d(TAG,"dumpNodeRec()1 className:" + className + " ChildCount:" +child.getChildCount());
+//                }
                 if (Utils.isStandardWebView(className)) {
                     webviewNodes.add(child);
                     continue;
@@ -212,9 +212,9 @@ public class Dumper {
                 }
 //                Log.d(TAG,"isVisiable:"+isVisiable+" includeControlsOutsideScreen:"+includeControlsOutsideScreen+" child.getText():"+child.getText());
                 if (includeControlsOutsideScreen || isVisiable) {
-                    if(node.getPackageName().toString().equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
-                        Log.d(TAG,"dumpNodeRec()2 className:" + className + " ChildCount:" +child.getChildCount());
-                    }
+//                    if(node.getPackageName().toString().equals(Constant.PN_MEI_TIAN_ZHUAN_DIAN)){
+//                        Log.d(TAG,"dumpNodeRec()2 className:" + className + " ChildCount:" +child.getChildCount());
+//                    }
                     dumpNodeRec(child, i, myXpath);
                     child.recycle();
                 }
@@ -361,7 +361,6 @@ public class Dumper {
     private void addRect(NodeInfo rect) {
 //        LogUtils.d(TAG,"addRect()");
         if (treeInfo != null) {
-            Log.d(TAG,"addRect:"+rect.getText());
             treeInfo.addRect(rect);
         }
     }

@@ -132,6 +132,8 @@ public class TouTiaoAdvertScript extends BaseScript {
             }
             if (clickContent("看视频得金币")) ;
             if (clickContent("视频再领")) return;
+            if (clickEveryTotalMatchByText("好的")) ;
+
             clickBack();
         }
 
@@ -223,6 +225,8 @@ public class TouTiaoAdvertScript extends BaseScript {
         //看广告赚金币
         if (clickTotalMatchContent("看广告赚金币"));
         if (clickTotalMatchContent("逛商品赚金币"));
+        if (clickTotalMatchContent("好的")) ;
+
 
         if (clickContent("填写邀请码")) ;
 
@@ -241,6 +245,7 @@ public class TouTiaoAdvertScript extends BaseScript {
         if (clickEveryTotalMatchByText("领福利")) {
             clickAdvert();
         }
+
 
 //        clickXY(point_ShouYe.x, point_ShouYe.y);
         scrollUpSlow();

@@ -121,7 +121,6 @@ public class DouyinFastAdvertScript extends BaseScript {
         } else if (pageId == 4) {
             Utils.sleep(30000);
 
-
         } else {
             clickBack();
         }
@@ -165,14 +164,14 @@ public class DouyinFastAdvertScript extends BaseScript {
             clickXY(point_LaiZhuanQian.x, point_LaiZhuanQian.y);
 
             //没有去赚钱按钮而是去拍摄的情况
-            Utils.sleep(5000);
-            if(findTotalMatchContent("选择音乐")){
-                clickBack();
-                Utils.sleep(2000);
-                if(clickContent("/8")){
-                    return;
-                }
-            }
+//            Utils.sleep(5000);
+//            if(findTotalMatchContent("选择音乐")){
+//                clickBack();
+//                Utils.sleep(2000);
+//                if(clickContent("/8")){
+//                    return;
+//                }
+//            }
             return;
         }
 
@@ -182,8 +181,8 @@ public class DouyinFastAdvertScript extends BaseScript {
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
         if (samePageCount > 2) {
-            if(clickContent("邀请好友 立赚高额现金")) Utils.sleep(2000);
-            if(clickContent("立即签到 +")) Utils.sleep(2000);
+            if(clickContent("邀请好友 立赚高额现金")) ;
+            if(clickContent("立即签到 +")) ;
 //            if(clickContent("去赚钱")) Utils.sleep(2000);
 //            clickContent("去赚钱");
 //            tryClickDialog();
@@ -191,7 +190,6 @@ public class DouyinFastAdvertScript extends BaseScript {
 
         if (samePageCount > 4) {
             scrollDown();
-            Utils.sleep(2000);
             tryClickDialog();
         }
 //        if(clickContent("开宝箱得金币"))Utils.sleep(2000);
@@ -199,7 +197,6 @@ public class DouyinFastAdvertScript extends BaseScript {
         if(findContent("填写好友邀请码")){
             NodeInfo nodeInfo = findByText("填写好友邀请码");
             clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()+SizeUtils.dp2px(40));
-            Utils.sleep(2000);
             AccessibilityNodeInfo editText = findEditText();
             if(null != editText){
                 Bundle arguments = new Bundle();
@@ -235,7 +232,6 @@ public class DouyinFastAdvertScript extends BaseScript {
             return;
         }
         clickContent("看广告");
-        Utils.sleep(2000);
 
 
 
@@ -350,11 +346,8 @@ public class DouyinFastAdvertScript extends BaseScript {
                     Utils.sleep(2000);
                 }
                 clickBack();
-                Utils.sleep(2000);
                 clickBack();
-                Utils.sleep(2000);
                 dealNoResponse();
-                Utils.sleep(2000);
                 resumeCount = 0;
                 CrashReport.postCatchedException(new Throwable("抖音极速版无响应"));
             }
@@ -368,9 +361,7 @@ public class DouyinFastAdvertScript extends BaseScript {
     public void destory() {
         if (isTargetPkg()) {
             clickBack();
-            Utils.sleep(100);
             clickBack();
-            Utils.sleep(1000);
         }
         pressHome();
         stop = true;
@@ -433,7 +424,6 @@ public class DouyinFastAdvertScript extends BaseScript {
         }
 
         if (samePageCount > 12 && samePageCount < 16) {
-            Utils.sleep(1500);
             clickBack();
         }
 
