@@ -173,7 +173,7 @@ public class TaskExecutor {
                     LogUtils.d(TAG, "currentScript.destory()");
                     currentScript.destory();
                     currentScript = null;
-//                    Utils.sleep(1000);
+                    Utils.sleep(1000);
 
                     resetFlags();
                     scriptThread.interrupt();

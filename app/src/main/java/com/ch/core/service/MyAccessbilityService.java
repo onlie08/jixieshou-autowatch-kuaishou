@@ -36,6 +36,7 @@ public class MyAccessbilityService extends AccessibilityService {
     private TreeInfo curTreeInfo;
     private TreeInfo CurAllPageTreeInfo;
     private boolean isSettingRoot = false;
+    private boolean serviceing = false;
 //    public static AccessibilityEvent curPageEvent;
 
 
@@ -93,20 +94,22 @@ public class MyAccessbilityService extends AccessibilityService {
         }else if(eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED){
 //            Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
         }else if(eventType == AccessibilityEvent.TYPE_WINDOWS_CHANGED){
-            Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
-            Utils.sleep(1000);
-            setRoot();
+            Logger.d("DouyinFastAdvertScript event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
+//            Utils.sleep(1000);
+//            setRoot();
 //            Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
         }else if(eventType == AccessibilityEvent.TYPE_VIEW_CLICKED){
-            Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
-            Utils.sleep(1000);
-            setRoot();
+            Logger.d("DouyinFastAdvertScript event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
+//            Utils.sleep(1000);
+//            setRoot();
 //            Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
         }
 //        Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
     }
 
     public void setRoot(){
+        Log.d("DouyinFastAdvertScript","开始更新缓存root");
+//        if(!serviceing)return;
         if(isSettingRoot)return;
         isSettingRoot = true;
         AccessibilityNodeInfo activeRoot = getRootInActiveWindow();
@@ -159,7 +162,7 @@ public class MyAccessbilityService extends AccessibilityService {
         setCurRoots(map.values().toArray(new AccessibilityNodeInfo[0]));
 //        setCurAllPageTreeInfo(new Dumper(curRoots).withIncludeOutsideSceenControl(true).dump());
         setCurTreeInfo(new Dumper(curRoots).withIncludeOutsideSceenControl(false).dump());
-        Log.d("MyAccessbilityService","更新缓存root");
+        Log.d("DouyinFastAdvertScript","结束更新缓存root");
         isSettingRoot = false;
     }
 
@@ -250,6 +253,7 @@ public class MyAccessbilityService extends AccessibilityService {
     @Override
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
+        serviceing = true;
         Logger.d("MyAccessbilityService onstart");
     }
 
@@ -264,6 +268,7 @@ public class MyAccessbilityService extends AccessibilityService {
     public void onDestroy() {
         Logger.d("MyAccessbilityService onDestroy");
         super.onDestroy();
+        serviceing = false;
     }
 
     @Override
