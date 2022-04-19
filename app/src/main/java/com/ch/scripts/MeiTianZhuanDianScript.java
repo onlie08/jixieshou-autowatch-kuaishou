@@ -539,7 +539,11 @@ public class MeiTianZhuanDianScript extends BaseScript {
                 if (null != accessibilityNodeInfo) {
                     AccessibilityNodeInfo accessibilityNodeInfo3 = accessibilityNodeInfo.getChild(0);
                     if (null != accessibilityNodeInfo3) {
-                        accessibilityNodeInfo3.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                        Rect rect = new Rect();
+                        accessibilityNodeInfo3.getBoundsInScreen(rect);
+                        clickXY(rect.centerX(),rect.centerY());
+
+//                        accessibilityNodeInfo3.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                         Utils.sleep(2000);
                         if (clickTotalMatchContent("+ 关注")) {
                             Utils.sleep(2000);
@@ -577,7 +581,11 @@ public class MeiTianZhuanDianScript extends BaseScript {
             if (null != accessibilityNodeInfo) {
                 AccessibilityNodeInfo accessibilityNodeInfo3 = accessibilityNodeInfo.getChild(twoFirst ? 1 : 0);
                 if (null != accessibilityNodeInfo3) {
-                    accessibilityNodeInfo3.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                    Rect rect = new Rect();
+                    accessibilityNodeInfo3.getBoundsInScreen(rect);
+                    clickXY(rect.centerX(),rect.centerY());
+
+//                    accessibilityNodeInfo3.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                     Utils.sleep(1000);
                 }
             }
@@ -591,7 +599,11 @@ public class MeiTianZhuanDianScript extends BaseScript {
             if (null != accessibilityNodeInfo) {
                 AccessibilityNodeInfo accessibilityNodeInfo3 = accessibilityNodeInfo.getChild(twoFirst ? 0 : 1);
                 if (null != accessibilityNodeInfo3) {
-                    accessibilityNodeInfo3.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                    Rect rect = new Rect();
+                    accessibilityNodeInfo3.getBoundsInScreen(rect);
+                    clickXY(rect.centerX(),rect.centerY());
+
+//                    accessibilityNodeInfo3.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                     Utils.sleep(1000);
                 }
                 if (clickTotalMatchContent("+ 关注")) {
@@ -750,7 +762,11 @@ public class MeiTianZhuanDianScript extends BaseScript {
                 AccessibilityNodeInfo accessibilityNodeInfo3 = accessibilityNodeInfo2.getChild(2);
                 AccessibilityNodeInfo accessibilityNodeInfo4 = accessibilityNodeInfo3.getChild(0);
                 if (null != accessibilityNodeInfo4) {
-                    accessibilityNodeInfo4.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                    Rect rect = new Rect();
+                    accessibilityNodeInfo4.getBoundsInScreen(rect);
+                    clickXY(rect.centerX(),rect.centerY());
+
+//                    accessibilityNodeInfo4.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                     Utils.sleep(5000);
                 }
 
@@ -778,7 +794,12 @@ public class MeiTianZhuanDianScript extends BaseScript {
             AccessibilityNodeInfo accessibilityNodeInfo5 = findAccessibilityNodeById("com.taobao.litetao:id/gridview");
             if (null != accessibilityNodeInfo5) {
                 AccessibilityNodeInfo accessibilityNodeInfo6 = accessibilityNodeInfo5.getChild(0);
-                accessibilityNodeInfo6.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+
+                Rect rect = new Rect();
+                accessibilityNodeInfo6.getBoundsInScreen(rect);
+                clickXY(rect.centerX(),rect.centerY());
+
+//                accessibilityNodeInfo6.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                 Utils.sleep(2000);
 
                 if (clickContent("帮好友助力")) {

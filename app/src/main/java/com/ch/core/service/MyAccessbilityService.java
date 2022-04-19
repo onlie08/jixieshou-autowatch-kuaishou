@@ -94,12 +94,12 @@ public class MyAccessbilityService extends AccessibilityService {
         }else if(eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED){
 //            Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
         }else if(eventType == AccessibilityEvent.TYPE_WINDOWS_CHANGED){
-            Logger.d("DouyinFastAdvertScript event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
+            Logger.d("BaiDuAdvertScript event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
 //            Utils.sleep(1000);
 //            setRoot();
 //            Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
         }else if(eventType == AccessibilityEvent.TYPE_VIEW_CLICKED){
-            Logger.d("DouyinFastAdvertScript event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
+            Logger.d("BaiDuAdvertScript event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
 //            Utils.sleep(1000);
 //            setRoot();
 //            Logger.d("MyAccessbilityService event: " + event.getClassName() + " event.getEventType:"+event.getEventType());
@@ -108,7 +108,7 @@ public class MyAccessbilityService extends AccessibilityService {
     }
 
     public void setRoot(){
-        Log.d("DouyinFastAdvertScript","开始更新缓存root");
+        Log.d("BaiDuAdvertScript","开始更新缓存root");
 //        if(!serviceing)return;
         if(isSettingRoot)return;
         isSettingRoot = true;
@@ -162,7 +162,7 @@ public class MyAccessbilityService extends AccessibilityService {
         setCurRoots(map.values().toArray(new AccessibilityNodeInfo[0]));
 //        setCurAllPageTreeInfo(new Dumper(curRoots).withIncludeOutsideSceenControl(true).dump());
         setCurTreeInfo(new Dumper(curRoots).withIncludeOutsideSceenControl(false).dump());
-        Log.d("DouyinFastAdvertScript","结束更新缓存root");
+        Log.d("BaiDuAdvertScript","结束更新缓存root");
         isSettingRoot = false;
     }
 
