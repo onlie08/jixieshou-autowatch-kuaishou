@@ -10,6 +10,7 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.search.node.NodeInfo;
+import com.ch.core.utils.ActionUtils;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
 import com.ch.jixieshou.BuildConfig;
@@ -106,6 +107,14 @@ public class KuaishouFastScript extends BaseScript {
 
             doPageId4Things();
 
+        } else if (pageId == 5) {
+
+            doPageId5Things();
+
+        }else if (pageId == 6) {
+
+            doPageId6Things();
+
         } else {
             if(samePageCount > 2){
                 if(clickContent("去完成任务"))return;
@@ -159,6 +168,18 @@ public class KuaishouFastScript extends BaseScript {
             Utils.sleep(70000);
         }
         clickBack();
+    }
+
+    private void doPageId5Things() {
+        if(clickTotalMatchContent("一键领取"))return;
+        NodeInfo nodeInfo = findTotalMatchByText("最近阅读");
+        clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()+SizeUtils.dp2px(50));
+    }
+
+    private void doPageId6Things() {
+      if(clickContent("看广告免20分钟广告")) return;
+        ActionUtils.zuohua(); Utils.sleep(5000);
+
     }
 
     private void doPageId3Things() {
@@ -235,7 +256,7 @@ public class KuaishouFastScript extends BaseScript {
 //        }
 
 
-        if (clickContent("点击翻倍")) ;
+        if (clickTotalMatchContent("点击翻倍")) ;
         if (clickContent("观看广告单日最高")) ;
         if (clickContent("看广告赚金币")) ;
         if(!findContent("金币，10/10")){
@@ -261,10 +282,11 @@ public class KuaishouFastScript extends BaseScript {
             skipTask();
         }
 
+        if (clickTotalMatchContent("读爽文赚金币")) Utils.sleep(1000);
+
         if(checkPageId() == 1){
             scrollUpPx(SizeUtils.dp2px(300));
         }
-
 //        clickBack();
 
     }
@@ -399,6 +421,12 @@ public class KuaishouFastScript extends BaseScript {
         }
         if (findTotalMatchContent("看直播领金币")) {
             return 4;
+        }
+        if (findTotalMatchContent("今日阅读赚取金币")) {
+            return 5;
+        }
+        if (findContent("本书进度")) {
+            return 6;
         }
         return -1;
     }

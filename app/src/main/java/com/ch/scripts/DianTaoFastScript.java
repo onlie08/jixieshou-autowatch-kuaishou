@@ -197,8 +197,7 @@ public class DianTaoFastScript extends BaseScript {
             clickContent("继续下一个任务");
             return;
         }
-        if (clickContent("去签到")) {
-            return;
+        if (clickTotalMatchContent("去签到")) {
         }
 
         if (clickContent("去观看")) return;
@@ -327,8 +326,7 @@ public class DianTaoFastScript extends BaseScript {
             closeDialog();
         }
 
-        if (clickContent("去签到")) {
-            return;
+        if (clickTotalMatchContent("去签到")) {
         }
 
         if (!findContent("00:")) {

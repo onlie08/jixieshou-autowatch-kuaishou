@@ -230,6 +230,7 @@ public class TouTiaoAdvertScript extends BaseScript {
 
         if (clickContent("填写邀请码")) ;
 
+        if (clickEveryNodeInfosByText("额外再领")) ;
         if (clickEveryTotalMatchByText("直接领取")) ;
 
         if (clickEveryTotalMatchByText("开宝箱得金币")) {
@@ -242,6 +243,7 @@ public class TouTiaoAdvertScript extends BaseScript {
             clickAdvert();
         }
         if (clickEveryTotalMatchByText("立即领取"));
+        if (clickEveryTotalMatchByText("开心收下"));
         if (clickEveryTotalMatchByText("领福利")) {
             clickAdvert();
         }

@@ -81,8 +81,9 @@ public abstract class BaseScript implements IScript {
                 if (findContent("启动应用")) {
                     clickId("button1");
                 }
-                if(BuildConfig.DEBUG){
-                    if (findId("test")) ;
+                if(BuildConfig.DEBUG && isPause()){
+                    MyApplication.getAppInstance().getAccessbilityService().setRoot();
+//                    if (findId("test")) ;
 //                    logcatAccessibilityNode();
                 }
                 int t = getRandomSleepTime(getMinSleepTime(), getMaxSleepTime());
@@ -332,8 +333,8 @@ public abstract class BaseScript implements IScript {
      * @return
      */
     public boolean clickXY(int x, int y) {
-        ActionUtils.click(x, y);
         LogUtils.dTag(BASETAG, "click x: " + x + " y:" + y);
+        ActionUtils.click(x, y);
         return true;
     }
 

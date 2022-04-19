@@ -145,5 +145,7 @@ public class ActionUtils {
         int fromY = MyApplication.getAppInstance().getScreenHeight() / 2;
         int toX = 200;
         new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(toX, fromY)).get().execute();
+        Utils.sleep(2000);
+        MyApplication.getAppInstance().getAccessbilityService().setRoot();
     }
 }

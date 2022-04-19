@@ -86,7 +86,7 @@ public class DouyinFastAdvertScript extends BaseScript {
         doSamePageDeal();
         LogUtils.d(TAG, "pageId:" + pageId + " samePageCount:" + samePageCount);
 
-//        if (clickAdvert()) return;
+        if (clickAdvert()) return;
 
         if (pageId == 0) {
             if (point_ShouYe == null) {
@@ -111,7 +111,6 @@ public class DouyinFastAdvertScript extends BaseScript {
             doPageId1Things();
 
         } else if (pageId == 2) {
-            if (clickAdvert()) return;
             doPageId2Things();
 
         } else if (pageId == 3) {
@@ -120,6 +119,9 @@ public class DouyinFastAdvertScript extends BaseScript {
 
         } else if (pageId == 4) {
             Utils.sleep(30000);
+
+        }else if (pageId == 5) {
+            doPageId5Things();
 
         } else {
             clickBack();
@@ -133,6 +135,8 @@ public class DouyinFastAdvertScript extends BaseScript {
      * @return
      */
     private boolean dealNoResponse2() {
+        if (clickTotalMatchContent("坚持退出")) return true;
+        if (clickTotalMatchContent("残忍离开")) return true;
         if (clickContent("领取奖励")) return true;
         if (clickContent("仅在使用中允许")) return true;
         if (clickContent("重试")) return true;
@@ -162,7 +166,7 @@ public class DouyinFastAdvertScript extends BaseScript {
 
         if (samePageCount > 3) {
             clickXY(point_LaiZhuanQian.x, point_LaiZhuanQian.y);
-
+            Utils.sleep(3000);
             //没有去赚钱按钮而是去拍摄的情况
 //            Utils.sleep(5000);
 //            if(findTotalMatchContent("选择音乐")){
@@ -190,9 +194,11 @@ public class DouyinFastAdvertScript extends BaseScript {
 
         if (samePageCount > 4) {
             scrollDown();
-            tryClickDialog();
+            scrollDown();
+            scrollDown();
+            skipTask();
+//            tryClickDialog();
         }
-//        if(clickContent("开宝箱得金币"))Utils.sleep(2000);
 
         if(findContent("填写好友邀请码")){
             NodeInfo nodeInfo = findByText("填写好友邀请码");
@@ -222,37 +228,41 @@ public class DouyinFastAdvertScript extends BaseScript {
         if (null != nodeInfo) {
             Point point = new Point(nodeInfo.getRect().centerX() + SizeUtils.dp2px(50), nodeInfo.getRect().centerY());
             clickXY(point.x, point.y);
-            return;
         }
 
-        if (clickContent("开宝箱得金币")) return;
+        if (clickTotalMatchContent("开宝箱得金币")) return;
 
-        if (!findContent("看广告")) {
-            scrollUpSlow();
-            return;
+        if(clickTotalMatchContent("看广告赚金币")){
+            if(checkPageId() != 1)return;
         }
-        clickContent("看广告");
 
-
-
-        if (findContent("明日再来")) {
-            setTodayDone(true);
-            CrashReport.postCatchedException(new Exception("抖音极速版今日任务完成"));
-            skipTask();
-        }
-//        if (!findContent("去逛街")) {
-//            scrollUpSlow();
-//            Utils.sleep(2000);
-//        }
-        if (clickContent("逛街赚钱")) return;
-//        if(!findContent("后浏览还可得金币") && !findContent("明日浏览可得金币")){
-//            if(clickContent("逛街赚钱"))return;
+//        if (findContent("明日再来")) {
+//            setTodayDone(true);
+//            CrashReport.postCatchedException(new Exception("抖音极速版今日任务完成"));
+//            skipTask();
 //        }
 
-//        scrollDown();
-//        Utils.sleep(2000);
-//        scrollDown();
+        if(!findContent("后浏览还可得金币")){
+            if (clickContent("逛街赚钱")){
+                if(checkPageId() != 1) doScan(50);
+            }
+        }
+
+//        if(!findContent("后浏览还可得金币")){
+//            if (clickTotalMatchContent("浏览爆款赚金币")){
+//                if(checkPageId() != 1) return;
+//            }
+//        }
+        if(checkPageId() == 1) scrollUpPx(SizeUtils.dp2px(200));
         return;
+    }
+
+    private void doScan(int second) {
+        for (int i = 0; i < second; i++) {
+            if (isCurrentScipte()) {
+                scrollUp();
+            }
+        }
     }
 
     private void doPageId2Things() {
@@ -264,6 +274,12 @@ public class DouyinFastAdvertScript extends BaseScript {
         LogUtils.d(TAG, "doPageId2Things");
         if (clickContent("回到页面")) return;
         scrollUpSlow();
+    }
+    private void doPageId5Things() {
+        LogUtils.d(TAG, "doPageId5Things");
+        if (clickTotalMatchContent("点击领取")) return;
+        doScan(55);
+        clickBack();
     }
 
     private boolean isAdverting() {
@@ -284,6 +300,10 @@ public class DouyinFastAdvertScript extends BaseScript {
             return 1000;
         } else if (pageId == 0) {
             return 2000;
+        }else if (pageId == 1) {
+            return 200;
+        }else if (pageId == 5) {
+            return 200;
         }
         return 2000;
     }
@@ -296,6 +316,10 @@ public class DouyinFastAdvertScript extends BaseScript {
             return 1000;
         } else if (pageId == 0) {
             return 3000;
+        }else if (pageId == 1) {
+            return 200;
+        }else if (pageId == 5) {
+            return 200;
         }
         return 2000;
     }
@@ -372,8 +396,8 @@ public class DouyinFastAdvertScript extends BaseScript {
         LogUtils.d(TAG, "clickAdvert()");
 
         if (clickContent("看广告视频再赚")) return true;
-
         if (clickContent("再看一个获取")) return true;
+        if (clickTotalMatchContent("领取奖励")) return true;
 
         return false;
     }
@@ -389,7 +413,7 @@ public class DouyinFastAdvertScript extends BaseScript {
             return 4;
         }
 
-        if (findContent("赚钱任务") || findContent("开宝箱得金币") || findContent("现金收益") || findContent("看广告赚金币") || findContent("看视频，赚金币") || findContent("看小说赚金币")) {
+        if (findContent("金币收益I") || findContent("日常任务") || findContent("赚钱任务") || findContent("开宝箱得金币") || findContent("现金收益") || findContent("看广告赚金币") || findContent("看视频，赚金币") || findContent("看小说赚金币")) {
             return 1;
         }
 
@@ -400,6 +424,10 @@ public class DouyinFastAdvertScript extends BaseScript {
 
         if (findContent("后可领取")) {
             return 2;
+        }
+
+        if (findContent("浏览爆款赚金币")) {
+            return 5;
         }
 
         if (findContent("逛街赚钱")) {
