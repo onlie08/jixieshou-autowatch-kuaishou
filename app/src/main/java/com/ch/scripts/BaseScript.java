@@ -81,7 +81,7 @@ public abstract class BaseScript implements IScript {
                 if (findContent("启动应用")) {
                     clickId("button1");
                 }
-                if(BuildConfig.DEBUG && isPause()){
+                if(isPause()){
                     MyApplication.getAppInstance().getAccessbilityService().setRoot();
 //                    if (findId("test")) ;
 //                    logcatAccessibilityNode();

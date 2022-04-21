@@ -9,20 +9,27 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.util.Log;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.ch.application.MyApplication;
+import com.ch.core.utils.Utils;
 
 public class PackageUtils {
+    private static String TAG = "PackageUtils";
+
     /**
      * 启动某应用
      *
      * @param pkg
      */
     public static void startApp(String pkg) {
+        LogUtils.d(TAG,"startApp()"+ pkg);
         Context context = MyApplication.getAppInstance().getApplicationContext();
         PackageManager manager = context.getPackageManager();
         Intent LaunchIntent = manager.getLaunchIntentForPackage(pkg);
         context.startActivity(LaunchIntent);
+        Utils.sleep(2000);
+        MyApplication.getAppInstance().getAccessbilityService().setRoot();
     }
 
     public static void restartApp(String pkg) {
