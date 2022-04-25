@@ -37,7 +37,7 @@ public class ActionUtils {
                             super.onCompleted(gestureDescription);
                         }
                     }, null);
-            Utils.sleep(1500);
+            Utils.sleep(2000);
             MyApplication.getAppInstance().getAccessbilityService().setRoot();
 
             return result;

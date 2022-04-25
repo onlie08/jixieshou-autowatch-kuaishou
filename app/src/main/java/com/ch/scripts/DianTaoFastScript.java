@@ -657,7 +657,6 @@ public class DianTaoFastScript extends BaseScript {
             if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到点淘");
                 startApp();
-                Utils.sleep(2000);
             }
             if (resumeCount > 10) {
                 if (BuildConfig.DEBUG) {
@@ -680,8 +679,7 @@ public class DianTaoFastScript extends BaseScript {
     @Override
     public void destory() {
         if (isTargetPkg()) {
-            clickBack();
-            clickBack();
+            doubleClickBack();
         }
         pressHome();
 

@@ -237,10 +237,7 @@ public class YingKeFastScript extends BaseScript {
 
     @Override
     public void destory() {
-        clickBack();
-        Utils.sleep(100);
-        clickBack();
-        Utils.sleep(1000);
+        doubleClickBack();
         pressHome();
     }
 

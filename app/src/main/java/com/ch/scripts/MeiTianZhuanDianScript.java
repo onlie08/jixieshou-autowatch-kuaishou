@@ -143,15 +143,12 @@ public class MeiTianZhuanDianScript extends BaseScript {
         boolean invite = SPUtils.getInstance().getBoolean("invite_success");
         if (!invite) {
             clickXY(point_WoDe.x, point_WoDe.y);
-            Utils.sleep(1000);
             scrollUp();
             if (clickContent("填写邀请码")) {
-                Utils.sleep(2000);
                 if (findContent("我的师傅")) {
                     SPUtils.getInstance().put("invite_success", true);
                     Utils.sleep(2000);
                     clickBack();
-                    Utils.sleep(2000);
                     clickXY(point_ShouYe.x, point_ShouYe.y);
                     return;
                 }
@@ -160,16 +157,6 @@ public class MeiTianZhuanDianScript extends BaseScript {
         }
 
         if (clickContent("截图任务")) {
-//            Utils.sleep(2000);
-//            if(errCount> 2){
-//                reInstallApp();
-//                return;
-//            }
-//            if(checkPageId() == -1){
-//                errCount++;
-//            }else {
-//                errCount = 0;
-//            }
             return;
         }
 
@@ -228,7 +215,6 @@ public class MeiTianZhuanDianScript extends BaseScript {
      */
     private void doPageId4Things() {
         if (clickContent("输入好友邀请码即可成为Ta的好友")) {
-            Utils.sleep(2000);
             AccessibilityNodeInfo accessibilityNodeInfo = findAccessibilityNodeById("com.yongloveru.hjw:id/findt_edit");
             if (null != accessibilityNodeInfo) {
                 Bundle arguments = new Bundle();
@@ -433,10 +419,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
     @Override
     public void destory() {
         if (isTargetPkg()) {
-            clickBack();
-            Utils.sleep(100);
-            clickBack();
-            Utils.sleep(1000);
+            doubleClickBack();
         }
         pressHome();
         stop = true;
@@ -497,7 +480,6 @@ public class MeiTianZhuanDianScript extends BaseScript {
             return true;
         }
         if (clickContent("立即赚钱")) {
-            Utils.sleep(1000);
             if (clickTotalMatchContent("确认领取")) {
                 return true;
             }
@@ -668,10 +650,8 @@ public class MeiTianZhuanDianScript extends BaseScript {
         if(!isTargetPkg()){
             startApp();
         }
-        Utils.sleep(2000);
         wrongTaskList.add(taskName);
         clickBack();
-        Utils.sleep(1000);
     }
 
     /**
@@ -936,14 +916,11 @@ public class MeiTianZhuanDianScript extends BaseScript {
             if(clickTotalMatchContent("复制口令")){
                 Utils.sleep(1000);
                 openTaoTe();
-                Utils.sleep(5000);
                 refreshNodeinfo();
                 if(clickTotalMatchContent("帮好友助力")){
-                    Utils.sleep(3000);
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                     Utils.sleep(4000);
                     startApp();
-                    Utils.sleep(2000);
                     if(uploadOnePicTask()){
                         wrongTaskList.add(taskName);
                     }else {

@@ -135,10 +135,7 @@ public class DouyinFastShopingScript extends BaseScript {
     @Override
     public void destory() {
         if (isTargetPkg()) {
-            clickBack();
-            Utils.sleep(100);
-            clickBack();
-            Utils.sleep(1000);
+            doubleClickBack();
         }
         pressHome();
 

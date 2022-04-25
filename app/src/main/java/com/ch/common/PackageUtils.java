@@ -28,7 +28,7 @@ public class PackageUtils {
         PackageManager manager = context.getPackageManager();
         Intent LaunchIntent = manager.getLaunchIntentForPackage(pkg);
         context.startActivity(LaunchIntent);
-        Utils.sleep(2000);
+        Utils.sleep(5000);
         MyApplication.getAppInstance().getAccessbilityService().setRoot();
     }
 

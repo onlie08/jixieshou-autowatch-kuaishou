@@ -362,7 +362,6 @@ public class DouyinFastAdvertScript extends BaseScript {
             if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到抖音极速版");
                 startApp();
-                Utils.sleep(2000);
             }
             if (resumeCount > 10) {
                 if (com.ch.jixieshou.BuildConfig.DEBUG) {
@@ -384,8 +383,7 @@ public class DouyinFastAdvertScript extends BaseScript {
     @Override
     public void destory() {
         if (isTargetPkg()) {
-            clickBack();
-            clickBack();
+            doubleClickBack();
         }
         pressHome();
         stop = true;

@@ -344,7 +344,6 @@ public class FanQieScript extends BaseScript {
             resumeCount++;
             if (resumeCount > 5) {
                 startApp();
-                Utils.sleep(2000);
                 samePageCount = 0;
             }
             if (resumeCount > 10) {
@@ -371,10 +370,7 @@ public class FanQieScript extends BaseScript {
     @Override
     public void destory() {
         if (isTargetPkg()) {
-            clickBack();
-            Utils.sleep(100);
-            clickBack();
-            Utils.sleep(1000);
+            doubleClickBack();
         }
         pressHome();
         stop = true;

@@ -459,7 +459,6 @@ public class AiQiYiAdvertScript extends BaseScript {
             if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到爱奇艺极速版");
                 startApp();
-                Utils.sleep(2000);
             }
             if (resumeCount > 10) {
                 if (BuildConfig.DEBUG) {
@@ -486,10 +485,7 @@ public class AiQiYiAdvertScript extends BaseScript {
     @Override
     public void destory() {
         if (isTargetPkg()) {
-            clickBack();
-            Utils.sleep(100);
-            clickBack();
-            Utils.sleep(1000);
+            doubleClickBack();
         }
         pressHome();
         stop = true;

@@ -446,8 +446,7 @@ public class TouTiaoAdvertScript extends BaseScript {
     @Override
     public void destory() {
         if (isTargetPkg()) {
-            clickBack();
-            clickBack();
+            doubleClickBack();
         }
         pressHome();
         stop = true;
