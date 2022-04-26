@@ -169,6 +169,7 @@ public abstract class BaseScript implements IScript {
 
     @Override
     public void startApp() {
+        LogUtils.d(BASETAG,"startApp()");
         PackageUtils.startApp(getAppInfo().getPkgName());
     }
 
@@ -346,6 +347,8 @@ public abstract class BaseScript implements IScript {
     public boolean longPressXY(int x, int y) {
         ActionUtils.longPress(x, y);
         LogUtils.dTag(BASETAG, "click x: " + x + " y:" + y);
+        Utils.sleep(2000);
+        refreshNodeinfo();
         return false;
     }
 
