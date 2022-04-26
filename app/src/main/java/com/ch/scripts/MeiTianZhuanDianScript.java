@@ -190,7 +190,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
      */
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
-        if (samePageCount > 8) {
+        if (samePageCount > 5) {
             clickBack();
 //            skipTask();
             clickXY(point_WoDe.x,point_WoDe.y);
@@ -235,6 +235,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
         if(findTotalMatchContent("还未到金币领取时间,请继续走路哦~")){
             clickBack();
             clickXY(point_ShouYe.x,point_ShouYe.y);
+            skipTask();
             return;
         }
         clickTotalMatchContent("好的");
@@ -257,7 +258,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
         if (clickContent("继续观看"));
         if(clickContent("跳过"));
 
-        if (samePageCount >= 10) {
+        if (samePageCount >= 7) {
             NodeInfo nodeInfo = findByText("反馈");
             if (null != nodeInfo) {
                 clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(40), nodeInfo.getRect().centerY());
@@ -417,7 +418,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
         if (findTotalMatchContent("走路赚金币")) {
             return 6;
         }
-        if (findTotalMatchContent("反馈") && findContent("s")) {
+        if (findTotalMatchContent("| 跳过") || (findTotalMatchContent("反馈") && findContent("s"))) {
             return 7;
         }
         if (findTotalMatchContent("商务合作") && findContent("反馈与帮助")) {

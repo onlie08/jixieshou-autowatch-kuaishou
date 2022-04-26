@@ -68,9 +68,9 @@ public abstract class BaseScript implements IScript {
                 if (!isTargetPkg()) {
                     continue;
                 }
-//                if (!NetworkUtils.isAvailable()) {
-//                    continue;
-//                }
+                if (!NetworkUtils.isAvailable()) {
+                    continue;
+                }
                 if (ScreenUtils.isScreenLock()) {
                     continue;
                 }
