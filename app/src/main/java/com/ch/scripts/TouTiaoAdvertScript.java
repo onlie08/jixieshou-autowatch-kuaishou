@@ -395,7 +395,7 @@ public class TouTiaoAdvertScript extends BaseScript {
             return;
         }
 
-        point_ShouYe = new Point(MyApplication.getScreenWidth() / 5 - SizeUtils.dp2px(20), MyApplication.getScreenHeight() - SizeUtils.dp2px(15));
+        point_ShouYe = new Point(MyApplication.getScreenWidth() / 5 - SizeUtils.dp2px(30), MyApplication.getScreenHeight() - SizeUtils.dp2px(15));
         point_RenWu = new Point(MyApplication.getScreenWidth() / 2, MyApplication.getScreenHeight() - SizeUtils.dp2px(15));
         LogUtils.d(TAG, "point_ShouYe:" + point_ShouYe.toString() + " point_RenWu:" + point_RenWu.toString() + " Height:" + MyApplication.getScreenHeight());
 
