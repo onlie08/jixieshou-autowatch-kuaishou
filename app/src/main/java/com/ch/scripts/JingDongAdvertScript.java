@@ -316,7 +316,6 @@ public class JingDongAdvertScript extends BaseScript {
             if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到京东极速版");
                 startApp();
-                Utils.sleep(2000);
             }
             if (resumeCount > 10) {
                 if (BuildConfig.DEBUG) {
@@ -339,8 +338,7 @@ public class JingDongAdvertScript extends BaseScript {
     @Override
     public void destory() {
         if (isTargetPkg()) {
-            clickBack();
-            clickBack();
+            doubleClickBack();
         }
         pressHome();
         stop = true;
@@ -384,8 +382,7 @@ public class JingDongAdvertScript extends BaseScript {
             tryClickDialog();
         }
         if (samePageCount > 30) {
-            clickBack();
-            clickBack();
+            doubleClickBack();
             samePageCount = 0;
         }
 

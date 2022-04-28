@@ -59,8 +59,9 @@ public class MyAccessbilityService extends AccessibilityService {
 
     public TreeInfo getCurAllPageTreeInfo() {
 //        Log.d("MyAccessbilityService","获取缓存的CurAllPageTreeInfo");
-        return curTreeInfo;
-//        return CurAllPageTreeInfo;
+//        return curTreeInfo;
+        setAllPageRoot();
+        return CurAllPageTreeInfo;
     }
 
     public void setCurAllPageTreeInfo(TreeInfo curAllPageTreeInfo) {
@@ -164,6 +165,57 @@ public class MyAccessbilityService extends AccessibilityService {
         setCurTreeInfo(new Dumper(curRoots).withIncludeOutsideSceenControl(false).dump());
         Log.d("BaiDuAdvertScript","结束更新缓存root");
         isSettingRoot = false;
+    }
+
+    public void setAllPageRoot(){
+        AccessibilityNodeInfo activeRoot = getRootInActiveWindow();
+        String activeRootPkg = Utils.getRootPackageName(activeRoot);
+
+        Map<String, AccessibilityNodeInfo> map = new HashMap<>();
+        if (activeRoot != null) {
+            map.put(activeRootPkg, activeRoot);
+        }
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            List<AccessibilityWindowInfo> windows = getWindows();
+            for (AccessibilityWindowInfo w : windows) {
+                if (w.getRoot() == null || getPackageName().equals(Utils.getRootPackageName(w.getRoot()))) {
+                    continue;
+                }
+                String rootPkg = Utils.getRootPackageName(w.getRoot());
+                if (getPackageName().equals(rootPkg)) {
+                    continue;
+                }
+                if (rootPkg.equals(activeRootPkg)) {
+                    continue;
+                }
+                map.put(rootPkg, w.getRoot());
+            }
+        }
+        if (map.isEmpty()) {
+            noRootCount++;
+        } else {
+            if (!isWork) {
+                MyApplication.getAppInstance().getMainActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        BusManager.getBus().post(new BusEvent<>(EventType.roots_ready));
+                    }
+                });
+            }
+            isWork = true;
+            noRootCount = 0;
+        }
+        if (noRootCount >= maxNoRootCount) {
+            isWork = false;
+            MyApplication.getAppInstance().getMainActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    BusManager.getBus().post(new BusEvent<>(EventType.no_roots_alert));
+                }
+            });
+        }
+        setCurAllPageTreeInfo(new Dumper(curRoots).withIncludeOutsideSceenControl(true).dump());
     }
 
     @Override

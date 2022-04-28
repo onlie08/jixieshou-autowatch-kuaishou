@@ -72,6 +72,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
 
     public MeiTianZhuanDianScript(AppInfo appInfo) {
         super(appInfo);
+        getRecognitionResult();
     }
 
     @Override
@@ -117,11 +118,26 @@ public class MeiTianZhuanDianScript extends BaseScript {
             case 4:
                 doPageId4Things();
                 break;
+            case 5:
+                doPageId5Things();
+                break;
+            case 6:
+                doPageId6Things();
+                break;
+            case 7:
+                doPageId7Things();
+                break;
+            case 8:
+                doPageId8Things();
+                break;
             case -1:
+                clickTotalMatchContent("收下金币");
+                clickContent("奖励翻倍");
+                clickTotalMatchContent("看视频领取");
+
                 if (samePageCount > 8) {
                     scrollDown();
                 }
-                Utils.sleep(1500);
                 clickBack();
                 break;
         }
@@ -143,15 +159,12 @@ public class MeiTianZhuanDianScript extends BaseScript {
         boolean invite = SPUtils.getInstance().getBoolean("invite_success");
         if (!invite) {
             clickXY(point_WoDe.x, point_WoDe.y);
-            Utils.sleep(1000);
             scrollUp();
             if (clickContent("填写邀请码")) {
-                Utils.sleep(2000);
                 if (findContent("我的师傅")) {
                     SPUtils.getInstance().put("invite_success", true);
                     Utils.sleep(2000);
                     clickBack();
-                    Utils.sleep(2000);
                     clickXY(point_ShouYe.x, point_ShouYe.y);
                     return;
                 }
@@ -159,19 +172,8 @@ public class MeiTianZhuanDianScript extends BaseScript {
             }
         }
 
-        if (clickContent("截图任务")) {
-//            Utils.sleep(2000);
-//            if(errCount> 2){
-//                reInstallApp();
-//                return;
-//            }
-//            if(checkPageId() == -1){
-//                errCount++;
-//            }else {
-//                errCount = 0;
-//            }
-            return;
-        }
+        if (clickTotalMatchContent("截图任务"));
+        if (clickTotalMatchContent("继续赚"));
 
     }
 
@@ -188,11 +190,14 @@ public class MeiTianZhuanDianScript extends BaseScript {
      */
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
-        if (samePageCount > 8) {
+        if (samePageCount > 5) {
             clickBack();
-            skipTask();
+//            skipTask();
+            clickXY(point_WoDe.x,point_WoDe.y);
+            clickTotalMatchContent("看新闻赚钱");
             return;
         }
+        if (clickTotalMatchContent("继续赚"));
         if (PackageUtils.checkApkExist(MyApplication.getAppInstance(), Constant.PN_HUO_SHAN)) {
             if(!wrongTaskList.contains("抖音火山版领火苗")){
                 if(clickTotalMatchContent("抖音火山版领火苗")){
@@ -224,11 +229,62 @@ public class MeiTianZhuanDianScript extends BaseScript {
     }
 
     /**
+     * 步数换钱
+     */
+    private void doPageId6Things() {
+        if(findTotalMatchContent("还未到金币领取时间,请继续走路哦~")){
+            clickBack();
+            clickXY(point_ShouYe.x,point_ShouYe.y);
+            skipTask();
+            return;
+        }
+        clickTotalMatchContent("好的");
+        clickTotalMatchContent("领取金币");
+    }
+
+    private void doPageId8Things() {
+        if(samePageCount >2){
+            clickXY(point_ShouYe.x,point_ShouYe.y);
+        }
+        clickTotalMatchContent("看新闻赚钱");
+    }
+
+    /**
+     * 步数换钱
+     */
+    private void doPageId7Things() {
+        LogUtils.d(TAG, "doPageId7Things");
+
+        if (clickContent("继续观看"));
+        if(clickContent("跳过"));
+
+        if (samePageCount >= 7) {
+            NodeInfo nodeInfo = findByText("反馈");
+            if (null != nodeInfo) {
+                clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(40), nodeInfo.getRect().centerY());
+            }
+        }
+        Utils.sleep(5000);
+        refreshNodeinfo();
+    }
+
+    /**
+     * 看新闻赚钱
+     */
+    private void doPageId5Things() {
+        if(clickTotalMatchContent("1000金币")){
+            clickTotalMatchContent("点击观看视频");
+            return;
+        }
+        clickBack();
+        clickTotalMatchContent("步数换钱");
+    }
+
+    /**
      * 邀请码填写页
      */
     private void doPageId4Things() {
         if (clickContent("输入好友邀请码即可成为Ta的好友")) {
-            Utils.sleep(2000);
             AccessibilityNodeInfo accessibilityNodeInfo = findAccessibilityNodeById("com.yongloveru.hjw:id/findt_edit");
             if (null != accessibilityNodeInfo) {
                 Bundle arguments = new Bundle();
@@ -278,16 +334,12 @@ public class MeiTianZhuanDianScript extends BaseScript {
                 return;
             }
             if (recieveTask()) {
-                Utils.sleep(2000);
                 if(findTotalMatchContent("简单关注")){
                     if(clickTotalMatchContent("打开链接")){
-                        Utils.sleep(2000);
                         doXHStype1(picCount);
                     }else if(clickTotalMatchContent("复制口令")){
-                        Utils.sleep(2000);
                         doXHStype2(picCount);
                     }else if(clickTotalMatchContent("点击保存二维码")){
-                        Utils.sleep(2000);
                         doXHStype3(picCount);
                     }
                     return;
@@ -359,6 +411,18 @@ public class MeiTianZhuanDianScript extends BaseScript {
         }
         if (findContent("商户详情") || findContent("剩余数量：")) {
             return 3;
+        }
+        if (findTotalMatchContent("简单赚钱") && findTotalMatchContent("奖励规则")) {
+            return 5;
+        }
+        if (findTotalMatchContent("走路赚金币")) {
+            return 6;
+        }
+        if (findTotalMatchContent("| 跳过") || (findTotalMatchContent("反馈") && findContent("s"))) {
+            return 7;
+        }
+        if (findTotalMatchContent("商务合作") && findContent("反馈与帮助")) {
+            return 8;
         }
         return -1;
     }
@@ -433,10 +497,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
     @Override
     public void destory() {
         if (isTargetPkg()) {
-            clickBack();
-            Utils.sleep(100);
-            clickBack();
-            Utils.sleep(1000);
+            doubleClickBack();
         }
         pressHome();
         stop = true;
@@ -497,7 +558,6 @@ public class MeiTianZhuanDianScript extends BaseScript {
             return true;
         }
         if (clickContent("立即赚钱")) {
-            Utils.sleep(1000);
             if (clickTotalMatchContent("确认领取")) {
                 return true;
             }
@@ -567,9 +627,8 @@ public class MeiTianZhuanDianScript extends BaseScript {
     private boolean uploadTwoPicTask(boolean twoFirst){
         Utils.sleep(1000);
         scrollUp();
-        Utils.sleep(1000);
         scrollUp();
-        Utils.sleep(1000);
+        scrollUp();
         List<NodeInfo> nodeInfoList = findNodeInfosByText("选择文件");
         if(nodeInfoList.size() == 2){
             clickXY(nodeInfoList.get(0).getRect().centerX(),nodeInfoList.get(0).getRect().centerY());
@@ -586,12 +645,10 @@ public class MeiTianZhuanDianScript extends BaseScript {
                     clickXY(rect.centerX(),rect.centerY());
 
 //                    accessibilityNodeInfo3.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                    Utils.sleep(1000);
                 }
             }
 
             clickXY(nodeInfoList.get(1).getRect().centerX(),nodeInfoList.get(1).getRect().centerY());
-            Utils.sleep(1500);
             accessibilityNodeInfo = findAccessibilityNodeById("com.android.documentsui:id/dir_list");
             if (null == accessibilityNodeInfo) {
                 accessibilityNodeInfo = findAccessibilityNodeById("com.google.android.documentsui:id/dir_list");
@@ -604,7 +661,6 @@ public class MeiTianZhuanDianScript extends BaseScript {
                     clickXY(rect.centerX(),rect.centerY());
 
 //                    accessibilityNodeInfo3.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                    Utils.sleep(1000);
                 }
                 if (clickTotalMatchContent("+ 关注")) {
                     Utils.sleep(2000);
@@ -641,23 +697,19 @@ public class MeiTianZhuanDianScript extends BaseScript {
      */
     private void requestOpenApp() {
         if (clickTotalMatchContent("打开App") || clickTotalMatchContent("APP内打开")) {
-            Utils.sleep(2000);
             clickTotalMatchContent("打开");
-            Utils.sleep(2000);
             clickTotalMatchContent("确定");
-            Utils.sleep(2000);
             return;
         }
         if (clickTotalMatchContent("打开")) {
-            Utils.sleep(2000);
         }
         if (findContent("打开方式") || findContent("方式打开")) {
-            if (clickTotalMatchContent("小红书")) Utils.sleep(2000);
-            if (clickTotalMatchContent("抖音极速版")) Utils.sleep(2000);
-            if (clickTotalMatchContent("哔哩哔哩")) Utils.sleep(2000);
-            if (clickTotalMatchContent("总是")) Utils.sleep(2000);
-            if (clickTotalMatchContent("确定")) Utils.sleep(2000);
-            if (clickTotalMatchContent("始终")) Utils.sleep(2000);
+            if (clickTotalMatchContent("小红书")) ;
+            if (clickTotalMatchContent("抖音极速版")) ;
+            if (clickTotalMatchContent("哔哩哔哩")) ;
+            if (clickTotalMatchContent("总是")) ;
+            if (clickTotalMatchContent("确定")) ;
+            if (clickTotalMatchContent("始终")) ;
         }
     }
 
@@ -669,83 +721,80 @@ public class MeiTianZhuanDianScript extends BaseScript {
         if(!isTargetPkg()){
             startApp();
         }
-        Utils.sleep(2000);
         wrongTaskList.add(taskName);
         clickBack();
-        Utils.sleep(1000);
-//        scrollUpPx(SizeUtils.dp2px(240));
     }
 
     /**
      * 淘宝浏览产品任务
      */
-    private void doTask2() {
-
-        if (clickTotalMatchContent("复制口令")) {
-            Utils.sleep(2000);
-            openTaoBao();
-            Utils.sleep(5000);
-            if (clickContent("查看详情")) {
-                Utils.sleep(3000);
-                shootAndBack();
-                return;
-            }
-
-        }
-    }
+//    private void doTask2() {
+//
+//        if (clickTotalMatchContent("复制口令")) {
+//            Utils.sleep(2000);
+//            openTaoBao();
+//            Utils.sleep(5000);
+//            if (clickContent("查看详情")) {
+//                Utils.sleep(3000);
+//                shootAndBack();
+//                return;
+//            }
+//
+//        }
+//    }
 
     /**
      * 淘宝农场助力
      */
-    private void doTask4() {
-        if (clickTotalMatchContent("复制口令")) {
-            Utils.sleep(1000);
-            openTaoBao();
-            Utils.sleep(5000);
-            if (clickContent("查看详情")) {
-                Utils.sleep(2000);
-                if (clickContent("为他助力")) {
-                    shootAndBack();
-                    return;
-                }
-            }
-        }
-    }
+//    private void doTask4() {
+//        if (clickTotalMatchContent("复制口令")) {
+//            Utils.sleep(1000);
+//            openTaoBao();
+//            Utils.sleep(5000);
+//            if (clickContent("查看详情")) {
+//                Utils.sleep(2000);
+//                if (clickContent("为他助力")) {
+//                    shootAndBack();
+//                    return;
+//                }
+//            }
+//        }
+//    }
 
     /**
      * 小红书点赞
      */
-    private void doTask5() {
-        if (clickTotalMatchContent("打开链接")) {
-            Utils.sleep(2000);
-            requestOpenApp();
-            xiaoHongShuLike();
-            return;
-        }
-
-    }
+//    private void doTask5() {
+//        if (clickTotalMatchContent("打开链接")) {
+//            Utils.sleep(2000);
+//            requestOpenApp();
+//            xiaoHongShuLike();
+//            return;
+//        }
+//
+//    }
 
     /**
      * 抖音点赞
      */
-    private void doTask6() {
-        if (clickTotalMatchContent("打开链接")) {
-            Utils.sleep(5000);
-            requestOpenApp();
-            if (clickContent("未选中，")) {
-                shootAndBack();
-                return;
-            }
-
-            if (findContent("已选中，")) {
-                shootAndBack();
-                return;
-            }
-            return;
-        } else {
-            wrongRunDeal();
-        }
-    }
+//    private void doTask6() {
+//        if (clickTotalMatchContent("打开链接")) {
+//            Utils.sleep(5000);
+//            requestOpenApp();
+//            if (clickContent("未选中，")) {
+//                shootAndBack();
+//                return;
+//            }
+//
+//            if (findContent("已选中，")) {
+//                shootAndBack();
+//                return;
+//            }
+//            return;
+//        } else {
+//            wrongRunDeal();
+//        }
+//    }
 
     /**
      * 淘特每日拆红包
@@ -821,23 +870,23 @@ public class MeiTianZhuanDianScript extends BaseScript {
     /**
      * 哔哩哔哩关注
      */
-    private void doTask8() {
-        if (clickTotalMatchContent("打开链接")) {
-            Utils.sleep(5000);
-            requestOpenApp();
-
-            if (!findTotalMatchContent("已关注")) {
-                if (clickId("follow")) {
-                    shootAndBack();
-                    return;
-                }
-            } else {
-                shootAndBack();
-                return;
-            }
-            return;
-        }
-    }
+//    private void doTask8() {
+//        if (clickTotalMatchContent("打开链接")) {
+//            Utils.sleep(5000);
+//            requestOpenApp();
+//
+//            if (!findTotalMatchContent("已关注")) {
+//                if (clickId("follow")) {
+//                    shootAndBack();
+//                    return;
+//                }
+//            } else {
+//                shootAndBack();
+//                return;
+//            }
+//            return;
+//        }
+//    }
 
     /**
      * 打开淘宝
@@ -850,27 +899,28 @@ public class MeiTianZhuanDianScript extends BaseScript {
      */
     private void openTaoTe() {
         PackageUtils.startApp(Constant.PN_TAO_TE);
+        if(clickContent("跳过"));
     }
 
     /**
      * 小红书点赞
      */
-    private void xiaoHongShuLike() {
-        requestOpenApp();
-        NodeInfo nodeInfo1 = findByText("说点什么");
-        if (null != nodeInfo1) {
-            ActionUtils.zuohua();
-            Utils.sleep(2000);
-            clickXY(MyApplication.getScreenWidth() / 2, nodeInfo1.getRect().centerY());
-            shootAndBack();
-            return;
-        }
-        Utils.sleep(1000 * 20);
-        NodeInfo nodeInfo = findByText("发弹幕");
-        clickXY(MyApplication.getScreenWidth() / 2, nodeInfo.getRect().centerY());
-        shootAndBack();
-        return;
-    }
+//    private void xiaoHongShuLike() {
+//        requestOpenApp();
+//        NodeInfo nodeInfo1 = findByText("说点什么");
+//        if (null != nodeInfo1) {
+//            ActionUtils.zuohua();
+//            Utils.sleep(2000);
+//            clickXY(MyApplication.getScreenWidth() / 2, nodeInfo1.getRect().centerY());
+//            shootAndBack();
+//            return;
+//        }
+//        Utils.sleep(1000 * 20);
+//        NodeInfo nodeInfo = findByText("发弹幕");
+//        clickXY(MyApplication.getScreenWidth() / 2, nodeInfo.getRect().centerY());
+//        shootAndBack();
+//        return;
+//    }
 
     /**
      * 截屏加返回逻辑
@@ -878,11 +928,11 @@ public class MeiTianZhuanDianScript extends BaseScript {
 //    boolean screemSuccess = false;
 
     private void shootAndBack() {
+        LogUtils.d(TAG,"shootAndBack()");
         Utils.sleep(2000);
         MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
         Utils.sleep(4000);
         startApp();
-        Utils.sleep(2000);
     }
 
     /**
@@ -890,6 +940,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
      * @return
      */
     private String getTaskName(){
+        LogUtils.d(TAG,"getTaskName()");
         AccessibilityNodeInfo accessibilityNodeInfo = getWebNodeInfo();
         try {
             if (null != accessibilityNodeInfo) {
@@ -914,9 +965,7 @@ public class MeiTianZhuanDianScript extends BaseScript {
      */
     private boolean taskHasDone(){
         if (findContent("任务太火爆，已经结束")) {
-            clickBack();
-            Utils.sleep(1000);
-            clickBack();
+            doubleClickBack();
             return true;
         }
         if (findContent("开启悬浮助手")) {
@@ -937,13 +986,11 @@ public class MeiTianZhuanDianScript extends BaseScript {
             if(clickTotalMatchContent("复制口令")){
                 Utils.sleep(1000);
                 openTaoTe();
-                Utils.sleep(5000);
+                refreshNodeinfo();
                 if(clickTotalMatchContent("帮好友助力")){
-                    Utils.sleep(3000);
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                     Utils.sleep(4000);
                     startApp();
-                    Utils.sleep(2000);
                     if(uploadOnePicTask()){
                         wrongTaskList.add(taskName);
                     }else {
@@ -969,7 +1016,9 @@ public class MeiTianZhuanDianScript extends BaseScript {
             if(clickTotalMatchContent("复制口令")){
                 Utils.sleep(1000);
                 PackageUtils.startApp(Constant.PN_HUO_SHAN);
+                if(clickContent("跳过"));
                 Utils.sleep(5000);
+                refreshNodeinfo();
                 if(clickTotalMatchContent("开启红包")){
                     shootAndBack();
                     if(uploadOnePicTask()){
@@ -1005,21 +1054,36 @@ public class MeiTianZhuanDianScript extends BaseScript {
      * 小红书关注1-打开链接
      */
     private void doXHStype1(int picCount){
+        LogUtils.d(TAG,"doXHStype1:"+picCount);
         Utils.sleep(2000);
+        refreshNodeinfo();
+        if(clickContent("跳过"))
         requestOpenApp();
 
-        if(findTotalMatchContent("说点什么...")){
-            clickId("nickNameTV");
-            Utils.sleep(2000);
-        }
+        if(clickId("nickNameTV"));
+        if(clickId("matrixNickNameView"));
+
+
+//        if(findTotalMatchContent("说点什么...")){
+//        clickId("nickNameTV");
+//        }
+//        if(findTotalMatchContent("发弹幕")){
+//        clickId("matrixNickNameView");
+//        }
+
+        refreshNodeinfo();
         if(picCount == 1){
             if (!findTotalMatchContent("发消息")) {
                 NodeInfo nodeInfo = findByText("获赞与收藏");
                 if (null != nodeInfo) {
                     clickXY(MyApplication.getScreenWidth() - SizeUtils.dp2px(100), nodeInfo.getRect().centerY() - SizeUtils.dp2px(15));
+                    shootAndBack();
+                }else {
+                    wrongRunDeal();
                 }
+            }else {
+                shootAndBack();
             }
-            shootAndBack();
             if (findContent("微信扫一扫")) {
                 clickXY(500, 500);
                 Utils.sleep(2000);
@@ -1041,6 +1105,10 @@ public class MeiTianZhuanDianScript extends BaseScript {
                 clickXY(SizeUtils.dp2px(100), MyApplication.getScreenHeight() - SizeUtils.dp2px(100));
             }
             shootAndBack();
+            if (findContent("微信扫一扫")) {
+                clickXY(500, 500);
+                Utils.sleep(2000);
+            }
             uploadTwoPicTask(false);
             return;
         }else {
@@ -1054,8 +1122,11 @@ public class MeiTianZhuanDianScript extends BaseScript {
      * 小红书关注2-复制口令
      */
     private void doXHStype2(int picCount){
+        LogUtils.d(TAG,"doXHStype2:"+picCount);
         PackageUtils.startApp(Constant.PN_XIAO_HONG_SHU);
+        if(clickContent("跳过"));
         Utils.sleep(2000);
+        refreshNodeinfo();
         if(clickTotalMatchContent("立即查看")){
             Utils.sleep(2000);
             if(picCount > 2 || picCount == 0){
@@ -1101,14 +1172,12 @@ public class MeiTianZhuanDianScript extends BaseScript {
      * 小红书关注3-长按二维码
      */
     private void doXHStype3(int picCount){
+        LogUtils.d(TAG,"doXHStype3:"+picCount);
         NodeInfo nodeInfo = findByText("点击保存二维码");
         longPressXY(MyApplication.getScreenWidth() / 2, nodeInfo.getRect().centerY() - SizeUtils.dp2px(80));
-        Utils.sleep(3000);
         if (clickTotalMatchContent("识别二维码")) {
-            Utils.sleep(3000);
             if (findTotalMatchContent("识别二维码")) {
                 clickXY(500, 500);
-                Utils.sleep(2000);
                 wrongRunDeal();
                 return;
             }
@@ -1120,11 +1189,11 @@ public class MeiTianZhuanDianScript extends BaseScript {
      * 小红书点赞4-打开链接
      */
     private void doXHStype4(int picCount){
+        LogUtils.d(TAG,"doXHStype4:"+picCount);
         requestOpenApp();
         NodeInfo nodeInfo1 = findByText("说点什么");
         if (null != nodeInfo1) {
             ActionUtils.zuohua();
-            Utils.sleep(2000);
             clickXY(MyApplication.getScreenWidth() / 2, nodeInfo1.getRect().centerY());
             shootAndBack();
             return;

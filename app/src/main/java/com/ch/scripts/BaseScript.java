@@ -81,7 +81,7 @@ public abstract class BaseScript implements IScript {
                 if (findContent("启动应用")) {
                     clickId("button1");
                 }
-                if(BuildConfig.DEBUG && isPause()){
+                if(isPause()){
                     MyApplication.getAppInstance().getAccessbilityService().setRoot();
 //                    if (findId("test")) ;
 //                    logcatAccessibilityNode();
@@ -169,6 +169,7 @@ public abstract class BaseScript implements IScript {
 
     @Override
     public void startApp() {
+        LogUtils.d(BASETAG,"startApp()");
         PackageUtils.startApp(getAppInfo().getPkgName());
     }
 
@@ -346,6 +347,8 @@ public abstract class BaseScript implements IScript {
     public boolean longPressXY(int x, int y) {
         ActionUtils.longPress(x, y);
         LogUtils.dTag(BASETAG, "click x: " + x + " y:" + y);
+        Utils.sleep(2000);
+        refreshNodeinfo();
         return false;
     }
 
@@ -439,7 +442,17 @@ public abstract class BaseScript implements IScript {
     public void clickBack() {
         LogUtils.dTag(BASETAG, "clickBack");
         ActionUtils.pressBack();
-        Utils.sleep(1000);
+        Utils.sleep(2000);
+        refreshNodeinfo();
+    }
+
+    //返回
+    public void doubleClickBack() {
+        LogUtils.dTag(BASETAG, "clickBack");
+        ActionUtils.pressBack();
+        Utils.sleep(100);
+        ActionUtils.pressBack();
+        Utils.sleep(2000);
         refreshNodeinfo();
     }
 
@@ -519,37 +532,25 @@ public abstract class BaseScript implements IScript {
      */
     public boolean dealNoResponse() {
         LogUtils.d(BASETAG, "dealNoResponse()");
-        if (clickTotalMatchContent("禁止且不再询问")) return true;
-        if (clickTotalMatchContent("本次运行允许")) return true;
-        if (clickTotalMatchContent("仅在使用中允许")) return true;
-        if (clickTotalMatchContent("始终允许")) return true;
-        if (clickTotalMatchContent("禁止")) return true;
-        if (clickTotalMatchContent("允许")) return true;
-
-        if (clickTotalMatchContent("关闭")) return true;
-        if (clickContent("重试")) return true;
-        if (clickTotalMatchContent("取消")) return true;
-        if (clickTotalMatchContent("确定")) return true;
-        if (clickContent("知道")) return true;
+        if(clickEveryNodeInfosByText("重试"));
+        if(clickEveryNodeInfosByText("确定"));
+        if(clickEveryNodeInfosByText("取消"));
+        if(clickEveryNodeInfosByText("关闭"));
+        if(clickEveryNodeInfosByText("知道"));
+        if(clickEveryNodeInfosByText("允许"));
+        if(clickEveryNodeInfosByText("禁止"));
         return false;
     }
 
     public void tryClickDialog() {
         LogUtils.d(BASETAG, "tryClickDialog()");
-        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2);
-        Utils.sleep(500);
-        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+100);
-        Utils.sleep(500);
-        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+200);
-        Utils.sleep(500);
-        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+300);
-        Utils.sleep(500);
-        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+400);
-        Utils.sleep(500);
-        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+500);
-        Utils.sleep(500);
-        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+600);
-        Utils.sleep(500);
+//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2);
+//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+100);
+//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+200);
+//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+300);
+//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+400);
+//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+500);
+//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+600);
     }
 
     public boolean installPackage(String pnkName) {

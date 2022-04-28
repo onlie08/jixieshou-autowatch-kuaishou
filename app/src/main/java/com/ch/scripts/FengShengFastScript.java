@@ -411,7 +411,6 @@ public class FengShengFastScript extends BaseScript {
             if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到丰声极速版");
                 startApp();
-                Utils.sleep(2000);
             }
             if (resumeCount > 10) {
                 if (BuildConfig.DEBUG) {
@@ -436,10 +435,7 @@ public class FengShengFastScript extends BaseScript {
 
     @Override
     public void destory() {
-        clickBack();
-        Utils.sleep(100);
-        clickBack();
-        Utils.sleep(1000);
+        doubleClickBack();
         pressHome();
     }
 

@@ -228,10 +228,10 @@ public class DianTaoFastScript extends BaseScript {
                 point_LingTiLi = new Point(nodeInfo1.getRect().centerX(), nodeInfo1.getRect().centerY() + SizeUtils.dp2px(20));
                 SPUtils.getInstance().put(Constant.DIANTAO_LINGTILI, new Gson().toJson(point_LingTiLi));
 
-                point_ZhuanTiLi = new Point(point_LingTiLi.x + SizeUtils.dp2px(100), point_LingTiLi.y);
+                point_ZhuanTiLi = new Point(MyApplication.getScreenWidth() - SizeUtils.dp2px(80), point_LingTiLi.y);
                 SPUtils.getInstance().put(Constant.DIANTAO_ZHUANTILI, new Gson().toJson(point_ZhuanTiLi));
 
-                point_DaGong = new Point(MyApplication.getScreenWidth() - SizeUtils.dp2px(80), point_LingTiLi.y);
+                point_DaGong = new Point(MyApplication.getScreenWidth()/2, point_LingTiLi.y);
                 SPUtils.getInstance().put(Constant.DIANTAO_DAGONG, new Gson().toJson(point_DaGong));
             } else {
                 changTask();
@@ -657,7 +657,6 @@ public class DianTaoFastScript extends BaseScript {
             if (resumeCount > 5) {
                 LogUtils.d(TAG, "自动恢复到点淘");
                 startApp();
-                Utils.sleep(2000);
             }
             if (resumeCount > 10) {
                 if (BuildConfig.DEBUG) {
@@ -680,8 +679,7 @@ public class DianTaoFastScript extends BaseScript {
     @Override
     public void destory() {
         if (isTargetPkg()) {
-            clickBack();
-            clickBack();
+            doubleClickBack();
         }
         pressHome();
 
