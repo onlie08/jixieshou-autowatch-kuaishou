@@ -273,7 +273,6 @@ public class BaiDuAdvertScript extends BaseScript {
         try {
             AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
             if (root == null) return;
-            findWebViewNode();
             AccessibilityNodeInfo webview = getWebViewRoot();
             if(null != webview){
                 AccessibilityNodeInfo child =  webview.getChild(0).getChild(0).getChild(0).getChild(3);

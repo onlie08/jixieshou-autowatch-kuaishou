@@ -82,6 +82,8 @@ public class BaseUtil {
             needRecommend = true;
         } else if (packageName.equals(Constant.PN_TAO_TE)) {
             needRecommend = true;
+        }else if (packageName.equals(Constant.PN_WU_KONG)) {
+            needRecommend = true;
         }
         return needRecommend;
     }
@@ -110,6 +112,8 @@ public class BaseUtil {
             describeText = context.getResources().getString(R.string.huoshan_describe);
         } else if (packageName.equals(Constant.PN_FAN_QIE)) {
             describeText = context.getResources().getString(R.string.fanqie_describe);
+        }else if (packageName.equals(Constant.PN_WU_KONG)) {
+            describeText = context.getResources().getString(R.string.wukong_describe);
         }
         return describeText;
     }
@@ -138,6 +142,8 @@ public class BaseUtil {
             recommendCode = MyApplication.recommendBean.getCode_huoshan();
         } else if (packageName.equals(Constant.PN_FAN_QIE)) {
             recommendCode = MyApplication.recommendBean.getCode_fanqie();
+        }else if (packageName.equals(Constant.PN_WU_KONG)) {
+            recommendCode = MyApplication.recommendBean.getCode_wukong();
         }
 //        else if(packageName.equals(Constant.PN_YING_KE)){
 //            recommendCode = "";
@@ -175,6 +181,8 @@ public class BaseUtil {
             recommendCode = "抖音火山极速版";
         } else if (packageName.equals(Constant.PN_FAN_QIE)) {
             recommendCode = "番茄畅听";
+        }else if (packageName.equals(Constant.PN_WU_KONG)) {
+            recommendCode = "悟空浏览器";
         }
         return recommendCode;
     }

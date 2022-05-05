@@ -32,6 +32,7 @@ public class InitCode extends AsyncTask<String, Integer, RecommendBean> {
                 recommendBean.setCode_baidu(obj.getString("baidu"));
                 recommendBean.setCode_aiqiyi(obj.getString("aiqiyi"));
                 recommendBean.setCode_fanqie(obj.getString("fanqie"));
+                recommendBean.setCode_wukong(obj.getString("wukong"));
                 recommendBean.setCode_huoshan(obj.getString("huoshan"));
                 recommendBean.setCode_meitianzhuandian(obj.getString("mtzd"));
                 recommendBean.setCode_jingdong(obj.getString("jingdong"));

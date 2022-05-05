@@ -260,7 +260,6 @@ public class TouTiaoAdvertScript extends BaseScript {
         LogUtils.d(TAG, "doPageId2Things");
         //todo 有的手机找不到mc-footer无法领取金币
         NodeInfo nodeInfo = findById("mc-footer");
-        findWebViewNode();
         AccessibilityNodeInfo webRoot = getWebViewRoot();
         if(null != webRoot){
             int count = webRoot.getChildCount();

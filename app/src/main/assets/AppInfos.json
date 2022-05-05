@@ -72,6 +72,14 @@
     "star":"3颗星"
   },
   {
+    "taskName":"悟空浏览器",
+    "pkgName":"com.cat.readall",
+    "period":5,
+    "isFree":true,
+    "discribe":"",
+    "star":"4颗星"
+  },
+  {
     "taskName":"抖音火山版",
     "pkgName":"com.ss.android.ugc.live",
     "period":5,

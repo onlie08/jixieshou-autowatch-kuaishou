@@ -453,6 +453,7 @@ public class FengShengFastScript extends BaseScript {
             dealNoResponse2();
         }
         if (samePageCount > 15) {
+            dealNoResponse();
             tryClickDialog();
         }
 
@@ -464,6 +465,7 @@ public class FengShengFastScript extends BaseScript {
      * @return
      */
     private boolean dealNoResponse2() {
+        if (clickTotalMatchContent("开启新版本之旅")) return true;
         if (clickContent("网络不给力，点击屏幕重试")) return true;
         if (clickContent("知道")) return true;
         if (clickContent("去赚钱")) return true;

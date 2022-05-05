@@ -17,6 +17,7 @@
     <string name="baidu_describe">第一步：根据提示下载安装百度极速版App\n第二步：登录百度极速版App\n第三步：捡豆子App启动任务(确保无障碍权限已开启)</string>
     <string name="huoshan_describe">第一步：根据提示下载安装抖音火山极速版App\n第二步：登录抖音火山极速版App\n第三步：捡豆子App启动任务(确保无障碍权限已开启)</string>
     <string name="fanqie_describe">第一步：根据提示下载安装番茄畅听App\n第二步：登录番茄畅听App\n第三步：捡豆子App启动任务(确保无障碍权限已开启)</string>
+    <string name="wukong_describe">第一步：根据提示下载安装悟空浏览器App\n第二步：登录悟空浏览器App\n第三步：捡豆子App启动任务(确保无障碍权限已开启)</string>
     <string name="jingdong_describe">第一步：根据提示下载安装京东极速版App\n第二步：登录京东极速版App\n第三步：捡豆子App启动任务(确保无障碍权限已开启)</string>
     <string name="taote_describe">第一步：根据提示下载安装淘特App\n第二步：登录淘特App\n第三步：捡豆子App启动任务(确保无障碍权限已开启)</string>
     <string name="meitianzhuandian_describe">第一步：根据提示下载安装每天赚点App\n第二步：登录每天赚点App\n第三步：下载并登录小红书和淘宝App(要刷这两个app的任务)，捡豆子App启动任务(确保无障碍权限已开启)</string>
@@ -29,6 +30,7 @@
     <string name="baidu_detail">百度极速版任务攻略:\n1.任务推荐指数：四颗星，过新手期后预计每天稳定收入0.5到1元。\n2.邀请码可填写:%1$s</string>
     <string name="huoshan_detail">抖音火山极速版任务攻略:\n1.任务推荐指数：三颗星，过新手期后预计每天稳定收入0.5到1元。\n2.邀请码可填写:%1$s</string>
     <string name="fanqie_detail">番茄畅听任务攻略:\n1.任务推荐指数：四颗星，过新手期后预计每天稳定收入0.5到1元。\n2.邀请码可填写:%1$s</string>
+    <string name="wukong_detail">悟空浏览器任务攻略:\n1.任务推荐指数：四颗星，过新手期后预计每天稳定收入0.5到1元。\n2.邀请码可填写:%1$s</string>
     <string name="jingdong_detail">京东极速版任务攻略:\n1.任务推荐指数：三颗星，预计每天稳定收入0.5到1元。\n2.特别注意：京东金币只能兑换红包用于购物</string>
     <string name="taote_detail">淘特金币任务攻略:\n1.任务推荐指数：三颗星，预计每天稳定收入0.5到1元。\n2.特别注意：淘币只能兑换红包用于购物</string>
     <string name="meitianzhuandian_detail">每天赚点任务攻略:\n1.任务推荐指数：四颗星，预计每天预计收入0.5到1元。\n2.该脚本还需要同时下载和登录小红书和淘特APP。\n3.邀请码可填写:%1$s</string>

@@ -106,6 +106,9 @@ public class TaskExecutor {
                             case Constant.PN_FAN_QIE:
                                 script = FanQieScript.getSingleton(appInfo);
                                 break;
+                            case Constant.PN_WU_KONG:
+                                script = WuKongScript.getSingleton(appInfo);
+                                break;
                         }
                         if (script != null) {
                             currentScript = script;

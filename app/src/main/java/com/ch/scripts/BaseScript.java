@@ -62,6 +62,7 @@ public abstract class BaseScript implements IScript {
         while ((System.currentTimeMillis() - startTime < getTimeout()) && !stop) {
             try {
                 if (isPause()) {
+                    if(clickTotalMatchContent("完成"))
                     Utils.sleep(2000);
                     continue;
                 }
@@ -78,10 +79,11 @@ public abstract class BaseScript implements IScript {
             } catch (Exception e) {
                 Logger.e("执行异常，脚本: " + appInfo.getTaskName(), e);
             } finally {
-                if (findContent("启动应用")) {
-                    clickId("button1");
-                }
+//                if (findContent("启动应用")) {
+//                    clickId("button1");
+//                }
                 if(isPause()){
+                    findAllPageByContent("测试",true);
                     MyApplication.getAppInstance().getAccessbilityService().setRoot();
 //                    if (findId("test")) ;
 //                    logcatAccessibilityNode();
@@ -102,6 +104,7 @@ public abstract class BaseScript implements IScript {
     }
 
     public AccessibilityNodeInfo getWebViewRoot() {
+        findWebViewNode();
         return webViewRoot;
     }
 
@@ -407,6 +410,14 @@ public abstract class BaseScript implements IScript {
 
     public List<NodeInfo> findPageByContent(String content,boolean totalMatch) {
         return FindByText.findPageByContent(content,totalMatch);
+    }
+
+    public boolean findAllPageByContent(String content,boolean totalMatch) {
+        List<NodeInfo> nodeInfoList =  FindByText.findPageByContent(content,totalMatch);
+        if(null != nodeInfoList && !nodeInfoList.isEmpty()){
+            return true;
+        }
+        return false;
     }
 
     /**
