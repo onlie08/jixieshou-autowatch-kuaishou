@@ -14,6 +14,7 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
 import com.ch.core.search.node.NodeInfo;
+import com.ch.core.utils.ActionUtils;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
 import com.ch.jixieshou.BuildConfig;
@@ -116,7 +117,12 @@ public class WuKongScript extends BaseScript {
     }
 
     private void doPageId4Things() {
-
+        NodeInfo nodeInfo = findByText("我的书架");
+        clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()+SizeUtils.dp2px(100));
+        for(int i=0;i<30;i++){
+            ActionUtils.zuohua();
+        }
+        clickBack();
     }
 
     //    private int gotoPersonCount = 0;
@@ -124,12 +130,14 @@ public class WuKongScript extends BaseScript {
         LogUtils.d(TAG, "doPageId0Things");
         if(samePageCount > 8){
             clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()-SizeUtils.dp2px(25));
+            scrollDown();
+            scrollDown();
             return;
         }
 
         if(clickTotalMatchContent("领金币"));
 
-        scrollUpSlow();
+        scrollUpPx(SizeUtils.dp2px(600));
 //        NodeInfo nodeInfo = findByText("听过");
 //        clickXY(MyApplication.getScreenWidth() - nodeInfo.getRect().centerX(), nodeInfo.getRect().centerY());
         return;
@@ -142,11 +150,7 @@ public class WuKongScript extends BaseScript {
             scrollDown();
             scrollDown();
             skipTask();
-//            clickXY(MyApplication.getScreenWidth()/5-SizeUtils.dp2px(50),MyApplication.getScreenHeight()-SizeUtils.dp2px(25));
             return;
-//            if (clickContent("立即签到 +")) return;
-//            scrollDown();
-//            Utils.sleep(1000);
         }
 
         if (clickEveryTotalMatchByText("填写邀请码"));
@@ -157,15 +161,23 @@ public class WuKongScript extends BaseScript {
 
 
         if(findTotalMatchContent("新人福利")){
-            if(clickEveryTotalMatchByText("新人大红包"));
+            if(clickTotalMatchContent("新人大红包"));
+            if(clickTotalMatchContent("今天"));
 
         }
 
-        if(clickEveryTotalMatchByText("看广告视频1次"));
+        if(clickTotalMatchContent("待领取"));
+
+        if(clickTotalMatchContent("看广告视频1次"));
+
+        if(clickTotalMatchContent("看小视频30分钟"));
+
+        if(clickTotalMatchContent("看小说30分钟"));
+
+        if(clickTotalMatchContent("点击领奖"));
+
         if(clickTotalMatchContent("去阅读"));
-//            doScan(60);
-//            return;
-//        }
+
 
 
 //        if(clickTotalMatchContent("去签到")){
@@ -266,8 +278,11 @@ public class WuKongScript extends BaseScript {
             return 2;
         }
 
-        if (findContent("1.下载软件后的10天内可输入邀请码，超过时间不能输入。")) {
+        if (findTotalMatchContent("1.下载软件后的10天内可输入邀请码，超过时间不能输入。")) {
             return 3;
+        }
+        if (findAllPageByContent("我的书架",true) && findAllPageByContent("阅读偏好",true)) {
+            return 4;
         }
 
         return -1;
