@@ -137,7 +137,8 @@ public class WuKongScript extends BaseScript {
 
         if(clickTotalMatchContent("领金币"));
 
-        scrollUpPx(SizeUtils.dp2px(600));
+        scrollUp();
+//        scrollUpPx(SizeUtils.dp2px(450));
 //        NodeInfo nodeInfo = findByText("听过");
 //        clickXY(MyApplication.getScreenWidth() - nodeInfo.getRect().centerX(), nodeInfo.getRect().centerY());
         return;
@@ -157,14 +158,16 @@ public class WuKongScript extends BaseScript {
 
         if(clickEveryTotalMatchByText("开宝箱得金币"));
 
-        if(clickTotalMatchContent("领取金币"));
-
-
         if(findTotalMatchContent("新人福利")){
             if(clickTotalMatchContent("新人大红包"));
             if(clickTotalMatchContent("今天"));
 
         }
+
+        if(clickTotalMatchContent("领取金币"));
+
+
+
 
         if(clickTotalMatchContent("待领取"));
 
@@ -335,7 +338,7 @@ public class WuKongScript extends BaseScript {
                 Utils.sleep(2000);
                 clickBack();
                 Utils.sleep(2000);
-                dealNoResponse();
+                dealNoResponse2();
                 Utils.sleep(2000);
                 resumeCount = 0;
                 CrashReport.postCatchedException(new Throwable("悟空浏览器无响应"));
@@ -356,28 +359,6 @@ public class WuKongScript extends BaseScript {
         stop = true;
     }
 
-    /**
-     * 处理返回解决不了的弹出框，但是能找到资源的
-     *
-     * @return
-     */
-    private boolean dealNoResponse2() {
-        if (clickTotalMatchContent("优先体验")) return true;
-        if (clickTotalMatchContent("以后再说")) return true;
-        if (clickContent("重新加载")) return true;
-        if (clickContent("知道")) return true;
-        if (clickContent("继续赚金币")) return true;
-        if (clickContent("去赚钱")) return true;
-        if (clickTotalMatchContent("以后再说")) return true;
-        if (clickTotalMatchContent("允许")) return true;
-        if (clickContent("立即添加")) return true;
-        if (clickContent("关闭")) return true;
-        if (clickContent("重试")) return true;
-        if (clickContent("取消")) return true;
-        if (clickContent("继续观看")) return true;
-        return false;
-    }
-
     @Override
     protected void doSamePageDeal() {
         if (samePageCount > 3) {
@@ -390,7 +371,6 @@ public class WuKongScript extends BaseScript {
 
         if (samePageCount > 12 && samePageCount < 16) {
             dealNoResponse2();
-
         }
 
         if (samePageCount > 15) {

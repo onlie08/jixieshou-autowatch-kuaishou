@@ -129,37 +129,6 @@ public class DouyinFastAdvertScript extends BaseScript {
     }
 
 
-    /**
-     * 处理返回解决不了的弹出框，但是能找到资源的
-     *
-     * @return
-     */
-    private boolean dealNoResponse2() {
-        if (clickTotalMatchContent("坚持退出")) return true;
-        if (clickTotalMatchContent("残忍离开")) return true;
-        if (clickContent("领取奖励")) return true;
-        if (clickContent("仅在使用中允许")) return true;
-        if (clickContent("重试")) return true;
-        if (clickTotalMatchContent("以后再说")) return true;
-        if (clickTotalMatchContent("允许")) return true;
-        if (clickTotalMatchContent("取消")) return true;
-        if (clickTotalMatchContent("不允许")) return true;
-        if (clickTotalMatchContent("禁止")) return true;
-
-        if (clickContent("暂时不要")) return true;
-        if (clickContent("知道")) return true;
-        if (clickContent("立即签到")) return true;
-        if (clickTotalMatchContent("以后再说")) return true;
-        if (clickTotalMatchContent("允许")) return true;
-        if (clickContent("立即添加")) return true;
-        if (clickTotalMatchContent("关闭")) return true;
-        if (clickContent("重试")) return true;
-        if (clickTotalMatchContent("取消")) return true;
-
-
-        return false;
-    }
-
     private void doPageId0Things() {
         LogUtils.d(TAG, "doPageId0Things");
         scrollUp();
@@ -370,7 +339,7 @@ public class DouyinFastAdvertScript extends BaseScript {
                 }
                 clickBack();
                 clickBack();
-                dealNoResponse();
+                dealNoResponse2();
                 resumeCount = 0;
                 CrashReport.postCatchedException(new Throwable("抖音极速版无响应"));
             }

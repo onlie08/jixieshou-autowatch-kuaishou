@@ -421,7 +421,7 @@ public class FengShengFastScript extends BaseScript {
                 Utils.sleep(2000);
                 clickBack();
                 Utils.sleep(2000);
-                dealNoResponse();
+                dealNoResponse2();
                 Utils.sleep(2000);
                 resumeCount = 0;
                 CrashReport.postCatchedException(new Throwable("丰声极速版无响应"));
@@ -453,35 +453,12 @@ public class FengShengFastScript extends BaseScript {
             dealNoResponse2();
         }
         if (samePageCount > 15) {
-            dealNoResponse();
+            dealNoResponse2();
             tryClickDialog();
         }
 
     }
 
-    /**
-     * 处理返回解决不了的弹出框，但是能找到资源的
-     *
-     * @return
-     */
-    private boolean dealNoResponse2() {
-        if (clickTotalMatchContent("开启新版本之旅")) return true;
-        if (clickContent("网络不给力，点击屏幕重试")) return true;
-        if (clickContent("知道")) return true;
-        if (clickContent("去赚钱")) return true;
-        if (clickContent("视频再领")) return true;
-        if (clickContent("仅在使用中允许")) return true;
-        if (clickTotalMatchContent("禁止")) return true;
-        if (clickContent("立即添加")) return true;
-        if (clickTotalMatchContent("关闭")) return true;
-        if (clickContent("重试")) return true;
-        if (clickTotalMatchContent("以后再说")) return true;
-        if (clickTotalMatchContent("取消")) return true;
-        if (clickContent("开心收下")) return true;
-        if (clickTotalMatchContent("不允许")) return true;
-        if (clickTotalMatchContent("允许")) return true;
-        return false;
-    }
 
     /**
      * 检查是在那个页面

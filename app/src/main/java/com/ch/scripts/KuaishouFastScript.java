@@ -123,33 +123,6 @@ public class KuaishouFastScript extends BaseScript {
         }
     }
 
-
-    /**
-     * 处理返回解决不了的弹出框，但是能找到资源的
-     *
-     * @return
-     */
-    private boolean dealNoResponse2() {
-        if (clickId("看视频最多赚")) return true;
-        if (clickId("close")) return true;
-        if (clickContent("查看收益")) return true;
-        if (clickContent("知道")) return true;
-        if (clickTotalMatchContent("立即签到")) return true;
-        if (clickContent("签到立得")) return true;
-        if (clickTotalMatchContent("以后再说")) return true;
-        if (clickContent("补签再得")) return true;
-        if (clickTotalMatchContent("允许")) return true;
-        if (clickContent("立即添加")) return true;
-        if (clickTotalMatchContent("关闭")) return true;
-        if (clickContent("重试")) return true;
-        if (clickTotalMatchContent("取消")) return true;
-        if (clickTotalMatchContent("确认")) return true;
-        if (clickContent("邀请好友赚更多")) return true;
-        if (clickTotalMatchContent("放弃奖励")) return true;
-        return false;
-    }
-
-
     public AccessibilityNodeInfo findEditText() {
         AccessibilityNodeInfo root = MyApplication.getAppInstance().getAccessbilityService().getRootInActiveWindow();
         if (root == null) return null;
@@ -357,7 +330,7 @@ public class KuaishouFastScript extends BaseScript {
                 clickBack();
                 clickBack();
                 LogUtils.d(TAG, "爱奇艺极速版是不是anr了?");
-                dealNoResponse();
+                dealNoResponse2();
                 resumeCount = 0;
                 CrashReport.postCatchedException(new Throwable("快手极速版无响应"));
 

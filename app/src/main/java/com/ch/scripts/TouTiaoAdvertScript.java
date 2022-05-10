@@ -431,7 +431,7 @@ public class TouTiaoAdvertScript extends BaseScript {
                 }
                 clickBack();
                 clickBack();
-                dealNoResponse();
+                dealNoResponse2();
                 resumeCount = 0;
                 CrashReport.postCatchedException(new Throwable("头条极速版无响应"));
 
@@ -449,29 +449,6 @@ public class TouTiaoAdvertScript extends BaseScript {
         }
         pressHome();
         stop = true;
-    }
-
-    /**
-     * 处理返回解决不了的弹出框，但是能找到资源的
-     *
-     * @return
-     */
-    private boolean dealNoResponse2() {
-        if (clickContent("网络不给力，点击屏幕重试")) return true;
-        if (clickContent("知道")) return true;
-        if (clickContent("去赚钱")) return true;
-        if (clickContent("视频再领")) return true;
-        if (clickContent("仅在使用中允许")) return true;
-        if (clickTotalMatchContent("禁止")) return true;
-        if (clickContent("立即添加")) return true;
-        if (clickTotalMatchContent("关闭")) return true;
-        if (clickContent("重试")) return true;
-        if (clickTotalMatchContent("以后再说")) return true;
-        if (clickTotalMatchContent("取消")) return true;
-        if (clickContent("开心收下")) return true;
-        if (clickTotalMatchContent("不允许")) return true;
-        if (clickTotalMatchContent("允许")) return true;
-        return false;
     }
 
     public void doScan(int second) {

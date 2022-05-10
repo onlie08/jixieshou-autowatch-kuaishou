@@ -139,7 +139,7 @@ public class MTZDScript extends BaseScript {
                     MyApplication.getAppInstance().getAccessbilityService().performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 }
                 LogUtils.d(TAG, "每天赚点是不是anr了?");
-                dealNoResponse();
+                dealNoResponse2();
                 Utils.sleep(1000);
                 clickBack();
                 resumeCount = 0;
@@ -159,25 +159,6 @@ public class MTZDScript extends BaseScript {
         }
         pressHome();
         stop = true;
-    }
-    /**
-     * 处理返回解决不了的弹出框，但是能找到资源的
-     *
-     * @return
-     */
-    private boolean dealNoResponse2() {
-        if (clickContent("重新加载")) return true;
-        if (clickContent("知道")) return true;
-        if (clickContent("继续赚金币")) return true;
-        if (clickTotalMatchContent("以后再说")) return true;
-        if (clickContent("去赚钱")) return true;
-        if (clickContent("允许")) return true;
-        if (clickContent("立即添加")) return true;
-        if (clickContent("关闭")) return true;
-        if (clickContent("重试")) return true;
-        if (clickContent("取消")) return true;
-        clickXY(point_ShouYe.x, point_ShouYe.y);
-        return false;
     }
 
     /**
