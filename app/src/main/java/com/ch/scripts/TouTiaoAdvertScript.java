@@ -48,7 +48,6 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     private int pageId = -1;//0:首页 1:个人中心  2:阅读页  3:广告页
     private int lastPageId = -1; //上次的页面
-    private int samePageCount = 0; //同一个页面停留次数
 
     @Override
     protected boolean isTargetPkg() {
@@ -260,7 +259,6 @@ public class TouTiaoAdvertScript extends BaseScript {
         LogUtils.d(TAG, "doPageId2Things");
         //todo 有的手机找不到mc-footer无法领取金币
         NodeInfo nodeInfo = findById("mc-footer");
-        findWebViewNode();
         AccessibilityNodeInfo webRoot = getWebViewRoot();
         if(null != webRoot){
             int count = webRoot.getChildCount();
@@ -432,7 +430,7 @@ public class TouTiaoAdvertScript extends BaseScript {
                 }
                 clickBack();
                 clickBack();
-                dealNoResponse();
+                dealNoResponse2();
                 resumeCount = 0;
                 CrashReport.postCatchedException(new Throwable("头条极速版无响应"));
 
@@ -450,29 +448,6 @@ public class TouTiaoAdvertScript extends BaseScript {
         }
         pressHome();
         stop = true;
-    }
-
-    /**
-     * 处理返回解决不了的弹出框，但是能找到资源的
-     *
-     * @return
-     */
-    private boolean dealNoResponse2() {
-        if (clickContent("网络不给力，点击屏幕重试")) return true;
-        if (clickContent("知道")) return true;
-        if (clickContent("去赚钱")) return true;
-        if (clickContent("视频再领")) return true;
-        if (clickContent("仅在使用中允许")) return true;
-        if (clickTotalMatchContent("禁止")) return true;
-        if (clickContent("立即添加")) return true;
-        if (clickTotalMatchContent("关闭")) return true;
-        if (clickContent("重试")) return true;
-        if (clickTotalMatchContent("以后再说")) return true;
-        if (clickTotalMatchContent("取消")) return true;
-        if (clickContent("开心收下")) return true;
-        if (clickTotalMatchContent("不允许")) return true;
-        if (clickTotalMatchContent("允许")) return true;
-        return false;
     }
 
     public void doScan(int second) {

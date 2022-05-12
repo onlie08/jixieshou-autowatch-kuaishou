@@ -17,6 +17,8 @@ public class Constant {
     public static final String PN_TAO_BAO = "com.taobao.taobao";// 淘宝
     public static final String PN_HUO_SHAN = "com.ss.android.ugc.live";// 抖音火山
     public static final String PN_FAN_QIE = "com.xs.fm";// 番茄畅听
+    public static final String PN_WU_KONG = "com.cat.readall";// 悟空浏览器
+
     public static final String PN_TAO_TE = "com.taobao.litetao";// 淘特
     public static final String PN_BI_LI_BI_LI = "tv.danmaku.bili";// 哔哩哔哩
 
@@ -27,6 +29,7 @@ public class Constant {
     public static final String PN_FENG_SHENG = "com.sfexpress.sfim";// 丰声打卡
 
     public static final String PN_YING_KE = "com.ingkee.lite";// 映客直播极速版
+
 
 
     public static String KUAISHOU_SWICH = "KS_AutoScan";

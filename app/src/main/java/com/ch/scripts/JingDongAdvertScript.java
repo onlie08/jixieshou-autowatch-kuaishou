@@ -47,7 +47,6 @@ public class JingDongAdvertScript extends BaseScript {
 
     private int pageId = -1;//0:首页 1:个人中心  2:广告页 3：幸运大转盘 4:看广告赚金币
     private int lastPageId = -1; //上次的页面
-    private int samePageCount = 0; //同一个页面停留次数
 
     @Override
     protected boolean isTargetPkg() {
@@ -324,7 +323,7 @@ public class JingDongAdvertScript extends BaseScript {
                 }
                 clickBack();
                 clickBack();
-                dealNoResponse();
+                dealNoResponse2();
                 resumeCount = 0;
                 CrashReport.postCatchedException(new Throwable("京东极速版无响应"));
 
@@ -343,26 +342,6 @@ public class JingDongAdvertScript extends BaseScript {
         pressHome();
         stop = true;
     }
-
-    /**
-     * 处理返回解决不了的弹出框，但是能找到资源的
-     *
-     * @return
-     */
-    private boolean dealNoResponse2() {
-        if (clickContent("重新加载")) return true;
-        if (clickContent("知道")) return true;
-        if (clickContent("继续赚金币")) return true;
-        if (clickContent("去赚钱")) return true;
-        if (clickContent("允许")) return true;
-        if (clickContent("立即添加")) return true;
-        if (clickTotalMatchContent("以后再说")) return true;
-        if (clickContent("关闭")) return true;
-        if (clickContent("重试")) return true;
-        if (clickContent("取消")) return true;
-        return false;
-    }
-
 
     @Override
     protected void doSamePageDeal() {

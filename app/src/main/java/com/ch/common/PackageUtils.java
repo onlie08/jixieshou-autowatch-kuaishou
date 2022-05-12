@@ -28,8 +28,10 @@ public class PackageUtils {
         PackageManager manager = context.getPackageManager();
         Intent LaunchIntent = manager.getLaunchIntentForPackage(pkg);
         context.startActivity(LaunchIntent);
-        Utils.sleep(5000);
-        MyApplication.getAppInstance().getAccessbilityService().setRoot();
+        if(!pkg.equals(MyApplication.getAppInstance().getPackageName())){
+            Utils.sleep(4000);
+            MyApplication.getAppInstance().getAccessbilityService().setRoot();
+        }
     }
 
     public static void restartApp(String pkg) {

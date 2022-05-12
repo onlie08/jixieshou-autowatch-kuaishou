@@ -10,6 +10,7 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
 import com.ch.common.PackageUtils;
 import com.ch.core.executor.builder.SwipStepBuilder;
@@ -33,6 +34,7 @@ public abstract class BaseScript implements IScript {
     private long startTime;
     public boolean stop = false;
     public boolean todayDone = false;
+    public int samePageCount = 0; //同一个页面停留次数
 
     public boolean isTodayDone() {
         return todayDone;
@@ -62,6 +64,7 @@ public abstract class BaseScript implements IScript {
         while ((System.currentTimeMillis() - startTime < getTimeout()) && !stop) {
             try {
                 if (isPause()) {
+                    if(clickTotalMatchContent("完成"))
                     Utils.sleep(2000);
                     continue;
                 }
@@ -78,10 +81,11 @@ public abstract class BaseScript implements IScript {
             } catch (Exception e) {
                 Logger.e("执行异常，脚本: " + appInfo.getTaskName(), e);
             } finally {
-                if (findContent("启动应用")) {
-                    clickId("button1");
-                }
+//                if (findContent("启动应用")) {
+//                    clickId("button1");
+//                }
                 if(isPause()){
+                    findAllPageByContent("测试",true);
                     MyApplication.getAppInstance().getAccessbilityService().setRoot();
 //                    if (findId("test")) ;
 //                    logcatAccessibilityNode();
@@ -102,6 +106,7 @@ public abstract class BaseScript implements IScript {
     }
 
     public AccessibilityNodeInfo getWebViewRoot() {
+        findWebViewNode();
         return webViewRoot;
     }
 
@@ -409,6 +414,14 @@ public abstract class BaseScript implements IScript {
         return FindByText.findPageByContent(content,totalMatch);
     }
 
+    public boolean findAllPageByContent(String content,boolean totalMatch) {
+        List<NodeInfo> nodeInfoList =  FindByText.findPageByContent(content,totalMatch);
+        if(null != nodeInfoList && !nodeInfoList.isEmpty()){
+            return true;
+        }
+        return false;
+    }
+
     /**
      * 点击 content
      *
@@ -525,32 +538,16 @@ public abstract class BaseScript implements IScript {
         return false;
     }
 
-    /**
-     * 处理不在该app时的处理，比如系统弹出框
-     *
-     * @return
-     */
-    public boolean dealNoResponse() {
-        LogUtils.d(BASETAG, "dealNoResponse()");
-        if(clickEveryNodeInfosByText("重试"));
-        if(clickEveryNodeInfosByText("确定"));
-        if(clickEveryNodeInfosByText("取消"));
-        if(clickEveryNodeInfosByText("关闭"));
-        if(clickEveryNodeInfosByText("知道"));
-        if(clickEveryNodeInfosByText("允许"));
-        if(clickEveryNodeInfosByText("禁止"));
-        return false;
-    }
-
     public void tryClickDialog() {
         LogUtils.d(BASETAG, "tryClickDialog()");
-//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2);
-//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+100);
-//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+200);
-//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+300);
-//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+400);
-//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+500);
-//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+600);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+100);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+200);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+300);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+400);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+500);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+600);
+        samePageCount = 0;
     }
 
     public boolean installPackage(String pnkName) {
@@ -601,5 +598,53 @@ public abstract class BaseScript implements IScript {
     }
 
 
+    /**
+     * 处理返回解决不了的弹出框，但是能找到资源的
+     *
+     * @return
+     */
+    public boolean dealNoResponse2() {
+        if(clickEveryNodeInfosByText("重试"));
+        if(clickEveryNodeInfosByText("确定"));
+        if(clickEveryNodeInfosByText("取消"));
+        if(clickEveryNodeInfosByText("关闭"));
+        if(clickEveryNodeInfosByText("知道"));
+        if(clickEveryNodeInfosByText("允许"));
+        if(clickEveryNodeInfosByText("禁止"));
+        if(clickEveryNodeInfosByText("退出"));
+        if(clickEveryNodeInfosByText("离开"));
+        if(clickEveryNodeInfosByText("不要"));
+        if(clickEveryNodeInfosByText("残忍"));
+        if(clickEveryNodeInfosByText("继续"));
+        if(clickEveryNodeInfosByText("立即"));
+        if(clickEveryNodeInfosByText("以后"));
+        if(clickEveryNodeInfosByText("体验"));
+        if(clickEveryNodeInfosByText("添加"));
+        if(clickEveryNodeInfosByText("立即"));
+        if(clickEveryNodeInfosByText("领取"));
+        if(clickEveryNodeInfosByText("开心"));
+        if(clickEveryNodeInfosByText("收下"));
+        if(clickEveryNodeInfosByText("视频"));
+        if(clickEveryNodeInfosByText("查看"));
+        if(clickEveryNodeInfosByText("签"));
+        if(clickEveryNodeInfosByText("更多"));
+        if(clickEveryNodeInfosByText("放弃"));
+        if(clickEveryNodeInfosByText("开启"));
+        if(clickEveryNodeInfosByText("去"));
+        if(clickEveryNodeInfosByText("赚"));
+        if(clickEveryNodeInfosByText("我的"));
+
+        if (clickId("gold_common_image"));
+
+        if (clickId("close"));
+
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()- SizeUtils.dp2px(25));
+
+        clickXY(MyApplication.getScreenWidth()/5-SizeUtils.dp2px(50),MyApplication.getScreenHeight()- SizeUtils.dp2px(25));
+
+        clickXY(MyApplication.getScreenWidth()-SizeUtils.dp2px(40),SizeUtils.dp2px(40));
+
+        return true;
+    }
 
 }

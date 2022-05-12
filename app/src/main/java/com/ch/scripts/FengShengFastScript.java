@@ -43,7 +43,6 @@ public class FengShengFastScript extends BaseScript {
 
     private int pageId = -1;//0:首页 1:个人中心  2:阅读页  3:广告页
     private int lastPageId = -1; //上次的页面
-    private int samePageCount = 0; //同一个页面停留次数
 
     private int type = 0; //任务执行类型 1：早上打卡 2：加班餐申请 3：晚上打卡 4：申请加班时长
     private int mHour = 0;//当前小时
@@ -421,7 +420,7 @@ public class FengShengFastScript extends BaseScript {
                 Utils.sleep(2000);
                 clickBack();
                 Utils.sleep(2000);
-                dealNoResponse();
+                dealNoResponse2();
                 Utils.sleep(2000);
                 resumeCount = 0;
                 CrashReport.postCatchedException(new Throwable("丰声极速版无响应"));
@@ -453,33 +452,12 @@ public class FengShengFastScript extends BaseScript {
             dealNoResponse2();
         }
         if (samePageCount > 15) {
+            dealNoResponse2();
             tryClickDialog();
         }
 
     }
 
-    /**
-     * 处理返回解决不了的弹出框，但是能找到资源的
-     *
-     * @return
-     */
-    private boolean dealNoResponse2() {
-        if (clickContent("网络不给力，点击屏幕重试")) return true;
-        if (clickContent("知道")) return true;
-        if (clickContent("去赚钱")) return true;
-        if (clickContent("视频再领")) return true;
-        if (clickContent("仅在使用中允许")) return true;
-        if (clickTotalMatchContent("禁止")) return true;
-        if (clickContent("立即添加")) return true;
-        if (clickTotalMatchContent("关闭")) return true;
-        if (clickContent("重试")) return true;
-        if (clickTotalMatchContent("以后再说")) return true;
-        if (clickTotalMatchContent("取消")) return true;
-        if (clickContent("开心收下")) return true;
-        if (clickTotalMatchContent("不允许")) return true;
-        if (clickTotalMatchContent("允许")) return true;
-        return false;
-    }
 
     /**
      * 检查是在那个页面
