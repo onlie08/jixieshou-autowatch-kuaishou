@@ -166,17 +166,17 @@ public class WuKongScript extends BaseScript {
 
         }
 
-        if(clickTotalMatchContent("领取金币"));
-
         if(clickTotalMatchContent("待领取"));
 
         if(clickTotalMatchContent("看广告视频1次"));
 
         if(clickTotalMatchContent("看小视频30分钟"));
 
-        if(clickTotalMatchContent("看小说30分钟"));
+//        if(clickTotalMatchContent("看小说30分钟"));
 
         if(clickTotalMatchContent("点击领奖"));
+
+        if(clickTotalMatchContent("领取金币"));
 
         if(clickTotalMatchContent("去阅读"));
 
