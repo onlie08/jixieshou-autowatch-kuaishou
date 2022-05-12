@@ -164,7 +164,7 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     private void doPageId0Things() {
         gotoPersonCount++;
-        if (gotoPersonCount > 5) {
+        if (gotoPersonCount > 8) {
             gotoPersonCount = 0;
             clickXY(point_RenWu.x, point_RenWu.y);
             return;
@@ -178,31 +178,31 @@ public class TouTiaoAdvertScript extends BaseScript {
 
         scrollUp();
 
-        List<AccessibilityNodeInfo> accessibilityNodeInfos = findAccessibilityNodeListById("com.ss.android.article.lite:id/ajb");
-        if (null == accessibilityNodeInfos) {
-            accessibilityNodeInfos = findAccessibilityNodeListById("com.ss.android.article.lite:id/afk");
-        }
-        if (null == accessibilityNodeInfos) {
-            accessibilityNodeInfos = findAccessibilityNodeListById("com.ss.android.article.lite:id/agp");
-        }
-
-        if (null != accessibilityNodeInfos) {
-            for (int i = 0; i < accessibilityNodeInfos.size(); i++) {
-                LogUtils.d(TAG, "nodeInfo.getChildCount():" + accessibilityNodeInfos.get(i).getChildCount() + " postion:" + i);
-                if (accessibilityNodeInfos.get(i).getChildCount() > 2) {
-                    continue;
-                } else {
-                    AccessibilityNodeInfo accessibilityNodeInfo = accessibilityNodeInfos.get(i);
-                    Rect nodeRect = new Rect();
-                    accessibilityNodeInfo.getBoundsInScreen(nodeRect);
-                    clickXY(nodeRect.centerX(), nodeRect.centerY());
-
-                    return;
-                }
-            }
-        } else {
-            clickContent("0评论");
-        }
+//        List<AccessibilityNodeInfo> accessibilityNodeInfos = findAccessibilityNodeListById("com.ss.android.article.lite:id/ajb");
+//        if (null == accessibilityNodeInfos) {
+//            accessibilityNodeInfos = findAccessibilityNodeListById("com.ss.android.article.lite:id/afk");
+//        }
+//        if (null == accessibilityNodeInfos) {
+//            accessibilityNodeInfos = findAccessibilityNodeListById("com.ss.android.article.lite:id/agp");
+//        }
+//
+//        if (null != accessibilityNodeInfos) {
+//            for (int i = 0; i < accessibilityNodeInfos.size(); i++) {
+//                LogUtils.d(TAG, "nodeInfo.getChildCount():" + accessibilityNodeInfos.get(i).getChildCount() + " postion:" + i);
+//                if (accessibilityNodeInfos.get(i).getChildCount() > 2) {
+//                    continue;
+//                } else {
+//                    AccessibilityNodeInfo accessibilityNodeInfo = accessibilityNodeInfos.get(i);
+//                    Rect nodeRect = new Rect();
+//                    accessibilityNodeInfo.getBoundsInScreen(nodeRect);
+//                    clickXY(nodeRect.centerX(), nodeRect.centerY());
+//
+//                    return;
+//                }
+//            }
+//        } else {
+//            clickContent("0评论");
+//        }
 
         if (clickContent("继续阅读")) return;
 

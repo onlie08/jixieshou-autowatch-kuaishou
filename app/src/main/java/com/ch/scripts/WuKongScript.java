@@ -133,7 +133,7 @@ public class WuKongScript extends BaseScript {
     private void doPageId0Things() {
         LogUtils.d(TAG, "doPageId0Things");
         if(samePageCount > 8){
-            clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()-SizeUtils.dp2px(25));
+            clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
             scrollDown();
             return;
         }
