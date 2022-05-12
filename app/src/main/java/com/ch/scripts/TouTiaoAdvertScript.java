@@ -48,7 +48,6 @@ public class TouTiaoAdvertScript extends BaseScript {
 
     private int pageId = -1;//0:首页 1:个人中心  2:阅读页  3:广告页
     private int lastPageId = -1; //上次的页面
-    private int samePageCount = 0; //同一个页面停留次数
 
     @Override
     protected boolean isTargetPkg() {

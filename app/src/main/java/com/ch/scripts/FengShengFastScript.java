@@ -43,7 +43,6 @@ public class FengShengFastScript extends BaseScript {
 
     private int pageId = -1;//0:首页 1:个人中心  2:阅读页  3:广告页
     private int lastPageId = -1; //上次的页面
-    private int samePageCount = 0; //同一个页面停留次数
 
     private int type = 0; //任务执行类型 1：早上打卡 2：加班餐申请 3：晚上打卡 4：申请加班时长
     private int mHour = 0;//当前小时

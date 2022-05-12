@@ -5,6 +5,7 @@ import static com.ch.core.utils.ActionUtils.pressHome;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.blankj.utilcode.util.LogUtils;
@@ -40,7 +41,7 @@ public class WuKongScript extends BaseScript {
 
     private int pageId = -1;//0:首页 1:个人中心  2:广告页 3：幸运大转盘 4:看广告赚金币
     private int lastPageId = -1; //上次的页面
-    private int samePageCount = 0; //同一个页面停留次数
+
 
     @Override
     protected boolean isTargetPkg() {
@@ -106,7 +107,6 @@ public class WuKongScript extends BaseScript {
 
             if (clickTotalMatchContent("继续观看")) ;
 
-
             if (samePageCount >= 4) {
                 if (clickTotalMatchContent("坚持退出")) ;
             }
@@ -117,10 +117,14 @@ public class WuKongScript extends BaseScript {
     }
 
     private void doPageId4Things() {
-        NodeInfo nodeInfo = findByText("我的书架");
-        clickXY(nodeInfo.getRect().centerX(),nodeInfo.getRect().centerY()+SizeUtils.dp2px(100));
+        LogUtils.d(TAG,"doPageId4Things()");
+        clickXY(MyApplication.getScreenWidth()/4,MyApplication.getScreenHeight()*3/5);
+        if(clickTotalMatchContent("加入书架"));
+        if(clickContent("继续阅读"));
         for(int i=0;i<30;i++){
+            if(clickContent("看视频免")) return;
             ActionUtils.zuohua();
+            LogUtils.d(TAG,"ActionUtils.zuohua()");
         }
         clickBack();
     }
@@ -130,7 +134,6 @@ public class WuKongScript extends BaseScript {
         LogUtils.d(TAG, "doPageId0Things");
         if(samePageCount > 8){
             clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()-SizeUtils.dp2px(25));
-            scrollDown();
             scrollDown();
             return;
         }
@@ -149,7 +152,6 @@ public class WuKongScript extends BaseScript {
         LogUtils.d(TAG, "doPageId1Things");
         if (samePageCount > 5) {
             scrollDown();
-            scrollDown();
             skipTask();
             return;
         }
@@ -158,16 +160,13 @@ public class WuKongScript extends BaseScript {
 
         if(clickEveryTotalMatchByText("开宝箱得金币"));
 
-        if(findTotalMatchContent("新人福利")){
+        if(findTotalMatchContent("新人大红包")){
             if(clickTotalMatchContent("新人大红包"));
             if(clickTotalMatchContent("今天"));
 
         }
 
         if(clickTotalMatchContent("领取金币"));
-
-
-
 
         if(clickTotalMatchContent("待领取"));
 

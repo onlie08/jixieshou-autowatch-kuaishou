@@ -26,7 +26,6 @@ public class MTZDScript extends BaseScript {
     private Point point_WoDe;
     private int pageId = -1;//0:首页 1:个人中心  2:广告页 3：幸运大转盘 4:看广告赚金币
     private int lastPageId = -1; //上次的页面
-    private int samePageCount = 0; //同一个页面停留次数
 
     private volatile static MTZDScript instance; //声明成 volatile
 

@@ -34,6 +34,7 @@ public abstract class BaseScript implements IScript {
     private long startTime;
     public boolean stop = false;
     public boolean todayDone = false;
+    public int samePageCount = 0; //同一个页面停留次数
 
     public boolean isTodayDone() {
         return todayDone;
@@ -539,13 +540,14 @@ public abstract class BaseScript implements IScript {
 
     public void tryClickDialog() {
         LogUtils.d(BASETAG, "tryClickDialog()");
-//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2);
-//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+100);
-//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+200);
-//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+300);
-//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+400);
-//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+500);
-//        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+600);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+100);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+200);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+300);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+400);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+500);
+        clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()/2+600);
+        samePageCount = 0;
     }
 
     public boolean installPackage(String pnkName) {
@@ -612,6 +614,7 @@ public abstract class BaseScript implements IScript {
         if(clickEveryNodeInfosByText("退出"));
         if(clickEveryNodeInfosByText("离开"));
         if(clickEveryNodeInfosByText("不要"));
+        if(clickEveryNodeInfosByText("残忍"));
         if(clickEveryNodeInfosByText("继续"));
         if(clickEveryNodeInfosByText("立即"));
         if(clickEveryNodeInfosByText("以后"));

@@ -42,7 +42,6 @@ public class KuaishouFastScript extends BaseScript {
 
     private int pageId = -1;//0:首页 1:个人中心  2:广告页 3:填写邀请码
     private int lastPageId = -1; //上次的页面
-    private int samePageCount = 0; //同一个页面停留次数
 
     @Override
     protected boolean isTargetPkg() {
