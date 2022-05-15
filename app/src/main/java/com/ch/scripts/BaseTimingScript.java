@@ -52,8 +52,7 @@ public abstract class BaseTimingScript implements IScript {
     }
 
     private boolean isPause() {
-        return TaskExecutor.getInstance().isForcePause() ||
-                TaskExecutor.getInstance().isPause();
+        return TaskExecutor.getInstance().isForcePause();
     }
 
     @Override

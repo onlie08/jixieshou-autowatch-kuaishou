@@ -56,45 +56,70 @@ public abstract class BaseScript implements IScript {
 
     @Override
     public void execute() {
-        stop = false;
-        startApp();
-        resetStartTime();
 
-        // 总时间
-        while ((System.currentTimeMillis() - startTime < getTimeout()) && !stop) {
-            try {
-                if (isPause()) {
-                    if(clickTotalMatchContent("完成"))
-                    Utils.sleep(2000);
-                    continue;
-                }
-                if (!isTargetPkg()) {
-                    continue;
-                }
-                if (!NetworkUtils.isAvailable()) {
-                    continue;
-                }
-                if (ScreenUtils.isScreenLock()) {
-                    continue;
-                }
-                executeScript();
-            } catch (Exception e) {
-                Logger.e("执行异常，脚本: " + appInfo.getTaskName(), e);
-            } finally {
-//                if (findContent("启动应用")) {
-//                    clickId("button1");
-//                }
-                if(isPause()){
-                    findAllPageByContent("测试",true);
-                    MyApplication.getAppInstance().getAccessbilityService().setRoot();
-//                    if (findId("test")) ;
-//                    logcatAccessibilityNode();
-                }
-                int t = getRandomSleepTime(getMinSleepTime(), getMaxSleepTime());
-                Logger.i("休眠：" + t);
-                Utils.sleep(t);
+        try {
+//            if (isPause()) {
+//                if(clickTotalMatchContent("完成"))
+//                    Utils.sleep(2000);
+//                continue;
+//            }
+//            if (!isTargetPkg()) {
+//                continue;
+//            }
+//            if (!NetworkUtils.isAvailable()) {
+//                continue;
+//            }
+//            if (ScreenUtils.isScreenLock()) {
+//                continue;
+//            }
+            executeScript();
+        } catch (Exception e) {
+            Logger.e("执行异常，脚本: " + appInfo.getTaskName(), e);
+        } finally {
+            if(isPause()){
+                findAllPageByContent("测试",true);
+                MyApplication.getAppInstance().getAccessbilityService().setRoot();
             }
+            int t = getRandomSleepTime(getMinSleepTime(), getMaxSleepTime());
+            Logger.i("休眠：" + t);
+            Utils.sleep(t);
         }
+
+
+//        stop = false;
+//        startApp();
+//        resetStartTime();
+//
+//        // 总时间
+//        while ((System.currentTimeMillis() - startTime < getTimeout()) && !stop) {
+//            try {
+//                if (isPause()) {
+//                    if(clickTotalMatchContent("完成"))
+//                    Utils.sleep(2000);
+//                    continue;
+//                }
+//                if (!isTargetPkg()) {
+//                    continue;
+//                }
+//                if (!NetworkUtils.isAvailable()) {
+//                    continue;
+//                }
+//                if (ScreenUtils.isScreenLock()) {
+//                    continue;
+//                }
+//                executeScript();
+//            } catch (Exception e) {
+//                Logger.e("执行异常，脚本: " + appInfo.getTaskName(), e);
+//            } finally {
+//                if(isPause()){
+//                    findAllPageByContent("测试",true);
+//                    MyApplication.getAppInstance().getAccessbilityService().setRoot();
+//                }
+//                int t = getRandomSleepTime(getMinSleepTime(), getMaxSleepTime());
+//                Logger.i("休眠：" + t);
+//                Utils.sleep(t);
+//            }
+//        }
     }
     private String TAG1 = "logcatAccess";
     public void logcatAccessibilityNode() {
@@ -163,8 +188,7 @@ public abstract class BaseScript implements IScript {
     }
 
     private boolean isPause() {
-        return TaskExecutor.getInstance().isForcePause() ||
-                TaskExecutor.getInstance().isPause();
+        return TaskExecutor.getInstance().isForcePause();
     }
 
     @Override

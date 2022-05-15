@@ -60,8 +60,7 @@ public abstract class TimeBaseScript implements IScript {
     }
 
     private boolean isPause() {
-        return TaskExecutor.getInstance().isForcePause() ||
-                TaskExecutor.getInstance().isPause();
+        return TaskExecutor.getInstance().isForcePause();
     }
 
     @Override

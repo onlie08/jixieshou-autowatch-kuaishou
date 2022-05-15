@@ -120,7 +120,8 @@ public class MainPageFragment extends Fragment {
             btn_skip_task.setVisibility(View.VISIBLE);
         }
 
-        view.findViewById(R.id.btn_skip_task).setOnClickListener(view14 -> TaskExecutor.getInstance().setAllTime(0));
+        view.findViewById(R.id.btn_skip_task).setOnClickListener(view14 -> TaskExecutor.getInstance().getScriptThread().interrupt());
+//        view.findViewById(R.id.btn_skip_task).setOnClickListener(view14 -> TaskExecutor.getInstance().setAllTime(0));
         view.findViewById(R.id.tv_describe).setOnClickListener(view15 -> {
 //                startWXTask();
             playInfo(1);
@@ -593,6 +594,9 @@ public class MainPageFragment extends Fragment {
             info = getNextUnDoneTask();
         } else {
             currentPos++;
+            if(appInfos.isEmpty()){
+                initData();
+            }
             if (appInfos.get(currentPos).isTodayDone()) {
                 info = getNextUnDoneTask();
             } else {
