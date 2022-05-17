@@ -103,6 +103,10 @@ public class WuKongScript extends BaseScript {
 
             doPageId4Things();
 
+        }else if (pageId == 5) {
+
+            doPageId5Things();
+
         } else {
 
             if (clickTotalMatchContent("继续观看")) ;
@@ -116,6 +120,13 @@ public class WuKongScript extends BaseScript {
 
     }
 
+    private void doPageId5Things() {
+        if(samePageCount > 8){
+            clickXY(MyApplication.getScreenWidth()/2,MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
+            return;
+        }
+        scrollUp();
+    }
     private void doPageId4Things() {
         LogUtils.d(TAG,"doPageId4Things()");
         clickXY(MyApplication.getScreenWidth()/4,MyApplication.getScreenHeight()*3/5);
@@ -260,6 +271,7 @@ public class WuKongScript extends BaseScript {
         if (clickContent("再看一条视频领")) return true;
         if (clickContent("再看一个")) return false;
         if (clickContent("看广告再得")) return true;
+        if (clickContent("看广告再得")) return true;
         return false;
     }
 
@@ -276,7 +288,7 @@ public class WuKongScript extends BaseScript {
             return 1;
         }
 
-        if (findContent("后可领取奖励") || findContent("s关闭")) {
+        if (findContent("后可领取奖励") || findContent("s关闭")|| findContent("s后再领")) {
             return 2;
         }
 
@@ -285,6 +297,9 @@ public class WuKongScript extends BaseScript {
         }
         if (findAllPageByContent("我的书架",true) && findAllPageByContent("阅读偏好",true)) {
             return 4;
+        }
+        if ( findTotalMatchContent("评论") && findTotalMatchContent("分享") ) {
+            return 5;
         }
 
         return -1;
