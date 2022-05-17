@@ -53,6 +53,7 @@ public class Utils {
     }
 
     public static boolean isStandardWebView(String className) {
+        Log.d(TAG,"isStandardWebView:"+className);
 //        return "com.tencent.tbs.core.webkit.WebView".equals(className);
         return "android.webkit.WebView".equals(className);
     }

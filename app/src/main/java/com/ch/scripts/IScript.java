@@ -10,6 +10,11 @@ public interface IScript {
     void startApp();
 
     /**
+     * 暂停应用
+     */
+    void pauseApp();
+
+    /**
      * 执行脚本
      */
     void execute();

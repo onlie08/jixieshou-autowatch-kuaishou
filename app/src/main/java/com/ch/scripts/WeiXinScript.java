@@ -166,6 +166,11 @@ public class WeiXinScript extends BaseTimingScript {
     }
 
     @Override
+    public void pauseApp() {
+
+    }
+
+    @Override
     public boolean isDestinationPage() {
         // 检查当前包名是否有本年应用
         if (!isTargetPkg() && isCurrentScipte()) {

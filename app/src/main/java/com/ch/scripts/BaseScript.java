@@ -54,6 +54,12 @@ public abstract class BaseScript implements IScript {
         return appInfo.getPeriod() * 60 * 60 * 1000;
     }
 
+
+    @Override
+    public void pauseApp() {
+        findAllPageByContent("暂停",true);
+    }
+
     @Override
     public void execute() {
 

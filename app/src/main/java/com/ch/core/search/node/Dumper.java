@@ -372,7 +372,7 @@ public class Dumper {
      * @return
      */
     private NodeInfo convertAccessbilityNode(AccessibilityNodeInfo node) {
-//        LogUtils.d(TAG,"convertAccessbilityNode()");
+        LogUtils.d(TAG,"convertAccessbilityNode():"+node.getClassName()+" text:"+node.getText());
         NodeInfo myrect = new NodeInfo();
 
         CharSequence packaeName = node.getPackageName() == null ? "" : node.getPackageName();

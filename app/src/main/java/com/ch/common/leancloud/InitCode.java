@@ -1,6 +1,7 @@
 package com.ch.common.leancloud;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.ch.common.RecommendCodeManage;
 import com.ch.core.utils.Logger;
@@ -11,6 +12,7 @@ import cn.leancloud.LCObject;
 import cn.leancloud.LCQuery;
 
 public class InitCode extends AsyncTask<String, Integer, RecommendBean> {
+
 
     @Override
     protected RecommendBean doInBackground(String... strings) {
@@ -47,4 +49,6 @@ public class InitCode extends AsyncTask<String, Integer, RecommendBean> {
         }
         return null;
     }
+
+
 }

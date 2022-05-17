@@ -60,8 +60,7 @@ public class TaskExecutor {
         this.initStartFlags();
         if (scriptThread == null) {
             currentTaskApp = appInfo;
-//            allTime = appInfo.getPeriod() * 60 * 1000;
-                    allTime = 1 * 60 * 1000;
+            allTime = appInfo.getPeriod() * 60 * 1000;
 
             LogUtils.d(TAG, "scriptThread == null");
             scriptThread = new Thread(() -> {
@@ -123,7 +122,7 @@ public class TaskExecutor {
                                 try {
                                     if (currentScript != null) {
                                         if (isForcePause()) {
-
+                                            currentScript.pauseApp();
                                         } else {
                                             boolean isDestinationPage = currentScript.isDestinationPage();
                                             long finalSt = st;
