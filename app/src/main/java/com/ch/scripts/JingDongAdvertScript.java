@@ -9,6 +9,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
+import com.ch.common.DeviceUtils;
 import com.ch.core.search.node.NodeInfo;
 import com.ch.core.utils.Constant;
 import com.ch.core.utils.Utils;
@@ -145,6 +146,9 @@ public class JingDongAdvertScript extends BaseScript {
      */
     private void doPageId1Things() {
         LogUtils.d(TAG, "doPageId1Things");
+        if(clickTotalMatchContent("50"));
+        if(clickTotalMatchContent("60"));
+
         if (null == point_ZhuanJinBi) {
             getRecognitionResult();
             if (null == point_ZhuanJinBi) {
@@ -161,10 +165,74 @@ public class JingDongAdvertScript extends BaseScript {
      */
     private void doPageId2Things() {
         LogUtils.d(TAG, "doPageId2Things");
+        if (!SPUtils.getInstance().getBoolean(DeviceUtils.getToday() + "jd", false)) {
+            for(int i=0;i<8;i++){
+                if(findTotalMatchContent("去参加")
+                        || findTotalMatchContent("去挖宝")
+                        || findTotalMatchContent("去签到")
+                        || findTotalMatchContent("去投胎")
+                        || findTotalMatchContent("去参与")
+                        || findTotalMatchContent("去推钱")
+                        || findTotalMatchContent("去种树")
+                        || findTotalMatchContent("去赛跑")
+                        || findTotalMatchContent("去抽奖")
+                        || findTotalMatchContent("去砍价")
+                ){
+                    if(clickTotalMatchContent("去参加")) {
+                        clickBack();
+                    }
+
+                    if(clickTotalMatchContent("去挖宝")) {
+                        clickBack();
+                    }
+
+                    if(clickTotalMatchContent("去签到")) {
+                        clickBack();
+                    }
+
+                    if(clickTotalMatchContent("去投胎")) {
+                        clickBack();
+                    }
+
+                    if(clickTotalMatchContent("去参与")) {
+                        clickBack();
+                    }
+
+                    if(clickTotalMatchContent("去推钱")) {
+                        clickBack();
+                    }
+
+                    if(clickTotalMatchContent("去种树")) {
+                        clickBack();
+                    }
+
+                    if(clickTotalMatchContent("去赛跑")) {
+                        clickBack();
+                    }
+
+                    if(clickTotalMatchContent("去抽奖")) {
+                        clickBack();
+                    }
+
+                    if(clickTotalMatchContent("去砍价")) {
+                        clickBack();
+                    }
+
+                }else {
+                    scrollUpPx(SizeUtils.dp2px(200));
+                }
+            }
+            SPUtils.getInstance().put(DeviceUtils.getToday() + "jd", true);
+            return;
+        }
+
         if (samePageCount > 2) {
             clickBack();
             return;
         }
+
+
+
         List<NodeInfo> nodeInfoList = findAllTotalMatchByText("已完成");
         if(null != nodeInfoList && nodeInfoList.size() == 3){
             CrashReport.postCatchedException(new Exception("京东今日任务完成"));
@@ -183,17 +251,20 @@ public class JingDongAdvertScript extends BaseScript {
 //      if(clickContent("东东爱消除"))Utils.sleep(5000);
     }
 
+
     /**
      * 逛商品任务页
      */
     private void doPageId3Things() {
         LogUtils.d(TAG, "doPageId3Things");
+
         if (findContent("今日已完成")) {
             while (checkPageId() != 2 && isTargetPkg()) {
                 clickBack();
             }
             return;
         }
+        if(clickTotalMatchContent("立即领取"));
         if (clickContent("点击逛下一个")) {
             samePageCount = 0;
             return;
@@ -218,7 +289,7 @@ public class JingDongAdvertScript extends BaseScript {
             return 0;
         }
 
-        if (findContent("逛商品赚金币") && findContent("逛活动赚金币")) {
+        if (findAllPageByContent("逛商品赚金币",true) && findAllPageByContent("逛活动赚金币",true)) {
             return 2;
         }
 
