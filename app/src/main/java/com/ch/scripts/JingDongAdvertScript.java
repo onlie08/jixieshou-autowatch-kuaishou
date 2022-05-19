@@ -167,17 +167,6 @@ public class JingDongAdvertScript extends BaseScript {
         LogUtils.d(TAG, "doPageId2Things");
         if (!SPUtils.getInstance().getBoolean(DeviceUtils.getToday() + "jd", false)) {
             for(int i=0;i<8;i++){
-                if(findTotalMatchContent("去参加")
-                        || findTotalMatchContent("去挖宝")
-                        || findTotalMatchContent("去签到")
-                        || findTotalMatchContent("去投胎")
-                        || findTotalMatchContent("去参与")
-                        || findTotalMatchContent("去推钱")
-                        || findTotalMatchContent("去种树")
-                        || findTotalMatchContent("去赛跑")
-                        || findTotalMatchContent("去抽奖")
-                        || findTotalMatchContent("去砍价")
-                ){
                     if(clickTotalMatchContent("去参加")) {
                         clickBack();
                     }
@@ -218,9 +207,7 @@ public class JingDongAdvertScript extends BaseScript {
                         clickBack();
                     }
 
-                }else {
                     scrollUpPx(SizeUtils.dp2px(200));
-                }
             }
             SPUtils.getInstance().put(DeviceUtils.getToday() + "jd", true);
             return;
