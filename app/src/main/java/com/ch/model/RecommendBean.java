@@ -17,8 +17,17 @@ public class RecommendBean implements Parcelable {
     private String code_huoshan;
     private String code_fanqie;
     private String code_wukong;
+    private String code_ximalaya;
     private String code_taote;
     private String code_jingdong;
+
+    public String getCode_ximalaya() {
+        return code_ximalaya;
+    }
+
+    public void setCode_ximalaya(String code_ximalaya) {
+        this.code_ximalaya = code_ximalaya;
+    }
 
     public String getCode_taote() {
         return code_taote;

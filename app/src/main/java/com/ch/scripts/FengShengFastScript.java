@@ -365,7 +365,7 @@ public class FengShengFastScript extends BaseScript {
         AccessibilityNodeInfo editPassword = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
         if (editPassword != null) {
             Bundle arguments = new Bundle();
-            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "Onlie-chcn1314");
+            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "Onlie-10130498600");
             editPassword.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
             Utils.sleep(1000);
             clickTotalMatchContent("登录");

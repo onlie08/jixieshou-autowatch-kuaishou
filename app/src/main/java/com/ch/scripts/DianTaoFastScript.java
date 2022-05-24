@@ -450,7 +450,7 @@ public class DianTaoFastScript extends BaseScript {
             if (clickContent("我知道了")) return;
         }
 
-        if(findTotalMatchContent("做任务赚步数") || findTotalMatchContent("去天猫领红包")){
+        if(findTotalMatchContent("做任务赚步数") || findTotalMatchContent("去天猫领红包")|| findTotalMatchContent("搜索商品或主播")){
             if (clickTotalMatchContent("去观看")) return;
             if (clickTotalMatchContent("去浏览")) {
                 doScan(16);
@@ -557,6 +557,7 @@ public class DianTaoFastScript extends BaseScript {
 
         if (clickContent("去看直播赚")) return true;
         if (clickContent("秒再得")) return true;
+        if (clickContent("秒得")) return true;
         if (clickContent("秒直播再得")) return true;
 
         return false;

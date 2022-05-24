@@ -161,6 +161,10 @@ public class RecommendCodeManage {
         if (TextUtils.isEmpty(recommendBean.getCode_wukong())) {
             recommendBean.setCode_wukong("J33075316");
         }
+        if (TextUtils.isEmpty(recommendBean.getCode_ximalaya())) {
+            //fixme
+            recommendBean.setCode_ximalaya("");
+        }
         if (TextUtils.isEmpty(recommendBean.getCode_eleme())) {
             recommendBean.setCode_eleme("https://h5.ele.me/ant/qrcode2?open_type=miniapp&url_id=35&inviterId=3b72f5fa&actId=1&_ltracker_f=hjb_app_jgwzfb&chInfo=ch_share__chsub_CopyLink&apshareid=7816ec01-60af-46db-8640-4f8ccf3b4b7d");
         }
@@ -184,6 +188,8 @@ public class RecommendCodeManage {
         recommendBean.setCode_huoshan("F5QE9E");
         recommendBean.setCode_fanqie("452019513");
         recommendBean.setCode_wukong("J33075316");
+        //fixme
+        recommendBean.setCode_ximalaya("");
         recommendBean.setCode_taote("");
         recommendBean.setCode_jingdong("ZW99VA");
         return recommendBean;

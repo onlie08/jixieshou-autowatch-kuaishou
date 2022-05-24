@@ -57,7 +57,14 @@ public abstract class BaseScript implements IScript {
 
     @Override
     public void pauseApp() {
-        findAllPageByContent("暂停",true);
+        if(BuildConfig.DEBUG){
+//            findAllPageByContent("暂停",true);
+            findContent("暂停");
+            findId("test");
+            refreshNodeinfo();
+
+        }
+
     }
 
     @Override

@@ -109,6 +109,9 @@ public class RecognitionManage {
             case Constant.PN_WU_KONG:
                 ClipboardUtils.copyText(MyApplication.recommendBean.getCode_wukong());
                 break;
+            case Constant.PN_XI_MA_LA_YA:
+                ClipboardUtils.copyText(MyApplication.recommendBean.getCode_ximalaya());
+                break;
             case Constant.PN_MEI_TIAN_ZHUAN_DIAN:
                 ClipboardUtils.copyText(MyApplication.recommendBean.getCode_meitianzhuandian());
                 break;

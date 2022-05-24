@@ -23,6 +23,7 @@ import static com.ch.core.utils.Constant.PN_MEI_TIAN_ZHUAN_DIAN;
 import static com.ch.core.utils.Constant.PN_TAO_TE;
 import static com.ch.core.utils.Constant.PN_TOU_TIAO;
 import static com.ch.core.utils.Constant.PN_XIAO_HONG_SHU;
+import static com.ch.core.utils.Constant.PN_XI_MA_LA_YA;
 import static com.ch.core.utils.Constant.PN_YING_KE;
 
 public class DownLoadAppManage {
@@ -40,6 +41,7 @@ public class DownLoadAppManage {
     private boolean isInstallHuoShan = false;
     private boolean isInstallFanQie = false;
     private boolean isInstallWuKong = false;
+    private boolean isInstallXiMaLaYa = false;
     private boolean isInstallMeiTianZhuanDian = false;
     private boolean isInstallXiaoHongShu = false;
 
@@ -70,6 +72,7 @@ public class DownLoadAppManage {
         isInstallHuoShan = BaseUtil.isInstallPackage(PN_HUO_SHAN);
         isInstallFanQie = BaseUtil.isInstallPackage(PN_FAN_QIE);
         isInstallWuKong = BaseUtil.isInstallPackage(PN_WU_KONG);
+        isInstallXiMaLaYa = BaseUtil.isInstallPackage(PN_XI_MA_LA_YA);
         isInstallMeiTianZhuanDian = BaseUtil.isInstallPackage(PN_MEI_TIAN_ZHUAN_DIAN);
         isInstallXiaoHongShu = BaseUtil.isInstallPackage(PN_XIAO_HONG_SHU);
     }
@@ -146,6 +149,13 @@ public class DownLoadAppManage {
             if (appInfo.getPkgName().equals(Constant.PN_WU_KONG)) {
                 if (!isInstallWuKong) {
                     BaseUtil.showDownLoadDialog(PN_WU_KONG, context);
+                    return false;
+                }
+
+            }
+            if (appInfo.getPkgName().equals(Constant.PN_XI_MA_LA_YA)) {
+                if (!isInstallXiMaLaYa) {
+                    BaseUtil.showDownLoadDialog(PN_XI_MA_LA_YA, context);
                     return false;
                 }
 

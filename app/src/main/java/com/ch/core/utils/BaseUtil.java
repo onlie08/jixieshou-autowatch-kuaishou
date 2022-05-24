@@ -84,6 +84,8 @@ public class BaseUtil {
             needRecommend = true;
         }else if (packageName.equals(Constant.PN_WU_KONG)) {
             needRecommend = true;
+        }else if (packageName.equals(Constant.PN_XI_MA_LA_YA)) {
+            needRecommend = true;
         }
         return needRecommend;
     }
@@ -114,6 +116,8 @@ public class BaseUtil {
             describeText = context.getResources().getString(R.string.fanqie_describe);
         }else if (packageName.equals(Constant.PN_WU_KONG)) {
             describeText = context.getResources().getString(R.string.wukong_describe);
+        }else if (packageName.equals(Constant.PN_XI_MA_LA_YA)) {
+            describeText = context.getResources().getString(R.string.ximalaya_describe);
         }
         return describeText;
     }
@@ -144,6 +148,8 @@ public class BaseUtil {
             recommendCode = MyApplication.recommendBean.getCode_fanqie();
         }else if (packageName.equals(Constant.PN_WU_KONG)) {
             recommendCode = MyApplication.recommendBean.getCode_wukong();
+        }else if (packageName.equals(Constant.PN_XI_MA_LA_YA)) {
+            recommendCode = MyApplication.recommendBean.getCode_ximalaya();
         }
 //        else if(packageName.equals(Constant.PN_YING_KE)){
 //            recommendCode = "";
@@ -183,6 +189,8 @@ public class BaseUtil {
             recommendCode = "番茄畅听";
         }else if (packageName.equals(Constant.PN_WU_KONG)) {
             recommendCode = "悟空浏览器";
+        }else if (packageName.equals(Constant.PN_XI_MA_LA_YA)) {
+            recommendCode = "喜马拉雅极速版";
         }
         return recommendCode;
     }

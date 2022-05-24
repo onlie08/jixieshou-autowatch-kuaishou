@@ -27,6 +27,8 @@ public class AppDescribeUtil {
                 return String.format(String.valueOf(context.getResources().getText(R.string.fanqie_detail)), MyApplication.recommendBean.getCode_fanqie());
             case Constant.PN_WU_KONG:
                 return String.format(String.valueOf(context.getResources().getText(R.string.wukong_detail)), MyApplication.recommendBean.getCode_fanqie());
+            case Constant.PN_XI_MA_LA_YA:
+                return String.format(String.valueOf(context.getResources().getText(R.string.ximalaya_detail)), MyApplication.recommendBean.getCode_fanqie());
             case Constant.PN_JING_DONG:
                 return context.getResources().getText(R.string.jingdong_detail).toString();
             case Constant.PN_TAO_TE:

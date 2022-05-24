@@ -35,6 +35,8 @@ public class AppIconUtil {
             return R.drawable.icon_fanqie;
         }else if (pkgName.equals(Constant.PN_WU_KONG)) {
             return R.drawable.icon_wukong;
+        }else if (pkgName.equals(Constant.PN_XI_MA_LA_YA)) {
+            return R.drawable.icon_ximalaya;
         }
         return R.drawable.money;
     }

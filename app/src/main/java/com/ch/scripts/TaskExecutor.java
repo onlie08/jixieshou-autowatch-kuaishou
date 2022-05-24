@@ -110,6 +110,9 @@ public class TaskExecutor {
                             case Constant.PN_WU_KONG:
                                 script = WuKongScript.getSingleton(appInfo);
                                 break;
+                            case Constant.PN_XI_MA_LA_YA:
+                                script = XiMaLaYaScript.getSingleton(appInfo);
+                                break;
                         }
                         if (script != null) {
                             currentScript = script;

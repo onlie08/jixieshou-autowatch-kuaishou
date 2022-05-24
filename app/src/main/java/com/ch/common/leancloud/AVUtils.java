@@ -39,6 +39,7 @@ public class AVUtils {
         user_pay.put("aiqiyi", recommendBean.getCode_aiqiyi());
         user_pay.put("fanqie", recommendBean.getCode_fanqie());
         user_pay.put("wukong", recommendBean.getCode_wukong());
+        user_pay.put("ximalaya", recommendBean.getCode_ximalaya());
         user_pay.put("huoshan", recommendBean.getCode_huoshan());
         user_pay.put("mtzd", recommendBean.getCode_meitianzhuandian());
         user_pay.put("meituan", recommendBean.getCode_meituan());
