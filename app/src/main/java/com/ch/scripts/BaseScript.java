@@ -60,7 +60,7 @@ public abstract class BaseScript implements IScript {
         if(BuildConfig.DEBUG){
 //            findAllPageByContent("暂停",true);
             findContent("暂停");
-            findId("test");
+//            findId("test");
             refreshNodeinfo();
 
         }

@@ -168,8 +168,8 @@ public class FengShengFastScript extends BaseScript {
                 doShenQin2();
                 break;
             default:
-                Utils.sleep(1500);
                 clickBack();
+                clickId("ad_dialog_close_button");
                 break;
         }
     }
@@ -218,7 +218,6 @@ public class FengShengFastScript extends BaseScript {
 
             NodeInfo nodeInfo = findByText("加班类型");
             clickXY(MyApplication.getScreenWidth() / 2, nodeInfo.getRect().centerY());
-            Utils.sleep(2000);
 
             NodeInfo nodeInfo1 = findByText("延时加班");
             NodeInfo nodeInfo2 = findByText("公息日加班");
@@ -229,7 +228,6 @@ public class FengShengFastScript extends BaseScript {
             new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
             Utils.sleep(2000);
             clickTotalMatchContent("完成");
-            Utils.sleep(2000);
         }
 
         if (root5 != null) {
@@ -240,9 +238,8 @@ public class FengShengFastScript extends BaseScript {
         }
 
         if (clickTotalMatchContent("提交申请")) {
-            Utils.sleep(1000);
             if (clickTotalMatchContent("确定")) {
-                Utils.sleep(4000);
+                Utils.sleep(2000);
                 task4 = true;
                 setTodayDone(true);
                 skipTask();
@@ -268,11 +265,9 @@ public class FengShengFastScript extends BaseScript {
             Utils.sleep(2000);
 
             if (clickTotalMatchContent("提交")) {
-                Utils.sleep(2000);
                 NodeInfo nodeInfo2 = findByText("领取餐补");
                 if (null != nodeInfo2) {
                     clickXY(nodeInfo2.getRect().centerX(), nodeInfo2.getRect().centerY() - SizeUtils.dp2px(50));
-                    Utils.sleep(2000);
                     task2 = true;
                     clickBack();
                     type = 0;
@@ -284,7 +279,6 @@ public class FengShengFastScript extends BaseScript {
 
     private void doTask3() {
         if (clickTotalMatchContent("加班餐")) {
-            Utils.sleep(1500);
             if (clickTotalMatchContent("已知悉，继续点餐")) {
                 return;
             }
@@ -303,14 +297,11 @@ public class FengShengFastScript extends BaseScript {
     //打卡操作
     private void doCardPage() {
         if (clickTotalMatchContent("我知道了")) {
-            Utils.sleep(2000);
         }
         NodeInfo nodeInfo = findByText("当前时间");
         clickXY(MyApplication.getScreenWidth() / 2, nodeInfo.getRect().centerY() - SizeUtils.dp2px(100));
-        Utils.sleep(3000);
         if (findContent("打卡成功")) {
             clickContent("知道了");
-            Utils.sleep(2000);
             clickBack();
             skipTask();
             if (type == 1) {
@@ -344,18 +335,15 @@ public class FengShengFastScript extends BaseScript {
             tryClickDialog();
         }
         clickXY(MyApplication.getScreenWidth() * 3 / 4 - SizeUtils.dp2px(40), MyApplication.getScreenHeight() - SizeUtils.dp2px(20));
-        Utils.sleep(3000);
         return;
 
     }
 
     private void doLoginPage() {
         clickTotalMatchContent("登录");
-        Utils.sleep(3000);
 
         if (findContent("使用该账号的密码")) {
             clickBack();
-            Utils.sleep(2000);
 //            clickTotalMatchContent("记住密码");
 //            Utils.sleep(2000);
         }
@@ -417,11 +405,8 @@ public class FengShengFastScript extends BaseScript {
                     Utils.sleep(2000);
                 }
                 clickBack();
-                Utils.sleep(2000);
                 clickBack();
-                Utils.sleep(2000);
                 dealNoResponse2();
-                Utils.sleep(2000);
                 resumeCount = 0;
                 CrashReport.postCatchedException(new Throwable("丰声极速版无响应"));
 
@@ -444,7 +429,6 @@ public class FengShengFastScript extends BaseScript {
             refreshNodeinfo();
         }
         if (samePageCount > 10 && samePageCount < 13) {
-            Utils.sleep(1500);
             clickBack();
         }
 
@@ -471,7 +455,7 @@ public class FengShengFastScript extends BaseScript {
         if (findTotalMatchContent("全部") && findContent("@我")) {
             return 1;
         }
-        if (findTotalMatchContent("协作文档") && findContent("打卡")) {
+        if (findAllPageByContent("协作文档",true) && findContent("打卡")) {
             return 2;
         }
         if (findTotalMatchContent("已进入打卡范围")) {
