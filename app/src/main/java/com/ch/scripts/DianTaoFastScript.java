@@ -249,10 +249,10 @@ public class DianTaoFastScript extends BaseScript {
         }else if(findTotalMatchContent("去芭芭农场施肥")){
             if(ifClickNextTask){
                 ifClickNextTask = false;
-                if (clickTotalMatchContent("去观看")) {
+                if (clickContent("看视频")) {
                     return;
                 }
-                if (clickTotalMatchContent("看直播")) {
+                if (clickContent("看直播")) {
                     return;
                 }
                 if (clickTotalMatchContent("去浏览")) {
@@ -451,6 +451,13 @@ public class DianTaoFastScript extends BaseScript {
         }
 
         if(findTotalMatchContent("做任务赚步数") || findTotalMatchContent("去天猫领红包")|| findTotalMatchContent("搜索商品或主播")){
+            if (clickContent("看直播")) return;
+            if (clickContent("看视频")) return;
+            if (clickContent("浏览好货")) return;
+            if (clickContent("浏览上新")) return;
+            if (clickContent("浏览精选")) return;
+            if (clickContent("浏览元宝")) return;
+
             if (clickTotalMatchContent("去观看")) return;
             if (clickTotalMatchContent("去浏览")) {
                 doScan(16);

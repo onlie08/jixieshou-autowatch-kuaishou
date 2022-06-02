@@ -342,24 +342,29 @@ public class TaoTeScript extends BaseScript {
         if(clickContent("克")){
             if(findTotalMatchContent("我的猫粮：")){
                 if(clickTotalMatchContent("逛逛必买特价好物（0/1）")){
-//                    doScan(20);
-//                    clickBack();
+                    doScan(20);
+                    clickBack();
+                    return;
                 }
                 if(clickTotalMatchContent("逛逛精选好货（0/1）")){
-//                    doScan(20);
-//                    clickBack();
+                    doScan(20);
+                    clickBack();
+                    return;
                 }
                 if(clickTotalMatchContent("去官方补贴逛品牌好货（0/1）")){
-//                    doScan(20);
-//                    clickBack();
+                    doScan(20);
+                    clickBack();
+                    return;
                 }
                 if(clickTotalMatchContent("抢特币超值兑换特权（0/1）")){
                     doScan(20);
                     clickBack();
+                    return;
                 }
                 if(clickTotalMatchContent("签到领现金免费兑红包（0/1）")){
                     doScan(20);
                     clickBack();
+                    return;
                 }
                 skipTask();
 //                clickXY(MyApplication.getScreenWidth()/2, SizeUtils.dp2px(200));

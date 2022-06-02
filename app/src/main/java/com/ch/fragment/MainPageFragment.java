@@ -51,6 +51,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
@@ -595,6 +596,7 @@ public class MainPageFragment extends Fragment {
         } else {
             currentPos++;
             if(appInfos.isEmpty()){
+                CrashReport.postCatchedException(new Throwable("任务为空异常：getNextUnDoneTask()"));
                 initData();
             }
             if (appInfos.get(currentPos).isTodayDone()) {
