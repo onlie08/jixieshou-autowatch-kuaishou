@@ -106,6 +106,9 @@ public class DianTaoFastScript extends BaseScript {
         if (findContent("日 获得大礼包")) {
             return 4;
         }
+        if (findAllPageByContent("我的金蛋",false)) {
+            return 10;
+        }
         return -1;
     }
 
@@ -173,11 +176,52 @@ public class DianTaoFastScript extends BaseScript {
             doPageId8Things();
         }else if (pageId == 9) {
             doPageId9Things();
+        } else if (pageId == 10) {
+            doPageId10Things();
         } else {
             if (samePageCount >= 2) {
                 clickXY(point_DianTao.x, point_DianTao.y);
             }
             clickBack();
+        }
+    }
+
+    /**
+     * 618养鸭赚金蛋
+     */
+    private void doPageId10Things() {
+        if(samePageCount > 3){
+            skipTask();
+        }
+        if(clickTotalMatchContent("我知道了"));
+        if(clickContent("距离升级还差")) return;
+        if(clickContent("看直播"));
+        if(clickContent("看黄金8点档直播"));
+        if(clickContent("看视频"));
+        if(clickTotalMatchContent("看直播60秒"));
+        if(clickTotalMatchContent("看晚间惊喜视频"));
+        if(clickContent("浏览精选推荐")){
+            if(pageId != 10){
+                doScan(20);
+                clickBack();
+            }
+        }
+        if(clickContent("浏览好货卖场")){
+            if(pageId != 10){
+                doScan(20);
+                clickBack();
+            }
+
+        }
+        if(clickContent("浏览上新日历")){
+            if(pageId != 10){
+                doScan(20);
+                clickBack();
+            }
+        }
+        if(clickContent("看发现好物")){
+//            doScan(100);
+//            clickBack();
         }
     }
 
@@ -451,18 +495,25 @@ public class DianTaoFastScript extends BaseScript {
         }
 
         if(findTotalMatchContent("做任务赚步数") || findTotalMatchContent("去天猫领红包")|| findTotalMatchContent("搜索商品或主播")){
-            if (clickContent("看直播")) return;
-            if (clickContent("看视频")) return;
-            if (clickContent("浏览好货")) return;
-            if (clickContent("浏览上新")) return;
-            if (clickContent("浏览精选")) return;
-            if (clickContent("浏览元宝")) return;
+            if (clickContent("看直播")) ;
+            if (clickContent("看黄金8点档直播")) ;
+            if (clickContent("看视频")) ;
+            if (clickContent("浏览好货")) ;
+            if (clickContent("浏览上新")) ;
+            if (clickContent("浏览精选")) ;
+            if (clickContent("浏览元宝")) {
+                doScan(20);
+                clickBack();
+            }
 
-            if (clickTotalMatchContent("去观看")) return;
+            if (clickTotalMatchContent("去观看")) ;
             if (clickTotalMatchContent("去浏览")) {
                 doScan(16);
                 clickBack();
-                return;
+            }
+            if(pageId == 4){
+                clickBack();
+                if(clickTotalMatchContent("618养鸭赚金蛋"))return;
             }
             skipTask();
             return;

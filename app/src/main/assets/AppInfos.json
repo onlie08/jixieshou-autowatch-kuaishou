@@ -19,7 +19,7 @@
   {
     "taskName":"点淘",
     "pkgName":"com.taobao.live",
-    "period":5,
+    "period":20,
     "isFree":true,
     "discribe":"",
     "star":"5颗星"

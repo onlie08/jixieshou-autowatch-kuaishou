@@ -196,6 +196,7 @@ public abstract class BaseScript implements IScript {
      * 本次任务做完了，暂停并且跳到下一个app
      */
     public void skipTask() {
+        LogUtils.d(BASETAG,"skipTask()");
         stop = true;
         TaskExecutor.getInstance().setAllTime(0);
     }
