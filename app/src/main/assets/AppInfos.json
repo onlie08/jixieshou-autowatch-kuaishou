@@ -3,7 +3,7 @@
   {
     "taskName":"每天赚点",
     "pkgName":"com.yongloveru.hjw",
-    "period":10,
+    "period":5,
     "isFree":true,
     "discribe":"",
     "star":"5颗星"
@@ -59,14 +59,6 @@
   {
     "taskName":"快手极速版",
     "pkgName":"com.kuaishou.nebula",
-    "period":5,
-    "isFree":true,
-    "discribe":"",
-    "star":"3颗星"
-  },
-  {
-    "taskName":"番茄畅听",
-    "pkgName":"com.xs.fm",
     "period":5,
     "isFree":true,
     "discribe":"",

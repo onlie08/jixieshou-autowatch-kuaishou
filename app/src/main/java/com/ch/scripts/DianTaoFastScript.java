@@ -12,6 +12,7 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.ch.application.MyApplication;
 import com.ch.common.DeviceUtils;
+import com.ch.core.executor.builder.SwipStepBuilder;
 import com.ch.core.search.node.NodeInfo;
 import com.ch.core.utils.ActionUtils;
 import com.ch.core.utils.Constant;
@@ -109,6 +110,9 @@ public class DianTaoFastScript extends BaseScript {
         if (findAllPageByContent("我的金蛋",false)) {
             return 10;
         }
+        if (findTotalMatchContent("向右滑动验证")) {
+            return 11;
+        }
         return -1;
     }
 
@@ -178,12 +182,27 @@ public class DianTaoFastScript extends BaseScript {
             doPageId9Things();
         } else if (pageId == 10) {
             doPageId10Things();
+        }else if (pageId == 11) {
+            doPageId11Things();
         } else {
             if (samePageCount >= 2) {
                 clickXY(point_DianTao.x, point_DianTao.y);
             }
             clickBack();
         }
+    }
+
+    /**
+     * 滑动验证
+     */
+    private void doPageId11Things() {
+        NodeInfo nodeInfo = findTotalMatchByText("向右滑动验证");
+        int y = nodeInfo.getRect().centerY();
+        int startx = SizeUtils.dp2px(60);
+        int endx = MyApplication.getScreenHeight()-SizeUtils.dp2px(60);
+
+        ActionUtils.swipe(startx, y, endx, y, 30,1500);
+
     }
 
     /**
@@ -491,9 +510,9 @@ public class DianTaoFastScript extends BaseScript {
      */
     private void doPageId4Things() {
         if (samePageCount > 3) {
-            if (clickContent("我知道了")) return;
+            skipTask();
         }
-
+        if (clickContent("我知道了"));
         if(findTotalMatchContent("做任务赚步数") || findTotalMatchContent("去天猫领红包")|| findTotalMatchContent("搜索商品或主播")){
             if (clickContent("看直播")) ;
             if (clickContent("看黄金8点档直播")) ;
@@ -515,7 +534,6 @@ public class DianTaoFastScript extends BaseScript {
                 clickBack();
                 if(clickTotalMatchContent("618养鸭赚金蛋"))return;
             }
-            skipTask();
             return;
         }else {
             if(findTotalMatchContent("浏览商品30秒")){

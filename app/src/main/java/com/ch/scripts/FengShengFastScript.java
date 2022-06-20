@@ -353,7 +353,7 @@ public class FengShengFastScript extends BaseScript {
         AccessibilityNodeInfo editPassword = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
         if (editPassword != null) {
             Bundle arguments = new Bundle();
-            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "Onlie-10130498600");
+            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "Chcn12120217");
             editPassword.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
             Utils.sleep(1000);
             clickTotalMatchContent("登录");
@@ -428,6 +428,7 @@ public class FengShengFastScript extends BaseScript {
         if (samePageCount > 3) {
             refreshNodeinfo();
         }
+
         if (samePageCount > 10 && samePageCount < 13) {
             clickBack();
         }
@@ -435,6 +436,7 @@ public class FengShengFastScript extends BaseScript {
         if (samePageCount > 12 && samePageCount < 16) {
             dealNoResponse2();
         }
+
         if (samePageCount > 15) {
             dealNoResponse2();
             tryClickDialog();

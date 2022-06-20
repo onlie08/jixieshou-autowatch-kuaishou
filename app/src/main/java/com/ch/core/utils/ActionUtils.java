@@ -107,6 +107,25 @@ public class ActionUtils {
         }
         return true;
     }
+    public static boolean swipe(int fromX, int fromY, int toX, int toY, int steps, int duration) {
+        if (Build.VERSION.SDK_INT >= 24) {
+            GestureDescription.Builder builder = new GestureDescription.Builder();
+            Path path = new Path();
+            path.moveTo(fromX, fromY);
+            path.lineTo(toX, toY);
+            GestureDescription gestureDescription = builder
+                    .addStroke(new GestureDescription.StrokeDescription(path, 100, duration))
+                    .build();
+            return MyApplication.getAppInstance().getAccessbilityService().dispatchGesture(gestureDescription,
+                    new AccessibilityService.GestureResultCallback() {
+                        @Override
+                        public void onCompleted(GestureDescription gestureDescription) {
+                            super.onCompleted(gestureDescription);
+                        }
+                    }, null);
+        }
+        return true;
+    }
 
     /**
      * 按一次返回键
