@@ -70,6 +70,10 @@ public class DianTaoFastScript extends BaseScript {
      */
     private int checkPageId() {
 
+        if(findTotalMatchContent("关注") && findTotalMatchContent("直播")&& findTotalMatchContent("视频")){
+            return 0;
+        }
+
 //        if (findId("homepage_container") && findId("gold_common_image")) {
         if (findId("tl_homepage2_search_entry_big")) {
             return 0;
@@ -136,9 +140,9 @@ public class DianTaoFastScript extends BaseScript {
         if (pageId == 0) {
             if (point_DianTao == null) {
                 getRecognitionResult();
-                if (point_DianTao == null) {
-                    EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_DIAN_TAO, Constant.PAGE_MAIN));
-                }
+//                if (point_DianTao == null) {
+//                    EventBus.getDefault().post(new ScreenShootEvet(Constant.PN_DIAN_TAO, Constant.PAGE_MAIN));
+//                }
                 return;
             }
 
@@ -272,6 +276,74 @@ public class DianTaoFastScript extends BaseScript {
      * 打工赚元宝
      */
     boolean ifClickNextTask = true;
+    private void doPageId7Things1() {
+        if (null == point_LingTiLi) {
+            NodeInfo nodeInfo1 = findByText("体力+");
+            if (null != nodeInfo1) {
+                point_LingTiLi = new Point(nodeInfo1.getRect().centerX(), nodeInfo1.getRect().centerY() + SizeUtils.dp2px(20));
+                SPUtils.getInstance().put(Constant.DIANTAO_LINGTILI, new Gson().toJson(point_LingTiLi));
+
+                point_ZhuanTiLi = new Point(MyApplication.getScreenWidth() - SizeUtils.dp2px(80), point_LingTiLi.y);
+                SPUtils.getInstance().put(Constant.DIANTAO_ZHUANTILI, new Gson().toJson(point_ZhuanTiLi));
+
+                point_DaGong = new Point(MyApplication.getScreenWidth()/2, point_LingTiLi.y);
+                SPUtils.getInstance().put(Constant.DIANTAO_DAGONG, new Gson().toJson(point_DaGong));
+            } else {
+                changTask();
+                return;
+            }
+        }
+        if(findTotalMatchContent("去芭芭农场施肥")){
+            clickXY(MyApplication.getScreenWidth()/2, SizeUtils.dp2px(200));
+        }
+
+        NodeInfo nodeInfo1 = findByText("体力+");
+        if (null != nodeInfo1) {
+            clickXY(point_LingTiLi.x,point_LingTiLi.y);
+        }
+
+        if(clickTotalMatchContent("去打工赚钱")){
+            if (clickTotalMatchContent("开始打工")) {
+                return;
+            }else if(clickTotalMatchContent("体力不足，去获得体力")){
+
+                if(findTotalMatchContent("去芭芭农场施肥")){
+                    if (clickContent("看视频")) {
+                        return;
+                    }
+                    if (clickContent("看直播")) {
+                        return;
+                    }
+                    if (clickTotalMatchContent("去浏览")) {
+                        doScan(16);
+                        clickBack();
+                        return;
+                    }
+                    if (clickTotalMatchContent("看直播5分钟")){
+                        if(checkPageId() != 7) return;
+                    };
+                    if (clickTotalMatchContent("浏览好货卖场30秒")){
+                        if(checkPageId() != 7) {
+                            doScan(16);
+                            clickBack();
+                            return;
+                        }
+                    };
+                    changTask();
+                    return;
+                }
+                return;
+            }
+        }
+
+        if(findTotalMatchContent("浏览商品30秒")){
+            doScan(16);
+            clickBack();
+            return;
+        }
+        if (clickId("sign-panel-btn")) ;
+
+    }
     private void doPageId7Things() {
         if (samePageCount > 2) {
             if (clickContent("我知道了")) return;
@@ -281,7 +353,6 @@ public class DianTaoFastScript extends BaseScript {
         if (samePageCount > 4) {
             changTask();
             return;
-
         }
 
         if (null == point_LingTiLi) {
@@ -300,6 +371,7 @@ public class DianTaoFastScript extends BaseScript {
                 return;
             }
         }
+
 
         if(findTotalMatchContent("打工时长: 10分钟")){
             if (clickTotalMatchContent("开始打工")) {
@@ -391,6 +463,16 @@ public class DianTaoFastScript extends BaseScript {
         if (clickTotalMatchContent("去签到")) {
         }
 
+//        if(findAllPageByContent("新人填写邀请码",false)){
+//            while (!findContent("新人填写邀请码")){
+//                scrollUpPx(SizeUtils.dp2px(200));
+//            }
+//            if (clickContent("新人填写邀请码")) {
+//                editPage = false;
+//                return;
+//            }
+//        }
+
         if (!findContent("00:")) {
             clickXY(point_RenWu.x, point_RenWu.y);
             closeDialog();
@@ -407,10 +489,10 @@ public class DianTaoFastScript extends BaseScript {
 
 
         if (findContent("后当日福利过期")) {
-            if (clickContent("新人填写邀请码")) {
-                editPage = false;
-                return;
-            }
+//            if (clickContent("新人填写邀请码")) {
+//                editPage = false;
+//                return;
+//            }
             if (clickContent("后当日福利过期")) return;
 
         }
@@ -530,10 +612,10 @@ public class DianTaoFastScript extends BaseScript {
                 doScan(16);
                 clickBack();
             }
-            if(pageId == 4){
-                clickBack();
-                if(clickTotalMatchContent("618养鸭赚金蛋"))return;
-            }
+//            if(pageId == 4){
+//                clickBack();
+//                if(clickTotalMatchContent("618养鸭赚金蛋"))return;
+//            }
             return;
         }else {
             if(findTotalMatchContent("浏览商品30秒")){
@@ -768,6 +850,10 @@ public class DianTaoFastScript extends BaseScript {
         point_DianTao = new Point(MyApplication.getScreenWidth()/4-SizeUtils.dp2px(20),MyApplication.getScreenHeight()-SizeUtils.dp2px(10));
         LogUtils.d(TAG,"point_DianTao:"+point_DianTao.toString() + " Height:"+MyApplication.getScreenHeight());
 
+        String sp_lingtili = SPUtils.getInstance().getString(Constant.DIANTAO_LINGTILI, "");
+        if (!TextUtils.isEmpty(sp_lingtili)) {
+            point_LingTiLi = new Gson().fromJson(sp_lingtili, Point.class);
+        }
 
         String sp_diantao = SPUtils.getInstance().getString(Constant.DIANTAO_DIANTAO, "");
         if (!TextUtils.isEmpty(sp_diantao)) {
@@ -794,10 +880,7 @@ public class DianTaoFastScript extends BaseScript {
             point_LiJiChouJiang = new Gson().fromJson(sp_lijichoujiang, Point.class);
         }
 
-        String sp_lingtili = SPUtils.getInstance().getString(Constant.DIANTAO_LINGTILI, "");
-        if (!TextUtils.isEmpty(sp_lingtili)) {
-            point_LingTiLi = new Gson().fromJson(sp_lingtili, Point.class);
-        }
+
 
         String sp_zhuantili = SPUtils.getInstance().getString(Constant.DIANTAO_ZHUANTILI, "");
         if (!TextUtils.isEmpty(sp_zhuantili)) {

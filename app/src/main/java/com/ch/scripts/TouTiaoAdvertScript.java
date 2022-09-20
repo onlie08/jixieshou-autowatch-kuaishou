@@ -241,6 +241,10 @@ public class TouTiaoAdvertScript extends BaseScript {
         if (clickTotalMatchContent("领取")) {
             clickAdvert();
         }
+        if(clickEveryNodeInfosByText("打开签到提醒+")){
+            clickEveryNodeInfosByText("允许");
+        }
+        if (clickEveryTotalMatchByText("点击领取"));
         if (clickEveryTotalMatchByText("立即领取"));
         if (clickEveryTotalMatchByText("开心收下"));
         if (clickEveryTotalMatchByText("领福利")) {

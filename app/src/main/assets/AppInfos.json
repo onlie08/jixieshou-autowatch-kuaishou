@@ -1,13 +1,4 @@
 [
-
-  {
-    "taskName":"每天赚点",
-    "pkgName":"com.yongloveru.hjw",
-    "period":5,
-    "isFree":true,
-    "discribe":"",
-    "star":"5颗星"
-  },
   {
     "taskName":"头条极速版",
     "pkgName":"com.ss.android.article.lite",

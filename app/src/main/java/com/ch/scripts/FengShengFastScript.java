@@ -317,12 +317,22 @@ public class FengShengFastScript extends BaseScript {
         switch (type) {
             case 1:
                 clickTotalMatchContent("打卡");
+                Utils.sleep(5000);
+                refreshNodeinfo();
                 break;
             case 2:
-                clickTotalMatchContent("餐饮");
+                if(!findTotalMatchContent("餐饮")){
+                    scrollUpPx(SizeUtils.dp2px(200));
+                    clickTotalMatchContent("餐饮");
+                }else {
+                    clickTotalMatchContent("餐饮");
+
+                }
                 break;
             case 3:
                 clickTotalMatchContent("打卡");
+                Utils.sleep(5000);
+                refreshNodeinfo();
                 break;
             case 4:
                 clickTotalMatchContent("考勤");
@@ -334,7 +344,7 @@ public class FengShengFastScript extends BaseScript {
         if (samePageCount > 2) {
             tryClickDialog();
         }
-        clickXY(MyApplication.getScreenWidth() * 3 / 4 - SizeUtils.dp2px(40), MyApplication.getScreenHeight() - SizeUtils.dp2px(20));
+        clickXY(MyApplication.getScreenWidth() * 1 / 2 , MyApplication.getScreenHeight() - SizeUtils.dp2px(20));
         return;
 
     }
@@ -353,7 +363,7 @@ public class FengShengFastScript extends BaseScript {
         AccessibilityNodeInfo editPassword = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
         if (editPassword != null) {
             Bundle arguments = new Bundle();
-            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "Chcn12120217");
+            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "Chcn121202171");
             editPassword.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
             Utils.sleep(1000);
             clickTotalMatchContent("登录");

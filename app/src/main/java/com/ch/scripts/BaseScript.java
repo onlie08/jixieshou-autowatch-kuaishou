@@ -455,6 +455,7 @@ public abstract class BaseScript implements IScript {
     public boolean findAllPageByContent(String content,boolean totalMatch) {
         List<NodeInfo> nodeInfoList =  FindByText.findPageByContent(content,totalMatch);
         if(null != nodeInfoList && !nodeInfoList.isEmpty()){
+            LogUtils.dTag(BASETAG, "findAllPageByContent: " + content);
             return true;
         }
         return false;
